@@ -1,0 +1,35 @@
+{
+  "name": "pearpass-app-desktop",
+  "main": "https://google.com",
+  "pear": {
+    "name": "pearpass-app-desktop",
+    "type": "desktop",
+    "gui": {
+      "backgroundColor": "#1F2430",
+      "height": "540",
+      "width": "720"
+    }
+  },
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "pear run -d .",
+    "test": "brittle test/*.test.js",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "brittle": "^3.0.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "pear-interface": "^1.0.0",
+    "prettier": "^3.4.2"
+  },
+  "dependencies": {
+    "htm": "^3.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "styled-components": "^6.1.13"
+  }
+}
