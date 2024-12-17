@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "main": "https://google.com",
+  "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
     "type": "desktop",
