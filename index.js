@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { App } from './src/containers/App'
 import { html } from 'htm/react'
 import { applyGlobalStyles } from './src/utils/applyGlobalStyles'
+import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 
 Pear.updates(() => Pear.reload())
 
@@ -54,4 +55,8 @@ applyGlobalStyles(`
     }
 `)
 
-root.render(html`<${App} />`)
+root.render(html`
+  <${ThemeProvider}>
+    <${App} />
+  </${ThemeProvider}>
+`)
