@@ -20,7 +20,7 @@ export const Button = styled.button`
   }};
   font-family: 'Inter';
   font-weight: 600;
-  line-height: 16.94px;
+  line-height: 17px;
 
   &:hover {
     background: ${({ theme }) => theme.colors.primary300};

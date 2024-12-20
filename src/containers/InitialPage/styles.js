@@ -22,7 +22,7 @@ export const Title = styled.span`
   color: ${({ theme }) => theme.colors.white};
   width: 900px;
   font-family: 'Humble Nostalgia';
-  font-size: 152.042px;
+  font-size: 152px;
   font-style: normal;
   font-weight: 400;
   line-height: 191px;

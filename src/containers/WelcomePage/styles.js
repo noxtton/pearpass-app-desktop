@@ -8,10 +8,10 @@ export const PageContainer = styled.div`
 `
 
 export const Title = styled.p`
-  width: 638.048px;
+  width: 638px;
   color: ${({ theme }) => theme.colors.white};
   font-family: 'Humble Nostalgia';
-  font-size: 109.248px;
+  font-size: 109px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;

@@ -12,6 +12,16 @@ import {
   RightSpotlightWrapper
 } from './styles'
 
+/**
+ * @typedef InitialPageWrapperProps
+ * @property {import('react').ReactNode} children React node to be rendered inside the button
+ */
+
+/**
+ * ButtonPrimary component
+ * @param {InitialPageWrapperProps} props
+ */
+
 export const InitialPageWrapper = ({ children }) => {
   return html`
     <${Background}>
