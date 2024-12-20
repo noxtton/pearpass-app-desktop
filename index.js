@@ -35,8 +35,30 @@ applyGlobalStyles(`
     footer, header, hgroup, menu, nav, section {
         display: block;
     }
+    html {
+    height: 100%
+    }
     body {
+        --title-bar-height: 42px;
         line-height: 1;
+        height: 100%
+    }
+    #root {
+        height: 100%
+    }
+    #bar {
+        backdrop-filter: blur(64px);
+        -webkit-app-region: drag;
+        height: var(--title-bar-height);
+        padding: 0;
+        color: #fff;
+        white-space: nowrap;
+        box-sizing: border-box;
+        position: fixed;
+        z-index: 10000;
+        width: 100%;
+        left: 0;
+        top: 0;
     }
     ol, ul {
         list-style: none;
@@ -52,6 +74,18 @@ applyGlobalStyles(`
     table {
         border-collapse: collapse;
         border-spacing: 0;
+    }
+    @font-face {
+    font-family: 'Humble Nostalgia';
+    src: url('src/assets/fonts/HumbleNostalgia.otf') format('OpenType');
+    font-weight: normal;
+    font-style: normal;
+    }
+    @font-face {
+    font-family: 'Inter';
+    src: url('src/assets/fonts/Inter.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
     }
 `)
 

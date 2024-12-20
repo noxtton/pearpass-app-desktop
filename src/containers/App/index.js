@@ -1,9 +1,12 @@
+//@ts-check
 import { html } from 'htm/react'
+import { InitialWelcomePage } from '../WelcomePage/index.js'
+import { AppWrapper } from './styles.js'
 
 export const App = () => {
   return html`
-    <div>
-      <h1>Hello world!</h1>
-    </div>
+    <${AppWrapper}>
+         <${InitialWelcomePage} />
+    </${AppWrapper}>
   `
 }
