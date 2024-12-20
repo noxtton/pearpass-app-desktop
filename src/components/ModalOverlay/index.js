@@ -1,4 +1,3 @@
-// @ts-check
 import { html } from 'htm/react'
 import { Overlay } from './styles'
 

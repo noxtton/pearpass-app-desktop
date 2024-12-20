@@ -1,4 +1,3 @@
-// @ts-check
 import { html } from 'htm/react'
 import { PearPassTextLogo } from '../../svgs/PearPassLogo'
 import { SpotLightLeft } from '../../svgs/SpotlightLeft'

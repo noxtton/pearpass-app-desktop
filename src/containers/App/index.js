@@ -1,4 +1,3 @@
-//@ts-check
 import { html } from 'htm/react'
 import { InitialWelcomePage } from '../WelcomePage/index.js'
 import { AppWrapper } from './styles.js'

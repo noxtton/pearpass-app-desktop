@@ -1,4 +1,3 @@
-//@ts-check
 import { html } from 'htm/react'
 import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import {
