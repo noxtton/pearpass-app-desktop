@@ -15,8 +15,7 @@
   "scripts": {
     "dev": "pear run -d .",
     "test": "brittle test/*.test.js",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+    "lint": "eslint ."
   },
   "devDependencies": {
     "brittle": "^3.0.0",
