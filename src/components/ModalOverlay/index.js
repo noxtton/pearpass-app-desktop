@@ -6,6 +6,7 @@ import { useModal } from '../../context/ModalContext'
  * @typedef ModalOverlayProps
  * @property {import('react').ReactNode} children React node to be rendered inside the button
  * @property {number} opacity Opacity value between 0 and 1
+ * @property {string} opacity blur value
  */
 
 /**
@@ -13,7 +14,7 @@ import { useModal } from '../../context/ModalContext'
  * @param {ModalOverlayProps} props
  */
 
-export const ModalOverlay = ({ children, opacity = 0.5, blur = 0 }) => {
+export const ModalOverlay = ({ children, opacity = 0.5, blur = '0' }) => {
   const { isOpen, closeModal } = useModal()
 
   if (!isOpen) return
