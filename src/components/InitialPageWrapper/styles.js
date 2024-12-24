@@ -37,8 +37,8 @@ export const MiddleSmallSpotlightWrapper = styled.div`
 `
 
 export const RightSpotlightWrapper = styled.div`
-  width: 50%;
-  height: 50%;
+  width: 40%;
+  height: 40%;
   position: absolute;
   right: 0;
 `

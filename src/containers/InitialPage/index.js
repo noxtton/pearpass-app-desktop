@@ -7,16 +7,19 @@ import {
   PearHand,
   Title
 } from './styles'
+import { useLingui } from '@lingui/react'
 
 export const InitialLoadPage = () => {
+  const { i18n } = useLingui()
+
   return html`
-  <${InitialPageWrapper} >
-    <${PageContainer}>
-        <${PageContentContainer}>
-            <${Title}>Protect <${GreenText}>your digital</${GreenText}> life</${Title}>
-            <${PearHand} src='src/assets/images/pearHand.png' alt='pearHand'  />
-      </${PageContentContainer}>
-    </${PageContainer}>
+    <${InitialPageWrapper} >
+        <${PageContainer}>
+            <${PageContentContainer}>
+                <${Title}>${i18n._('Protect')} <${GreenText}>${i18n._('your digital')}</${GreenText}> ${i18n._('life')}</${Title}>
+                <${PearHand} src='src/assets/images/pearHand.png' alt='pearHand'  />
+            </${PageContentContainer}>
+        </${PageContainer}>
     </${InitialPageWrapper} >
  `
 }
