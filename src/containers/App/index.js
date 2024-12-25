@@ -9,7 +9,8 @@ export const App = () => {
 
   return html`
     <${AppWrapper}>
-      ${currentPage === 'welcome' ? html`<${InitialWelcomePage} />` : html`<${InitialLoadPage} />`}
+      ${currentPage === 'welcome' && html`<${InitialWelcomePage} />`}
+      ${currentPage === 'loading' && html`<${InitialLoadPage} />`}
     </${AppWrapper}>
   `
 }

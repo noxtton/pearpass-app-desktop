@@ -16,7 +16,6 @@
     "dev": "pear run -d .",
     "test": "brittle test/*.test.js",
     "lint": "eslint .",
-    "format": "prettier --write .",
     "extract": "lingui extract",
     "compile": "lingui compile"
   },

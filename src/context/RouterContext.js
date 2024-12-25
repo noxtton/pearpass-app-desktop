@@ -3,6 +3,15 @@ import { createContext, useState, useContext } from 'react'
 
 const RouterContext = createContext()
 
+/**
+ * @typedef RouterProviderProps
+ * @property {import('react').ReactNode} children React node to be rendered inside
+ */
+
+/**
+ *
+ * @param {RouterProviderProps} props
+ */
 export const RouterProvider = ({ children }) => {
   const [state, setState] = useState({
     currentPage: 'welcome',
