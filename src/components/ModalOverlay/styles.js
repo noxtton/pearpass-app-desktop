@@ -9,6 +9,7 @@ export const Overlay = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  background: #00000073;
+  background: ${({ opacity }) => `rgba(0, 0, 0, ${opacity})`};
+  backdrop-filter: ${({ blur }) => `blur(${blur})`};
   z-index: 5;
 `
