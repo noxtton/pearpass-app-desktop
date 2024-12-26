@@ -18,7 +18,6 @@ export const Title = styled.p`
 `
 
 export const ActionsCard = styled.div`
-  box-sizing: border-box;
   display: flex;
   font-family: 'Inter';
   flex-direction: column;
@@ -57,7 +56,6 @@ export const PearHand = styled.img`
 `
 
 export const ModalCard = styled.div`
-  box-sizing: border-box;
   display: flex;
   font-family: 'Inter';
   flex-direction: column;
@@ -71,8 +69,7 @@ export const ModalCard = styled.div`
   z-index: 1;
 `
 
-export const LoadValutCard = styled.div`
-  box-sizing: border-box;
+export const LoadVaultCard = styled.div`
   font-family: 'Inter';
   display: flex;
   padding: 20px 22px;
@@ -86,7 +83,7 @@ export const LoadValutCard = styled.div`
   border-radius: 20px;
   z-index: 1;
 `
-export const LoadValutTitle = styled.span`
+export const LoadVaultTitle = styled.span`
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
   font-family: Inter;
@@ -96,7 +93,7 @@ export const LoadValutTitle = styled.span`
   line-height: normal;
 `
 
-export const LoadValutInput = styled.input`
+export const LoadVaultInput = styled.input`
   display: flex;
   width: 437px;
   padding: 12px 20px;

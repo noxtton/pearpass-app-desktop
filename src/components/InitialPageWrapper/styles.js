@@ -16,7 +16,6 @@ export const LogoContainer = styled.div`
 `
 export const PageContent = styled.div`
   position: relative;
-  box-sizing: border-box;
   color: white;
   width: 100%;
   height: 100%;

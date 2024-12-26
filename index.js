@@ -53,13 +53,19 @@ applyGlobalStyles(`
     footer, header, hgroup, menu, nav, section {
         display: block;
     }
+    
+    * {
+        box-sizing: border-box;
+     }
     html {
-    height: 100%
+    height: 100%;
+    display: flex;
+    padding-top: 42px;
     }
     body {
         --title-bar-height: 42px;
         line-height: 1;
-        height: 100%
+        flex:1
     }
     #root {
         height: 100%
@@ -71,7 +77,6 @@ applyGlobalStyles(`
         padding: 0;
         color: #fff;
         white-space: nowrap;
-        box-sizing: border-box;
         position: fixed;
         z-index: 10000;
         width: 100%;

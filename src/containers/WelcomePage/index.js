@@ -5,9 +5,9 @@ import {
   ActionCardTitle,
   Actions,
   ActionsCard,
-  LoadValutCard,
-  LoadValutInput,
-  LoadValutTitle,
+  LoadVaultCard,
+  LoadVaultInput,
+  LoadVaultTitle,
   PageContainer,
   PearHand,
   Title
@@ -27,7 +27,7 @@ export const InitialWelcomePage = () => {
   const { openModal, isOpen } = useModal()
   const { navigate } = useRouter()
 
-  const handleNewValutCreation = () => {
+  const handleNewVaultCreation = () => {
     navigate('loading')
   }
 
@@ -45,7 +45,7 @@ export const InitialWelcomePage = () => {
             ${i18n._('creating a new vault or importing one')}
             </${ActionCardTitle} >
             <${Actions}>
-              <${ButtonPrimary} size='md' onClick=${handleNewValutCreation} >
+              <${ButtonPrimary} size='md' onClick=${handleNewVaultCreation} >
                   ${i18n._('Create a new vault')}
               </${ButtonPrimary}>
               <${ButtonSecondary} size="md" onClick=${openModal} type='button'>
@@ -58,10 +58,10 @@ export const InitialWelcomePage = () => {
         <${PearHand} src='src/assets/images/pearHandBig.png' alt='pearHand'  />
       </${PageContainer}>
       <${ModalOverlay}  blur=${'10px'} >
-        <${LoadValutCard}>
-          <${LoadValutTitle}> ${i18n._('Load an existing Vault')} </${LoadValutTitle}>
-          <${LoadValutInput} placeholder=${i18n._('Insert your code vault...')} />
-        </${LoadValutCard}>
+        <${LoadVaultCard}>
+          <${LoadVaultTitle}> ${i18n._('Load an existing Vault')} </${LoadVaultTitle}>
+          <${LoadVaultInput} placeholder=${i18n._('Insert your code vault...')} />
+        </${LoadVaultCard}>
       </${ModalOverlay}>
     </${InitialPageWrapper} >
   `
