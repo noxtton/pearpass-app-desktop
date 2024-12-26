@@ -9,7 +9,7 @@ export const PageContainer = styled.div`
 
 export const Title = styled.p`
   width: 638px;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Humble Nostalgia';
   font-size: 109px;
   font-style: normal;
@@ -24,15 +24,15 @@ export const ActionsCard = styled.div`
   gap: 23px;
   width: 376px;
   flex-shrink: 0;
-  background: ${({ theme }) => theme.colors.grey500};
-  border: 1px solid ${({ theme }) => theme.colors.grey400};
+  background: ${({ theme }) => theme.colors.grey500.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
   border-radius: 20px;
   padding: 9px 15px;
   z-index: 1;
 `
 
 export const ActionCardTitle = styled.p`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white.mode1};
   text-align: center;
   font-size: 29px;
   font-style: normal;
@@ -62,8 +62,8 @@ export const ModalCard = styled.div`
   gap: 23px;
   width: 376px;
   flex-shrink: 0;
-  background: ${({ theme }) => theme.colors.grey500};
-  border: 1px solid ${({ theme }) => theme.colors.grey400};
+  background: ${({ theme }) => theme.colors.grey500.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
   border-radius: 20px;
   padding: 9px 15px;
   z-index: 1;
@@ -78,13 +78,13 @@ export const LoadVaultCard = styled.div`
   align-items: center;
   gap: 40px;
   flex-shrink: 0;
-  background: ${({ theme }) => theme.colors.grey500};
-  border: 1px solid ${({ theme }) => theme.colors.grey400};
+  background: ${({ theme }) => theme.colors.grey500.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
   border-radius: 20px;
   z-index: 1;
 `
 export const LoadVaultTitle = styled.span`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white.mode1};
   text-align: center;
   font-family: Inter;
   font-size: 24px;
@@ -101,18 +101,18 @@ export const LoadVaultInput = styled.input`
   gap: 10px;
   align-self: stretch;
   border-radius: 30px;
-  background: ${({ theme }) => theme.colors.grey400};
-  border: 1px solid ${({ theme }) => theme.colors.grey300};
-  color: ${({ theme }) => theme.colors.grey200};
+  background: ${({ theme }) => theme.colors.grey400.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey300.mode1};
+  color: ${({ theme }) => theme.colors.grey200.mode1};
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.grey100};
+    color: ${({ theme }) => theme.colors.grey100.mode1};
   }
 
   &:active,
   &:focus {
     box-shadow: none;
     outline: none;
-    border: 1px solid ${({ theme }) => theme.colors.grey200};
+    border: 1px solid ${({ theme }) => theme.colors.grey200.mode1};
   }
 `

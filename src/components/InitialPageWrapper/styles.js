@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Background = styled.div`
   position: relative;
-  background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.black.mode1};
   width: 100%;
   height: 100%;
   overflow: hidden;
