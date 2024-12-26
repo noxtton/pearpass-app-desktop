@@ -40,8 +40,8 @@ export const AddNewFile = styled.div`
   gap: 10px;
   margin-bottom: 5px;
   padding-left: 34px;
-  color: ${({ theme }) => theme.colors.primary400};
+  color: ${({ theme }) => theme.colors.primary400.mode1};
   & svg path {
-    stroke: ${({ theme }) => theme.colors.primary400};
+    stroke: ${({ theme }) => theme.colors.primary400.mode1};
   }
 `

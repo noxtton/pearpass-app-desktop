@@ -16,14 +16,14 @@ export const SearchLabelIcon = styled.label`
   left: 0;
 
   & path {
-    stroke: ${({ theme }) => theme.colors.primary400};
+    stroke: ${({ theme }) => theme.colors.primary400.mode1};
   }
 `
 
 export const SearchInput = styled.input`
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.colors.grey200};
+  color: ${({ theme }) => theme.colors.grey200.mode1};
 
   &:focus {
     border: none;

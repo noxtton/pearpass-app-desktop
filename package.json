@@ -23,7 +23,7 @@
     "brittle": "^3.0.0",
     "eslint": "^9.17.0",
     "pear-interface": "^1.0.0",
-    "pearpass-eslint-config": "github:noxtton/pearpass-eslint-config",
+    "pearpass-eslint-config": "github:noxtton/pearpass-eslint-config#main",
     "prettier": "^3.4.2"
   },
   "dependencies": {
@@ -33,8 +33,8 @@
     "@lingui/macro": "^5.1.2",
     "@lingui/react": "^5.1.2",
     "htm": "^3.1.1",
-    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components",
-    "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider",
+    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#main",
+    "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#main",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "styled-components": "^6.1.13"

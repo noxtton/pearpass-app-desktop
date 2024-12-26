@@ -7,10 +7,10 @@ export const CategoryButton = styled.button`
   line-height: normal;
   flex-direction: row;
   justify-content: space-between;
-  background: ${({ theme }) => theme.colors.grey400};
+  background: ${({ theme }) => theme.colors.grey400.mode1};
   border-radius: 10px;
   border: 1px solid transparent;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white.mode1};
 
   ${({ sidebarSize }) =>
     sidebarSize === 'default' &&
@@ -31,12 +31,12 @@ export const CategoryButton = styled.button`
     ${({ selected, theme, color }) =>
     selected &&
     `
-    background: ${theme.colors[color]};  
-    color: ${theme.colors.black};
+    background: ${theme.colors[color].mode1};  
+    color: ${theme.colors.black.mode1};
   `}
 
     &:hover {
-    border-color: ${({ color, theme }) => theme.colors[color]};
+    border-color: ${({ color, theme }) => theme.colors[color].mode1};
   }
 `
 
@@ -66,7 +66,7 @@ export const CategoryIconWrapper = styled.div`
   height: 14px;
 
   & path {
-    stroke: ${({ theme, color }) => theme.colors[color]};
+    stroke: ${({ theme, color }) => theme.colors[color].mode1};
   }
 
   ${({ selected }) =>

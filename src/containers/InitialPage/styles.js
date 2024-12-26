@@ -19,7 +19,7 @@ export const PageContentContainer = styled.div`
 `
 
 export const Title = styled.span`
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.white.mode1};
   width: 900px;
   font-family: 'Humble Nostalgia';
   font-size: 152px;
@@ -29,5 +29,5 @@ export const Title = styled.span`
 `
 
 export const GreenText = styled.span`
-  color: ${({ theme }) => theme.colors.primary400};
+  color: ${({ theme }) => theme.colors.primary400.mode1};
 `
