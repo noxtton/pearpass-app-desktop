@@ -72,6 +72,6 @@ export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
           />
         `
       )}
-    </${CategoriesContainer}>
+    <//>
   `
 }

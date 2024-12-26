@@ -21,9 +21,7 @@ export const ModalOverlay = ({ children, opacity = 0.5, blur = '0' }) => {
 
   return html`
     <${Overlay} opacity=${opacity} blur=${blur} onClick=${closeModal}>
-      <div onClick=${(event) => event.stopPropagation()}>
-        ${children}
-      </div>
-    </${Overlay}
+      <div onClick=${(event) => event.stopPropagation()}>${children}</div>
+    <//>
   `
 }

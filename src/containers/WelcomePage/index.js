@@ -32,37 +32,43 @@ export const InitialWelcomePage = () => {
   }
 
   return html`
-    <${InitialPageWrapper} >
+    <${InitialPageWrapper}>
       <${PageContainer}>
-        <${Title}>${i18n._('Hi Peer! Welcome to PearPass!')}</${Title}>
-        ${
-          !isOpen &&
-          html`
+        <${Title}>${i18n._('Hi Peer! Welcome to PearPass!')}<//>
+
+        ${!isOpen &&
+        html`
           <${ActionsCard}>
-            <${ActionCardTitle}  >
-            ${i18n._('Start with')}
-            <br />
-            ${i18n._('creating a new vault or importing one')}
-            </${ActionCardTitle} >
+            <${ActionCardTitle}>
+              ${i18n._('Start with')}
+              <br />
+              ${i18n._('creating a new vault or importing one')}
+            <//>
+
             <${Actions}>
-              <${ButtonPrimary} size='md' onClick=${handleNewVaultCreation} >
-                  ${i18n._('Create a new vault')}
-              </${ButtonPrimary}>
-              <${ButtonSecondary} size="md" onClick=${openModal} type='button'>
-                  ${i18n._('Load a vault')}
-              </${ButtonSecondary}>
-            </${Actions}>
-          </${ActionsCard}>
-        `
-        }
-        <${PearHand} src='src/assets/images/pearHandBig.png' alt='pearHand'  />
-      </${PageContainer}>
-      <${ModalOverlay}  blur=${'10px'} >
+              <${ButtonPrimary} size="md" onClick=${handleNewVaultCreation}>
+                ${i18n._('Create a new vault')}
+              <//>
+
+              <${ButtonSecondary} size="md" onClick=${openModal} type="button">
+                ${i18n._('Load a vault')}
+              <//>
+            <//>
+          <//>
+        `}
+
+        <${PearHand} src="src/assets/images/pearHandBig.png" alt="pearHand" />
+      <//>
+
+      <${ModalOverlay} blur=${'10px'}>
         <${LoadVaultCard}>
-          <${LoadVaultTitle}> ${i18n._('Load an existing Vault')} </${LoadVaultTitle}>
-          <${LoadVaultInput} placeholder=${i18n._('Insert your code vault...')} />
-        </${LoadVaultCard}>
-      </${ModalOverlay}>
-    </${InitialPageWrapper} >
+          <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
+
+          <${LoadVaultInput}
+            placeholder=${i18n._('Insert your code vault...')}
+          />
+        <//>
+      <//>
+    <//>
   `
 }
