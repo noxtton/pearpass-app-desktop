@@ -33,18 +33,22 @@ export const SidebarCategory = ({
   icon,
   onClick
 }) => {
-  return html` 
-  <${CategoryButton} sidebarSize=${sidebarSize} color=${color} selected=${selected} onClick=${onClick} >
-    <${CategoryDescription} sidebarSize=${sidebarSize}>
-    <${CategoryIconWrapper} selected=${selected} color=${color}>
-      <${icon} />
-    </${CategoryIconWrapper}>
-      <${categoryTitle} >
-        ${categoryName}
-      </${categoryTitle} >
-    </${CategoryDescription}>
-    <${CategoryQuantity}>
-      ${quantity}
-    </${CategoryQuantity}>
-  </${CategoryButton}> `
+  return html`
+    <${CategoryButton}
+      sidebarSize=${sidebarSize}
+      color=${color}
+      selected=${selected}
+      onClick=${onClick}
+    >
+      <${CategoryDescription} sidebarSize=${sidebarSize}>
+        <${CategoryIconWrapper} selected=${selected} color=${color}>
+          <${icon} />
+        <//>
+
+        <${categoryTitle}>${categoryName}<//>
+      <//>
+
+      <${CategoryQuantity}>${quantity}<//>
+    <//>
+  `
 }

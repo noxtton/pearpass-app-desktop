@@ -30,6 +30,7 @@ export const SearchInput = styled.input`
     box-shadow: none;
     outline: none;
   }
+
   &::-webkit-search-cancel-button {
     appearance: none;
   }

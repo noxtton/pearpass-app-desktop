@@ -49,16 +49,21 @@ const sampleData = {
 }
 
 export const Sidebar = () => {
-  return html` <${SidebarWrapper}>
-    <${SidebarLogo} >
-      <${PearPassTextLogo} />
-    </${SidebarLogo} >
-    <${sideBarContent}>
-      <${sideBarCategoriesContainer} sidebarSize='default' />
-      <${SidebarSearch} />
-      <${SidebarNestedFolders} item=${sampleData} />
-    </${sideBarContent}>
-    <${SidebarSettings}>
-    </${SidebarSettings}>
-  </${SidebarWrapper}> `
+  return html`
+    <${SidebarWrapper}>
+      <${SidebarLogo}>
+        <${PearPassTextLogo} />
+      <//>
+
+      <${sideBarContent}>
+        <${sideBarCategoriesContainer} sidebarSize="default" />
+
+        <${SidebarSearch} />
+
+        <${SidebarNestedFolders} item=${sampleData} />
+      <//>
+
+      <${SidebarSettings}><//>
+    <//>
+  `
 }
