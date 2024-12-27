@@ -2,15 +2,28 @@ import { html } from 'htm/react'
 import { ContentWrapper, LayoutWrapper, SideBarWrapper } from './styles'
 import { Sidebar } from '../Sidebar'
 import { useResize } from '../../hooks/useResize'
+import { isDesktopSmall } from '../../utils/breakpoints'
 
-export const LayoutWithSidebar = () => {
-  const { isTablet } = useResize()
+/**
+ * @typedef LayoutWithSidebarProps
+ * @property {import('react').ReactNode} children
+ */
+
+/**
+ * @param {LayoutWithSidebarProps} props
+ */
+
+export const LayoutWithSidebar = ({ children }) => {
+  const { windowWidth } = useResize()
+
   return html`
     <${LayoutWrapper}>
       <${SideBarWrapper}>
-        <${Sidebar} sidebarSize=${isTablet ? 'tight' : 'default'} />
+        <${Sidebar}
+          sidebarSize=${isDesktopSmall(windowWidth) ? 'default' : 'tight'}
+        />
       <//>
-      <${ContentWrapper}> <//>
+      <${ContentWrapper}> ${children} <//>
     <//>
   `
 }

@@ -25,7 +25,7 @@ import { useLingui } from '@lingui/react'
 export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
   const { i18n } = useLingui()
 
-  const pearpassCategoryDummyData = [
+  const pearPassCategoryDummyData = [
     {
       categoryName: i18n._('All'),
       icon: KeyIcon,
@@ -68,7 +68,7 @@ export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
 
   return html`
     <${CategoriesContainer}>
-      ${pearpassCategoryDummyData.map(
+      ${pearPassCategoryDummyData.map(
         (category, index) => html`
           <${SidebarCategory}
             key=${category.categoryName}
@@ -78,7 +78,7 @@ export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
             selected=${selectedIndex === index}
             icon=${category.icon}
             onClick=${() => setSelectedIndex(index)}
-            sidebarSize=${sidebarSize}
+            size=${sidebarSize}
           />
         `
       )}

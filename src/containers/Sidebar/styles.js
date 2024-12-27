@@ -21,6 +21,7 @@ export const SidebarLogo = styled.div`
   width: 144px;
   height: 26px;
 `
+
 export const sideBarContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -34,6 +35,7 @@ export const SidebarNestedFoldersContainer = styled.div`
   flex-direction: column;
   gap: 6px;
 `
+
 export const SidebarSettings = styled.div`
   width: 100%;
   flex-grow: 0;
@@ -41,6 +43,7 @@ export const SidebarSettings = styled.div`
   flex-direction: column;
   gap: 9px;
 `
+
 export const SettingsContainer = styled.div`
   display: flex;
   align-items: center;

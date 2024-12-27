@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useDebounce } from './useDebounce'
+import { useThrottle } from './useThrottle'
 
 /**
  * @typedef UseResizeProps
- * @property {number} minWidth - The minimum width of the tablet breakpoint.
- * @property {number} maxWidth - The maximum width of the tablet breakpoint.
  * @property {number} delay - The debounce delay in milliseconds.
  */
 
@@ -12,11 +10,14 @@ import { useDebounce } from './useDebounce'
  * @param {UseResizeProps} param
  */
 
-export const useResize = (minWidth = 0, maxWidth = 1024, delay = 300) => {
-  const [isTablet, setIsTablet] = useState(false)
+/**
+ * @returns {{ windowWidth: number }}
+ */
+
+export const useResize = (delay = 300) => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
-  const debouncedWidth = useDebounce(windowWidth, delay)
+  const debouncedWidth = useThrottle(windowWidth, delay)
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,10 +29,5 @@ export const useResize = (minWidth = 0, maxWidth = 1024, delay = 300) => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-
-  useEffect(() => {
-    setIsTablet(debouncedWidth >= minWidth && debouncedWidth <= maxWidth)
-  }, [debouncedWidth, minWidth, maxWidth])
-
-  return { isTablet }
+  return { windowWidth: debouncedWidth }
 }
