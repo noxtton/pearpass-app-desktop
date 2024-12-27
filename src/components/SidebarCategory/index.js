@@ -3,8 +3,7 @@ import {
   CategoryButton,
   CategoryDescription,
   CategoryIconWrapper,
-  CategoryQuantity,
-  categoryTitle
+  CategoryQuantity
 } from './styles'
 
 /**
@@ -45,7 +44,7 @@ export const SidebarCategory = ({
           <${icon} />
         <//>
 
-        <${categoryTitle}>${categoryName}<//>
+        <span>${categoryName}</span>
       <//>
 
       <${CategoryQuantity}>${quantity}<//>

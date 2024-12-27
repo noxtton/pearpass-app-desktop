@@ -59,7 +59,6 @@ export const CategoryDescription = styled.div`
     `}
 `
 
-export const categoryTitle = styled.span``
 export const CategoryIconWrapper = styled.div`
   width: 14px;
   height: 14px;
