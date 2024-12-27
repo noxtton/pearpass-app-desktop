@@ -1,7 +1,10 @@
 import { html } from 'htm/react'
 import {
+  SettingsContainer,
+  SettingsSeparator,
   sideBarContent,
   SidebarLogo,
+  SidebarNestedFoldersContainer,
   SidebarSettings,
   SidebarWrapper
 } from './styles'
@@ -13,57 +16,99 @@ import { KeyIcon } from '../../svgs/Icons/keyIcon'
 import { FullBodyIcon } from '../../svgs/Icons/FullBodyIcon'
 import { CreditCardIcon } from '../../svgs/Icons/CreditCardIcon'
 import { LockIcon } from '../../svgs/Icons/LockIcon'
+import { ButtonThin } from '../../components/ButtonThin'
+import { UserSecurityIcon } from '../../svgs/Icons/UserSecurityIcon'
+import { SettingsIcon } from '../../svgs/Icons/SettingsIcon'
+import { useLingui } from '@lingui/react'
 
-const sampleData = {
-  name: 'All Folders',
-  children: [
-    {
-      name: 'Favorite',
-      children: [
-        { name: 'Google', icon: KeyIcon },
-        { name: 'Personal identity', icon: FullBodyIcon }
-      ]
-    },
-    {
-      name: 'Games',
-      children: [
-        {
-          name: 'Vacation',
-          icon: CreditCardIcon,
-          children: [
-            { name: 'Vacation', icon: CreditCardIcon },
-            { name: 'Family', icon: LockIcon }
-          ]
-        },
-        { name: 'Family', icon: LockIcon }
-      ]
-    },
-    {
-      name: 'Trip',
-      children: [
-        { name: 'index', icon: CreditCardIcon },
-        { name: 'styles', icon: FullBodyIcon }
-      ]
-    }
-  ]
-}
+/**
+ * @typedef SidebarProps
+ * @property {'default' | 'tight'} [sidebarSize]
+ */
 
-export const Sidebar = () => {
+/**
+ * @param {SidebarProps} props
+ */
+
+export const Sidebar = ({ sidebarSize = 'tight' }) => {
+  const { i18n } = useLingui()
+  const sampleData = {
+    name: i18n._('All Folders'),
+    id: 1,
+    children: [
+      {
+        name: i18n._('Favorite'),
+        id: 2,
+        children: [
+          { name: 'Google', icon: KeyIcon, id: 3 },
+          { name: 'Personal identity', icon: FullBodyIcon, id: 4 }
+        ]
+      },
+      {
+        name: 'Games',
+        id: 5,
+        children: [
+          {
+            name: 'Vacation',
+            icon: CreditCardIcon,
+            id: 14,
+            children: [
+              {
+                name: 'Vacation',
+                id: 6,
+                icon: CreditCardIcon,
+                children: [
+                  { name: 'Vacation', icon: CreditCardIcon, id: 7 },
+                  { name: 'Family', icon: LockIcon, id: 8 }
+                ]
+              },
+              { name: 'Family', icon: LockIcon, id: 9 }
+            ]
+          },
+          { name: 'Family', icon: LockIcon, id: 10 }
+        ]
+      },
+      {
+        name: 'Trip',
+        id: 11,
+        children: [
+          { name: 'index', icon: CreditCardIcon, id: 12 },
+          { name: 'styles', icon: FullBodyIcon, id: 13 }
+        ]
+      }
+    ]
+  }
+
   return html`
-    <${SidebarWrapper}>
+    <${SidebarWrapper} size=${sidebarSize}>
       <${SidebarLogo}>
         <${PearPassTextLogo} />
       <//>
 
       <${sideBarContent}>
-        <${sideBarCategoriesContainer} sidebarSize="default" />
+        <${sideBarCategoriesContainer} sidebarSize=${sidebarSize} />
 
-        <${SidebarSearch} />
+        <${SidebarNestedFoldersContainer}>
+          <${SidebarSearch} />
 
-        <${SidebarNestedFolders} item=${sampleData} />
+          <${SidebarNestedFolders} item=${sampleData} key=${'rootFolder'} />
+        <//>
       <//>
 
-      <${SidebarSettings}><//>
+      <${SidebarSettings}>
+        <${SettingsContainer}>
+          <${SettingsIcon} width=${'14px'} />
+          Settings
+        <//>
+
+        <${SettingsSeparator} />
+
+        <${ButtonThin}
+          variant=${'black'}
+          text=${'Add Device'}
+          leftIcon=${UserSecurityIcon}
+        />
+      <//>
     <//>
   `
 }

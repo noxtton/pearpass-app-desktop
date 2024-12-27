@@ -1,9 +1,10 @@
 import { html } from 'htm/react'
+import { colors } from 'pearpass-lib-ui-theme-provider'
 /**
  * @typedef PlusIconProps
  * @property {string} [width] width of the svg (optional)
  * @property {string} [height] height of the svg (optional)
- * @property {string} [fill] color of the svg (optional)
+ * @property {string} [color] color of the svg (optional)
  */
 
 /**
@@ -11,7 +12,7 @@ import { html } from 'htm/react'
  */
 
 export const PlusIcon = ({
-  fill = 'none',
+  color = colors.white.mode1,
   height = '100%',
   width = '100%'
 }) => {
@@ -21,19 +22,19 @@ export const PlusIcon = ({
       width=${width}
       height=${height}
       viewBox="0 0 14 15"
-      fill=${fill}
+      fill="none"
     >
       <path
         d="M7 1.04004V14.04"
-        stroke="#F6F6F6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        stroke=${color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M0.5 7.5H13.5"
-        stroke="#F6F6F6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        stroke=${color}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   `

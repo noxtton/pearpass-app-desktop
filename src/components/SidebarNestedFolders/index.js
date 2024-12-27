@@ -1,83 +1,66 @@
 import { html } from 'htm/react'
 import { useState } from 'react'
-import {
-  AddNewFile,
-  LowLevelNestedItemContainer,
-  NestedFile,
-  NestedFolder,
-  NestedFoldersContainer,
-  NestedFoldersWrapper,
-  NestedItem,
-  NestedItemName
-} from './styles'
-import { ArrowDownIcon } from '../../svgs/Icons/ArrowDownIcon'
-import { ArrowUpIcon } from '../../svgs/Icons/ArrowUpIcon'
-import { FolderIcon } from '../../svgs/Icons/FolderIcon'
+import { NestedFoldersWrapper } from './styles'
 import { PlusIcon } from '../../svgs/Icons/PlusIcon'
+import { SidebarNestedFile } from '../SidebarNestedFile'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+import { SidebarFolder } from '../SidebarFolder'
 
-export const SidebarNestedFolders = ({ item, level = 0, isRoot = true }) => {
+/**
+ * @typedef SidebarNestedFoldersProps
+ * @property {Record<string,any>} [item]
+ * @property {number} [level]
+ * @property {boolean} [isRoot]
+ */
+
+/**
+ * @param {SidebarNestedFoldersProps} props
+ */
+
+export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const isRoot = level === 0
   const isFolder = 'children' in item
 
   if (!isFolder) {
     return html`
-      <${NestedFile}>
-        <${item.icon} width=${'14px'} />
-        ${item.name}
-      <//>
+      <${SidebarNestedFile}
+        icon=${item.icon}
+        name=${item.name}
+        key=${item.name + item.id + 'file'}
+      />
     `
   }
 
   return html`
-    <${NestedFoldersWrapper}>
-      <${NestedFoldersContainer}>
-        <${NestedItem} onClick=${() => setIsOpen(!isOpen)}>
-          <div>
-            ${isOpen
-              ? html`
-                  <${ArrowDownIcon} width=${'14px'} />
-                `
-              : html`
-                  <${ArrowUpIcon} width=${'14px'} />
-                `}
-          </div>
-
-          <${NestedFolder}>
-            ${!isRoot &&
-            html`
-              <${FolderIcon} width=${'14px'} />
-            `}
-
-            <${NestedItemName}>${item.name}<//>
-          <//>
-        <//>
-
-        ${isRoot &&
-        html`
-          <${PlusIcon} width=${'14px'} />
-        `}
-      <//>
+    <${NestedFoldersWrapper} level=${level}>
+      <${SidebarFolder}
+        isOpen=${isOpen}
+        onClick=${() => setIsOpen(!isOpen)}
+        isRoot=${isRoot}
+        name=${item.name}
+      />
 
       ${isOpen &&
       html`
-        <${LowLevelNestedItemContainer} level=${level}>
-          ${item.children.map(
-            (item) => html`
-              <${SidebarNestedFolders}
-                item=${item}
-                isRoot=${false}
-                level=${level + 1}
-              />
-            `
-          )}
-        <//>
-
+        ${item.children.map(
+          (childItem) => html`
+            <${SidebarNestedFolders}
+              key=${childItem.name + childItem.id + level}
+              item=${childItem}
+              level=${level + 1}
+            />
+          `
+        )}
         ${!isRoot &&
         html`
-          <${AddNewFile}>
-            <${PlusIcon} width=${'14px'} />
-            New
-          <//>
+          <${SidebarNestedFile}
+            key=${item.id + 'newFile'}
+            icon=${PlusIcon}
+            name=${'New'}
+            isNew=${true}
+            color=${colors.primary400.mode1}
+          />
         `}
       `}
     <//>

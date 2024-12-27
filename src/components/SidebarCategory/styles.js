@@ -23,7 +23,7 @@ export const CategoryButton = styled.button`
     sidebarSize === 'tight' &&
     `
 
-    width: 195px;
+    width: 100%;
     padding: 5px 9px;
     align-items: center;
   `}
@@ -31,12 +31,12 @@ export const CategoryButton = styled.button`
     ${({ selected, theme, color }) =>
     selected &&
     `
-    background: ${theme.colors[color].mode1};  
+    background: ${color};  
     color: ${theme.colors.black.mode1};
   `}
 
     &:hover {
-    border-color: ${({ color, theme }) => theme.colors[color].mode1};
+    border-color: ${({ color }) => color};
   }
 `
 
@@ -66,7 +66,7 @@ export const CategoryIconWrapper = styled.div`
   height: 14px;
 
   & path {
-    stroke: ${({ theme, color }) => theme.colors[color].mode1};
+    stroke: ${({ color }) => color};
   }
 
   ${({ selected }) =>

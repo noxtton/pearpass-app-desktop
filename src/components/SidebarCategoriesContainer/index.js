@@ -8,40 +8,8 @@ import { CreditCardIcon } from '../../svgs/Icons/CreditCardIcon'
 import { CommonFileIcon } from '../../svgs/Icons/CommonFileIcon'
 import { LockIcon } from '../../svgs/Icons/LockIcon'
 import { KeyIcon } from '../../svgs/Icons/keyIcon'
-
-const pearpassCategoryDummyData = [
-  { categoryName: 'All', icon: KeyIcon, quantity: 50, color: 'primary400' },
-  {
-    categoryName: 'Login',
-    icon: UserIcon,
-    quantity: 50,
-    color: 'categoryLogin'
-  },
-  {
-    categoryName: 'Identity',
-    icon: FullBodyIcon,
-    quantity: 50,
-    color: 'categoryIdentity'
-  },
-  {
-    categoryName: 'Credit card',
-    icon: CreditCardIcon,
-    quantity: 50,
-    color: 'categoryCreditCard'
-  },
-  {
-    categoryName: 'Note',
-    icon: CommonFileIcon,
-    quantity: 50,
-    color: 'categoryNote'
-  },
-  {
-    categoryName: 'Custom',
-    icon: LockIcon,
-    quantity: 50,
-    color: 'categoryCustom'
-  }
-]
+import { colors } from 'pearpass-lib-ui-theme-provider'
+import { useLingui } from '@lingui/react'
 
 /**
  * @typedef sideBarCategoriesContainerProps
@@ -55,6 +23,47 @@ const pearpassCategoryDummyData = [
  */
 
 export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
+  const { i18n } = useLingui()
+
+  const pearpassCategoryDummyData = [
+    {
+      categoryName: i18n._('All'),
+      icon: KeyIcon,
+      quantity: 50,
+      color: colors.primary400.option2
+    },
+    {
+      categoryName: i18n._('Login'),
+      icon: UserIcon,
+      quantity: 50,
+      color: colors.categoryLogin.option2
+    },
+    {
+      categoryName: i18n._('Identity'),
+      icon: FullBodyIcon,
+      quantity: 50,
+      color: colors.categoryIdentity.option2
+    },
+    {
+      categoryName: i18n._('Credit card'),
+      icon: CreditCardIcon,
+      quantity: 50,
+      color: colors.categoryCreditCard.option2
+    },
+    {
+      categoryName: i18n._('Note'),
+      icon: CommonFileIcon,
+      quantity: 50,
+      color: colors.categoryNote.option2
+    },
+    {
+      categoryName: i18n._('Custom'),
+      icon: LockIcon,
+      quantity: 50,
+      color: colors.categoryCustom.option2
+    }
+  ]
+
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   return html`
@@ -62,6 +71,7 @@ export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
       ${pearpassCategoryDummyData.map(
         (category, index) => html`
           <${SidebarCategory}
+            key=${category.categoryName}
             categoryName=${category.categoryName}
             color=${category.color}
             quantity=${category.quantity}

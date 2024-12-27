@@ -6,7 +6,7 @@ export const SidebarWrapper = styled.div`
   padding: 25px 20px;
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: Inter;
-  width: 296px;
+  width: ${({ size }) => (size === 'tight' ? '245px' : '296px')};
   height: 100%;
   flex-direction: column;
   justify-content: space-between;
@@ -22,8 +22,34 @@ export const SidebarLogo = styled.div`
   height: 26px;
 `
 export const sideBarContent = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
+  width: 100%;
+  gap: 20px;
+`
+
+export const SidebarNestedFoldersContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 `
 export const SidebarSettings = styled.div`
+  width: 100%;
   flex-grow: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+`
+export const SettingsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0px 5px;
+  gap: 5px;
+`
+
+export const SettingsSeparator = styled.div`
+  width: 100%;
+  height: 2px;
+  background: ${({ theme }) => theme.colors.grey300.mode1};
 `

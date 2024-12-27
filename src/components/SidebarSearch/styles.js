@@ -13,7 +13,7 @@ export const sidebarSearchContainer = styled.div`
 export const SearchLabelIcon = styled.label`
   position: absolute;
   height: 14px;
-  left: 0;
+  left: 4px;
 
   & path {
     stroke: ${({ theme }) => theme.colors.primary400.mode1};
