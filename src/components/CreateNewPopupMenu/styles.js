@@ -24,7 +24,7 @@ export const MenuItem = styled.div`
   cursor: pointer;
 
   &:not(:last-child) {
-    border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   }
 
   &:hover {

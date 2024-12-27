@@ -49,6 +49,7 @@ export const SidebarNestedFile = ({
         <${icon} width=${'14px'} />
         ${name}
       <//>
+
       ${isNew &&
       isNewPopupMenuOpen &&
       html` <${NewPopupMenuOpenContainer}>

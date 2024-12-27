@@ -11,6 +11,7 @@ export const CategoryButton = styled.button`
   border-radius: 10px;
   border: 1px solid transparent;
   color: ${({ theme }) => theme.colors.white.mode1};
+  cursor: pointer;
 
   &:hover {
     border-color: ${({ color }) => color};

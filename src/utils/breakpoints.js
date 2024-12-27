@@ -4,5 +4,5 @@
  */
 
 export const isDesktopSmall = (windowWidth) => {
-  return windowWidth >= 1024
+  return windowWidth >= 1280
 }

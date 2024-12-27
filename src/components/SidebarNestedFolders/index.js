@@ -19,6 +19,7 @@ import { SidebarFolder } from '../SidebarFolder'
 
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const [isOpen, setIsOpen] = useState(false)
+
   const isRoot = level === 0
   const isFolder = 'children' in item
 
@@ -39,6 +40,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         onClick=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
         name=${item.name}
+        key=${item.name + item.id}
       />
 
       ${isOpen &&
