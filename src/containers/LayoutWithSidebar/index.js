@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
 import { ContentWrapper, LayoutWrapper, SideBarWrapper } from './styles'
 import { Sidebar } from '../Sidebar'
-import { useResize } from '../../hooks/useResize'
+import { useWindowResize } from '../../hooks/useWindowResize'
 import { isDesktopSmall } from '../../utils/breakpoints'
 
 /**
@@ -14,13 +14,13 @@ import { isDesktopSmall } from '../../utils/breakpoints'
  */
 
 export const LayoutWithSidebar = ({ children }) => {
-  const { windowWidth } = useResize()
+  const { width } = useWindowResize()
 
   return html`
     <${LayoutWrapper}>
       <${SideBarWrapper}>
         <${Sidebar}
-          sidebarSize=${isDesktopSmall(windowWidth) ? 'default' : 'tight'}
+          sidebarSize=${isDesktopSmall(width) ? 'default' : 'tight'}
         />
       <//>
       <${ContentWrapper}> ${children} <//>

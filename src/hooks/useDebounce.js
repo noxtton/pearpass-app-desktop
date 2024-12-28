@@ -2,26 +2,23 @@ import { useState, useEffect } from 'react'
 
 /**
  * @typedef useDebounceProps
- * @property {any} value - The value to debounce.
- * @property {number} delay - The debounce delay in milliseconds.
+ * @param {{ value: any, delay: number }} params
+ * @returns {{ debouncedValue: any, debounce: (callback: () => void) => void }}
  */
-
-/**
- * @param {useDebounceProps}
- */
-
-export const useDebounce = (value, delay) => {
+export const useDebounce = ({ value, delay }) => {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value)
+  const debounce = (callback) => {
+    const timeout = setTimeout(() => {
+      callback()
     }, delay)
 
-    return () => {
-      clearTimeout(handler)
-    }
+    return () => clearTimeout(timeout)
+  }
+
+  useEffect(() => {
+    debounce(() => setDebouncedValue(value))
   }, [value, delay])
 
-  return debouncedValue
+  return { debouncedValue, debounce }
 }

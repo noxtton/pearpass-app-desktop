@@ -1,38 +1,36 @@
 import { useState, useEffect, useRef } from 'react'
 
 /**
- * @typedef UseThrottleProps
- * @property {any} value - The value to throttle.
- * @property {number} delay - The throttle delay in milliseconds.
- * @returns {any}
+ * Hook to throttle a value.
+ * @property {{ value: any, interval: number }} params
+ * @returns {{ throttledValue: any, throttle: (callback: () => void) => void }}
  */
-
-/**
- * @param {UseThrottleProps}
- */
-
-export const useThrottle = (value, delay) => {
+export const useThrottle = ({ value, interval }) => {
   const [throttledValue, setThrottledValue] = useState(value)
   const lastExecuted = useRef(0)
 
-  useEffect(() => {
+  const throttle = (callback) => {
     const now = Date.now()
 
-    if (now - lastExecuted.current >= delay) {
-      setThrottledValue(value)
+    if (now - lastExecuted.current >= interval) {
+      callback()
       lastExecuted.current = now
     } else {
       const timeout = setTimeout(
         () => {
-          setThrottledValue(value)
+          callback()
           lastExecuted.current = Date.now()
         },
-        delay - (now - lastExecuted.current)
+        interval - (now - lastExecuted.current)
       )
 
       return () => clearTimeout(timeout)
     }
-  }, [value, delay])
+  }
 
-  return throttledValue
+  useEffect(() => {
+    throttle(() => setThrottledValue(value))
+  }, [value, interval])
+
+  return { throttledValue, throttle }
 }
