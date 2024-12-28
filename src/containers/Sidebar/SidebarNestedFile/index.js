@@ -34,8 +34,14 @@ export const SidebarNestedFile = ({
   isNew = false
 }) => {
   const { i18n } = useLingui()
-  const menuRef = useRef(null)
   const [isNewPopupMenuOpen, setIsNewPopupMenuOpen] = useState(false)
+
+  const menuRef = useOutsideClick({
+    onOutsideClick: () => {
+      setIsNewPopupMenuOpen(false)
+    },
+    ref: menuRef
+  })
 
   const menuItems = [
     {
@@ -75,13 +81,6 @@ export const SidebarNestedFile = ({
       setIsNewPopupMenuOpen(!isNewPopupMenuOpen)
     }
   }
-
-  useOutsideClick({
-    onOutsideClick: () => {
-      setIsNewPopupMenuOpen(false)
-    },
-    ref: menuRef
-  })
 
   return html`
     <${NestedFileContainer} ref=${menuRef}>

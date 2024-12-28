@@ -1,12 +1,21 @@
 import { html } from 'htm/react'
 import { AppWrapper } from './styles.js'
-import { LayoutWithSidebar } from '../LayoutWithSidebar/index.js'
+import { LayoutWithSidebar } from '../LayoutWithSidebar'
+import { CompoundField } from '../../../shared/components/CompoundField'
+import { InputFIeld } from '../../../shared/components/InputField'
 
 export const App = () => {
   return html`
     <${AppWrapper}>
-      <${LayoutWithSidebar} />
-    <//>
+      <${LayoutWithSidebar}>
+        <${CompoundField}>
+          <${InputFIeld} 
+            label="Email" 
+            value="// email value"
+          />
+        <//>
+      <//>
+    </${AppWrapper}>
   `
 }
 

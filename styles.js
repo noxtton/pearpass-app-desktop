@@ -170,5 +170,12 @@ export const setFontsAndResetCSS = () => {
       border-collapse: collapse;
       border-spacing: 0;
     }
+    input {
+      background-color: transparent;
+      border: none;
+    }
+    input:focus {
+      outline: none;
+    }
   `)
 }

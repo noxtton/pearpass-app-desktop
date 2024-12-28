@@ -1,9 +1,21 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
-export const useOutsideClick = ({ ref, onOutsideClick }) => {
+/**
+ * @typedef UseOutsideClickParams
+ * @property {(event: Event) => void} onOutsideClick
+ */
+
+/**
+ * @param {UseOutsideClickParams} params
+ * @returns {import('react').MutableRefObject<null>}
+ */
+
+export const useOutsideClick = ({ onOutsideClick }) => {
+  const ref = useRef(null)
+
   useEffect(() => {
     const handleListener = (event) => {
-      if (ref.current && ref.current.contains(event.target)) {
+      if (ref?.current && ref.current.contains(event.target)) {
         return
       }
       onOutsideClick(event)
@@ -17,4 +29,6 @@ export const useOutsideClick = ({ ref, onOutsideClick }) => {
       document.removeEventListener('touchstart', handleListener)
     }
   }, [])
+
+  return ref
 }
