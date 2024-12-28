@@ -86,7 +86,7 @@ export const LoadVaultCard = styled.div`
 export const LoadVaultTitle = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   text-align: center;
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 24px;
   font-style: normal;
   font-weight: 600;

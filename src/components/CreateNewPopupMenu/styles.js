@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const MenuWrapper = styled.div`
   display: flex;
-  font-family: Inter;
+  font-family: 'Inter';
   position: relative;
   flex-direction: column;
   z-index: 1000;

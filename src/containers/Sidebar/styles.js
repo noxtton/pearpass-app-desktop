@@ -5,7 +5,7 @@ export const SidebarWrapper = styled.div`
   gap: 20px;
   padding: 25px 20px;
   color: ${({ theme }) => theme.colors.white.mode1};
-  font-family: Inter;
+  font-family: 'Inter';
   width: ${({ size }) => (size === 'tight' ? '245px' : '296px')};
   height: 100%;
   flex-direction: column;

@@ -5,16 +5,19 @@ export const setFontsAndResetCSS = () => {
   applyGlobalStyles(css`
     @font-face {
       font-family: 'Humble Nostalgia';
-      src: url('src/assets/fonts/HumbleNostalgia.otf') format('OpenType');
+      src: url('assets/fonts/humbleNostalgia/HumbleNostalgia.otf')
+        format('OpenType');
       font-weight: normal;
       font-style: normal;
     }
 
     @font-face {
       font-family: 'Inter';
-      src: url('src/assets/fonts/Inter.ttf') format('truetype');
-      font-weight: normal;
       font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('assets/fonts/inter/Inter-VariableFont_opsz,wght.ttf')
+        format('truetype');
     }
 
     html,

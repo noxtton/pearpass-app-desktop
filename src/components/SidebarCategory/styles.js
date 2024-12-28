@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 
 export const CategoryButton = styled.button`
   display: flex;
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 16px;
   line-height: normal;
   flex-direction: row;
