@@ -1,10 +1,10 @@
 import { html } from 'htm/react'
 import { useState } from 'react'
 import { NestedFoldersWrapper } from './styles'
-import { PlusIcon } from '../../svgs/Icons/PlusIcon'
+import { PlusIcon } from '../../../svgs/Icons/PlusIcon'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { SidebarFolder } from '../SidebarFolder'
+import { SidebarFolder } from '../../../components/SidebarFolder'
 
 /**
  * @typedef SidebarNestedFoldersProps

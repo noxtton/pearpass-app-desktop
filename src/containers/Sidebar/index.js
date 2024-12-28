@@ -8,15 +8,15 @@ import {
   SidebarSettings,
   SidebarWrapper
 } from './styles'
-import { sideBarCategoriesContainer } from '../../components/SidebarCategoriesContainer'
+import { SideBarCategories } from './SidebarCategories'
 import { PearPassTextLogo } from '../../svgs/PearPassLogo'
 import { SidebarSearch } from '../../components/SidebarSearch'
-import { SidebarNestedFolders } from '../../components/SidebarNestedFolders'
+import { SidebarNestedFolders } from './SidebarNestedFolders'
 import { KeyIcon } from '../../svgs/Icons/keyIcon'
 import { FullBodyIcon } from '../../svgs/Icons/FullBodyIcon'
 import { CreditCardIcon } from '../../svgs/Icons/CreditCardIcon'
 import { LockIcon } from '../../svgs/Icons/LockIcon'
-import { ButtonThin } from '../../components/ButtonThin'
+import { ButtonThin } from '../../../../shared/components/ButtonThin'
 import { UserSecurityIcon } from '../../svgs/Icons/UserSecurityIcon'
 import { SettingsIcon } from '../../svgs/Icons/SettingsIcon'
 import { useLingui } from '@lingui/react'
@@ -86,7 +86,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <//>
 
       <${sideBarContent}>
-        <${sideBarCategoriesContainer} sidebarSize=${sidebarSize} />
+        <${SideBarCategories} sidebarSize=${sidebarSize} />
 
         <${SidebarNestedFoldersContainer}>
           <${SidebarSearch} />

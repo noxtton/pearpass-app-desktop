@@ -1,28 +1,28 @@
 import { html } from 'htm/react'
-import { SidebarCategory } from '../SidebarCategory/index'
+import { SidebarCategory } from '../../../components/SidebarCategory/index'
 import { CategoriesContainer } from './styles'
 import { useState } from 'react'
-import { UserIcon } from '../../svgs/Icons/UserIcon'
-import { FullBodyIcon } from '../../svgs/Icons/FullBodyIcon'
-import { CreditCardIcon } from '../../svgs/Icons/CreditCardIcon'
-import { CommonFileIcon } from '../../svgs/Icons/CommonFileIcon'
-import { LockIcon } from '../../svgs/Icons/LockIcon'
-import { KeyIcon } from '../../svgs/Icons/keyIcon'
+import { UserIcon } from '../../../svgs/Icons/UserIcon'
+import { FullBodyIcon } from '../../../svgs/Icons/FullBodyIcon'
+import { CreditCardIcon } from '../../../svgs/Icons/CreditCardIcon'
+import { CommonFileIcon } from '../../../svgs/Icons/CommonFileIcon'
+import { LockIcon } from '../../../svgs/Icons/LockIcon'
+import { KeyIcon } from '../../../svgs/Icons/keyIcon'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useLingui } from '@lingui/react'
 
 /**
- * @typedef sideBarCategoriesContainerProps
+ * @typedef SideBarCategoriesProps
  * @param {'default' | 'tight'} sidebarSize
  */
 
 /**
  *
- * @param {sideBarCategoriesContainerProps} props
+ * @param {SideBarCategoriesProps} props
  * @returns
  */
 
-export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
+export const SideBarCategories = ({ sidebarSize = 'default' }) => {
   const { i18n } = useLingui()
 
   const pearPassCategoryDummyData = [

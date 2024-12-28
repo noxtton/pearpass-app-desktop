@@ -10,6 +10,7 @@ export const Button = styled.div`
   align-items: center;
   gap: 5px;
   border-radius: 10px;
+  cursor: pointer;
 
   ${({ variant, theme }) =>
     variant === 'black'
