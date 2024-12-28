@@ -8,6 +8,7 @@ import {
   ErrorMessage,
   AdditionalItems
 } from './styles'
+import { ErrorIcon } from '../../../src/svgs/Icons/ErrorIcon'
 
 /**
  * @typedef InputFieldProps
@@ -28,7 +29,8 @@ export const InputFIeld = ({
   Icon,
   label,
   error,
-  additionalItems
+  additionalItems,
+  placeholder
 }) => {
   return html`
     <${InputWrapper}>
@@ -37,11 +39,16 @@ export const InputFIeld = ({
       <${MainWrapper}>
         <${Label}> ${label} <//>
 
-        <${Input} value=${value} onChange=${onChange} />
+        <${Input}
+          value=${value}
+          onChange=${onChange}
+          placeholder=${placeholder}
+        />
 
         ${!!error?.length &&
         html`
           <${ErrorMessageWrapper}>
+            <${ErrorIcon} size="10px" />
             <${ErrorMessage}> ${error} <//>
           <//>
         `}

@@ -11,7 +11,8 @@ export const App = () => {
         <${CompoundField}>
           <${InputFIeld} 
             label="Email" 
-            value="// email value"
+            placeholder="// email value"
+            error="Email error"
           />
         <//>
       <//>

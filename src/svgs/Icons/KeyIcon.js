@@ -1,7 +1,9 @@
 import { html } from 'htm/react'
-import { colors } from 'pearpass-lib-ui-theme-provider'
+import { getIconProps } from './getIconProps'
+
 /**
  * @typedef KeyIconProps
+ * @property {string} [size] size of the svg (optional)
  * @property {string} [width] width of the svg (optional)
  * @property {string} [height] height of the svg (optional)
  * @property {string} [color] color of the svg (optional)
@@ -11,11 +13,9 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
  * @param {KeyIconProps} props
  */
 
-export const KeyIcon = ({
-  color = colors.white.mode1,
-  height = '100%',
-  width = '100%'
-}) => {
+export const KeyIcon = (props) => {
+  const { width, height, color } = getIconProps(props)
+
   return html`
     <svg
       width=${width}

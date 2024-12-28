@@ -1,5 +1,5 @@
 import { html } from 'htm/react'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import {
   NestedFile,

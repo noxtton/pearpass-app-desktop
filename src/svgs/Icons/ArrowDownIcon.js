@@ -1,7 +1,8 @@
 import { html } from 'htm/react'
-import { colors } from 'pearpass-lib-ui-theme-provider'
+import { getIconProps } from './getIconProps'
 /**
  * @typedef ArrowDownIconProps
+ * @property {string} [size] size of the svg (optional)
  * @property {string} [width] width of the svg (optional)
  * @property {string} [height] height of the svg (optional)
  * @property {string} [color] color of the svg (optional)
@@ -11,11 +12,9 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
  * @param {ArrowDownIconProps} props
  */
 
-export const ArrowDownIcon = ({
-  height = '100%',
-  width = '100%',
-  color = colors.white.mode1
-}) => {
+export const ArrowDownIcon = (props) => {
+  const { width, height, color } = getIconProps(props)
+
   return html`
     <svg
       xmlns="http://www.w3.org/2000/svg"

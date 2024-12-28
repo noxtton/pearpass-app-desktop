@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-export const CompoundFieldComponent = styled.div`
+export const CompoundFieldComponent = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isFocused'].includes(prop)
+})`
   border-radius: 10px;
   padding: 8px 10px;
   border: 1px solid

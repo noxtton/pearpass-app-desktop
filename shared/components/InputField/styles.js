@@ -9,7 +9,7 @@ export const InputWrapper = styled.div`
   & + & {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid ${({ theme }) => theme.colors.grey100.mode2};
+    border-top: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   }
 `
 
@@ -34,7 +34,7 @@ export const Input = styled.input`
   margin-top: 5px;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.white.mode2};
+    color: ${({ theme }) => theme.colors.grey100.mode1};
   }
 `
 
@@ -47,7 +47,7 @@ export const ErrorMessageWrapper = styled.div`
 `
 
 export const ErrorMessage = styled.div`
-  color: ${({ theme }) => theme.colors.red.option2};
+  color: ${({ theme }) => theme.colors.errorRed.option2};
   font-family: 'Inter';
   font-size: 8px;
   font-weight: 500;
