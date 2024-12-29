@@ -13,13 +13,20 @@ export const InitialLoadPage = () => {
   const { i18n } = useLingui()
 
   return html`
-    <${InitialPageWrapper} >
-        <${PageContainer}>
-            <${PageContentContainer}>
-                <${Title}>${i18n._('Protect')} <${GreenText}>${i18n._('your digital')}</${GreenText}> ${i18n._('life')}</${Title}>
-                <${PearHand} src='src/assets/images/pearHand.png' alt='pearHand'  />
-            </${PageContentContainer}>
-        </${PageContainer}>
-    </${InitialPageWrapper} >
- `
+    <${InitialPageWrapper}>
+      <${PageContainer}>
+        <${PageContentContainer}>
+          <${Title}>
+            ${i18n._('Protect')}
+
+            <${GreenText}>${i18n._('your digital')}<//>
+
+            ${i18n._('life')}
+          <//>
+
+          <${PearHand} src="assets/images/pearHand.png" alt="pearHand" />
+        <//>
+      <//>
+    <//>
+  `
 }

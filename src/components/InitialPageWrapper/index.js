@@ -25,24 +25,25 @@ import {
 export const InitialPageWrapper = ({ children }) => {
   return html`
     <${Background}>
-        <${LeftSpotlightWrapper} >
-            <${SpotLightLeft}  />
-        </${LeftSpotlightWrapper} >
-        
-        <${MiddleSmallSpotlightWrapper} >
-            <${SpotlightMiddle} width='500'  />
-        </${MiddleSmallSpotlightWrapper} >
+      <${LeftSpotlightWrapper}>
+        <${SpotLightLeft} />
+      <//>
 
-        <${RightSpotlightWrapper} >
-            <${SpotlightRight} />
-        </${RightSpotlightWrapper} >
+      <${MiddleSmallSpotlightWrapper}>
+        <${SpotlightMiddle} width="500" />
+      <//>
 
-        <${PageContent}>
-            <${LogoContainer}>
-                <${PearPassTextLogo} />
-            </${LogoContainer}>
-            ${children}
-        </${PageContent}>
-    </${Background}>
+      <${RightSpotlightWrapper}>
+        <${SpotlightRight} />
+      <//>
+
+      <${PageContent}>
+        <${LogoContainer}>
+          <${PearPassTextLogo} />
+        <//>
+
+        ${children}
+      <//>
+    <//>
   `
 }

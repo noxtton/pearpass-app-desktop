@@ -2,11 +2,12 @@ import styled from 'styled-components'
 
 export const Background = styled.div`
   position: relative;
-  background-color: ${({ theme }) => theme.colors.black};
+  background-color: ${({ theme }) => theme.colors.black.mode1};
   width: 100%;
   height: 100%;
   overflow: hidden;
 `
+
 export const LogoContainer = styled.div`
   position: relative;
   z-index: 10;
@@ -14,9 +15,9 @@ export const LogoContainer = styled.div`
   height: 55px;
   width: 311px;
 `
+
 export const PageContent = styled.div`
   position: relative;
-  box-sizing: border-box;
   color: white;
   width: 100%;
   height: 100%;
@@ -29,6 +30,7 @@ export const LeftSpotlightWrapper = styled.div`
   left: 0;
   bottom: 0;
 `
+
 export const MiddleSmallSpotlightWrapper = styled.div`
   position: absolute;
   right: 0;
