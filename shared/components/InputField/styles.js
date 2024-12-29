@@ -13,6 +13,12 @@ export const InputWrapper = styled.div`
   }
 `
 
+export const IconWrapper = styled.div`
+  display: flex;
+  flex-shrink: 0;
+  margin-top: 9px;
+`
+
 export const MainWrapper = styled.div`
   flex: 1;
   display: flex;

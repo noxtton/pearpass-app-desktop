@@ -5,7 +5,6 @@ import { getIconProps } from './getIconProps'
  * @property {string} [size] size of the svg (optional)
  * @property {string} [width] width of the svg (optional)
  * @property {string} [height] height of the svg (optional)
- * @property {string} [color] color of the svg (optional)
  */
 
 /**

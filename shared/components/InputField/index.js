@@ -6,7 +6,8 @@ import {
   Input,
   ErrorMessageWrapper,
   ErrorMessage,
-  AdditionalItems
+  AdditionalItems,
+  IconWrapper
 } from './styles'
 import { ErrorIcon } from '../../../src/svgs/Icons/ErrorIcon'
 
@@ -14,10 +15,13 @@ import { ErrorIcon } from '../../../src/svgs/Icons/ErrorIcon'
  * @typedef InputFieldProps
  * @property {string} value input value
  * @property {(e: string) => void} onChange input change event
- * @property {import('react').FC} Icon icon component
+ * @property {import('react').FC} icon icon component
  * @property {string} label input label
  * @property {string} error input error message
  * @property {import('react').ReactNode} additionalItems additional items
+ * @property {string} placeholder input placeholder
+ * @property {boolean} isDisabled input disabled
+ * @property {'text' | 'password'} type input type
  */
 
 /**
@@ -26,15 +30,16 @@ import { ErrorIcon } from '../../../src/svgs/Icons/ErrorIcon'
 export const InputFIeld = ({
   value,
   onChange,
-  Icon,
+  icon,
   label,
   error,
   additionalItems,
   placeholder,
-  disabled
+  isDisabled,
+  type = 'text'
 }) => {
   const handleChange = (e) => {
-    if (disabled) {
+    if (isDisabled) {
       return
     }
 
@@ -43,7 +48,7 @@ export const InputFIeld = ({
 
   return html`
     <${InputWrapper}>
-      ${!!Icon && html`<${Icon} />`}
+      ${!!icon && html` <${IconWrapper}> <${icon} size="21" /> <//>`}
 
       <${MainWrapper}>
         <${Label}> ${label} <//>
@@ -52,7 +57,8 @@ export const InputFIeld = ({
           value=${value}
           onChange=${handleChange}
           placeholder=${placeholder}
-          disabled=${disabled}
+          disabled=${isDisabled}
+          type=${type}
         />
 
         ${!!error?.length &&

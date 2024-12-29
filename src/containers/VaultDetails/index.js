@@ -15,6 +15,8 @@ import { useLingui } from '@lingui/react'
 import { ButtonLittle } from '../../../shared/components/ButtonLittle/index.js'
 import { BrushIcon } from '../../svgs/Icons/BrushIcon.js'
 import { KebabMenuIcon } from '../../svgs/Icons/KebabMenuIcon.js'
+import { UserIcon } from '../../svgs/Icons/UserIcon.js'
+import { PasswordField } from '../../../shared/components/PasswordField/index.js'
 
 const MOCK_DATA = {
   title: 'Google'
@@ -45,9 +47,19 @@ export const VaultDetails = () => {
       <${Fields}>
         <${CompoundField}>
           <${InputFIeld}
-            label="Email"
-            placeholder="// email value"
-            error="Email error"
+            label=${i18n._('Email or username')}
+            value="caldarace"
+            icon=${UserIcon}
+            isDisabled
+          />
+
+          <${PasswordField} value="caldce" isDisabled />
+
+          <${InputFIeld}
+            label=${i18n._('Email or username')}
+            value="1234567"
+            icon=${UserIcon}
+            isDisabled
           />
         <//>
       <//>

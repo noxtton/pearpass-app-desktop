@@ -7,6 +7,7 @@ import { Button } from './styles'
  * @property {'black' | 'grey'} [variant] variant of the button can be 'black' or 'grey' (optional)
  * @property {() => void} [leftIcon] left icon of the button (optional)
  * @property {() => void} [rightIcon] right icon of the button (optional)
+ * @property {() => void} onClick button click event
  */
 
 /**
@@ -17,12 +18,13 @@ export const ButtonThin = ({
   children,
   leftIcon,
   rightIcon,
-  variant = 'black'
+  variant = 'black',
+  onClick
 }) => {
   return html`
-    <${Button} variant=${variant}>
-      ${leftIcon && html`<${leftIcon} width=${'14px'} />`} ${children}
-      ${rightIcon && html`<${rightIcon} width=${'14px'} />`}
+    <${Button} variant=${variant} onClick=${onClick}>
+      ${leftIcon && html`<${leftIcon} size="14" />`} ${children}
+      ${rightIcon && html`<${rightIcon} size="14" />`}
     <//>
   `
 }

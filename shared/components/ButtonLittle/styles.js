@@ -16,15 +16,15 @@ export const Button = styled.div`
       return css`
         background: ${theme.colors.primary300.mode1};
         color: ${theme.colors.grey500.mode1};
-        border: 1px solid ${({ theme }) => theme.colors.primary300.mode1};
+        border: 1px solid ${theme.colors.primary300.mode1};
 
         & svg path {
           stroke: ${theme.colors.grey500.mode1};
         }
 
         &:hover {
-          border: 1px solid ${({ theme }) => theme.colors.primary400.mode1};
-          background: ${({ theme }) => theme.colors.primary400.mode1};
+          border: 1px solid ${theme.colors.primary400.mode1};
+          background: ${theme.colors.primary400.mode1};
         }
       `
     }
@@ -33,7 +33,7 @@ export const Button = styled.div`
       return css`
         background: ${theme.colors.black.mode1};
         color: ${theme.colors.primary300.mode1};
-        border: 1px solid ${({ theme }) => theme.colors.black.mode1};
+        border: 1px solid ${theme.colors.black.mode1};
 
         & svg path {
           stroke: ${theme.colors.primary300.mode1};
