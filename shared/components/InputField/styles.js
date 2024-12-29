@@ -33,11 +33,13 @@ export const Label = styled.span`
 `
 
 export const Input = styled.input`
-  color: ${({ theme }) => theme.colors.white.mode1};
+  color: ${({ theme, type }) =>
+    type === 'url' ? theme.colors.primary400.mode1 : theme.colors.white.mode1};
   font-family: 'Inter';
   font-size: 16px;
   font-weight: 700;
   margin-top: 5px;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.grey100.mode1};

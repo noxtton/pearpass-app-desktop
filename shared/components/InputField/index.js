@@ -21,7 +21,8 @@ import { ErrorIcon } from '../../../src/svgs/Icons/ErrorIcon'
  * @property {import('react').ReactNode} additionalItems additional items
  * @property {string} placeholder input placeholder
  * @property {boolean} isDisabled input disabled
- * @property {'text' | 'password'} type input type
+ * @property {'text' | 'password' | 'url'} type input type
+ * @property {() => void} onClick input click event
  */
 
 /**
@@ -36,6 +37,7 @@ export const InputFIeld = ({
   additionalItems,
   placeholder,
   isDisabled,
+  onClick,
   type = 'text'
 }) => {
   const handleChange = (e) => {
@@ -43,11 +45,11 @@ export const InputFIeld = ({
       return
     }
 
-    onChange(e.target.value)
+    onChange?.(e.target.value)
   }
 
   return html`
-    <${InputWrapper}>
+    <${InputWrapper} onClick=${() => onClick?.()}>
       ${!!icon && html` <${IconWrapper}> <${icon} size="21" /> <//>`}
 
       <${MainWrapper}>

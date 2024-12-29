@@ -17,13 +17,22 @@ import { BrushIcon } from '../../svgs/Icons/BrushIcon.js'
 import { KebabMenuIcon } from '../../svgs/Icons/KebabMenuIcon.js'
 import { UserIcon } from '../../svgs/Icons/UserIcon.js'
 import { PasswordField } from '../../../shared/components/PasswordField/index.js'
+import { WorldIcon } from '../../svgs/Icons/WorldIcon.js'
 
 const MOCK_DATA = {
-  title: 'Google'
+  title: 'Google',
+  userName: 'caldarace',
+  password: 'caldce',
+  website: 'Google.com',
+  websiteUrl: 'https://google.com'
 }
 
 export const VaultDetails = () => {
   const { i18n } = useLingui()
+
+  const handleWebsiteClick = () => {
+    window.open(MOCK_DATA.websiteUrl, '_blank')
+  }
 
   return html`
     <${React.Fragment}>
@@ -45,20 +54,24 @@ export const VaultDetails = () => {
       <//>
 
       <${Fields}>
-        <${CompoundField}>
+        <${CompoundField} isDisabled>
           <${InputFIeld}
             label=${i18n._('Email or username')}
-            value="caldarace"
+            value=${MOCK_DATA.userName}
             icon=${UserIcon}
             isDisabled
           />
 
-          <${PasswordField} value="caldce" isDisabled />
+          <${PasswordField} value=${MOCK_DATA.password} isDisabled />
+        <//>
 
+        <${CompoundField} isDisabled>
           <${InputFIeld}
-            label=${i18n._('Email or username')}
-            value="1234567"
-            icon=${UserIcon}
+            label=${i18n._('Website')}
+            value=${MOCK_DATA.website}
+            icon=${WorldIcon}
+            type="url"
+            onClick=${handleWebsiteClick}
             isDisabled
           />
         <//>
