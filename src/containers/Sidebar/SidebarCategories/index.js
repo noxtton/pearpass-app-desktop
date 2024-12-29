@@ -2,12 +2,14 @@ import { html } from 'htm/react'
 import { SidebarCategory } from '../../../components/SidebarCategory/index'
 import { CategoriesContainer } from './styles'
 import { useState } from 'react'
-import { UserIcon } from '../../../svgs/Icons/UserIcon'
-import { FullBodyIcon } from '../../../svgs/Icons/FullBodyIcon'
-import { CreditCardIcon } from '../../../svgs/Icons/CreditCardIcon'
-import { CommonFileIcon } from '../../../svgs/Icons/CommonFileIcon'
-import { LockIcon } from '../../../svgs/Icons/LockIcon'
-import { KeyIcon } from '../../../svgs/Icons/keyIcon'
+import {
+  UserIcon,
+  FullBodyIcon,
+  CreditCardIcon,
+  CommonFileIcon,
+  LockIcon,
+  KeyIcon
+} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useLingui } from '@lingui/react'
 

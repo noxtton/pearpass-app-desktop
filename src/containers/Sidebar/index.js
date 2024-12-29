@@ -12,13 +12,15 @@ import { SideBarCategories } from './SidebarCategories'
 import { PearPassTextLogo } from '../../svgs/PearPassLogo'
 import { SidebarSearch } from '../../components/SidebarSearch'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
-import { KeyIcon } from '../../svgs/Icons/keyIcon'
-import { FullBodyIcon } from '../../svgs/Icons/FullBodyIcon'
-import { CreditCardIcon } from '../../svgs/Icons/CreditCardIcon'
-import { LockIcon } from '../../svgs/Icons/LockIcon'
-import { ButtonThin } from '../../../../shared/components/ButtonThin'
-import { UserSecurityIcon } from '../../svgs/Icons/UserSecurityIcon'
-import { SettingsIcon } from '../../svgs/Icons/SettingsIcon'
+import {
+  KeyIcon,
+  FullBodyIcon,
+  CreditCardIcon,
+  LockIcon,
+  UserSecurityIcon,
+  SettingsIcon,
+  ButtonThin
+} from 'pearpass-lib-ui-react-components'
 import { useLingui } from '@lingui/react'
 
 /**

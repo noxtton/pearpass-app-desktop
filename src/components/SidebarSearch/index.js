@@ -1,6 +1,6 @@
 import { html } from 'htm/react'
 import { SearchInput, SearchLabelIcon, sidebarSearchContainer } from './styles'
-import { SearchIcon } from '../../svgs/Icons/SearchIcon'
+import { SearchIcon } from 'pearpass-lib-ui-react-components'
 import { useLingui } from '@lingui/react'
 
 export const SidebarSearch = () => {

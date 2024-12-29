@@ -2,9 +2,9 @@ import { html } from 'htm/react'
 import { AppWrapper } from './styles.js'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { useRouter } from '../../context/RouterContext.js'
-import { InitialWelcomePage } from '../WelcomePage/index.js'
-import { InitialLoadPage } from '../InitialPage/index.js'
-import { VaultDetails } from '../VaultDetails/index.js'
+import { InitialWelcomePage } from '../WelcomePage'
+import { InitialLoadPage } from '../InitialPage'
+import { VaultDetails } from '../VaultDetails'
 
 export const App = () => {
   const { currentPage, data } = useRouter()

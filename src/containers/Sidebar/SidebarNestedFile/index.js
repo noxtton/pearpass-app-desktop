@@ -6,15 +6,17 @@ import {
   NestedFileContainer,
   NewPopupMenuOpenContainer
 } from './styles'
-import { UserIcon } from '../../../svgs/Icons/UserIcon'
-import { FullBodyIcon } from '../../../svgs/Icons/FullBodyIcon'
-import { CreditCardIcon } from '../../../svgs/Icons/CreditCardIcon'
-import { CommonFileIcon } from '../../../svgs/Icons/CommonFileIcon'
-import { LockIcon } from '../../../svgs/Icons/LockIcon'
-import { KeyIcon } from '../../../svgs/Icons/keyIcon'
+import {
+  UserIcon,
+  FullBodyIcon,
+  CreditCardIcon,
+  CommonFileIcon,
+  LockIcon,
+  KeyIcon
+} from 'pearpass-lib-ui-react-components'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
-import { useOutsideClick } from '../../../hooks/useOutsideClick'
 import { useLingui } from '@lingui/react'
+import { useOutsideClick } from 'pearpass-lib-desktop-react-hooks'
 
 /**
  * @typedef SidebarNestedFileProps

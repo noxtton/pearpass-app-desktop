@@ -7,18 +7,20 @@ import {
   HeaderRight,
   Title
 } from './styles.js'
-import { CompoundField } from '../../../shared/components/CompoundField/index.js'
-import { InputFIeld } from '../../../shared/components/InputField/index.js'
-import { StarIcon } from '../../svgs/Icons/StarIcon.js'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useLingui } from '@lingui/react'
-import { ButtonLittle } from '../../../shared/components/ButtonLittle/index.js'
-import { BrushIcon } from '../../svgs/Icons/BrushIcon.js'
-import { KebabMenuIcon } from '../../svgs/Icons/KebabMenuIcon.js'
-import { UserIcon } from '../../svgs/Icons/UserIcon.js'
-import { PasswordField } from '../../../shared/components/PasswordField/index.js'
-import { WorldIcon } from '../../svgs/Icons/WorldIcon.js'
-import { CommonFileIcon } from '../../svgs/Icons/CommonFileIcon.js'
+import {
+  StarIcon,
+  BrushIcon,
+  KebabMenuIcon,
+  UserIcon,
+  WorldIcon,
+  CommonFileIcon,
+  ButtonLittle,
+  CompoundField,
+  InputField,
+  PasswordField
+} from 'pearpass-lib-ui-react-components'
 
 const MOCK_DATA = {
   title: 'Google',
@@ -57,7 +59,7 @@ export const VaultDetails = () => {
 
       <${Fields}>
         <${CompoundField} isDisabled>
-          <${InputFIeld}
+          <${InputField}
             label=${i18n._('Email or username')}
             value=${MOCK_DATA.userName}
             icon=${UserIcon}
@@ -68,7 +70,7 @@ export const VaultDetails = () => {
         <//>
 
         <${CompoundField} isDisabled>
-          <${InputFIeld}
+          <${InputField}
             label=${i18n._('Website')}
             value=${MOCK_DATA.website}
             icon=${WorldIcon}
@@ -79,7 +81,7 @@ export const VaultDetails = () => {
         <//>
 
         <${CompoundField} isDisabled>
-          <${InputFIeld}
+          <${InputField}
             label=${i18n._('Website')}
             value=${MOCK_DATA.note}
             icon=${CommonFileIcon}
