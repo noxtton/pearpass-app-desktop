@@ -1,0 +1,43 @@
+import { html } from 'htm/react'
+import { createContext, useState, useContext } from 'react'
+
+const RouterContext = createContext()
+
+/**
+ * @typedef RouterProviderProps
+ * @property {import('react').ReactNode} children React node to be rendered inside
+ */
+
+/**
+ *
+ * @param {RouterProviderProps} props
+ */
+export const RouterProvider = ({ children }) => {
+  const [state, setState] = useState({
+    currentPage: 'vault',
+    data: {
+      vaultId: '12345'
+    }
+  })
+
+  const navigate = (page, data = {}) => {
+    setState({ currentPage: page, data })
+  }
+
+  return html`
+    <${RouterContext.Provider} value=${{ ...state, navigate }}>
+        ${children}
+    </${RouterContext.Provider}>
+  `
+}
+
+/**
+ * @returns {{
+ *   currentPage: string,
+ *   data: Object.<string, any>,
+ *   navigate: (currentPage: string, params: Object.<string, any>, query: Object.<string, any>) => void
+ * }}
+ */
+export const useRouter = () => {
+  return useContext(RouterContext)
+}
