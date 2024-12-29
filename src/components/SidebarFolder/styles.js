@@ -20,5 +20,3 @@ export const NestedFolder = styled.div`
   align-items: center;
   gap: 10px;
 `
-
-export const NestedItemName = styled.span``

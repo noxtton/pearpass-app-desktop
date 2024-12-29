@@ -7,6 +7,7 @@ export const Background = styled.div`
   height: 100%;
   overflow: hidden;
 `
+
 export const LogoContainer = styled.div`
   position: relative;
   z-index: 10;
@@ -14,6 +15,7 @@ export const LogoContainer = styled.div`
   height: 55px;
   width: 311px;
 `
+
 export const PageContent = styled.div`
   position: relative;
   color: white;
@@ -28,6 +30,7 @@ export const LeftSpotlightWrapper = styled.div`
   left: 0;
   bottom: 0;
 `
+
 export const MiddleSmallSpotlightWrapper = styled.div`
   position: absolute;
   right: 0;

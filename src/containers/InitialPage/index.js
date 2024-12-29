@@ -24,7 +24,7 @@ export const InitialLoadPage = () => {
             ${i18n._('life')}
           <//>
 
-          <${PearHand} src="src/assets/images/pearHand.png" alt="pearHand" />
+          <${PearHand} src="assets/images/pearHand.png" alt="pearHand" />
         <//>
       <//>
     <//>

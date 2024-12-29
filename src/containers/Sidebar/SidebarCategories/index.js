@@ -1,31 +1,33 @@
 import { html } from 'htm/react'
-import { SidebarCategory } from '../SidebarCategory/index'
+import { SidebarCategory } from '../../../components/SidebarCategory/index'
 import { CategoriesContainer } from './styles'
 import { useState } from 'react'
-import { UserIcon } from '../../svgs/Icons/UserIcon'
-import { FullBodyIcon } from '../../svgs/Icons/FullBodyIcon'
-import { CreditCardIcon } from '../../svgs/Icons/CreditCardIcon'
-import { CommonFileIcon } from '../../svgs/Icons/CommonFileIcon'
-import { LockIcon } from '../../svgs/Icons/LockIcon'
-import { KeyIcon } from '../../svgs/Icons/keyIcon'
+import {
+  UserIcon,
+  FullBodyIcon,
+  CreditCardIcon,
+  CommonFileIcon,
+  LockIcon,
+  KeyIcon
+} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useLingui } from '@lingui/react'
 
 /**
- * @typedef sideBarCategoriesContainerProps
+ * @typedef SideBarCategoriesProps
  * @param {'default' | 'tight'} sidebarSize
  */
 
 /**
  *
- * @param {sideBarCategoriesContainerProps} props
+ * @param {SideBarCategoriesProps} props
  * @returns
  */
 
-export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
+export const SideBarCategories = ({ sidebarSize = 'default' }) => {
   const { i18n } = useLingui()
 
-  const pearpassCategoryDummyData = [
+  const pearPassCategoryDummyData = [
     {
       categoryName: i18n._('All'),
       icon: KeyIcon,
@@ -68,7 +70,7 @@ export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
 
   return html`
     <${CategoriesContainer}>
-      ${pearpassCategoryDummyData.map(
+      ${pearPassCategoryDummyData.map(
         (category, index) => html`
           <${SidebarCategory}
             key=${category.categoryName}
@@ -78,7 +80,7 @@ export const sideBarCategoriesContainer = ({ sidebarSize = 'default' }) => {
             selected=${selectedIndex === index}
             icon=${category.icon}
             onClick=${() => setSelectedIndex(index)}
-            sidebarSize=${sidebarSize}
+            size=${sidebarSize}
           />
         `
       )}

@@ -13,6 +13,7 @@ export const NestedFile = styled.div`
   margin-bottom: 5px;
   color: ${({ color }) => color};
 `
+
 export const NewPopupMenuOpenContainer = styled.div`
   position: absolute;
   left: 34px;

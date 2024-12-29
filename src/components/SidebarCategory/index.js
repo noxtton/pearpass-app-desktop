@@ -3,13 +3,12 @@ import {
   CategoryButton,
   CategoryDescription,
   CategoryIconWrapper,
-  CategoryQuantity,
-  categoryTitle
+  CategoryQuantity
 } from './styles'
 
 /**
  * @typedef SidebarCategoryProps
- * @param {'default' | 'tight'} sidebarSize
+ * @param {'default' | 'tight'} size
  * @param {boolean} selected
  * @param {string} categoryName
  * @param {number} quantity
@@ -25,7 +24,7 @@ import {
  */
 
 export const SidebarCategory = ({
-  sidebarSize = 'default',
+  size = 'default',
   selected = false,
   categoryName,
   quantity = 0,
@@ -35,17 +34,17 @@ export const SidebarCategory = ({
 }) => {
   return html`
     <${CategoryButton}
-      sidebarSize=${sidebarSize}
+      size=${size}
       color=${color}
       selected=${selected}
       onClick=${onClick}
     >
-      <${CategoryDescription} sidebarSize=${sidebarSize}>
+      <${CategoryDescription} size=${size}>
         <${CategoryIconWrapper} selected=${selected} color=${color}>
           <${icon} />
         <//>
 
-        <${categoryTitle}>${categoryName}<//>
+        <span>${categoryName}</span>
       <//>
 
       <${CategoryQuantity}>${quantity}<//>

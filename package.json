@@ -33,6 +33,7 @@
     "@lingui/macro": "^5.1.2",
     "@lingui/react": "^5.1.2",
     "htm": "^3.1.1",
+    "pearpass-lib-desktop-react-hooks": "github:noxtton/pearpass-lib-desktop-react-hooks#main",
     "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#main",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#main",
     "react": "^19.0.0",

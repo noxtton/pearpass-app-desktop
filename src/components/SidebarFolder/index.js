@@ -1,14 +1,11 @@
 import { html } from 'htm/react'
+import { NestedFolder, NestedFoldersContainer, NestedItem } from './styles'
 import {
-  NestedFolder,
-  NestedFoldersContainer,
-  NestedItem,
-  NestedItemName
-} from './styles'
-import { ArrowDownIcon } from '../../svgs/Icons/ArrowDownIcon'
-import { ArrowUpIcon } from '../../svgs/Icons/ArrowUpIcon'
-import { PlusIcon } from '../../svgs/Icons/PlusIcon'
-import { FolderIcon } from '../../svgs/Icons/FolderIcon'
+  ArrowDownIcon,
+  ArrowUpIcon,
+  PlusIcon,
+  FolderIcon
+} from 'pearpass-lib-ui-react-components'
 import React from 'react'
 
 /**
@@ -37,7 +34,7 @@ export const SidebarFolder = ({ isOpen, onClick, isRoot, name }) => {
           <${NestedFolder}>
             ${!isRoot && html` <${FolderIcon} width=${'14px'} /> `}
 
-            <${NestedItemName}>${name}<//>
+            <span>${name}</span>
           <//>
         <//>
 

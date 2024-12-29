@@ -1,8 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const CategoryButton = styled.button`
   display: flex;
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 16px;
   line-height: normal;
   flex-direction: row;
@@ -11,33 +11,33 @@ export const CategoryButton = styled.button`
   border-radius: 10px;
   border: 1px solid transparent;
   color: ${({ theme }) => theme.colors.white.mode1};
+  cursor: pointer;
 
-  ${({ sidebarSize }) =>
-    sidebarSize === 'default' &&
-    `
-    width: 122px;
-    padding: 10px 9px;
-  `}
+  &:hover {
+    border-color: ${({ color }) => color};
+  }
 
-  ${({ sidebarSize }) =>
-    sidebarSize === 'tight' &&
-    `
+  ${({ size }) =>
+    size === 'default' &&
+    css`
+      width: 122px;
+      padding: 10px 9px;
+    `}
 
-    width: 100%;
-    padding: 5px 9px;
-    align-items: center;
-  `}
+  ${({ size }) =>
+    size === 'tight' &&
+    css`
+      width: 100%;
+      padding: 5px 9px;
+      align-items: center;
+    `}
   
     ${({ selected, theme, color }) =>
     selected &&
-    `
-    background: ${color};  
-    color: ${theme.colors.black.mode1};
-  `}
-
-    &:hover {
-    border-color: ${({ color }) => color};
-  }
+    css`
+      background: ${color};
+      color: ${theme.colors.black.mode1};
+    `}
 `
 
 export const CategoryDescription = styled.div`
@@ -46,36 +46,28 @@ export const CategoryDescription = styled.div`
   white-space: nowrap;
   font-weight: 600;
 
-  ${({ sidebarSize }) =>
-    sidebarSize === 'default' &&
-    `
+  ${({ size }) =>
+    size === 'default' &&
+    css`
       flex-direction: column;
-  `}
+    `}
 
-  ${({ sidebarSize }) =>
-    sidebarSize === 'tight' &&
-    `
-    align-items: center;
-    flex-direction: row;
-  `}
+  ${({ size }) =>
+    size === 'tight' &&
+    css`
+      align-items: center;
+      flex-direction: row;
+    `}
 `
 
-export const categoryTitle = styled.span``
 export const CategoryIconWrapper = styled.div`
   width: 14px;
   height: 14px;
 
   & path {
-    stroke: ${({ color }) => color};
+    stroke: ${({ color, theme, selected }) =>
+      selected ? theme.colors.black.mode1 : color};
   }
-
-  ${({ selected }) =>
-    selected &&
-    `
-    &  path{
-    stroke: black};
-    }
-  `}
 `
 
 export const CategoryQuantity = styled.span`

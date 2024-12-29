@@ -14,13 +14,14 @@ const RouterContext = createContext()
  */
 export const RouterProvider = ({ children }) => {
   const [state, setState] = useState({
-    currentPage: 'welcome',
-    params: {},
-    query: {}
+    currentPage: 'vault',
+    data: {
+      vaultId: '12345'
+    }
   })
 
-  const navigate = (page, params = {}, query = {}) => {
-    setState({ currentPage: page, params, query })
+  const navigate = (page, data = {}) => {
+    setState({ currentPage: page, data })
   }
 
   return html`
@@ -33,8 +34,7 @@ export const RouterProvider = ({ children }) => {
 /**
  * @returns {{
  *   currentPage: string,
- *   params: Object.<string, any>,
- *   query: Object.<string, any>,
+ *   data: Object.<string, any>,
  *   navigate: (currentPage: string, params: Object.<string, any>, query: Object.<string, any>) => void
  * }}
  */

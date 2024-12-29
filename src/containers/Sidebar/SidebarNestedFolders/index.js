@@ -1,10 +1,10 @@
 import { html } from 'htm/react'
 import { useState } from 'react'
 import { NestedFoldersWrapper } from './styles'
-import { PlusIcon } from '../../svgs/Icons/PlusIcon'
+import { PlusIcon } from 'pearpass-lib-ui-react-components'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { SidebarFolder } from '../SidebarFolder'
+import { SidebarFolder } from '../../../components/SidebarFolder'
 
 /**
  * @typedef SidebarNestedFoldersProps
@@ -19,6 +19,7 @@ import { SidebarFolder } from '../SidebarFolder'
 
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const [isOpen, setIsOpen] = useState(false)
+
   const isRoot = level === 0
   const isFolder = 'children' in item
 
@@ -39,6 +40,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         onClick=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
         name=${item.name}
+        key=${item.name + item.id}
       />
 
       ${isOpen &&

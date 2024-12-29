@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const sidebarSearchContainer = styled.div`
   height: 29px;
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 16px;
   display: flex;
   align-items: center;

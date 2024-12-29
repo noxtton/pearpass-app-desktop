@@ -1,16 +1,38 @@
 import { html } from 'htm/react'
-import { ContentWrapper, LayoutWrapper, SideBarWrapper } from './styles'
+import {
+  ContentWrapper,
+  LayoutWrapper,
+  SideBarWrapper,
+  SideViewWrapper
+} from './styles'
 import { Sidebar } from '../Sidebar'
-import { useResize } from '../../hooks/useResize'
+import { useWindowResize } from '../../hooks/useWindowResize'
+import { isDesktopSmall } from '../../utils/breakpoints'
 
-export const LayoutWithSidebar = () => {
-  const { isTablet } = useResize()
+/**
+ * @typedef LayoutWithSidebarProps
+ * @property {import('react').ReactNode} mainView
+ * @property {import('react').ReactNode} sideView
+ */
+
+/**
+ * @param {LayoutWithSidebarProps} props
+ */
+
+export const LayoutWithSidebar = ({ mainView, sideView }) => {
+  const { width } = useWindowResize()
+
   return html`
     <${LayoutWrapper}>
       <${SideBarWrapper}>
-        <${Sidebar} sidebarSize=${isTablet ? 'tight' : 'default'} />
+        <${Sidebar}
+          sidebarSize=${isDesktopSmall(width) ? 'default' : 'tight'}
+        />
       <//>
-      <${ContentWrapper}> <//>
+
+      <${ContentWrapper}> ${mainView} <//>
+
+      ${sideView && html` <${SideViewWrapper}> ${sideView} <//>`}
     <//>
   `
 }
