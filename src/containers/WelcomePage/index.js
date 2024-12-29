@@ -28,7 +28,7 @@ export const InitialWelcomePage = () => {
   const { navigate } = useRouter()
 
   const handleNewVaultCreation = () => {
-    navigate('loading')
+    navigate('vault')
   }
 
   return html`
@@ -57,7 +57,7 @@ export const InitialWelcomePage = () => {
           <//>
         `}
 
-        <${PearHand} src="src/assets/images/pearHandBig.png" alt="pearHand" />
+        <${PearHand} src="assets/images/pearHandBig.png" alt="pearHand" />
       <//>
 
       <${ModalOverlay} blur=${'10px'}>

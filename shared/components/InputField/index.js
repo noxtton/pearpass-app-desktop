@@ -13,7 +13,7 @@ import { ErrorIcon } from '../../../src/svgs/Icons/ErrorIcon'
 /**
  * @typedef InputFieldProps
  * @property {string} value input value
- * @property {(e: Event) => void} onChange input change event
+ * @property {(e: string) => void} onChange input change event
  * @property {import('react').FC} Icon icon component
  * @property {string} label input label
  * @property {string} error input error message
@@ -30,8 +30,17 @@ export const InputFIeld = ({
   label,
   error,
   additionalItems,
-  placeholder
+  placeholder,
+  disabled
 }) => {
+  const handleChange = (e) => {
+    if (disabled) {
+      return
+    }
+
+    onChange(e.target.value)
+  }
+
   return html`
     <${InputWrapper}>
       ${!!Icon && html`<${Icon} />`}
@@ -41,8 +50,9 @@ export const InputFIeld = ({
 
         <${Input}
           value=${value}
-          onChange=${onChange}
+          onChange=${handleChange}
           placeholder=${placeholder}
+          disabled=${disabled}
         />
 
         ${!!error?.length &&

@@ -1,19 +1,25 @@
 import { html } from 'htm/react'
-import { ContentWrapper, LayoutWrapper, SideBarWrapper } from './styles'
+import {
+  ContentWrapper,
+  LayoutWrapper,
+  SideBarWrapper,
+  SideViewWrapper
+} from './styles'
 import { Sidebar } from '../Sidebar'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { isDesktopSmall } from '../../utils/breakpoints'
 
 /**
  * @typedef LayoutWithSidebarProps
- * @property {import('react').ReactNode} children
+ * @property {import('react').ReactNode} mainView
+ * @property {import('react').ReactNode} sideView
  */
 
 /**
  * @param {LayoutWithSidebarProps} props
  */
 
-export const LayoutWithSidebar = ({ children }) => {
+export const LayoutWithSidebar = ({ mainView, sideView }) => {
   const { width } = useWindowResize()
 
   return html`
@@ -23,7 +29,10 @@ export const LayoutWithSidebar = ({ children }) => {
           sidebarSize=${isDesktopSmall(width) ? 'default' : 'tight'}
         />
       <//>
-      <${ContentWrapper}> ${children} <//>
+
+      <${ContentWrapper}> ${mainView} <//>
+
+      ${sideView && html` <${SideViewWrapper}> ${sideView} <//>`}
     <//>
   `
 }

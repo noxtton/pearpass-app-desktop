@@ -20,8 +20,8 @@ export const getIconProps = ({
 }) => {
   return {
     size: size,
-    height: size || height,
-    width: size || width,
+    height: height || size,
+    width: width || size,
     color: color
   }
 }

@@ -83,6 +83,7 @@ export const LoadVaultCard = styled.div`
   border-radius: 20px;
   z-index: 1;
 `
+
 export const LoadVaultTitle = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   text-align: center;
