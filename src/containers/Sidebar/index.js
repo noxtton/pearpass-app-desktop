@@ -32,6 +32,7 @@ import { useLingui } from '@lingui/react'
 
 export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const { i18n } = useLingui()
+
   const sampleData = {
     name: i18n._('All Folders'),
     id: 1,
@@ -98,16 +99,15 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <${SidebarSettings}>
         <${SettingsContainer}>
           <${SettingsIcon} width=${'14px'} />
-          Settings
+
+          ${i18n._('Settings')}
         <//>
 
         <${SettingsSeparator} />
 
-        <${ButtonThin}
-          variant=${'black'}
-          text=${'Add Device'}
-          leftIcon=${UserSecurityIcon}
-        />
+        <${ButtonThin} leftIcon=${UserSecurityIcon}>
+          ${i18n._('Add Device')}
+        <//>
       <//>
     <//>
   `
