@@ -14,6 +14,7 @@ import { LockIcon } from '../../../svgs/Icons/LockIcon'
 import { KeyIcon } from '../../../svgs/Icons/keyIcon'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
 import { useOutsideClick } from '../../../hooks/useOutsideClick'
+import { useLingui } from '@lingui/react'
 
 /**
  * @typedef SidebarNestedFileProps
@@ -39,8 +40,7 @@ export const SidebarNestedFile = ({
   const menuRef = useOutsideClick({
     onOutsideClick: () => {
       setIsNewPopupMenuOpen(false)
-    },
-    ref: menuRef
+    }
   })
 
   const menuItems = [

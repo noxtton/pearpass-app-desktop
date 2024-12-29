@@ -18,13 +18,15 @@ import { KebabMenuIcon } from '../../svgs/Icons/KebabMenuIcon.js'
 import { UserIcon } from '../../svgs/Icons/UserIcon.js'
 import { PasswordField } from '../../../shared/components/PasswordField/index.js'
 import { WorldIcon } from '../../svgs/Icons/WorldIcon.js'
+import { CommonFileIcon } from '../../svgs/Icons/CommonFileIcon.js'
 
 const MOCK_DATA = {
   title: 'Google',
   userName: 'caldarace',
   password: 'caldce',
   website: 'Google.com',
-  websiteUrl: 'https://google.com'
+  websiteUrl: 'https://google.com',
+  note: 'Last account'
 }
 
 export const VaultDetails = () => {
@@ -72,6 +74,15 @@ export const VaultDetails = () => {
             icon=${WorldIcon}
             type="url"
             onClick=${handleWebsiteClick}
+            isDisabled
+          />
+        <//>
+
+        <${CompoundField} isDisabled>
+          <${InputFIeld}
+            label=${i18n._('Website')}
+            value=${MOCK_DATA.note}
+            icon=${CommonFileIcon}
             isDisabled
           />
         <//>
