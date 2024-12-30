@@ -16,7 +16,7 @@ import {
 } from 'pearpass-lib-ui-react-components'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
 import { useLingui } from '@lingui/react'
-import { useOutsideClick } from 'pearpass-lib-desktop-react-hooks'
+import { useOutsideClick } from '../../../hooks/useOutsideClick'
 
 /**
  * @typedef SidebarNestedFileProps
