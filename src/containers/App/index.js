@@ -16,7 +16,7 @@ export const App = () => {
   }
 
   const getSideView = () => {
-    if (currentPage === 'vault' && data?.vaultId === '12345') {
+    if (currentPage === 'vault' && data?.recordId === '12345') {
       return html` <${RecordDetails} /> `
     }
   }
