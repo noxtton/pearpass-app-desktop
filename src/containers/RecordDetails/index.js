@@ -31,7 +31,7 @@ const MOCK_DATA = {
   note: 'Last account'
 }
 
-export const VaultDetails = () => {
+export const RecordDetails = () => {
   const { i18n } = useLingui()
 
   const handleWebsiteClick = () => {

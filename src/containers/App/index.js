@@ -4,7 +4,7 @@ import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { useRouter } from '../../context/RouterContext.js'
 import { InitialWelcomePage } from '../WelcomePage'
 import { InitialLoadPage } from '../InitialPage'
-import { VaultDetails } from '../VaultDetails'
+import { RecordDetails } from '../RecordDetails'
 
 export const App = () => {
   const { currentPage, data } = useRouter()
@@ -17,7 +17,7 @@ export const App = () => {
 
   const getSideView = () => {
     if (currentPage === 'vault' && data?.vaultId === '12345') {
-      return html` <${VaultDetails} /> `
+      return html` <${RecordDetails} /> `
     }
   }
 
