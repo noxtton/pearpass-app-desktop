@@ -8,9 +8,6 @@ export const MenuWrapper = styled.div`
   z-index: 1000;
   width: 200px;
   align-items: flex-start;
-  border-radius: 10px;
-  border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
-  background: ${({ theme }) => theme.colors.grey400.mode1};
   overflow: hidden;
 `
 
@@ -21,18 +18,28 @@ export const MenuItem = styled.div`
   gap: 12px;
   align-self: stretch;
   color: ${({ theme }) => theme.colors.white.mode1};
+  background: ${({ theme }) => theme.colors.grey400.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
+  border-bottom: none;
   cursor: pointer;
+  position: relative;
 
-  &:not(:last-child) {
+  &:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     border-bottom: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   }
 
   &:hover {
-    color: ${({ theme }) => theme.colors.black.mode1};
-    background: ${({ color }) => color};
+    border-color: ${({ color }) => color};
+  }
 
-    & svg path {
-      stroke: ${({ theme }) => theme.colors.black.mode1};
-    }
+  &:hover + div {
+    border-top-color: ${({ color }) => color};
   }
 `
