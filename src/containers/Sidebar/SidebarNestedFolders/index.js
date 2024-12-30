@@ -5,6 +5,7 @@ import { PlusIcon } from 'pearpass-lib-ui-react-components'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { SidebarFolder } from '../../../components/SidebarFolder'
+import { useLingui } from '@lingui/react'
 
 /**
  * @typedef SidebarNestedFoldersProps
@@ -18,6 +19,8 @@ import { SidebarFolder } from '../../../components/SidebarFolder'
  */
 
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
+  const { i18n } = useLingui()
+
   const [isOpen, setIsOpen] = useState(false)
 
   const isRoot = level === 0
@@ -59,7 +62,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
           <${SidebarNestedFile}
             key=${item.id + 'newFile'}
             icon=${PlusIcon}
-            name=${'New'}
+            name=${i18n._('New')}
             isNew=${true}
             color=${colors.primary400.mode1}
           />

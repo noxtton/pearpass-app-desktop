@@ -20,3 +20,7 @@ export const NestedFolder = styled.div`
   align-items: center;
   gap: 10px;
 `
+
+export const AddIconWrapper = styled.div`
+  cursor: pointer;
+`

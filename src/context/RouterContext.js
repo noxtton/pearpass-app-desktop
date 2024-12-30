@@ -14,7 +14,7 @@ const RouterContext = createContext()
  */
 export const RouterProvider = ({ children }) => {
   const [state, setState] = useState({
-    currentPage: 'vault',
+    currentPage: 'welcome',
     data: {
       recordId: '12345'
     }
