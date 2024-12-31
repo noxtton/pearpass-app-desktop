@@ -22,7 +22,7 @@ export const CreateNewPopupMenu = ({ menuItems }) => {
       ${menuItems.map(
         (item) =>
           html`<${MenuItem} color=${item.color} key=${item.name}>
-            <${item.icon} width="14" color=${item.color} />
+            <${item.icon} size="14" color=${item.color} />
             ${item.name}
           <//>`
       )}

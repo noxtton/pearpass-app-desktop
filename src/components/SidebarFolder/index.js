@@ -39,13 +39,11 @@ export const SidebarFolder = ({
       <${NestedFoldersContainer}>
         <${NestedItem} onClick=${onClick}>
           <div>
-            ${isOpen
-              ? html` <${ArrowDownIcon} width="14" /> `
-              : html` <${ArrowUpIcon} width="14" /> `}
+            <${isOpen ? ArrowDownIcon : ArrowUpIcon} ArrowUpIcon="14" />
           </div>
 
           <${NestedFolder}>
-            ${!isRoot && html` <${FolderIcon} width="14" /> `}
+            ${!isRoot && html` <${FolderIcon} size="14" /> `}
 
             <span>${name}</span>
           <//>
@@ -54,7 +52,7 @@ export const SidebarFolder = ({
         ${isRoot &&
         html`
           <${AddIconWrapper} onClick=${() => onAddClick()}>
-            <${PlusIcon} color=${colors.primary400.option2} width="14" />
+            <${PlusIcon} color=${colors.primary400.option2} size="14" />
           <//>
         `}
       <//>

@@ -47,7 +47,7 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
     return html`
       <${DropDownItem} onClick=${() => onClick?.()}>
         <${FolderIconWrapper}>
-          <${FolderIcon} width="14" />
+          <${FolderIcon} size="14" />
         <//>
 
         ${folder}
@@ -58,7 +58,7 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
   const renderLabel = (isHidden) => {
     return html`
       <${Label} isHidden=${isHidden} onClick=${() => setIsOpen(!isOpen)}>
-        <${isOpen ? ArrowUpIcon : ArrowDownIcon} width="14" />
+        <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="14" />
 
         ${selectedFolder
           ? renderDropDownItem({

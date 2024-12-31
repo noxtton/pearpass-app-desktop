@@ -100,7 +100,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
       <${SidebarSettings}>
         <${SettingsContainer}>
-          <${SettingsIcon} width="14" />
+          <${SettingsIcon} size="14" />
 
           ${i18n._('Settings')}
         <//>

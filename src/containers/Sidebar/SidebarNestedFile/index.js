@@ -87,7 +87,7 @@ export const SidebarNestedFile = ({
   return html`
     <${NestedFileContainer} ref=${menuRef}>
       <${NestedFile} color=${color} onClick=${handleFileClick}>
-        <${icon} width="14" />
+        <${icon} size="14" />
         ${name}
       <//>
 
