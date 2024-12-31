@@ -27,6 +27,7 @@ export const CreateFolderModalContent = () => {
       <${InputField}
         label=${i18n._('Title')}
         placeholder=${i18n._('Insert folder name')}
+        variant="outline"
       />
     <//>
   `

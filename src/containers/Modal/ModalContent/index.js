@@ -31,7 +31,7 @@ export const ModalContent = ({ onClose, headerChildren, children }) => {
         <//>
       <//>
 
-      ${children}
+      <div>${children}</div>
     <//>
   `
 }
