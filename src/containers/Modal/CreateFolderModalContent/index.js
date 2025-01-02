@@ -1,12 +1,13 @@
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
   InputField,
   ButtonLittle,
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
-import { ModalContent } from '../ModalContent'
-import { useLingui } from '@lingui/react'
+
 import { useModal } from '../../../context/ModalContext'
+import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
 
 export const CreateFolderModalContent = () => {

@@ -1,12 +1,13 @@
 import { html } from 'htm/react'
+import { XIcon } from 'pearpass-lib-ui-react-components'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
 import {
   CloseIconWrapper,
   Header,
   HeaderChildrenWrapper,
   Wrapper
 } from './styles'
-import { XIcon } from 'pearpass-lib-ui-react-components'
-import { colors } from 'pearpass-lib-ui-theme-provider'
 
 /**
  * @typedef ModalContentProps

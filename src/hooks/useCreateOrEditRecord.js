@@ -1,6 +1,7 @@
+import { html } from 'htm/react'
+
 import { CreateOrEditLoginModalContent } from '../containers/Modal/CreateOrEditLoginModalContent'
 import { useModal } from '../context/ModalContext'
-import { html } from 'htm/react'
 
 /**
  * @returns {{

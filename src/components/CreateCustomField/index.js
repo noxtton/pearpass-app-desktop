@@ -1,5 +1,7 @@
+import { useState } from 'react'
+
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ArrowIconWrapper, DropDown, Label, Wrapper } from './styles'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -13,8 +15,8 @@ import {
   WorldIcon,
   ButtonFilter
 } from 'pearpass-lib-ui-react-components'
-import { useLingui } from '@lingui/react'
-import { useState } from 'react'
+
+import { ArrowIconWrapper, DropDown, Label, Wrapper } from './styles'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 const OPTIONS = [

@@ -1,4 +1,13 @@
+import { useState } from 'react'
+
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  FolderIcon
+} from 'pearpass-lib-ui-react-components'
+
 import {
   DropDown,
   DropDownItem,
@@ -7,13 +16,6 @@ import {
   MainWrapper,
   Wrapper
 } from './styles'
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  FolderIcon
-} from 'pearpass-lib-ui-react-components'
-import { useLingui } from '@lingui/react'
-import { useState } from 'react'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 const FOLDER_NAMES = ['Games', 'Work', 'Trip', 'Social Media']

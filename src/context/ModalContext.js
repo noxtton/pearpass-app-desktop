@@ -1,8 +1,9 @@
 import { createContext, useState, useContext } from 'react'
-import { Modal } from '../containers/Modal'
-import { ModalOverlay } from '../containers/Modal/ModalOverlay'
 
 import { html } from 'htm/react'
+
+import { Modal } from '../containers/Modal'
+import { ModalOverlay } from '../containers/Modal/ModalOverlay'
 
 const ModalContext = createContext()
 

@@ -1,3 +1,4 @@
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
   InputField,
@@ -14,12 +15,12 @@ import {
   WorldIcon,
   CommonFileIcon
 } from 'pearpass-lib-ui-react-components'
-import { ModalContent } from '../ModalContent'
-import { useLingui } from '@lingui/react'
-import { useModal } from '../../../context/ModalContext'
+
 import { FormWrapper, HeaderWrapper } from './styles'
-import { FolderDropdown } from '../../../components/FolderDropdown'
 import { CreateCustomField } from '../../../components/CreateCustomField'
+import { FolderDropdown } from '../../../components/FolderDropdown'
+import { useModal } from '../../../context/ModalContext'
+import { ModalContent } from '../ModalContent'
 
 export const CreateOrEditLoginModalContent = () => {
   const { i18n } = useLingui()
