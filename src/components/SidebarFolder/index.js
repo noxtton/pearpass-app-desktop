@@ -29,18 +29,18 @@ export const SidebarFolder = ({ isOpen, onClick, isRoot, name }) => {
         <${NestedItem} onClick=${onClick}>
           <div>
             ${isOpen
-              ? html` <${ArrowDownIcon} width=${'14px'} /> `
-              : html` <${ArrowUpIcon} width=${'14px'} /> `}
+              ? html` <${ArrowDownIcon} width="14" /> `
+              : html` <${ArrowUpIcon} width="14" /> `}
           </div>
 
           <${NestedFolder}>
-            ${!isRoot && html` <${FolderIcon} width=${'14px'} /> `}
+            ${!isRoot && html` <${FolderIcon} width="14" /> `}
 
             <span>${name}</span>
           <//>
         <//>
 
-        ${isRoot && html` <${PlusIcon} width=${'14px'} /> `}
+        ${isRoot && html` <${PlusIcon} width="14" /> `}
       <//>
     <//>
   `
