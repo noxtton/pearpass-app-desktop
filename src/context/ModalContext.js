@@ -1,5 +1,6 @@
-import { html } from 'htm/react'
 import { createContext, useState, useContext } from 'react'
+
+import { html } from 'htm/react'
 
 const ModalContext = createContext()
 

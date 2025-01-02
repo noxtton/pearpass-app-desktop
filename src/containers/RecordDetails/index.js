@@ -1,14 +1,7 @@
-import { html } from 'htm/react'
 import React from 'react'
-import {
-  FavoriteWrapper,
-  Fields,
-  Header,
-  HeaderRight,
-  Title
-} from './styles.js'
-import { colors } from 'pearpass-lib-ui-theme-provider'
+
 import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
 import {
   StarIcon,
   BrushIcon,
@@ -21,6 +14,15 @@ import {
   InputField,
   PasswordField
 } from 'pearpass-lib-ui-react-components'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
+import {
+  FavoriteWrapper,
+  Fields,
+  Header,
+  HeaderRight,
+  Title
+} from './styles.js'
 
 const MOCK_DATA = {
   title: 'Google',

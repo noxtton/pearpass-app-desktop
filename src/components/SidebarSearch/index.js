@@ -1,13 +1,14 @@
-import { html } from 'htm/react'
-import { SearchInput, SearchLabelIcon, sidebarSearchContainer } from './styles'
-import { SearchIcon } from 'pearpass-lib-ui-react-components'
 import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
+import { SearchIcon } from 'pearpass-lib-ui-react-components'
+
+import { SearchInput, SearchLabelIcon, SidebarSearchContainer } from './styles'
 
 export const SidebarSearch = () => {
   const { i18n } = useLingui()
 
   return html`
-    <${sidebarSearchContainer}>
+    <${SidebarSearchContainer}>
       <${SearchLabelIcon} htmlFor=${'search'}>
         <${SearchIcon} />
       <//>

@@ -1,5 +1,6 @@
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { InitialPageWrapper } from '../../components/InitialPageWrapper'
+
 import {
   GreenText,
   PageContainer,
@@ -7,7 +8,7 @@ import {
   PearHand,
   Title
 } from './styles'
-import { useLingui } from '@lingui/react'
+import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 
 export const InitialLoadPage = () => {
   const { i18n } = useLingui()

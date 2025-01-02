@@ -1,4 +1,5 @@
 import { html } from 'htm/react'
+
 import { MenuItem, MenuWrapper } from './styles'
 
 /**
@@ -22,7 +23,7 @@ export const CreateNewPopupMenu = ({ menuItems }) => {
       ${menuItems.map(
         (item) =>
           html`<${MenuItem} color=${item.color} key=${item.name}>
-            <${item.icon} width=${'14px'} color=${item.color} />
+            <${item.icon} width="14" color=${item.color} />
             ${item.name}
           <//>`
       )}
