@@ -1,11 +1,12 @@
-import { html } from 'htm/react'
 import { useState } from 'react'
-import { NestedFoldersWrapper } from './styles'
-import { PlusIcon } from 'pearpass-lib-ui-react-components'
-import { SidebarNestedFile } from '../SidebarNestedFile'
-import { colors } from 'pearpass-lib-ui-theme-provider'
-import { SidebarFolder } from '../../../components/SidebarFolder'
+
 import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
+import { PlusIcon } from 'pearpass-lib-ui-react-components'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
+import { NestedFoldersWrapper } from './styles'
+import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
 

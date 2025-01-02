@@ -1,8 +1,5 @@
 import { html } from 'htm/react'
-import { PearPassTextLogo } from '../../svgs/PearPassLogo'
-import { SpotLightLeft } from '../../svgs/SpotlightLeft'
-import { SpotlightMiddle } from '../../svgs/SpotlightMiddle'
-import { SpotlightRight } from '../../svgs/SpotlightRight'
+
 import {
   Background,
   LeftSpotlightWrapper,
@@ -11,6 +8,10 @@ import {
   PageContent,
   RightSpotlightWrapper
 } from './styles'
+import { PearPassTextLogo } from '../../svgs/PearPassLogo'
+import { SpotLightLeft } from '../../svgs/SpotlightLeft'
+import { SpotlightMiddle } from '../../svgs/SpotlightMiddle'
+import { SpotlightRight } from '../../svgs/SpotlightRight'
 
 /**
  * @typedef InitialPageWrapperProps

@@ -1,13 +1,13 @@
+import { i18n } from '@lingui/core'
+import { I18nProvider } from '@lingui/react'
+import { html } from 'htm/react'
+import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/containers/App'
-import { html } from 'htm/react'
-import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
-import { i18n } from '@lingui/core'
-import { I18nProvider } from '@lingui/react'
-import { messages } from './src/locales/en/messages.mjs'
 import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
+import { messages } from './src/locales/en/messages.mjs'
 import { setFontsAndResetCSS } from './styles'
 
 Pear.updates(() => Pear.reload())

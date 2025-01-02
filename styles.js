@@ -1,4 +1,5 @@
 import { css } from 'styled-components'
+
 import { applyGlobalStyles } from './src/utils/applyGlobalStyles'
 
 export const setFontsAndResetCSS = () => {

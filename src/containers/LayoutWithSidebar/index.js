@@ -1,13 +1,14 @@
 import { html } from 'htm/react'
+
 import {
   ContentWrapper,
   LayoutWrapper,
   SideBarWrapper,
   SideViewWrapper
 } from './styles'
-import { Sidebar } from '../Sidebar'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { isDesktopSmall } from '../../utils/breakpoints'
+import { Sidebar } from '../Sidebar'
 
 /**
  * @typedef LayoutWithSidebarProps
