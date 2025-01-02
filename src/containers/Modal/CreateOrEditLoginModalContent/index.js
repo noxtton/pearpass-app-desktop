@@ -18,6 +18,7 @@ import {
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'
+import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useModal } from '../../../context/ModalContext'
@@ -39,15 +40,15 @@ export const CreateOrEditLoginModalContent = () => {
       `}
     >
       <${FormWrapper}>
-        <div>
+        <${FormGroup}>
           <${InputField}
             label=${i18n._('Title')}
             placeholder=${i18n._('Insert title')}
             variant="outline"
           />
-        </div>
+        <//>
 
-        <div>
+        <${FormGroup}>
           <${InputField}
             label=${i18n._('Email or username')}
             placeholder=${i18n._('Email or username')}
@@ -71,7 +72,7 @@ export const CreateOrEditLoginModalContent = () => {
             variant="outline"
             icon=${LockIcon}
           />
-        </div>
+        <//>
 
         <${CompoundField}>
           <${InputField}
@@ -97,18 +98,18 @@ export const CreateOrEditLoginModalContent = () => {
           />
         <//>
 
-        <div>
+        <${FormGroup}>
           <${InputField}
             label=${i18n._('Note')}
             placeholder=${i18n._('Add note')}
             variant="outline"
             icon=${CommonFileIcon}
           />
-        </div>
+        <//>
 
-        <div>
+        <${FormGroup}>
           <${CreateCustomField} onCreateCustom=${() => {}} />
-        </div>
+        <//>
       <//>
     <//>
   `
