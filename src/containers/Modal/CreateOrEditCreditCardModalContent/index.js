@@ -4,16 +4,11 @@ import {
   InputField,
   ButtonLittle,
   SaveIcon,
-  CompoundField,
   UserIcon,
-  KeyIcon,
-  LockIcon,
-  ButtonSingleInput,
-  PasswordIcon,
-  PlusIcon,
-  DeleteIcon,
-  WorldIcon,
-  CommonFileIcon
+  CommonFileIcon,
+  CreditCardIcon,
+  CalendarIcon,
+  NineDotsIcon
 } from 'pearpass-lib-ui-react-components'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
@@ -23,7 +18,7 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 
-export const CreateOrEditLoginModalContent = () => {
+export const CreateOrEditCreditCardModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
@@ -34,7 +29,7 @@ export const CreateOrEditLoginModalContent = () => {
         <${FormModalHeaderWrapper}>
           <${FolderDropdown} />
 
-          <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Login')} <//>
+          <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Credit card')} <//>
         <//>
       `}
     >
@@ -49,53 +44,40 @@ export const CreateOrEditLoginModalContent = () => {
 
         <div>
           <${InputField}
-            label=${i18n._('Email or username')}
-            placeholder=${i18n._('Email or username')}
+            label=${i18n._('Full name')}
+            placeholder=${i18n._('Full name')}
             variant="outline"
             icon=${UserIcon}
           />
 
           <${InputField}
-            label=${i18n._('Password')}
-            placeholder=${i18n._('Password')}
+            label=${i18n._('Number on card')}
+            placeholder="1234 1234 1234 1234 "
             variant="outline"
-            icon=${KeyIcon}
-            additionalItems=${html`
-              <${ButtonSingleInput} leftIcon=${PasswordIcon} />
-            `}
+            icon=${CreditCardIcon}
           />
 
           <${InputField}
-            label=${i18n._('Secret key (2FA)')}
-            placeholder=${i18n._('Insert code')}
+            label=${i18n._('Date of expire')}
+            placeholder="MM/AA"
             variant="outline"
-            icon=${LockIcon}
+            icon=${CalendarIcon}
+          />
+
+          <${InputField}
+            label=${i18n._('Security code')}
+            placeholder="123"
+            variant="outline"
+            icon=${CreditCardIcon}
+          />
+
+          <${InputField}
+            label=${i18n._('Pin code')}
+            placeholder="1234"
+            variant="outline"
+            icon=${NineDotsIcon}
           />
         </div>
-
-        <${CompoundField}>
-          <${InputField}
-            label=${i18n._('Website')}
-            placeholder=${i18n._('https://')}
-            icon=${WorldIcon}
-            additionalItems=${html`
-              <${ButtonSingleInput} leftIcon=${PlusIcon}>
-                ${i18n._('Add website')}
-              <//>
-            `}
-          />
-
-          <${InputField}
-            label=${i18n._('Website')}
-            placeholder=${i18n._('https://')}
-            icon=${WorldIcon}
-            additionalItems=${html`
-              <${ButtonSingleInput} leftIcon=${DeleteIcon}>
-                ${i18n._('Delete')}
-              <//>
-            `}
-          />
-        <//>
 
         <div>
           <${InputField}

@@ -17,8 +17,8 @@
     "dev": "pear run -d .",
     "test": "brittle test/*.test.js",
     "lint": "eslint --fix .",
-    "extract": "lingui extract",
-    "compile": "lingui compile"
+    "lingui:extract": "lingui extract",
+    "lingui:compile": "lingui compile"
   },
   "devDependencies": {
     "brittle": "^3.0.0",
