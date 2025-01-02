@@ -19,6 +19,7 @@ import { useLingui } from '@lingui/react'
 import { useModal } from '../../../context/ModalContext'
 import { FormWrapper, HeaderWrapper } from './styles'
 import { FolderDropdown } from '../../../components/FolderDropdown'
+import { CreateCustomField } from '../../../components/CreateCustomField'
 
 export const CreateOrEditLoginModalContent = () => {
   const { i18n } = useLingui()
@@ -101,6 +102,10 @@ export const CreateOrEditLoginModalContent = () => {
             variant="outline"
             icon=${CommonFileIcon}
           />
+        </div>
+
+        <div>
+          <${CreateCustomField} onCreateCustom=${() => {}} />
         </div>
       <//>
     <//>
