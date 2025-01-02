@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   width: 640px;
+  max-height: 85vh;
+  overflow-y: auto;
   padding: 20px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.grey300.option2};

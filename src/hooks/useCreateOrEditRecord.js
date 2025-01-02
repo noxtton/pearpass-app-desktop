@@ -1,6 +1,7 @@
 import { html } from 'htm/react'
 
 import { CreateOrEditCreditCardModalContent } from '../containers/Modal/CreateOrEditCreditCardModalContent'
+import { CreateOrEditIdentityModalContent } from '../containers/Modal/CreateOrEditIdentityModalContent'
 import { CreateOrEditLoginModalContent } from '../containers/Modal/CreateOrEditLoginModalContent'
 import { useModal } from '../context/ModalContext'
 
@@ -19,6 +20,10 @@ export const useCreateOrEditRecord = () => {
 
     if (recordType === 'creditCard') {
       return html`<${CreateOrEditCreditCardModalContent} />`
+    }
+
+    if (recordType === 'identity') {
+      return html`<${CreateOrEditIdentityModalContent} />`
     }
   }
 
