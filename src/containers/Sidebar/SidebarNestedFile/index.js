@@ -1,11 +1,7 @@
-import { html } from 'htm/react'
 import { useState } from 'react'
-import { colors } from 'pearpass-lib-ui-theme-provider'
-import {
-  NestedFile,
-  NestedFileContainer,
-  NewPopupMenuOpenContainer
-} from './styles'
+
+import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
 import {
   UserIcon,
   FullBodyIcon,
@@ -14,8 +10,14 @@ import {
   LockIcon,
   KeyIcon
 } from 'pearpass-lib-ui-react-components'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
+import {
+  NestedFile,
+  NestedFileContainer,
+  NewPopupMenuOpenContainer
+} from './styles'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
-import { useLingui } from '@lingui/react'
 import { useOutsideClick } from '../../../hooks/useOutsideClick'
 
 /**

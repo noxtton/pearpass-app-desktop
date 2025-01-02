@@ -1,6 +1,10 @@
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import {
+  ButtonPrimary,
+  ButtonSecondary
+} from 'pearpass-lib-ui-react-components'
 
-import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import {
   ActionCardTitle,
   Actions,
@@ -12,14 +16,10 @@ import {
   PearHand,
   Title
 } from './styles'
-import { useLingui } from '@lingui/react'
-import { useModal } from '../../context/ModalContext'
+import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import { ModalOverlay } from '../../components/ModalOverlay'
+import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
-import {
-  ButtonPrimary,
-  ButtonSecondary
-} from 'pearpass-lib-ui-react-components'
 
 export const InitialWelcomePage = () => {
   const { i18n } = useLingui()

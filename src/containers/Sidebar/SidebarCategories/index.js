@@ -1,7 +1,7 @@
-import { html } from 'htm/react'
-import { SidebarCategory } from '../../../components/SidebarCategory/index'
-import { CategoriesContainer } from './styles'
 import { useState } from 'react'
+
+import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
 import {
   UserIcon,
   FullBodyIcon,
@@ -11,7 +11,9 @@ import {
   KeyIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useLingui } from '@lingui/react'
+
+import { CategoriesContainer } from './styles'
+import { SidebarCategory } from '../../../components/SidebarCategory/index'
 
 /**
  * @typedef SideBarCategoriesProps

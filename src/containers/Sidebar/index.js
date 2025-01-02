@@ -1,17 +1,5 @@
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  SettingsContainer,
-  SettingsSeparator,
-  sideBarContent,
-  SidebarLogo,
-  SidebarNestedFoldersContainer,
-  SidebarSettings,
-  SidebarWrapper
-} from './styles'
-import { SideBarCategories } from './SidebarCategories'
-import { PearPassTextLogo } from '../../svgs/PearPassLogo'
-import { SidebarSearch } from '../../components/SidebarSearch'
-import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
   KeyIcon,
   FullBodyIcon,
@@ -21,7 +9,20 @@ import {
   SettingsIcon,
   ButtonThin
 } from 'pearpass-lib-ui-react-components'
-import { useLingui } from '@lingui/react'
+
+import { SideBarCategories } from './SidebarCategories'
+import { SidebarNestedFolders } from './SidebarNestedFolders'
+import {
+  SettingsContainer,
+  SettingsSeparator,
+  sideBarContent,
+  SidebarLogo,
+  SidebarNestedFoldersContainer,
+  SidebarSettings,
+  SidebarWrapper
+} from './styles'
+import { SidebarSearch } from '../../components/SidebarSearch'
+import { PearPassTextLogo } from '../../svgs/PearPassLogo'
 
 /**
  * @typedef SidebarProps

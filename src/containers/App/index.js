@@ -1,10 +1,11 @@
 import { html } from 'htm/react'
+
 import { AppWrapper } from './styles.js'
-import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { useRouter } from '../../context/RouterContext.js'
-import { InitialWelcomePage } from '../WelcomePage'
 import { InitialLoadPage } from '../InitialPage'
+import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { RecordDetails } from '../RecordDetails'
+import { InitialWelcomePage } from '../WelcomePage'
 
 export const App = () => {
   const { currentPage, data } = useRouter()

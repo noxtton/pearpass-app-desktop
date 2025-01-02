@@ -1,12 +1,14 @@
+import React from 'react'
+
 import { html } from 'htm/react'
-import { NestedFolder, NestedFoldersContainer, NestedItem } from './styles'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   PlusIcon,
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
-import React from 'react'
+
+import { NestedFolder, NestedFoldersContainer, NestedItem } from './styles'
 
 /**
  * @typedef SidebarFolderProps
