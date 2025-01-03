@@ -14,7 +14,7 @@ import {
  * @param {string} categoryName
  * @param {number} quantity
  * @param {string} color
- * @param {string} icon
+ * @param {any} icon
  * @param {() => void} onClick
  */
 

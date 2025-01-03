@@ -6,13 +6,14 @@ import { InitialLoadPage } from '../InitialPage'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { RecordDetails } from '../RecordDetails'
 import { InitialWelcomePage } from '../WelcomePage'
+import { EmptyCollectionView } from '../EmptyCollectionView/index.js'
 
 export const App = () => {
   const { currentPage, data } = useRouter()
 
   const getMainView = () => {
     if (currentPage === 'vault') {
-      return html` <div>Main View</div> `
+      return html`<${EmptyCollectionView} /> `
     }
   }
 

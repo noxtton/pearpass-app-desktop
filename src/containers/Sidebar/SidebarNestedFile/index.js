@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { NestedFile, NestedFileContainer } from './styles'
 import {
   UserIcon,
   FullBodyIcon,
@@ -11,12 +12,6 @@ import {
   KeyIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-
-import {
-  NestedFile,
-  NestedFileContainer,
-  NewPopupMenuOpenContainer
-} from './styles'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
 import { useOutsideClick } from '../../../hooks/useOutsideClick'
 
@@ -92,12 +87,16 @@ export const SidebarNestedFile = ({
         <${icon} size="14" />
         ${name}
       <//>
-
       ${isNew &&
       isNewPopupMenuOpen &&
-      html` <${NewPopupMenuOpenContainer}>
-        <${CreateNewPopupMenu} menuItems=${menuItems} />
-      <//>`}
+      html`
+        <${CreateNewPopupMenu}
+          menuItems=${menuItems}
+          gap=${10}
+          anchor=${'center'}
+          position=${'right'}
+        />
+      `}
     <//>
   `
 }

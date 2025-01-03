@@ -1,14 +1,43 @@
 import styled from 'styled-components'
 
+export const PopupMenuContainer = styled.div`
+  position: absolute;
+  left: ${({ anchor }) => {
+    switch (anchor) {
+      case 'left':
+        return '0'
+      case 'center':
+        return '50%'
+      case 'right':
+        return '100%'
+      default:
+        return '0'
+    }
+  }};
+  bottom: ${({ gap }) => `-${gap}px`};
+`
+
 export const MenuWrapper = styled.div`
   display: flex;
   font-family: 'Inter';
-  position: relative;
+  position: absolute;
   flex-direction: column;
   z-index: 1000;
   width: 200px;
   align-items: flex-start;
   overflow: hidden;
+  transform: ${({ position }) => {
+    switch (position) {
+      case 'left':
+        return 'translateX(0)'
+      case 'center':
+        return 'translateX(-50%)'
+      case 'right':
+        return 'translateX(-100%)'
+      default:
+        return 'translateX(0)'
+    }
+  }};
 `
 
 export const MenuItem = styled.div`

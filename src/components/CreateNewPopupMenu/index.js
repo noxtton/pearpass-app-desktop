@@ -1,32 +1,32 @@
 import { html } from 'htm/react'
 
-import { MenuItem, MenuWrapper } from './styles'
+import { MenuItem, MenuWrapper, PopupMenuContainer } from './styles'
 
 /**
- * @typedef CreateNewPopupMenuProps
- * @property {
- *  {
- *    icon: any,
- *    name: string,
- *    color: string
- * }[]
- * } [menuItems]
+ * @param {{
+ *  menuItems: Array<{
+ *   icon: any,
+ *   name: string,
+ *   color: string
+ *  }>,
+ *  anchor: 'left' | 'center' | 'right',
+ *  position: 'left' | 'center' | 'right',
+ *  gap: number
+ * }} props
  */
 
-/**
- * @param {CreateNewPopupMenuProps} props
- */
-
-export const CreateNewPopupMenu = ({ menuItems }) => {
+export const CreateNewPopupMenu = ({ menuItems, anchor, gap, position }) => {
   return html`
-    <${MenuWrapper}>
-      ${menuItems.map(
-        (item) =>
-          html`<${MenuItem} color=${item.color} key=${item.name}>
-            <${item.icon} size="14" color=${item.color} />
-            ${item.name}
-          <//>`
-      )}
+    <${PopupMenuContainer} anchor=${anchor} , gap=${gap}>
+      <${MenuWrapper} position=${position}>
+        ${menuItems.map(
+          (item) =>
+            html`<${MenuItem} color=${item.color} key=${item.name}>
+              <${item.icon} size="14" color=${item.color} />
+              ${item.name}
+            <//>`
+        )}
+      <//>
     <//>
   `
 }

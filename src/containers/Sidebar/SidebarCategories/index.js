@@ -14,6 +14,7 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { CategoriesContainer } from './styles'
 import { SidebarCategory } from '../../../components/SidebarCategory/index'
+import { useRouter } from '../../../context/RouterContext'
 
 /**
  * @typedef SideBarCategoriesProps
@@ -28,47 +29,59 @@ import { SidebarCategory } from '../../../components/SidebarCategory/index'
 
 export const SideBarCategories = ({ sidebarSize = 'default' }) => {
   const { i18n } = useLingui()
+  const { navigate, data } = useRouter()
 
   const pearPassCategoryDummyData = [
     {
       categoryName: i18n._('All'),
       icon: KeyIcon,
       quantity: 50,
-      color: colors.primary400.option2
+      color: colors.primary400.option2,
+      id: 'all'
     },
     {
       categoryName: i18n._('Login'),
       icon: UserIcon,
       quantity: 50,
-      color: colors.categoryLogin.option2
+      color: colors.categoryLogin.option2,
+      id: 'login'
     },
     {
       categoryName: i18n._('Identity'),
       icon: FullBodyIcon,
       quantity: 50,
-      color: colors.categoryIdentity.option2
+      color: colors.categoryIdentity.option2,
+      id: 'identity'
     },
     {
       categoryName: i18n._('Credit card'),
       icon: CreditCardIcon,
       quantity: 50,
-      color: colors.categoryCreditCard.option2
+      color: colors.categoryCreditCard.option2,
+      id: 'creditCard'
     },
     {
       categoryName: i18n._('Note'),
       icon: CommonFileIcon,
       quantity: 50,
-      color: colors.categoryNote.option2
+      color: colors.categoryNote.option2,
+      id: 'note'
     },
     {
       categoryName: i18n._('Custom'),
       icon: LockIcon,
       quantity: 50,
-      color: colors.categoryCustom.option2
+      color: colors.categoryCustom.option2,
+      id: 'custom'
     }
   ]
 
   const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const handleCategoryClick = (id, index) => {
+    setSelectedIndex(index)
+    navigate('vault', { ...data, categoryId: id })
+  }
 
   return html`
     <${CategoriesContainer}>
@@ -81,7 +94,7 @@ export const SideBarCategories = ({ sidebarSize = 'default' }) => {
             quantity=${category.quantity}
             selected=${selectedIndex === index}
             icon=${category.icon}
-            onClick=${() => setSelectedIndex(index)}
+            onClick=${() => handleCategoryClick(category.id, index)}
             size=${sidebarSize}
           />
         `

@@ -9,6 +9,7 @@ import { NestedFoldersWrapper } from './styles'
 import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
+import { SidebarNestedFile } from '../SidebarNestedFile'
 
 /**
  * @typedef SidebarNestedFoldersProps
