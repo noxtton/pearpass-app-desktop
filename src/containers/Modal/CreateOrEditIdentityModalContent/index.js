@@ -18,21 +18,30 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
+import { UploadImageModalContent } from '../UploadImageModalContent'
 
 export const CreateOrEditIdentityModalContent = () => {
   const { i18n } = useLingui()
-  const { closeModal } = useModal()
+  const { setModal, closeModal } = useModal()
+
+  const onLoadPicture = () => {
+    setModal(html` <${UploadImageModalContent} /> `)
+  }
 
   return html`
     <${ModalContent}
       onClose=${closeModal}
       headerChildren=${html`
-        <${FormModalHeaderWrapper}>
+        <${FormModalHeaderWrapper}
+          buttons=${html`
+            <${ButtonLittle} onClick=${onLoadPicture} leftIcon=${ImageIcon}>
+              ${i18n._('Load picture')}
+            <//>
+
+            <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Identity')} <//>
+          `}
+        >
           <${FolderDropdown} />
-
-          <${ButtonLittle} leftIcon=${ImageIcon}> ${i18n._('Load picture')} <//>
-
-          <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Identity')} <//>
         <//>
       `}
     >

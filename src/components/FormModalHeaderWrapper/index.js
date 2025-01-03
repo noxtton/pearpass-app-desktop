@@ -1,6 +1,16 @@
-import styled from 'styled-components'
+import { html } from 'htm/react'
 
-export const FormModalHeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
+import { Buttons, FormModalHeaderWrapperComponent, Main } from './styles'
+
+/**
+ * @param {{
+ *  children: import('react').ReactNode,
+ *  buttons: import('react').ReactNode
+ * }} props
+ */
+export const FormModalHeaderWrapper = ({ children, buttons }) => {
+  return html` <${FormModalHeaderWrapperComponent}>
+    <${Main}> ${children} <//>
+    <${Buttons}> ${buttons} <//>
+  <//>`
+}

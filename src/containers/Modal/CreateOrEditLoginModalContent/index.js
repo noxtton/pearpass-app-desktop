@@ -32,10 +32,12 @@ export const CreateOrEditLoginModalContent = () => {
     <${ModalContent}
       onClose=${closeModal}
       headerChildren=${html`
-        <${FormModalHeaderWrapper}>
+        <${FormModalHeaderWrapper}
+          buttons=${html`
+            <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Login')} <//>
+          `}
+        >
           <${FolderDropdown} />
-
-          <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Login')} <//>
         <//>
       `}
     >
