@@ -1,6 +1,7 @@
 import { html } from 'htm/react'
-import { ButtonContainer, IconWrapper } from './styles'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+
+import { ButtonContainer, IconWrapper } from './styles'
 
 /**
  * @param {{

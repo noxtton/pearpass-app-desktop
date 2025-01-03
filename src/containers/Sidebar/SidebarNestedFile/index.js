@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { NestedFile, NestedFileContainer } from './styles'
 import {
   UserIcon,
   FullBodyIcon,
@@ -12,19 +11,17 @@ import {
   KeyIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+
+import { NestedFile, NestedFileContainer } from './styles'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
-import { useOutsideClick } from '../../../hooks/useOutsideClick'
 
 /**
- * @typedef SidebarNestedFileProps
- * @property {() => void} [icon]
- * @property {string} [color]
- * @property {boolean} [isNew]
- * @property {string} [name]
- */
-
-/**
- * @param {SidebarNestedFileProps} props
+ * @param {{
+ * icon: () => void,
+ * color: string,
+ * isNew: boolean,
+ * name: string
+ * }} props
  */
 
 export const SidebarNestedFile = ({
@@ -35,12 +32,6 @@ export const SidebarNestedFile = ({
 }) => {
   const { i18n } = useLingui()
   const [isNewPopupMenuOpen, setIsNewPopupMenuOpen] = useState(false)
-
-  const menuRef = useOutsideClick({
-    onOutsideClick: () => {
-      setIsNewPopupMenuOpen(false)
-    }
-  })
 
   const menuItems = [
     {
@@ -82,21 +73,26 @@ export const SidebarNestedFile = ({
   }
 
   return html`
-    <${NestedFileContainer} ref=${menuRef}>
-      <${NestedFile} color=${color} onClick=${handleFileClick}>
-        <${icon} size="14" />
-        ${name}
-      <//>
-      ${isNew &&
-      isNewPopupMenuOpen &&
-      html`
-        <${CreateNewPopupMenu}
-          menuItems=${menuItems}
-          gap=${10}
-          anchor=${'center'}
-          position=${'right'}
-        />
-      `}
+    <${NestedFileContainer}>
+      ${isNew
+        ? html`
+            <${CreateNewPopupMenu}
+              menuItems=${menuItems}
+              side="left"
+              align="left"
+              isOpen=${isNewPopupMenuOpen}
+              setIsOpen=${setIsNewPopupMenuOpen}
+            >
+              <${NestedFile} color=${color} onClick=${handleFileClick}>
+                <${icon} size="14" />
+                ${name}
+              <//>
+            <//>
+          `
+        : html` <${NestedFile} color=${color} onClick=${handleFileClick}>
+            <${icon} size="14" />
+            ${name}
+          <//>`}
     <//>
   `
 }

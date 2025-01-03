@@ -1,5 +1,7 @@
+import { useState } from 'react'
+
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonCreate } from '../../components/ButtonCreate'
 import {
   CommonFileIcon,
   CreditCardIcon,
@@ -8,21 +10,24 @@ import {
   LockIcon,
   UserIcon
 } from 'pearpass-lib-ui-react-components'
-import { useLingui } from '@lingui/react'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
 import {
   CollectionsContainer,
   CollectionsTitle,
   SearchContainer,
   Wrapper
 } from './styles'
+import { ButtonCreate } from '../../components/ButtonCreate'
+import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
+import { CreateNewPopupMenu } from '../../components/CreateNewPopupMenu'
 import { InputSearch } from '../../components/InputSearch'
 import { useRouter } from '../../context/RouterContext'
-import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
-import { colors } from 'pearpass-lib-ui-theme-provider'
 
 export const EmptyCollectionView = () => {
   const { i18n } = useLingui()
   const { data } = useRouter()
+  const [isOpen, setIsOpen] = useState(false)
 
   const createCollectionOptions = [
     { icon: UserIcon, text: i18n._('Create a login'), id: 'login' },
@@ -73,7 +78,13 @@ export const EmptyCollectionView = () => {
     <${Wrapper}>
       <${SearchContainer}>
         <${InputSearch} />
-        <${ButtonPlusCreateNew} menuItems=${menuItems} />
+        <${CreateNewPopupMenu}
+          isOpen=${isOpen}
+          setIsOpen=${setIsOpen}
+          menuItems=${menuItems}
+        >
+          <${ButtonPlusCreateNew} isOpen=${isOpen} />
+        <//>
       <//>
       <${CollectionsContainer}>
         <${CollectionsTitle}>

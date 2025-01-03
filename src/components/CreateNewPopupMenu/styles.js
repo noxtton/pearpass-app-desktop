@@ -1,43 +1,57 @@
 import styled from 'styled-components'
 
-export const PopupMenuContainer = styled.div`
-  position: absolute;
-  left: ${({ anchor }) => {
-    switch (anchor) {
-      case 'left':
-        return '0'
-      case 'center':
-        return '50%'
-      case 'right':
-        return '100%'
-      default:
-        return '0'
-    }
-  }};
-  bottom: ${({ gap }) => `-${gap}px`};
+export const MenuWrapper = styled.div`
+  position: relative;
+  display: inline-block;
 `
 
-export const MenuWrapper = styled.div`
+export const MenuCard = styled.div`
+  position: absolute;
+  z-index: 1000;
+  width: 200px;
+  bottom: ${({ gap }) => `-${gap}px`};
+  ${({ side, align }) => {
+    let styles = ''
+
+    switch (side) {
+      case 'left':
+        styles += 'left: 0;'
+        break
+      case 'center':
+        styles += 'left: 50%;'
+        break
+      case 'right':
+        styles += 'left: 100%;'
+        break
+    }
+
+    switch (align) {
+      case 'left':
+        styles += 'transform: translateX(0);'
+        break
+      case 'center':
+        styles += 'transform: translateX(-50%);'
+        break
+      case 'right':
+        styles += 'transform: translateX(-100%);'
+        break
+    }
+
+    return styles
+  }};
+`
+
+export const MenuTrigger = styled.div`
+  cursor: pointer;
+`
+export const MenuList = styled.div`
   display: flex;
   font-family: 'Inter';
   position: absolute;
   flex-direction: column;
-  z-index: 1000;
   width: 200px;
   align-items: flex-start;
   overflow: hidden;
-  transform: ${({ position }) => {
-    switch (position) {
-      case 'left':
-        return 'translateX(0)'
-      case 'center':
-        return 'translateX(-50%)'
-      case 'right':
-        return 'translateX(-100%)'
-      default:
-        return 'translateX(0)'
-    }
-  }};
 `
 
 export const MenuItem = styled.div`

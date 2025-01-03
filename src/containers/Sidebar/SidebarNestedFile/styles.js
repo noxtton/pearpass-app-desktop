@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 export const NestedFileContainer = styled.div`
   position: relative;
+  padding-left: 34px;
+  margin-bottom: 5px;
 `
 
 export const NestedFile = styled.div`
@@ -9,9 +11,6 @@ export const NestedFile = styled.div`
   width: fit-content;
   position: relative;
   align-items: center;
-  cursor: pointer;
   gap: 10px;
-  padding-left: 34px;
-  margin-bottom: 5px;
   color: ${({ color }) => color};
 `

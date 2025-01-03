@@ -13,6 +13,7 @@ export const Button = styled.button`
   border-radius: 15px;
   background: ${({ theme }) => theme.colors.primary400.mode1};
   border: none;
+  cursor: pointer;
 `
 export const ButtonWrapper = styled.div`
   position: relative;
