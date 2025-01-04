@@ -18,7 +18,7 @@ export const RouterProvider = ({ children }) => {
     currentPage: 'vault',
     data: {
       recordId: '12345',
-      categoryId: 'all'
+      recordType: 'all'
     }
   })
 

@@ -7,6 +7,8 @@ import {
   MenuWrapper,
   MenuTrigger
 } from './styles'
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByTYpe'
+import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 /**
@@ -14,30 +16,27 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
  *  isOpen: boolean,
  *  setIsOpen: () => void,
  *  menuItems: Array<{
- *   icon: any,
+ *   type: string,
  *   name: string,
- *   color: string
  *  }>,
- *  buttonAnchor: 'left' | 'center' | 'right',
- *  menuAnchor: 'left' | 'center' | 'right',
- *  gap: number
+ *  side: 'left' | 'center' | 'right',
+ *  align: 'left' | 'center' | 'right',
  * }} props
  */
-
 export const CreateNewPopupMenu = ({
   isOpen,
   setIsOpen,
   menuItems,
   children,
   side = 'right',
-  align = 'right',
-  gap = 10
+  align = 'right'
 }) => {
   const menuRef = useOutsideClick({
     onOutsideClick: () => {
       setIsOpen(false)
     }
   })
+
   const handleToggle = () => {
     setIsOpen(!isOpen)
   }
@@ -45,13 +44,21 @@ export const CreateNewPopupMenu = ({
   return html`
     <${MenuWrapper} ref=${menuRef}>
       <${MenuTrigger} onClick=${handleToggle}>${children}<//>
+
       ${isOpen &&
-      html` <${MenuCard} side=${side} align=${align} gap=${gap}>
+      html` <${MenuCard} side=${side} align=${align}>
         <${MenuList}>
           ${menuItems.map(
             (item) =>
-              html`<${MenuItem} color=${item.color} key=${item.name}>
-                <${item.icon} size="14" color=${item.color} />
+              html`<${MenuItem}
+                color=${RECORD_COLOR_BY_TYPE[item.type]}
+                key=${item.id}
+              >
+                <${RECORD_ICON_BY_TYPE[item.type]}
+                  size="14"
+                  color=${RECORD_COLOR_BY_TYPE[item.type]}
+                />
+
                 ${item.name}
               <//>`
           )}

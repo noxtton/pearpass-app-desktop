@@ -13,8 +13,8 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
 
 /**
  * @param {{
- * item:Record<string,any>,
- * level: number
+ *  item:Record<string,any>,
+ *  level: number
  * }} props
  */
 

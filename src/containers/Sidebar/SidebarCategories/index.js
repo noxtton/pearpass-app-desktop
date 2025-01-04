@@ -1,100 +1,39 @@
-import { useState } from 'react'
-
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  UserIcon,
-  FullBodyIcon,
-  CreditCardIcon,
-  CommonFileIcon,
-  LockIcon,
-  KeyIcon
-} from 'pearpass-lib-ui-react-components'
-import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { CategoriesContainer } from './styles'
 import { SidebarCategory } from '../../../components/SidebarCategory/index'
+import { RECORD_COLOR_BY_TYPE } from '../../../constants/recordColorByTYpe'
+import { RECORD_ICON_BY_TYPE } from '../../../constants/recordIconByType'
 import { useRouter } from '../../../context/RouterContext'
-
-/**
- * @typedef SideBarCategoriesProps
- * @param {'default' | 'tight'} sidebarSize
- */
+import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
 
 /**
  *
- * @param {SideBarCategoriesProps} props
- * @returns
+ * @param {{
+ *  sidebarSize: 'default' | 'tight'
+ * }} props
  */
-
 export const SideBarCategories = ({ sidebarSize = 'default' }) => {
-  const { i18n } = useLingui()
   const { navigate, data } = useRouter()
 
-  const pearPassCategoryDummyData = [
-    {
-      categoryName: i18n._('All'),
-      icon: KeyIcon,
-      quantity: 50,
-      color: colors.primary400.option2,
-      id: 'all'
-    },
-    {
-      categoryName: i18n._('Login'),
-      icon: UserIcon,
-      quantity: 50,
-      color: colors.categoryLogin.option2,
-      id: 'login'
-    },
-    {
-      categoryName: i18n._('Identity'),
-      icon: FullBodyIcon,
-      quantity: 50,
-      color: colors.categoryIdentity.option2,
-      id: 'identity'
-    },
-    {
-      categoryName: i18n._('Credit card'),
-      icon: CreditCardIcon,
-      quantity: 50,
-      color: colors.categoryCreditCard.option2,
-      id: 'creditCard'
-    },
-    {
-      categoryName: i18n._('Note'),
-      icon: CommonFileIcon,
-      quantity: 50,
-      color: colors.categoryNote.option2,
-      id: 'note'
-    },
-    {
-      categoryName: i18n._('Custom'),
-      icon: LockIcon,
-      quantity: 50,
-      color: colors.categoryCustom.option2,
-      id: 'custom'
-    }
-  ]
+  const menuItems = useRecordMenuItems()
 
-  const [selectedIndex, setSelectedIndex] = useState(0)
-
-  const handleCategoryClick = (id, index) => {
-    setSelectedIndex(index)
-    navigate('vault', { ...data, categoryId: id })
+  const handleRecordClick = (type) => {
+    navigate('vault', { ...data, recordType: type })
   }
 
   return html`
     <${CategoriesContainer}>
-      ${pearPassCategoryDummyData.map(
-        (category, index) => html`
+      ${menuItems.map(
+        (record) => html`
           <${SidebarCategory}
-            key=${category.categoryName}
-            categoryName=${category.categoryName}
-            color=${category.color}
-            quantity=${category.quantity}
-            selected=${selectedIndex === index}
-            icon=${category.icon}
-            onClick=${() => handleCategoryClick(category.id, index)}
+            key=${record.type}
+            categoryName=${record.name}
+            color=${RECORD_COLOR_BY_TYPE[record.type]}
+            quantity=${50}
+            selected=${data.recordType === record.type}
+            icon=${RECORD_ICON_BY_TYPE[record.type]}
+            onClick=${() => handleRecordClick(record.type)}
             size=${sidebarSize}
           />
         `

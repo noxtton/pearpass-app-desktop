@@ -9,7 +9,7 @@ export const MenuCard = styled.div`
   position: absolute;
   z-index: 1000;
   width: 200px;
-  bottom: ${({ gap }) => `-${gap}px`};
+  bottom: -10px;
   ${({ side, align }) => {
     let styles = ''
 

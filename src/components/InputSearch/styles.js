@@ -9,7 +9,7 @@ export const Container = styled.div`
   padding: 6px 10px;
   background: ${({ theme }) => theme.colors.black.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 16px;
 `
 
@@ -25,7 +25,7 @@ export const input = styled.input`
   flex: 1;
   color: ${({ theme }) => theme.colors.grey200.mode1};
   align-self: stretch;
-  font-family: Inter;
+  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
 `

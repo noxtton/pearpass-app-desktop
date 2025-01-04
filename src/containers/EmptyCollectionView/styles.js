@@ -4,7 +4,6 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,22 +24,22 @@ export const CollectionsContainer = styled.div`
   width: 300px;
   gap: 10px;
 `
+
 export const CollectionsTitle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.white.mode1};
-
   text-align: center;
-  font-family: Inter;
+  font-family: 'Inter';
   font-size: 12px;
   font-weight: 600;
-  line-height: normal;
 
   & span {
     font-weight: 600;
   }
+
   & p {
     font-weight: 400;
   }

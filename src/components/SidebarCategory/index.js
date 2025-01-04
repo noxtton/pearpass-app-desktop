@@ -8,22 +8,16 @@ import {
 } from './styles'
 
 /**
- * @typedef SidebarCategoryProps
- * @param {'default' | 'tight'} size
- * @param {boolean} selected
- * @param {string} categoryName
- * @param {number} quantity
- * @param {string} color
- * @param {any} icon
- * @param {() => void} onClick
+ * @param {{
+ *  size: 'default' | 'tight',
+ *  selected: boolean,
+ *  categoryName: string,
+ *  quantity: number,
+ *  color: string,
+ *  icon: import('react').ReactNode,
+ *  onClick: () => void
+ * }} props
  */
-
-/**
- *
- * @param {SidebarCategoryProps} props
- * @returns
- */
-
 export const SidebarCategory = ({
   size = 'default',
   selected = false,
