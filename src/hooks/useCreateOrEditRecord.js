@@ -1,8 +1,10 @@
 import { html } from 'htm/react'
 
 import { CreateOrEditCreditCardModalContent } from '../containers/Modal/CreateOrEditCreditCardModalContent'
+import { CreateOrEditCustomModalContent } from '../containers/Modal/CreateOrEditCustomModalContent'
 import { CreateOrEditIdentityModalContent } from '../containers/Modal/CreateOrEditIdentityModalContent'
 import { CreateOrEditLoginModalContent } from '../containers/Modal/CreateOrEditLoginModalContent'
+import { CreateOrEditNoteModalContent } from '../containers/Modal/CreateOrEditNoteModalContent'
 import { useModal } from '../context/ModalContext'
 
 /**
@@ -24,6 +26,14 @@ export const useCreateOrEditRecord = () => {
 
     if (recordType === 'identity') {
       return html`<${CreateOrEditIdentityModalContent} />`
+    }
+
+    if (recordType === 'note') {
+      return html`<${CreateOrEditNoteModalContent} />`
+    }
+
+    if (recordType === 'custom') {
+      return html`<${CreateOrEditCustomModalContent} />`
     }
   }
 

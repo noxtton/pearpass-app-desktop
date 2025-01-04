@@ -18,6 +18,7 @@ export const Label = styled.div.withConfig({
       return css`
         opacity: 0;
         pointer-events: none;
+        padding: 5px;
       `
     }
   }}
