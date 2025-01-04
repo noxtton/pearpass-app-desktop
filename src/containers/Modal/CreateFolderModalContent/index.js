@@ -19,7 +19,7 @@ export const CreateFolderModalContent = () => {
       onClose=${closeModal}
       headerChildren=${html`
         <${HeaderWrapper}>
-          <${ButtonLittle} leftIcon=${FolderIcon}>
+          <${ButtonLittle} startIcon=${FolderIcon}>
             ${i18n._('Create folder')}
           <//>
         <//>

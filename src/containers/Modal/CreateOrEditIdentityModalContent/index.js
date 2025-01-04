@@ -34,11 +34,11 @@ export const CreateOrEditIdentityModalContent = () => {
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle} onClick=${onLoadPicture} leftIcon=${ImageIcon}>
+            <${ButtonLittle} onClick=${onLoadPicture} startIcon=${ImageIcon}>
               ${i18n._('Load picture')}
             <//>
 
-            <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Identity')} <//>
+            <${ButtonLittle} startIcon=${SaveIcon}> ${i18n._('Identity')} <//>
           `}
         >
           <${FolderDropdown} />

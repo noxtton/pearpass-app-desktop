@@ -29,7 +29,9 @@ export const CreateOrEditCreditCardModalContent = () => {
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Credit card')} <//>
+            <${ButtonLittle} startIcon=${SaveIcon}>
+              ${i18n._('Credit card')}
+            <//>
           `}
         >
           <${FolderDropdown} />

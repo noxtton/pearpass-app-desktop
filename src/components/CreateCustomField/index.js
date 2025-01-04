@@ -97,7 +97,7 @@ export const CreateCustomField = ({ onCreateCustom }) => {
           (option) => html`
             <${ButtonFilter}
               variant="secondary"
-              leftIcon=${option.icon}
+              startIcon=${option.icon}
               onClick=${() => handleSelect(option.type)}
             >
               ${option.name}

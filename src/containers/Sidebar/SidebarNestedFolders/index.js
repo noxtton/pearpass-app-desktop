@@ -9,16 +9,13 @@ import { NestedFoldersWrapper } from './styles'
 import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
+import { SidebarNestedFile } from '../SidebarNestedFile'
 
 /**
- * @typedef SidebarNestedFoldersProps
- * @property {Record<string,any>} [item]
- * @property {number} [level]
- * @property {boolean} [isRoot]
- */
-
-/**
- * @param {SidebarNestedFoldersProps} props
+ * @param {{
+ *  item:Record<string,any>,
+ *  level: number
+ * }} props
  */
 
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
