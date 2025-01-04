@@ -8,7 +8,8 @@ import {
   FullBodyIcon,
   KeyIcon,
   LockIcon,
-  UserIcon
+  UserIcon,
+  ButtonCreate
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
@@ -18,7 +19,6 @@ import {
   SearchContainer,
   Wrapper
 } from './styles'
-import { ButtonCreate } from '../../components/ButtonCreate'
 import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
 import { CreateNewPopupMenu } from '../../components/CreateNewPopupMenu'
 import { InputSearch } from '../../components/InputSearch'
@@ -97,8 +97,9 @@ export const EmptyCollectionView = () => {
               data.categoryId === 'all' || option.id === data.categoryId
           )
           .map(
-            (option) =>
-              html` <${ButtonCreate} icon=${option.icon} text=${option.text} />`
+            (option) => html`
+              <${ButtonCreate} startIcon=${option.icon}> ${option.text} <//>
+            `
           )}
       <//>
     <//>

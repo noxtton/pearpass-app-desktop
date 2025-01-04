@@ -53,9 +53,9 @@ export const RecordDetails = () => {
         </div>
 
         <${HeaderRight}>
-          <${ButtonLittle} leftIcon=${BrushIcon}> ${i18n._('Edit')} <//>
+          <${ButtonLittle} startIcon=${BrushIcon}> ${i18n._('Edit')} <//>
 
-          <${ButtonLittle} variant="secondary" leftIcon=${KebabMenuIcon} />
+          <${ButtonLittle} variant="secondary" startIcon=${KebabMenuIcon} />
         <//>
       <//>
 

@@ -34,7 +34,7 @@ export const CreateOrEditLoginModalContent = () => {
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle} leftIcon=${SaveIcon}> ${i18n._('Login')} <//>
+            <${ButtonLittle} startIcon=${SaveIcon}> ${i18n._('Login')} <//>
           `}
         >
           <${FolderDropdown} />
@@ -64,7 +64,7 @@ export const CreateOrEditLoginModalContent = () => {
             variant="outline"
             icon=${KeyIcon}
             additionalItems=${html`
-              <${ButtonSingleInput} leftIcon=${PasswordIcon} />
+              <${ButtonSingleInput} startIcon=${PasswordIcon} />
             `}
           />
 
@@ -82,7 +82,7 @@ export const CreateOrEditLoginModalContent = () => {
             placeholder=${i18n._('https://')}
             icon=${WorldIcon}
             additionalItems=${html`
-              <${ButtonSingleInput} leftIcon=${PlusIcon}>
+              <${ButtonSingleInput} startIcon=${PlusIcon}>
                 ${i18n._('Add website')}
               <//>
             `}
@@ -93,7 +93,7 @@ export const CreateOrEditLoginModalContent = () => {
             placeholder=${i18n._('https://')}
             icon=${WorldIcon}
             additionalItems=${html`
-              <${ButtonSingleInput} leftIcon=${DeleteIcon}>
+              <${ButtonSingleInput} startIcon=${DeleteIcon}>
                 ${i18n._('Delete')}
               <//>
             `}
