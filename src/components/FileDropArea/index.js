@@ -40,8 +40,6 @@ export const FileDropArea = ({ label, onFileDrop }) => {
     const files = Array.from(event.dataTransfer.files)
 
     onFileDrop?.(files)
-
-    console.log(files)
   }
 
   return html` <${DropAreaWrapper}

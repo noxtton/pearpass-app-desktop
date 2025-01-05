@@ -22,11 +22,14 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useModal } from '../../../context/ModalContext'
+import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
 import { ModalContent } from '../ModalContent'
 
 export const CreateOrEditLoginModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+
+  const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   return html`
     <${ModalContent}
@@ -64,7 +67,11 @@ export const CreateOrEditLoginModalContent = () => {
             variant="outline"
             icon=${KeyIcon}
             additionalItems=${html`
-              <${ButtonSingleInput} startIcon=${PasswordIcon} />
+              <${ButtonSingleInput}
+                startIcon=${PasswordIcon}
+                onClick=${() =>
+                  handleCreateOrEditRecord({ recordType: 'password' })}
+              />
             `}
           />
 

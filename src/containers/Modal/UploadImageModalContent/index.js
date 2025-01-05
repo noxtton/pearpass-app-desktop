@@ -19,10 +19,8 @@ export const UploadImageModalContent = () => {
     fileInputRef.current?.click()
   }
 
-  const handleFileChange = (event) => {
-    const files = event.target.files
-
-    console.log(files)
+  const handleFileChange = () => {
+    // const files = event.target.files
   }
 
   return html`

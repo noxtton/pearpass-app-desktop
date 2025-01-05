@@ -20,13 +20,13 @@ i18n.load('en', messages)
 i18n.activate('en')
 
 root.render(html`
-    <${I18nProvider} i18n=${i18n}>
-        <${RouterProvider}>
-            <${ThemeProvider}>
-                <${ModalProvider}>
-                    <${App} />
-                </${ModalProvider}>
-            </${ThemeProvider}>
-        </${RouterProvider}>    
-    </${I18nProvider}>
+  <${I18nProvider} i18n=${i18n}>
+    <${RouterProvider}>
+      <${ThemeProvider}>
+        <${ModalProvider}>
+          <${App} />
+        <//>
+      <//>
+    <//>
+  <//>
 `)

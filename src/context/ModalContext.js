@@ -2,18 +2,16 @@ import { createContext, useState, useContext } from 'react'
 
 import { html } from 'htm/react'
 
-import { Modal } from '../containers/Modal'
-import { ModalOverlay } from '../containers/Modal/ModalOverlay'
+import { Overlay } from '../components/Overlay'
+import { ModalWrapper } from '../containers/Modal'
+import { SideDrawer } from '../containers/Modal/SideDrawer'
 
 const ModalContext = createContext()
 
 /**
- * @typedef ModalProviderProps
- * @property {import('react').ReactNode} children React node to be rendered inside
- */
-
-/**
- * @param {ModalProviderProps} props
+ * @param {{
+ *  children: import('react').ReactNode
+ * }} props
  */
 export const ModalProvider = ({ children }) => {
   const [modalStack, setModalStack] = useState([])
@@ -28,7 +26,8 @@ export const ModalProvider = ({ children }) => {
         id: new Date().getTime(),
         params: {
           hasOverlay: params?.hasOverlay ?? true,
-          overlayType: params?.overlayType ?? 'default'
+          overlayType: params?.overlayType ?? 'default',
+          modalType: params?.modalType ?? 'default'
         }
       }
     ])
@@ -49,15 +48,16 @@ export const ModalProvider = ({ children }) => {
 
       ${modalStack?.map(({ content, id, params }) => {
         return html`
-          <${Modal} key=${id}>
+          <${ModalWrapper} key=${id}>
             ${params.hasOverlay &&
-            html`
-              <${ModalOverlay}
-                onClick=${closeModal}
-                type=${params.overlayType}
-              />
-            `}
-            ${content}
+            html`<${Overlay}
+              onClick=${closeModal}
+              type=${params.overlayType}
+              isOpen=${isOpen}
+            /> `}
+            ${params.modalType === 'sideDrawer' &&
+            html`<${SideDrawer} isOpen=${isOpen}> ${content} <//>`}
+            ${params.modalType === 'default' && content}
           <//>
         `
       })}

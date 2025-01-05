@@ -40,6 +40,13 @@ export const useCreateOrEditRecord = () => {
   }
 
   const handleCreateOrEditRecord = ({ recordType }) => {
+    if (recordType === 'password') {
+      setModal(html`<div>password</div>`, {
+        modalType: 'sideDrawer'
+      })
+      return
+    }
+
     setModal(getModalCOntentByRecordType({ recordType }))
   }
 
