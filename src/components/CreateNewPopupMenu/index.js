@@ -21,6 +21,7 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
  *  }>,
  *  side: 'left' | 'center' | 'right',
  *  align: 'left' | 'center' | 'right',
+ *  onMenuItemClick: (item: { type: string, name: string }) => void
  * }} props
  */
 export const CreateNewPopupMenu = ({
@@ -29,7 +30,8 @@ export const CreateNewPopupMenu = ({
   menuItems,
   children,
   side = 'right',
-  align = 'right'
+  align = 'right',
+  onMenuItemClick
 }) => {
   const menuRef = useOutsideClick({
     onOutsideClick: () => {
@@ -53,6 +55,7 @@ export const CreateNewPopupMenu = ({
               html`<${MenuItem}
                 color=${RECORD_COLOR_BY_TYPE[item.type]}
                 key=${item.id}
+                onClick=${() => onMenuItemClick(item)}
               >
                 <${RECORD_ICON_BY_TYPE[item.type]}
                   size="14"

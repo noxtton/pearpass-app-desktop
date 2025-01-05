@@ -15,12 +15,17 @@ import { CreateNewPopupMenu } from '../../components/CreateNewPopupMenu'
 import { InputSearch } from '../../components/InputSearch'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useRouter } from '../../context/RouterContext'
+import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
 
 export const EmptyCollectionView = () => {
   const { i18n } = useLingui()
   const { data } = useRouter()
   const [isOpen, setIsOpen] = useState(false)
+
+  const menuItems = useRecordMenuItems()
+
+  const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const createCollectionOptions = [
     { text: i18n._('Create a login'), type: 'login' },
@@ -33,7 +38,10 @@ export const EmptyCollectionView = () => {
     { text: i18n._('Create a custom element'), type: 'custom' }
   ]
 
-  const menuItems = useRecordMenuItems()
+  const handleMenuItemClick = (item) => {
+    handleCreateOrEditRecord({ recordType: item.type })
+    setIsOpen(false)
+  }
 
   return html`
     <${Wrapper}>
@@ -43,6 +51,7 @@ export const EmptyCollectionView = () => {
           isOpen=${isOpen}
           setIsOpen=${setIsOpen}
           menuItems=${menuItems}
+          onMenuItemClick=${handleMenuItemClick}
         >
           <${ButtonPlusCreateNew} isOpen=${isOpen} />
         <//>
@@ -59,7 +68,11 @@ export const EmptyCollectionView = () => {
           )
           .map(
             (option) => html`
-              <${ButtonCreate} startIcon=${RECORD_ICON_BY_TYPE[option.type]}>
+              <${ButtonCreate}
+                startIcon=${RECORD_ICON_BY_TYPE[option.type]}
+                onClick=${() =>
+                  handleCreateOrEditRecord({ recordType: option.type })}
+              >
                 ${option.text}
               <//>
             `

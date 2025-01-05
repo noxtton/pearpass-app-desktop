@@ -5,6 +5,7 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { NestedFile, NestedFileContainer } from './styles'
 import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
+import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
 
 /**
@@ -25,10 +26,17 @@ export const SidebarNestedFile = ({
 
   const menuItems = useRecordMenuItems()
 
+  const { handleCreateOrEditRecord } = useCreateOrEditRecord()
+
   const handleFileClick = () => {
     if (isNew) {
       setIsNewPopupMenuOpen(!isNewPopupMenuOpen)
     }
+  }
+
+  const handleMenuItemClick = (item) => {
+    handleCreateOrEditRecord({ recordType: item.type })
+    setIsNewPopupMenuOpen(false)
   }
 
   return html`
@@ -41,6 +49,7 @@ export const SidebarNestedFile = ({
               align="left"
               isOpen=${isNewPopupMenuOpen}
               setIsOpen=${setIsNewPopupMenuOpen}
+              onMenuItemClick=${handleMenuItemClick}
             >
               <${NestedFile} color=${color} onClick=${handleFileClick}>
                 <${icon} size="14" />

@@ -9,7 +9,9 @@ import { useModal } from '../context/ModalContext'
 
 /**
  * @returns {{
- *  handleCreateOrEditRecord: () => void
+ *  handleCreateOrEditRecord: ({
+ *    recordType: 'login' | 'creditCard' | 'identity' | 'note' | 'custom'
+ *  }) => void
  * }}
  */
 export const useCreateOrEditRecord = () => {
