@@ -95,14 +95,13 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${SidebarNestedFoldersContainer}>
           <${SidebarSearch} />
 
-          <${SidebarNestedFolders} item=${sampleData} key=${'rootFolder'} />
+          <${SidebarNestedFolders} item=${sampleData} key="rootFolder" />
         <//>
       <//>
 
       <${SidebarSettings}>
         <${SettingsContainer}>
-          <${SettingsIcon} width="14" />
-
+          <${SettingsIcon} size="14" />
           ${i18n._('Settings')}
         <//>
 

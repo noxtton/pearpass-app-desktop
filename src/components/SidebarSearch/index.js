@@ -9,14 +9,14 @@ export const SidebarSearch = () => {
 
   return html`
     <${SidebarSearchContainer}>
-      <${SearchLabelIcon} htmlFor=${'search'}>
+      <${SearchLabelIcon} htmlFor="search">
         <${SearchIcon} />
       <//>
 
       <${SearchInput}
-        type=${'search'}
+        type="search"
         placeholder=${i18n._('Search folder...')}
-        id=${'search'}
+        id="search"
       />
     <//>
   `

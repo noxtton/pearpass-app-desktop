@@ -17,7 +17,8 @@ export const RouterProvider = ({ children }) => {
   const [state, setState] = useState({
     currentPage: 'vault',
     data: {
-      vaultId: '12345'
+      recordId: '12345',
+      recordType: 'all'
     }
   })
 
@@ -36,7 +37,7 @@ export const RouterProvider = ({ children }) => {
  * @returns {{
  *   currentPage: string,
  *   data: Object.<string, any>,
- *   navigate: (currentPage: string, params: Object.<string, any>, query: Object.<string, any>) => void
+ *   navigate: (currentPage: string, data: Object.<string, any>) => void
  * }}
  */
 export const useRouter = () => {
