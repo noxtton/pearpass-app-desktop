@@ -1,6 +1,6 @@
 import { html } from 'htm/react'
+import { ButtonRadio } from 'pearpass-lib-ui-react-components'
 
-import { ButtonRadio } from '../ButtonRadio'
 import { RadioOption, RadioSelectWrapper, Title } from './styles'
 
 /**
