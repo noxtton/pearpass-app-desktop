@@ -1,29 +1,35 @@
 import { useState } from 'react'
 
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { PlusIcon } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { NestedFoldersWrapper } from './styles'
 import { SidebarFolder } from '../../../components/SidebarFolder'
+import { useModal } from '../../../context/ModalContext'
+import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 
 /**
- * @typedef SidebarNestedFoldersProps
- * @property {Record<string,any>} [item]
- * @property {number} [level]
- * @property {boolean} [isRoot]
- */
-
-/**
- * @param {SidebarNestedFoldersProps} props
+ * @param {{
+ *  item:Record<string,any>,
+ *  level: number
+ * }} props
  */
 
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
+  const { i18n } = useLingui()
+  const { setModal } = useModal()
+
   const [isOpen, setIsOpen] = useState(false)
 
   const isRoot = level === 0
   const isFolder = 'children' in item
+
+  const handleAddClick = () => {
+    setModal(html` <${CreateFolderModalContent} /> `)
+  }
 
   if (!isFolder) {
     return html`
@@ -38,6 +44,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
   return html`
     <${NestedFoldersWrapper} level=${level}>
       <${SidebarFolder}
+        onAddClick=${handleAddClick}
         isOpen=${isOpen}
         onClick=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
@@ -61,7 +68,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
           <${SidebarNestedFile}
             key=${item.id + 'newFile'}
             icon=${PlusIcon}
-            name=${'New'}
+            name=${i18n._('New')}
             isNew=${true}
             color=${colors.primary400.mode1}
           />

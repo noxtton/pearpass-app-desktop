@@ -16,19 +16,28 @@ import {
   PearHand,
   Title
 } from './styles'
-import { InitialPageWrapper } from '../../components/InitialPageWrapper'
-import { ModalOverlay } from '../../components/ModalOverlay'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 
 export const InitialWelcomePage = () => {
   const { i18n } = useLingui()
 
-  const { openModal, isOpen } = useModal()
+  const { setModal } = useModal()
   const { navigate } = useRouter()
 
   const handleNewVaultCreation = () => {
     navigate('vault')
+  }
+
+  const handleLoadVault = () => {
+    setModal(
+      html` <${LoadVaultCard}>
+        <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
+
+        <${LoadVaultInput} placeholder=${i18n._('Insert your code vault...')} />
+      <//>`,
+      { overlayType: 'blur' }
+    )
   }
 
   return html`
@@ -36,38 +45,29 @@ export const InitialWelcomePage = () => {
       <${PageContainer}>
         <${Title}>${i18n._('Hi Peer! Welcome to PearPass!')}<//>
 
-        ${!isOpen &&
-        html`
-          <${ActionsCard}>
-            <${ActionCardTitle}>
-              ${i18n._('Start with')}
-              <br />
-              ${i18n._('creating a new vault or importing one')}
+        <${ActionsCard}>
+          <${ActionCardTitle}>
+            ${i18n._('Start with')}
+            <br />
+            ${i18n._('creating a new vault or importing one')}
+          <//>
+
+          <${Actions}>
+            <${ButtonPrimary} size="md" onClick=${handleNewVaultCreation}>
+              ${i18n._('Create a new vault')}
             <//>
 
-            <${Actions}>
-              <${ButtonPrimary} size="md" onClick=${handleNewVaultCreation}>
-                ${i18n._('Create a new vault')}
-              <//>
-
-              <${ButtonSecondary} size="md" onClick=${openModal} type="button">
-                ${i18n._('Load a vault')}
-              <//>
+            <${ButtonSecondary}
+              size="md"
+              onClick=${handleLoadVault}
+              type="button"
+            >
+              ${i18n._('Load a vault')}
             <//>
           <//>
-        `}
+        <//>
 
         <${PearHand} src="assets/images/pearHandBig.png" alt="pearHand" />
-      <//>
-
-      <${ModalOverlay} blur=${'10px'}>
-        <${LoadVaultCard}>
-          <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
-
-          <${LoadVaultInput}
-            placeholder=${i18n._('Insert your code vault...')}
-          />
-        <//>
       <//>
     <//>
   `

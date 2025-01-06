@@ -2,6 +2,7 @@ import { html } from 'htm/react'
 
 import { AppWrapper } from './styles.js'
 import { useRouter } from '../../context/RouterContext.js'
+import { EmptyCollectionView } from '../EmptyCollectionView/index.js'
 import { InitialLoadPage } from '../InitialPage'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { RecordDetails } from '../RecordDetails'
@@ -12,7 +13,7 @@ export const App = () => {
 
   const getMainView = () => {
     if (currentPage === 'vault') {
-      return html` <div>Main View</div> `
+      return html`<${EmptyCollectionView} /> `
     }
   }
 

@@ -1,32 +1,72 @@
 import { html } from 'htm/react'
 
-import { MenuItem, MenuWrapper } from './styles'
+import {
+  MenuItem,
+  MenuList,
+  MenuCard,
+  MenuWrapper,
+  MenuTrigger
+} from './styles'
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByTYpe'
+import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
+import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 /**
- * @typedef CreateNewPopupMenuProps
- * @property {
- *  {
- *    icon: any,
- *    name: string,
- *    color: string
- * }[]
- * } [menuItems]
+ * @param {{
+ *  isOpen: boolean,
+ *  setIsOpen: () => void,
+ *  menuItems: Array<{
+ *   type: string,
+ *   name: string,
+ *  }>,
+ *  side: 'left' | 'center' | 'right',
+ *  align: 'left' | 'center' | 'right',
+ *  onMenuItemClick: (item: { type: string, name: string }) => void
+ * }} props
  */
+export const CreateNewPopupMenu = ({
+  isOpen,
+  setIsOpen,
+  menuItems,
+  children,
+  side = 'right',
+  align = 'right',
+  onMenuItemClick
+}) => {
+  const menuRef = useOutsideClick({
+    onOutsideClick: () => {
+      setIsOpen(false)
+    }
+  })
 
-/**
- * @param {CreateNewPopupMenuProps} props
- */
+  const handleToggle = () => {
+    setIsOpen(!isOpen)
+  }
 
-export const CreateNewPopupMenu = ({ menuItems }) => {
   return html`
-    <${MenuWrapper}>
-      ${menuItems.map(
-        (item) =>
-          html`<${MenuItem} color=${item.color} key=${item.name}>
-            <${item.icon} width="14" color=${item.color} />
-            ${item.name}
-          <//>`
-      )}
+    <${MenuWrapper} ref=${menuRef}>
+      <${MenuTrigger} onClick=${handleToggle}>${children}<//>
+
+      ${isOpen &&
+      html` <${MenuCard} side=${side} align=${align}>
+        <${MenuList}>
+          ${menuItems.map(
+            (item) =>
+              html`<${MenuItem}
+                color=${RECORD_COLOR_BY_TYPE[item.type]}
+                key=${item.id}
+                onClick=${() => onMenuItemClick(item)}
+              >
+                <${RECORD_ICON_BY_TYPE[item.type]}
+                  size="14"
+                  color=${RECORD_COLOR_BY_TYPE[item.type]}
+                />
+
+                ${item.name}
+              <//>`
+          )}
+        <//>
+      <//>`}
     <//>
   `
 }
