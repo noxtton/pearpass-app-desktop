@@ -1,22 +1,34 @@
+import { useState } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { ButtonLittle, NoticeText } from 'pearpass-lib-ui-react-components'
 
-import { HeaderButtonWrapper, PasswordWrapper, Wrapper } from './styles'
+import {
+  HeaderButtonWrapper,
+  PasswordWrapper,
+  RadioWrapper,
+  Wrapper
+} from './styles'
 import { HighlightString } from '../../../components/HighlightString'
+import { RadioSelect } from '../../../components/RadioSelect'
+import { useModal } from '../../../context/ModalContext'
 import { ModalHeader } from '../ModalHeader'
 
-/**
- * @param {{
- *  onClose: () => void
- * }} props
- */
-export const GeneratePasswordSideDrawerContent = ({ onClose }) => {
+export const GeneratePasswordSideDrawerContent = () => {
   const { i18n } = useLingui()
+  const { closeModal } = useModal()
+
+  const [selectedOption, setSelectedOption] = useState('passphrase')
+
+  const radioOptions = [
+    { label: i18n._('Passphrase'), value: 'passphrase' },
+    { label: i18n._('Password'), value: 'password' }
+  ]
 
   return html`
     <${Wrapper}>
-      <${ModalHeader} onClose=${onClose}>
+      <${ModalHeader} onClose=${closeModal}>
         <${HeaderButtonWrapper}>
           <${ButtonLittle}> ${i18n._('Insert password')} <//>
         <//>
@@ -28,6 +40,15 @@ export const GeneratePasswordSideDrawerContent = ({ onClose }) => {
         />
 
         <${NoticeText} text=${i18n._('Safe')} type="success" />
+      <//>
+
+      <${RadioWrapper}>
+        <${RadioSelect}
+          title=${i18n._('Type')}
+          options=${radioOptions}
+          selectedOption=${selectedOption}
+          onChange=${setSelectedOption}
+        />
       <//>
     <//>
   `

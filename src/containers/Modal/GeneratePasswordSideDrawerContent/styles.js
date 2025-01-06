@@ -37,3 +37,7 @@ export const PasswordWrapper = styled.div`
   margin-top: 42px;
   gap: 8px;
 `
+
+export const RadioWrapper = styled.div`
+  margin-top: 32px;
+`
