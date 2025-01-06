@@ -13,7 +13,7 @@ import { ModalHeader } from '../ModalHeader'
 export const ModalContent = ({ onClose, headerChildren, children }) => {
   return html`
     <${Wrapper}>
-      <${ModalHeader} onClick=${onClose}> ${headerChildren} <//>
+      <${ModalHeader} onClose=${onClose}> ${headerChildren} <//>
 
       <div>${children}</div>
     <//>
