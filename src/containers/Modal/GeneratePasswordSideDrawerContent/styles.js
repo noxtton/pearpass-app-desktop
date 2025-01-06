@@ -7,13 +7,6 @@ export const Wrapper = styled.div`
   padding: 20px;
 `
 
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 42px;
-  gap: 10px;
-`
-
 export const HeaderChildrenWrapper = styled.div`
   flex: 1;
   display: flex;
@@ -35,4 +28,12 @@ export const CloseIconWrapper = styled.div`
 export const HeaderButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`
+
+export const PasswordWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 42px;
+  gap: 8px;
 `

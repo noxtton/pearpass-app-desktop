@@ -2,7 +2,9 @@ import styled from 'styled-components'
 
 import { BASE_TRANSITION_DURATION } from '../../constants/transitions'
 
-export const OverlayComponent = styled.div`
+export const OverlayComponent = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isShown'].includes(prop)
+})`
   position: fixed;
   top: 0;
   left: 0;

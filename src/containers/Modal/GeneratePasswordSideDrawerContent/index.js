@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonLittle } from 'pearpass-lib-ui-react-components'
+import { ButtonLittle, NoticeText } from 'pearpass-lib-ui-react-components'
 
-import { Header, HeaderButtonWrapper, Wrapper } from './styles'
+import { HeaderButtonWrapper, PasswordWrapper, Wrapper } from './styles'
 import { HighlightString } from '../../../components/HighlightString'
 import { ModalHeader } from '../ModalHeader'
 
@@ -22,10 +22,12 @@ export const GeneratePasswordSideDrawerContent = ({ onClose }) => {
         <//>
       <//>
 
-      <${Header}>
+      <${PasswordWrapper}>
         <${HighlightString}
           text="Stench6-Taco2-Manicotti7-Velocity9-Serotonin5 )0Ag;"
         />
+
+        <${NoticeText} text=${i18n._('Safe')} type="success" />
       <//>
     <//>
   `

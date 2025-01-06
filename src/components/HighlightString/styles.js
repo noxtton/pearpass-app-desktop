@@ -5,6 +5,7 @@ export const HighlightedText = styled.span`
   font-family: 'Inter';
   font-size: 14px;
   font-weight: 400;
+  text-align: center;
 
   span {
     white-space: pre-wrap;
