@@ -25,6 +25,6 @@ export const InputFieldNote = (props) => {
     placeholder=${i18n._('Add note')}
     variant="outline"
     icon=${CommonFileIcon}
-    ${{ ...props }}
+    ...${props}
   />`
 }
