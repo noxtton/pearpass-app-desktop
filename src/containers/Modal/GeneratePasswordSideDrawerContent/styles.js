@@ -41,3 +41,33 @@ export const PasswordWrapper = styled.div`
 export const RadioWrapper = styled.div`
   margin-top: 32px;
 `
+
+export const SliderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 10px 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.grey300.mode1};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.grey300.mode1};
+`
+
+export const SliderContainer = styled.div`
+  width: 240px;
+`
+
+export const SliderLabel = styled.div`
+  flex: 1;
+  color: ${({ theme }) => theme.colors.white.mode1};
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+`
+
+export const SwitchWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 9px;
+  gap: 9px;
+`

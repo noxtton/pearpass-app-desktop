@@ -2,16 +2,25 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonLittle, NoticeText } from 'pearpass-lib-ui-react-components'
+import {
+  ButtonLittle,
+  NoticeText,
+  Slider
+} from 'pearpass-lib-ui-react-components'
 
 import {
   HeaderButtonWrapper,
   PasswordWrapper,
   RadioWrapper,
+  SliderContainer,
+  SliderLabel,
+  SliderWrapper,
+  SwitchWrapper,
   Wrapper
 } from './styles'
 import { HighlightString } from '../../../components/HighlightString'
 import { RadioSelect } from '../../../components/RadioSelect'
+import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { useModal } from '../../../context/ModalContext'
 import { ModalHeader } from '../ModalHeader'
 
@@ -20,6 +29,7 @@ export const GeneratePasswordSideDrawerContent = () => {
   const { closeModal } = useModal()
 
   const [selectedOption, setSelectedOption] = useState('passphrase')
+  const [sliderValue, setSliderValue] = useState(5)
 
   const radioOptions = [
     { label: i18n._('Passphrase'), value: 'passphrase' },
@@ -48,6 +58,35 @@ export const GeneratePasswordSideDrawerContent = () => {
           options=${radioOptions}
           selectedOption=${selectedOption}
           onChange=${setSelectedOption}
+        />
+      <//>
+
+      <${SliderWrapper}>
+        <${SliderLabel}> 5 words <//>
+
+        <${SliderContainer}>
+          <${Slider}
+            value=${sliderValue}
+            onChange=${setSliderValue}
+            min=${1}
+            max=${32}
+            step=${1}
+          />
+        <//>
+      <//>
+
+      <${SwitchWrapper}>
+        <${SwitchWithLabel} label=${i18n._('Select all')} />
+        <${SwitchWithLabel}
+          label=${i18n._('Capital letters')}
+          isOn=${true}
+          isLabelBold
+        />
+        <${SwitchWithLabel} label=${i18n._('Symbols')} isLabelBold />
+        <${SwitchWithLabel}
+          label=${i18n._('Numbers')}
+          isOn=${true}
+          isLabelBold
         />
       <//>
     <//>

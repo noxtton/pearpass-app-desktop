@@ -9,7 +9,7 @@ import { RadioOption, RadioSelectWrapper, Title } from './styles'
  *  options: { label: string, value: string }[],
  *  selectedOption: string,
  *  onChange: (value: string) => void
- * }} param0
+ * }} props
  */
 export const RadioSelect = ({ title, options, selectedOption, onChange }) => {
   const handleChange = (value) => {
@@ -19,6 +19,7 @@ export const RadioSelect = ({ title, options, selectedOption, onChange }) => {
   return html`
     <${RadioSelectWrapper}>
       <${Title}>${title}<//>
+
       ${options.map(
         (option) => html`
           <${RadioOption}
