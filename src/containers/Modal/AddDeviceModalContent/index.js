@@ -19,6 +19,7 @@ import {
   ExpireText,
   ExpireTime,
   HeaderTitle,
+  IconWrapper,
   QRCode,
   QRCodeSection,
   QRCodeText,
@@ -69,17 +70,23 @@ export const AddDeviceModalContent = () => {
             <${ExpireTime}> ${expireTime} <//>
           <//>
 
-          <${TimeIcon} color=${colors.primary400.mode1} />
+          <${IconWrapper}>
+            <${TimeIcon} color=${colors.primary400.mode1} />
+          <//>
         <//>
 
         <${BackgroundSection} onClick=${() => copyToClipboard(URL)}>
           <${CopyText}> ${i18n._(isCopied ? 'Copied!' : URL)} <//>
 
-          <${CopyIcon} color=${colors.primary400.mode1} />
+          <${IconWrapper}>
+            <${CopyIcon} color=${colors.primary400.mode1} />
+          <//>
         <//>
 
         <${WarningSection}>
-          <${YellowErrorIcon} />
+          <${IconWrapper}>
+            <${YellowErrorIcon} />
+          <//>
 
           <${WarningText}>
             ${i18n._(

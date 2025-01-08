@@ -93,3 +93,7 @@ export const WarningText = styled.div`
   font-size: 14px;
   font-weight: 500;
 `
+
+export const IconWrapper = styled.div`
+  flex-shrink: 0;
+`
