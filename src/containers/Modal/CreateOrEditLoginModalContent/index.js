@@ -1,3 +1,5 @@
+import React, { useState } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
@@ -24,6 +26,7 @@ import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
 import { useCustomFields } from '../../../hooks/useCustomFields'
+import { generateUniqueId } from '../../../utils/generateUniqueId'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
@@ -31,8 +34,26 @@ export const CreateOrEditLoginModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const { customFields, createCustomField } = useCustomFields()
-
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
+
+  const [websites, setWebsites] = useState([
+    {
+      id: generateUniqueId()
+    }
+  ])
+
+  const handleAddWebsite = () => {
+    setWebsites((websites) => [
+      ...websites,
+      {
+        id: generateUniqueId()
+      }
+    ])
+  }
+
+  const handleRemoveWebsite = (id) => {
+    setWebsites((websites) => websites.filter((website) => website.id !== id))
+  }
 
   return html`
     <${ModalContent}
@@ -87,27 +108,34 @@ export const CreateOrEditLoginModalContent = () => {
         <//>
 
         <${CompoundField}>
-          <${InputField}
-            label=${i18n._('Website')}
-            placeholder=${i18n._('https://')}
-            icon=${WorldIcon}
-            additionalItems=${html`
-              <${ButtonSingleInput} startIcon=${PlusIcon}>
-                ${i18n._('Add website')}
+          ${websites.map((website, index) => {
+            return html`
+              <${React.Fragment} key=${website.id}>
+                <${InputField}
+                  label=${i18n._('Website')}
+                  placeholder=${i18n._('https://')}
+                  icon=${WorldIcon}
+                  additionalItems=${index === 0
+                    ? html`
+                        <${ButtonSingleInput}
+                          startIcon=${PlusIcon}
+                          onClick=${handleAddWebsite}
+                        >
+                          ${i18n._('Add website')}
+                        <//>
+                      `
+                    : html`
+                        <${ButtonSingleInput}
+                          startIcon=${DeleteIcon}
+                          onClick=${() => handleRemoveWebsite(website.id)}
+                        >
+                          ${i18n._('Remove website')}
+                        <//>
+                      `}
+                />
               <//>
-            `}
-          />
-
-          <${InputField}
-            label=${i18n._('Website')}
-            placeholder=${i18n._('https://')}
-            icon=${WorldIcon}
-            additionalItems=${html`
-              <${ButtonSingleInput} startIcon=${DeleteIcon}>
-                ${i18n._('Delete')}
-              <//>
-            `}
-          />
+            `
+          })}
         <//>
 
         <${FormGroup}>
