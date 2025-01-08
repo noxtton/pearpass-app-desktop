@@ -1,0 +1,44 @@
+import { useState } from 'react'
+
+import { generateUniqueId } from '../utils/generateUniqueId'
+
+/**
+ * @param {{
+ *  customFields?: {
+ *      id: string,
+ *      type: string,
+ *      props: any
+ *  }[]
+ * }} props
+ * @returns {{
+ *  customFields: {id: string, type: string, props: any}[],
+ *  createCustomField: (type: string, props: any) => void,
+ *  setCustomFields: React.Dispatch<React.SetStateAction<{id: string, type: string, props: any}[]>>
+ * }}
+ */
+export const useCustomFields = ({
+  customFields: initialCustomFields = []
+} = {}) => {
+  const [customFields, setCustomFields] = useState(initialCustomFields)
+
+  const createCustomField = (type, props) => {
+    const id = generateUniqueId()
+
+    setCustomFields((customFields) => [
+      ...customFields,
+      {
+        id,
+        type,
+        props: {
+          ...props
+        }
+      }
+    ])
+  }
+
+  return {
+    customFields,
+    createCustomField,
+    setCustomFields
+  }
+}

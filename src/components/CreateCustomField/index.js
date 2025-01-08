@@ -5,14 +5,8 @@ import { html } from 'htm/react'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
-  CalendarIcon,
   CommonFileIcon,
-  EmailIcon,
-  ImageIcon,
-  NineDotsIcon,
-  PhoneIcon,
   PlusIcon,
-  WorldIcon,
   ButtonFilter
 } from 'pearpass-lib-ui-react-components'
 
@@ -20,41 +14,41 @@ import { ArrowIconWrapper, DropDown, Label, Wrapper } from './styles'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 const OPTIONS = [
-  {
-    name: 'Email',
-    type: 'email',
-    icon: EmailIcon
-  },
-  {
-    name: 'Picture',
-    type: 'picture',
-    icon: ImageIcon
-  },
+  // {
+  //   name: 'Email',
+  //   type: 'email',
+  //   icon: EmailIcon
+  // },
+  // {
+  //   name: 'Picture',
+  //   type: 'picture',
+  //   icon: ImageIcon
+  // },
   {
     name: 'Note',
     type: 'note',
     icon: CommonFileIcon
-  },
-  {
-    name: 'Pin code',
-    type: 'pinCode',
-    icon: NineDotsIcon
-  },
-  {
-    name: 'Date',
-    type: 'date',
-    icon: CalendarIcon
-  },
-  {
-    name: 'Website',
-    type: 'website',
-    icon: WorldIcon
-  },
-  {
-    name: 'Phone number',
-    type: 'phoneNumber',
-    icon: PhoneIcon
   }
+  // {
+  //   name: 'Pin code',
+  //   type: 'pinCode',
+  //   icon: NineDotsIcon
+  // },
+  // {
+  //   name: 'Date',
+  //   type: 'date',
+  //   icon: CalendarIcon
+  // },
+  // {
+  //   name: 'Website',
+  //   type: 'website',
+  //   icon: WorldIcon
+  // },
+  // {
+  //   name: 'Phone number',
+  //   type: 'phoneNumber',
+  //   icon: PhoneIcon
+  // }
 ]
 
 /**

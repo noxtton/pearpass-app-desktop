@@ -5,7 +5,6 @@ import {
   ButtonLittle,
   SaveIcon,
   UserIcon,
-  CommonFileIcon,
   CreditCardIcon,
   CalendarIcon,
   NineDotsIcon
@@ -16,12 +15,16 @@ import { FolderDropdown } from '../../../components/FolderDropdown'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useModal } from '../../../context/ModalContext'
+import { useCustomFields } from '../../../hooks/useCustomFields'
+import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
 export const CreateOrEditCreditCardModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { customFields, createCustomField } = useCustomFields()
 
   return html`
     <${ModalContent}
@@ -85,16 +88,13 @@ export const CreateOrEditCreditCardModalContent = () => {
         <//>
 
         <${FormGroup}>
-          <${InputField}
-            label=${i18n._('Note')}
-            placeholder=${i18n._('Add note')}
-            variant="outline"
-            icon=${CommonFileIcon}
-          />
+          <${InputFieldNote} />
         <//>
 
+        <${CustomFields} customFields=${customFields} />
+
         <${FormGroup}>
-          <${CreateCustomField} onCreateCustom=${() => {}} />
+          <${CreateCustomField} onCreateCustom=${createCustomField} />
         <//>
       <//>
     <//>

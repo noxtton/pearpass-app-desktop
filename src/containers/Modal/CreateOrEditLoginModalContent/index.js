@@ -12,8 +12,7 @@ import {
   PasswordIcon,
   PlusIcon,
   DeleteIcon,
-  WorldIcon,
-  CommonFileIcon
+  WorldIcon
 } from 'pearpass-lib-ui-react-components'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
@@ -21,13 +20,17 @@ import { FolderDropdown } from '../../../components/FolderDropdown'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
+import { useCustomFields } from '../../../hooks/useCustomFields'
+import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
 export const CreateOrEditLoginModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { customFields, createCustomField } = useCustomFields()
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
@@ -108,16 +111,13 @@ export const CreateOrEditLoginModalContent = () => {
         <//>
 
         <${FormGroup}>
-          <${InputField}
-            label=${i18n._('Note')}
-            placeholder=${i18n._('Add note')}
-            variant="outline"
-            icon=${CommonFileIcon}
-          />
+          <${InputFieldNote} />
         <//>
 
+        <${CustomFields} customFields=${customFields} />
+
         <${FormGroup}>
-          <${CreateCustomField} onCreateCustom=${() => {}} />
+          <${CreateCustomField} onCreateCustom=${createCustomField} />
         <//>
       <//>
     <//>

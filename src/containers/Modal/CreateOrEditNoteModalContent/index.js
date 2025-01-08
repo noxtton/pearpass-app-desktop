@@ -13,11 +13,14 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useModal } from '../../../context/ModalContext'
+import { useCustomFields } from '../../../hooks/useCustomFields'
+import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
 export const CreateOrEditNoteModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { customFields, createCustomField } = useCustomFields()
 
   return html`
     <${ModalContent}
@@ -45,8 +48,10 @@ export const CreateOrEditNoteModalContent = () => {
           <${TextArea} placeholder=${i18n._('Write a note...')} />
         <//>
 
+        <${CustomFields} customFields=${customFields} />
+
         <${FormGroup}>
-          <${CreateCustomField} onCreateCustom=${() => {}} />
+          <${CreateCustomField} onCreateCustom=${createCustomField} />
         <//>
       <//>
     <//>
