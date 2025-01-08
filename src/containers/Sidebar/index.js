@@ -22,7 +22,9 @@ import {
   SidebarWrapper
 } from './styles'
 import { SidebarSearch } from '../../components/SidebarSearch'
+import { useModal } from '../../context/ModalContext'
 import { PearPassTextLogo } from '../../svgs/PearPassLogo'
+import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
  * @typedef SidebarProps
@@ -83,6 +85,12 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     ]
   }
 
+  const { setModal } = useModal()
+
+  const handleAddDevice = () => {
+    setModal(html`<${AddDeviceModalContent} />`)
+  }
+
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
       <${SidebarLogo}>
@@ -107,7 +115,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
         <${SettingsSeparator} />
 
-        <${ButtonThin} leftIcon=${UserSecurityIcon}>
+        <${ButtonThin} leftIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
         <//>
       <//>

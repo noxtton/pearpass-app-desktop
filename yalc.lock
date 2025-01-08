@@ -2,8 +2,8 @@
   "version": "v1",
   "packages": {
     "pearpass-lib-ui-react-components": {
-      "version": "0.0.20",
-      "signature": "3d0f3b9189f200ba60939618965388bc"
+      "version": "0.0.21",
+      "signature": "ab533749bacbc75de6055d60392e6397"
     }
   }
 }
