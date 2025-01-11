@@ -18,7 +18,7 @@ export const useCopyToClipboard = () => {
     navigator.clipboard.writeText(text).then(
       () => {
         setIsCopied(true)
-        setTimeout(() => setIsCopied(false), 2000) // Reset after 2 seconds
+        setTimeout(() => setIsCopied(false), 2000)
       },
       (err) => {
         console.error('Failed to copy text to clipboard', err)

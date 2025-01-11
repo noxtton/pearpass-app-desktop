@@ -18,8 +18,14 @@ export const SidebarWrapper = styled.div`
 
 export const SidebarLogo = styled.div`
   flex-grow: 0;
-  width: 144px;
-  height: 26px;
+  color: ${({ theme }) => theme.colors.white.mode1};
+  font-family: 'Humble Nostalgia';
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  display: flex;
+  gap: 10px;
 `
 
 export const sideBarContent = styled.div`
@@ -31,6 +37,7 @@ export const sideBarContent = styled.div`
 `
 
 export const SidebarNestedFoldersContainer = styled.div`
+  padding: 10px 0px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -41,7 +48,7 @@ export const SidebarSettings = styled.div`
   flex-grow: 0;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 `
 
 export const SettingsContainer = styled.div`
@@ -49,6 +56,7 @@ export const SettingsContainer = styled.div`
   align-items: center;
   padding: 0px 5px;
   gap: 5px;
+  cursor: pointer;
 `
 
 export const SettingsSeparator = styled.div`

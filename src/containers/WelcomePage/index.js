@@ -16,6 +16,7 @@ import {
   PearHand,
   Title
 } from './styles'
+import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 

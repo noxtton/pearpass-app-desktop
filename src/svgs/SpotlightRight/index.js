@@ -1,16 +1,12 @@
 import { html } from 'htm/react'
 
 /**
- * @typedef SpotlightRightProps
- * @property {string} [width] width of the svg (optional)
- * @property {string} [height] height of the svg (optional)
- * @property {string} [fill] color of the svg (optional)
+ * @param {{
+ *  width?: string
+ *  height?: string
+ *  fill?: string
+ * }} props
  */
-
-/**
- * @param {SpotlightRightProps} props
- */
-
 export const SpotlightRight = ({
   fill = 'none',
   height = '100%',

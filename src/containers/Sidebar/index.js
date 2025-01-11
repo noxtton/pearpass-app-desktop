@@ -23,7 +23,8 @@ import {
 } from './styles'
 import { SidebarSearch } from '../../components/SidebarSearch'
 import { useModal } from '../../context/ModalContext'
-import { PearPassTextLogo } from '../../svgs/PearPassLogo'
+import { useRouter } from '../../context/RouterContext'
+import { LogoLock } from '../../svgs/LogoLock'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
@@ -37,6 +38,11 @@ import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const { i18n } = useLingui()
+  const { navigate } = useRouter()
+
+  const handleSettingsClick = () => {
+    navigate('settings', {})
+  }
 
   const sampleData = {
     name: i18n._('All Folders'),
@@ -94,7 +100,8 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
       <${SidebarLogo}>
-        <${PearPassTextLogo} />
+        <${LogoLock} width="19" height="26" />
+        ${i18n._('PearPass')}
       <//>
 
       <${sideBarContent}>
@@ -108,7 +115,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <//>
 
       <${SidebarSettings}>
-        <${SettingsContainer}>
+        <${SettingsContainer} onClick=${handleSettingsClick}>
           <${SettingsIcon} size="14" />
           ${i18n._('Settings')}
         <//>

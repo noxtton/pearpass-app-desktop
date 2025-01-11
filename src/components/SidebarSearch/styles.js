@@ -24,7 +24,6 @@ export const SearchInput = styled.input`
   border: none;
   background: transparent;
   color: ${({ theme }) => theme.colors.grey200.mode1};
-
   &:focus {
     border: none;
     box-shadow: none;

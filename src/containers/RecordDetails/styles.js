@@ -35,3 +35,7 @@ export const Fields = styled.div`
   gap: 15px;
   margin-top: 15px;
 `
+
+export const RecordActions = styled.div`
+  display: flex;
+`

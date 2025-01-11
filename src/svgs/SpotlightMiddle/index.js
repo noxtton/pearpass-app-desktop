@@ -1,16 +1,12 @@
 import { html } from 'htm/react'
 
 /**
- * @typedef SpotlightMiddleProps
- * @property {string} [width] width of the svg (optional)
- * @property {string} [height] height of the svg (optional)
- * @property {string} [fill] color of the svg (optional)
+ * @param {{
+ *  width?: string
+ *  height?: string
+ *  fill?: string
+ * }} props
  */
-
-/**
- * @param {SpotlightMiddleProps} props
- */
-
 export const SpotlightMiddle = ({
   fill = 'none',
   height = '100%',

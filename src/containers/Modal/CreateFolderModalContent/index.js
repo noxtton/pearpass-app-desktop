@@ -22,9 +22,9 @@ export const CreateFolderModalContent = () => {
     validate: () => ({})
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = () => {
     if (!hasErrors) {
-      console.log('values', values)
+      // TODO: Implement create folder
       closeModal()
     }
   }
