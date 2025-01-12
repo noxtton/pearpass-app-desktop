@@ -14,7 +14,7 @@ export const ContentWrapper = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== 'isFullWidth'
 })`
   flex: 1;
-  padding: 29px ${({ isFullWidth }) => (isFullWidth ? '15px' : '22px')};
+  padding: 29px ${({ isFullWidth }) => (isFullWidth ? '15px' : '22px')} 0;
   display: flex;
   align-items: center;
   align-self: stretch;

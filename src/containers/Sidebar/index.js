@@ -13,6 +13,7 @@ import {
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
+  FoldersWrapper,
   SettingsContainer,
   SettingsSeparator,
   sideBarContent,
@@ -110,7 +111,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${SidebarNestedFoldersContainer}>
           <${SidebarSearch} />
 
-          <${SidebarNestedFolders} item=${sampleData} key="rootFolder" />
+          <${FoldersWrapper}>
+            <${SidebarNestedFolders} item=${sampleData} key="rootFolder" />
+          <//>
         <//>
       <//>
 

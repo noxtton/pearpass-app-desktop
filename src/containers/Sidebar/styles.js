@@ -14,6 +14,7 @@ export const SidebarWrapper = styled.div`
   align-self: stretch;
   border-right: 1px solid ${({ theme }) => theme.colors.grey300.mode1};
   background: ${({ theme }) => theme.colors.grey500.mode1};
+  height: 100%;
 `
 
 export const SidebarLogo = styled.div`
@@ -34,13 +35,23 @@ export const sideBarContent = styled.div`
   flex: 1;
   width: 100%;
   gap: 20px;
+  min-height: 0;
 `
 
 export const SidebarNestedFoldersContainer = styled.div`
-  padding: 10px 0px;
+  padding: 10px 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  flex: 1;
+  min-height: 0;
+`
+
+export const FoldersWrapper = styled.div`
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 `
 
 export const SidebarSettings = styled.div`
