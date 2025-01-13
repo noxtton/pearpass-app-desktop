@@ -11,6 +11,7 @@ import {
  * @type {Record<string, import('react').ElementType>}
  */
 export const RECORD_ICON_BY_TYPE = {
+  all: KeyIcon,
   login: UserIcon,
   identity: FullBodyIcon,
   creditCard: CreditCardIcon,

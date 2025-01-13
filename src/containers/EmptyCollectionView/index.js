@@ -1,29 +1,15 @@
-import { useState } from 'react'
-
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { ButtonCreate } from 'pearpass-lib-ui-react-components'
 
-import {
-  CollectionsContainer,
-  CollectionsTitle,
-  SearchContainer,
-  Wrapper
-} from './styles'
-import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
-import { CreateNewPopupMenu } from '../../components/CreateNewPopupMenu'
-import { InputSearch } from '../../components/InputSearch'
+import { CollectionsContainer, CollectionsTitle, Wrapper } from './styles'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
-import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
 
 export const EmptyCollectionView = () => {
   const { i18n } = useLingui()
   const { data } = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
-
-  const menuItems = useRecordMenuItems()
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
@@ -38,24 +24,8 @@ export const EmptyCollectionView = () => {
     { text: i18n._('Create a custom element'), type: 'custom' }
   ]
 
-  const handleMenuItemClick = (item) => {
-    handleCreateOrEditRecord({ recordType: item.type })
-    setIsOpen(false)
-  }
-
   return html`
     <${Wrapper}>
-      <${SearchContainer}>
-        <${InputSearch} />
-        <${CreateNewPopupMenu}
-          isOpen=${isOpen}
-          setIsOpen=${setIsOpen}
-          menuItems=${menuItems}
-          onMenuItemClick=${handleMenuItemClick}
-        >
-          <${ButtonPlusCreateNew} isOpen=${isOpen} />
-        <//>
-      <//>
       <${CollectionsContainer}>
         <${CollectionsTitle}>
           <span> ${i18n._('This collection is empty.')}</span>

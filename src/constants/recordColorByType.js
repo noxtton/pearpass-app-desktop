@@ -1,10 +1,11 @@
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 export const RECORD_COLOR_BY_TYPE = {
-  login: colors.categoryLogin.option2,
-  identity: colors.categoryIdentity.option2,
-  creditCard: colors.categoryCreditCard.option2,
-  note: colors.categoryNote.option2,
-  custom: colors.categoryCustom.option2,
-  password: colors.categoryPassword.option2
+  all: colors.primary400.mode1,
+  login: colors.categoryLogin.mode1,
+  identity: colors.categoryIdentity.mode1,
+  creditCard: colors.categoryCreditCard.mode1,
+  note: colors.categoryNote.mode1,
+  custom: colors.categoryCustom.mode1,
+  password: colors.categoryPassword.mode1
 }

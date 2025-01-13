@@ -6,10 +6,10 @@ export const SideDrawerWrapper = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isShown'].includes(prop)
 })`
   position: fixed;
-  top: 0;
+  bottom: 0;
   right: 0;
   width: 400px;
-  height: 100%;
+  height: calc(100% - var(--title-bar-height));
   background: ${({ theme }) => theme.colors.grey500.mode1};
   box-shadow: -4px 4px 4px 0px rgba(0, 0, 0, 0.25);
   transform: ${({ isShown }) =>

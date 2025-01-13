@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -21,8 +21,12 @@ import {
   Fields,
   Header,
   HeaderRight,
+  RecordActions,
   Title
 } from './styles.js'
+import { PopupMenu } from '../../components/PopupMenu/index.js'
+import { RecordActionsPopupContent } from '../../components/RecordActionsPopupContent/index.js'
+import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
 
 const MOCK_DATA = {
   title: 'Google',
@@ -35,6 +39,12 @@ const MOCK_DATA = {
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()
+
+  const { actions } = useRecordActionItems({
+    excludeTypes: ['select', 'pin']
+  })
+
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleWebsiteClick = () => {
     window.open(MOCK_DATA.websiteUrl, '_blank')
@@ -55,7 +65,19 @@ export const RecordDetails = () => {
         <${HeaderRight}>
           <${ButtonLittle} startIcon=${BrushIcon}> ${i18n._('Edit')} <//>
 
-          <${ButtonLittle} variant="secondary" startIcon=${KebabMenuIcon} />
+          <${RecordActions}>
+            <${PopupMenu}
+              side="right"
+              align="right"
+              isOpen=${isOpen}
+              setIsOpen=${setIsOpen}
+              content=${html`
+                <${RecordActionsPopupContent} menuItems=${actions} />
+              `}
+            >
+              <${ButtonLittle} variant="secondary" startIcon=${KebabMenuIcon} />
+            <//>
+          <//>
         <//>
       <//>
 

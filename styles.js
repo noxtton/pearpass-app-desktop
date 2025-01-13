@@ -21,6 +21,15 @@ export const setFontsAndResetCSS = () => {
         format('truetype');
     }
 
+    :root {
+      --title-bar-height: 30px;
+    }
+
+    pear-ctrl[data-platform='darwin'] {
+      margin-top: 12px;
+      margin-left: 10px;
+    }
+
     html,
     body,
     div,
@@ -129,10 +138,9 @@ export const setFontsAndResetCSS = () => {
     html {
       height: 100%;
       display: flex;
-      padding-top: 42px;
+      padding-top: var(--title-bar-height);
     }
     body {
-      --title-bar-height: 42px;
       line-height: 1;
       flex: 1;
     }

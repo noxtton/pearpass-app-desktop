@@ -4,7 +4,8 @@ import { html } from 'htm/react'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { NestedFile, NestedFileContainer } from './styles'
-import { CreateNewPopupMenu } from '../../../components/CreateNewPopupMenu'
+import { CreateNewCategoryPopupContent } from '../../../components/CreateNewCategoryPopupContent'
+import { PopupMenu } from '../../../components/PopupMenu'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
 
@@ -24,7 +25,7 @@ export const SidebarNestedFile = ({
 }) => {
   const [isNewPopupMenuOpen, setIsNewPopupMenuOpen] = useState(false)
 
-  const menuItems = useRecordMenuItems()
+  const { popupItems } = useRecordMenuItems()
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
@@ -43,16 +44,20 @@ export const SidebarNestedFile = ({
     <${NestedFileContainer}>
       ${isNew
         ? html`
-            <${CreateNewPopupMenu}
-              menuItems=${menuItems}
+            <${PopupMenu}
               side="left"
               align="left"
               isOpen=${isNewPopupMenuOpen}
               setIsOpen=${setIsNewPopupMenuOpen}
-              onMenuItemClick=${handleMenuItemClick}
+              content=${html`
+                <${CreateNewCategoryPopupContent}
+                  menuItems=${popupItems}
+                  onClick=${handleMenuItemClick}
+                />
+              `}
             >
               <${NestedFile} color=${color} onClick=${handleFileClick}>
-                <${icon} size="14" />
+                <${icon} color=${colors.primary400.mode1} size="14" />
                 ${name}
               <//>
             <//>

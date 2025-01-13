@@ -27,7 +27,7 @@ export const ActionsCard = styled.div`
   background: ${({ theme }) => theme.colors.grey500.mode1};
   border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
   border-radius: 20px;
-  padding: 9px 15px;
+  padding: 15px 9px;
   z-index: 1;
 `
 
@@ -53,20 +53,6 @@ export const PearHand = styled.img`
   height: 800px;
   right: 0;
   z-index: 0;
-`
-
-export const ModalCard = styled.div`
-  display: flex;
-  font-family: 'Inter';
-  flex-direction: column;
-  gap: 23px;
-  width: 376px;
-  flex-shrink: 0;
-  background: ${({ theme }) => theme.colors.grey500.mode1};
-  border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
-  border-radius: 20px;
-  padding: 9px 15px;
-  z-index: 1;
 `
 
 export const LoadVaultCard = styled.div`
@@ -104,7 +90,7 @@ export const LoadVaultInput = styled.input`
   border-radius: 30px;
   background: ${({ theme }) => theme.colors.grey400.mode1};
   border: 1px solid ${({ theme }) => theme.colors.grey300.mode1};
-  color: ${({ theme }) => theme.colors.grey200.mode1};
+  color: ${({ theme }) => theme.colors.white.mode1};
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.grey100.mode1};

@@ -1,15 +1,12 @@
 import { html } from 'htm/react'
-/**
- * @typedef PearPassLogoProps
- * @property {string} [width] width of the svg (optional)
- * @property {string} [height] height of the svg (optional)
- * @property {string} [fill] color of the svg (optional)
- */
 
 /**
- * @param {PearPassLogoProps} props
+ * @param {{
+ *  width?: string
+ *  height?: string
+ *  fill?: string
+ * }} props
  */
-
 export const PearPassTextLogo = ({
   fill = 'none',
   height = '100%',

@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components'
 
-export const CategoryButton = styled.button`
+export const CategoryButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => !['size', 'color', 'isSelected'].includes(prop)
+})`
   display: flex;
   font-family: 'Inter';
   font-size: 16px;
@@ -12,6 +14,7 @@ export const CategoryButton = styled.button`
   border: 1px solid transparent;
   color: ${({ theme }) => theme.colors.white.mode1};
   cursor: pointer;
+  position: relative;
 
   &:hover {
     border-color: ${({ color }) => color};
@@ -20,7 +23,8 @@ export const CategoryButton = styled.button`
   ${({ size }) =>
     size === 'default' &&
     css`
-      width: 122px;
+      flex: 1;
+      min-width: 121px;
       padding: 10px 9px;
     `}
 
@@ -32,8 +36,8 @@ export const CategoryButton = styled.button`
       align-items: center;
     `}
   
-    ${({ selected, theme, color }) =>
-    selected &&
+    ${({ isSelected, theme, color }) =>
+    isSelected &&
     css`
       background: ${color};
       color: ${theme.colors.black.mode1};
@@ -60,16 +64,24 @@ export const CategoryDescription = styled.div`
     `}
 `
 
-export const CategoryIconWrapper = styled.div`
+export const CategoryIconWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isSelected', 'color'].includes(prop)
+})`
   width: 14px;
   height: 14px;
+  display: flex;
 
   & path {
-    stroke: ${({ color, theme, selected }) =>
-      selected ? theme.colors.black.mode1 : color};
+    stroke: ${({ color, theme, isSelected }) =>
+      isSelected ? theme.colors.black.mode1 : color};
   }
 `
 
-export const CategoryQuantity = styled.span`
+export const CategoryQuantity = styled.span.withConfig({
+  shouldForwardProp: (prop) => !['size'].includes(prop)
+})`
   font-weight: 300;
+  position: ${({ size }) => (size === 'default' ? 'absolute' : '')};
+  top: ${({ size }) => (size === 'default' ? '8px' : '')};
+  right: 9px;
 `

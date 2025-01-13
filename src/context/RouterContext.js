@@ -10,14 +10,13 @@ const RouterContext = createContext()
  */
 
 /**
- *
  * @param {RouterProviderProps} props
  */
 export const RouterProvider = ({ children }) => {
   const [state, setState] = useState({
-    currentPage: 'vault',
+    currentPage: 'loading',
     data: {
-      recordId: '12345',
+      recordId: '',
       recordType: 'all'
     }
   })
