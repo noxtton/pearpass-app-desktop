@@ -18,7 +18,7 @@ export const IconWrapper = styled.label`
   flex-grow: 0;
 `
 
-export const input = styled.input`
+export const Input = styled.input`
   all: unset;
   display: flex;
   width: 100%;

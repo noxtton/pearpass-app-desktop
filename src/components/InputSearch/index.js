@@ -2,16 +2,26 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { LockCircleIcon } from 'pearpass-lib-ui-react-components'
 
-import { Container, IconWrapper, input, QuantityWrapper } from './styles'
+import { Container, IconWrapper, Input, QuantityWrapper } from './styles'
 
-export const InputSearch = () => {
+/**
+ * @param {{
+ *  value: string
+ *  onChange: (event: import('react').ChangeEvent<HTMLInputElement>) => void
+ * }} props
+ */
+export const InputSearch = ({ value, onChange }) => {
   const { i18n } = useLingui()
   return html`
     <${Container}>
       <${IconWrapper}>
         <${LockCircleIcon} />
       <//>
-      <${input} placeholder=${i18n._('Search...')} />
+      <${Input}
+        placeholder=${i18n._('Search...')}
+        value=${value}
+        onChange=${onChange}
+      />
       <${QuantityWrapper}>70<//>
     <//>
   `

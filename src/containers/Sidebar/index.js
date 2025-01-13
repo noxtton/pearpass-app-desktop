@@ -40,6 +40,12 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     navigate('settings', {})
   }
 
+  const openEmptyStates = () => {
+    navigate('empty', {
+      recordType: 'all'
+    })
+  }
+
   const sampleData = {
     name: i18n._('All Folders'),
     id: 1,
@@ -95,7 +101,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
-      <${LogoLock} width="126" height="26" />
+      <div onClick=${openEmptyStates}>
+        <${LogoLock} width="126" height="26" />
+      </div>
 
       <${sideBarContent}>
         <${SideBarCategories} sidebarSize=${sidebarSize} />

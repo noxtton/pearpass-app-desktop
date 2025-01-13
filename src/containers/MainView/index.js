@@ -9,6 +9,7 @@ import { InputSearch } from '../../components/InputSearch'
 import { PopupMenu } from '../../components/PopupMenu'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
+import { EmptyCollectionView } from '../EmptyCollectionView'
 import { RecordListView } from '../RecordListView/'
 
 const RECORD_LIST_MOCK_DATA = [
@@ -87,6 +88,7 @@ const RECORD_LIST_MOCK_DATA = [
 export const MainView = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedRecords, setSelectedRecords] = useState([])
+  const [searchValue, setSearchValue] = useState('')
   const { popupItems } = useRecordMenuItems()
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
@@ -99,7 +101,10 @@ export const MainView = () => {
   return html`
     <${Wrapper}>
       <${SearchContainer}>
-        <${InputSearch} />
+        <${InputSearch}
+          value=${searchValue}
+          onChange=${(e) => setSearchValue(e.target.value)}
+        />
 
         <${PopupMenu}
           side="right"
@@ -117,13 +122,15 @@ export const MainView = () => {
         <//>
       <//>
 
-      <${ContentWrapper}>
-        <${RecordListView}
-          records=${RECORD_LIST_MOCK_DATA}
-          selectedRecords=${selectedRecords}
-          setSelectedRecords=${setSelectedRecords}
-        />
-      <//>
+      ${searchValue?.length
+        ? html` <${EmptyCollectionView} />`
+        : html` <${ContentWrapper}>
+            <${RecordListView}
+              records=${RECORD_LIST_MOCK_DATA}
+              selectedRecords=${selectedRecords}
+              setSelectedRecords=${setSelectedRecords}
+            />
+          <//>`}
     <//>
   `
 }

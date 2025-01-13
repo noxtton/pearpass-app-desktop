@@ -27,7 +27,9 @@ export const InitialWelcomePage = () => {
   const { navigate } = useRouter()
 
   const handleNewVaultCreation = () => {
-    navigate('vault')
+    navigate('vault', {
+      recordType: 'all'
+    })
   }
 
   const handleLoadVault = () => {
