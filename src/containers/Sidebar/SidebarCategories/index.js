@@ -2,7 +2,7 @@ import { html } from 'htm/react'
 
 import { CategoriesContainer } from './styles'
 import { SidebarCategory } from '../../../components/SidebarCategory'
-import { RECORD_COLOR_BY_TYPE } from '../../../constants/recordColorByTYpe'
+import { RECORD_COLOR_BY_TYPE } from '../../../constants/recordColorByType'
 import { RECORD_ICON_BY_TYPE } from '../../../constants/recordIconByType'
 import { useRouter } from '../../../context/RouterContext'
 import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
