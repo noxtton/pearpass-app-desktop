@@ -8,21 +8,16 @@ import {
   PageContent,
   RightSpotlightWrapper
 } from './styles'
-import { PearPassTextLogo } from '../../svgs/PearPassLogo'
+import { LogoLock } from '../../svgs/LogoLock'
 import { SpotLightLeft } from '../../svgs/SpotlightLeft'
 import { SpotlightMiddle } from '../../svgs/SpotlightMiddle'
 import { SpotlightRight } from '../../svgs/SpotlightRight'
 
 /**
- * @typedef InitialPageWrapperProps
- * @property {import('react').ReactNode} children React node to be rendered inside the button
+ * @param {{
+ *  children: import('react').ReactNode
+ * }} props
  */
-
-/**
- * ButtonPrimary component
- * @param {InitialPageWrapperProps} props
- */
-
 export const InitialPageWrapper = ({ children }) => {
   return html`
     <${Background}>
@@ -40,7 +35,7 @@ export const InitialPageWrapper = ({ children }) => {
 
       <${PageContent}>
         <${LogoContainer}>
-          <${PearPassTextLogo} />
+          <${LogoLock} />
         <//>
 
         ${children}

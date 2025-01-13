@@ -17,7 +17,6 @@ import {
   SettingsContainer,
   SettingsSeparator,
   sideBarContent,
-  SidebarLogo,
   SidebarNestedFoldersContainer,
   SidebarSettings,
   SidebarWrapper
@@ -29,14 +28,10 @@ import { LogoLock } from '../../svgs/LogoLock'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
- * @typedef SidebarProps
- * @property {'default' | 'tight'} [sidebarSize]
+ * @param {{
+ *    sidebarSize?: 'default' | 'tight'
+ * }} props
  */
-
-/**
- * @param {SidebarProps} props
- */
-
 export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const { i18n } = useLingui()
   const { navigate } = useRouter()
@@ -100,10 +95,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
-      <${SidebarLogo}>
-        <${LogoLock} width="19" height="26" />
-        ${i18n._('PearPass')}
-      <//>
+      <${LogoLock} width="126" height="26" />
 
       <${sideBarContent}>
         <${SideBarCategories} sidebarSize=${sidebarSize} />

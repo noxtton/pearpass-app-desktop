@@ -17,18 +17,6 @@ export const SidebarWrapper = styled.div`
   height: 100%;
 `
 
-export const SidebarLogo = styled.div`
-  flex-grow: 0;
-  color: ${({ theme }) => theme.colors.white.mode1};
-  font-family: 'Humble Nostalgia';
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  display: flex;
-  gap: 10px;
-`
-
 export const sideBarContent = styled.div`
   display: flex;
   flex-direction: column;
