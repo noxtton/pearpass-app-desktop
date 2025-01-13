@@ -7,21 +7,22 @@ import { InputFieldNote } from '../../components/InputFieldNote'
 
 /**
  * @param {{
+ *  register: (name: string, index: number) => any
  *  customFields?: {
- *      id: string,
- *      type: 'note',
+ *      id: string
+ *      type: 'note'
  *      props: any
  *  }[]
  * }} props
  */
-export const CustomFields = ({ customFields }) => {
+export const CustomFields = ({ customFields, register }) => {
   return html`
     <${React.Fragment}>
-      ${customFields?.map((customField) => {
+      ${customFields?.map((customField, index) => {
         if (customField.type === 'note') {
           return html`
             <${FormGroup} key=${customField.id}>
-              <${InputFieldNote} ${{ ...customField?.props }} />
+              <${InputFieldNote} ...${register('note', index)} />
             <//>
           `
         }

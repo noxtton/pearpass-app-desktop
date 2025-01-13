@@ -53,7 +53,7 @@ const OPTIONS = [
 
 /**
  * @param {{
- *  onCreateCustom: (folder: string) => void
+ *  onCreateCustom: (type: string) => void
  * }} props
  */
 export const CreateCustomField = ({ onCreateCustom }) => {

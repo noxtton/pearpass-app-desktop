@@ -1,4 +1,8 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
+
+import { generateUniqueId } from '../utils/generateUniqueId'
+import { getNestedValue } from '../utils/getNestedValue'
+import { setNestedValue } from '../utils/setNestedValue'
 
 /**
  * @param {{
@@ -9,36 +13,49 @@ import { useState } from 'react'
  *  values: Record<string, string>;
  *  errors: Record<string, string>;
  *  hasErrors: boolean;
+ *  setValues: React.Dispatch<React.SetStateAction<Record<string, string>>>;
  *  register: (name: string) => {
  *      name: string;
  *      value: string;
  *      onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
  *  };
- *  registerArray: (name: string) => {
- *      value: string[];
- *      addItem: (item: string) => void;
- *      removeItem: (index: number) => void;
- *      registerItem: (index: number) => {
- *          name: string;
- *          value: string;
- *          onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
- *      };
- *  };
  *  handleSubmit: (callback: (values: Record<string, string>) => void) => (e: React.FormEvent<HTMLFormElement>) => void;
+ *  setErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+ *  registerArray: (name: string) => {
+ *    value: any[];
+ *    addItem: (item: any) => void;
+ *    removeItem: (index: number) => void;
+ *    registerItem: (itemName: string, index: number) => {
+ *    name: string;
+ *    value: string;
+ *    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+ *  };
  * }}
  */
 export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
 
-  const hasErrors = Object.keys(errors).length > 0
+  const getHasAnyErrors = (errors) => {
+    const filteredErrors = Object.entries(errors).filter(
+      ([_, value]) => !!value?.length
+    )
+
+    return Object.keys(filteredErrors).length > 0
+  }
+
+  const hasErrors = React.useMemo(() => getHasAnyErrors(errors), [errors])
 
   const register = (name) => ({
     name,
-    value: values[name] || '',
+    value: getNestedValue(values, name, ''),
+    error: getNestedValue(errors, name, ''),
     onChange: (event) => {
       const value = event?.target?.value || event
-      setValues((prev) => ({ ...prev, [name]: value }))
+
+      setErrors((prev) => setNestedValue(prev, name, null))
+
+      setValues((prev) => setNestedValue(prev, name, value))
     }
   })
 
@@ -47,39 +64,68 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
     addItem: (item) =>
       setValues((prev) => ({
         ...prev,
-        [name]: [...(prev[name] || []), item]
+        [name]: [
+          ...(prev[name] || []),
+          {
+            id: generateUniqueId(),
+            ...item
+          }
+        ]
       })),
     removeItem: (index) =>
       setValues((prev) => ({
         ...prev,
         [name]: prev[name].filter((_, i) => i !== index)
       })),
-    registerItem: (index) => ({
-      name: `${name}[${index}]`,
-      value: values[name]?.[index] || '',
-      onChange: (event) =>
-        setValues((prev) => ({
-          ...prev,
-          [name]: prev[name].map((item, i) => {
-            const value = event?.target?.value || event
+    registerItem: (itemName, index) => {
+      return {
+        name: `${name}[${index}]`,
+        value: getNestedValue(values, `${name}[${index}].${itemName}`, ''),
+        error: errors?.[name]?.find(({ error, index: i }) =>
+          i === index ? error[itemName] : null
+        )?.error?.[itemName],
+        onChange: (e) => {
+          setValues((prev) =>
+            setNestedValue(
+              prev,
+              `${name}[${index}].${itemName}`,
+              e?.target?.value || e
+            )
+          )
 
-            i === index ? value : item
+          setErrors((prev) => {
+            return {
+              ...prev,
+              [name]: prev?.[name]?.filter((item) => {
+                return item.index !== index
+              })
+            }
           })
-        }))
-    })
+        }
+      }
+    }
   })
 
-  const handleSubmit = (callback) => (e) => {
-    e?.preventDefault()
+  const handleSubmit = (callback) => (event) => {
+    event?.preventDefault()
 
-    const validationErrors = validate(values)
+    const validationErrors = validate(values) || {}
 
-    if (Object.keys(validationErrors).length === 0) {
+    if (!getHasAnyErrors(validationErrors)) {
       callback(values)
     } else {
       setErrors(validationErrors)
     }
   }
 
-  return { values, errors, hasErrors, register, registerArray, handleSubmit }
+  return {
+    values,
+    errors,
+    hasErrors,
+    register,
+    handleSubmit,
+    setValues,
+    setErrors,
+    registerArray
+  }
 }

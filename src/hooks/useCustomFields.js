@@ -24,16 +24,13 @@ export const useCustomFields = ({
   const createCustomField = (type, props) => {
     const id = generateUniqueId()
 
-    setCustomFields((customFields) => [
-      ...customFields,
-      {
-        id,
-        type,
-        props: {
-          ...props
-        }
+    return {
+      id,
+      type,
+      props: {
+        ...props
       }
-    ])
+    }
   }
 
   return {
