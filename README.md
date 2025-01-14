@@ -17,13 +17,20 @@ Clone the repository
 ```bash
 git clone git@github.com:tetherto/pearpass-app-desktop.git
 ```
-go to the cloned directory 
+Go to the cloned directory 
 ```bash
 cd pearpass-app-desktop
 ```
-install npm modules
+Install npm modules
 ```bash
 npm install
+```
+generate translation keys
+```bash
+npm run lingui:extract
+```
+```bash
+npm run lingui:compile
 ```
 run the app
 ```bash

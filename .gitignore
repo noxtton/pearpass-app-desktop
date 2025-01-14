@@ -1,5 +1,5 @@
 node_modules
 
-src/locales/en/messages.mjs
+src/locales/en/*
 
 .yalc
