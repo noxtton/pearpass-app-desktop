@@ -1,7 +1,15 @@
 import { getPathArray } from './getPathArray'
 
+/**
+ * @param {object} obj
+ * @param {string | string[]} path
+ * @param {any} value
+ * @returns {object}
+ */
 export const setNestedValue = (obj, path, value) => {
-  if (!obj) return
+  if (!obj) {
+    return
+  }
 
   const result = { ...obj }
 

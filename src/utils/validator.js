@@ -7,49 +7,65 @@ export class Validator {
 
   required(message = 'This field is required') {
     this.validations.push((value) => (!value?.length ? message : null))
+
     return this
   }
 
   minLength(length, message) {
-    if (this.type !== 'string')
+    if (this.type !== 'string') {
       throw new Error('minLength is only applicable to strings')
+    }
+
     this.validations.push((value) =>
       value?.length < length ? message || `Minimum length is ${length}` : null
     )
+
     return this
   }
 
   maxLength(length, message) {
-    if (this.type !== 'string')
+    if (this.type !== 'string') {
       throw new Error('maxLength is only applicable to strings')
+    }
+
     this.validations.push((value) =>
       value?.length > length ? message || `Maximum length is ${length}` : null
     )
+
     return this
   }
 
   min(value, message) {
-    if (this.type !== 'number')
+    if (this.type !== 'number') {
       throw new Error('min is only applicable to numbers')
+    }
+
     this.validations.push((val) =>
       val < value ? message || `Minimum value is ${value}` : null
     )
+
     return this
   }
 
   max(value, message) {
-    if (this.type !== 'number')
+    if (this.type !== 'number') {
       throw new Error('max is only applicable to numbers')
+    }
+
     this.validations.push((val) =>
       val > value ? message || `Maximum value is ${value}` : null
     )
+
     return this
   }
 
   items(schema) {
-    if (this.type !== 'array')
+    if (this.type !== 'array') {
       throw new Error('items() is only applicable to arrays')
+    }
+
     this.itemSchema = schema
+
     return this
   }
 
@@ -68,7 +84,10 @@ export class Validator {
 
     for (const validation of this.validations) {
       const error = validation(value)
-      if (error) return error
+
+      if (error) {
+        return error
+      }
     }
 
     return null
