@@ -1,1 +1,9 @@
-export const SEVEN_DAYS_IN_MILLISECONDS = 7 * 24 * 60 * 60 * 1000
+export const MS_IN_A_SECOND = 1000
+export const SECONDS_IN_A_MINUTE = 60
+export const MS_IN_A_MINUTE = MS_IN_A_SECOND * SECONDS_IN_A_MINUTE
+export const MINUTES_IN_AN_HOUR = 60
+export const MS_IN_AN_HOUR = MS_IN_A_MINUTE * MINUTES_IN_AN_HOUR
+export const HOURS_IN_A_DAY = 24
+export const MS_IN_A_DAY = MS_IN_AN_HOUR * HOURS_IN_A_DAY
+export const DAYS_IN_A_WEEK = 7
+export const MS_IN_A_WEEK = MS_IN_A_DAY * DAYS_IN_A_WEEK
