@@ -1,9 +1,11 @@
 import styled from 'styled-components'
 
+const AVATAR_CONTAINER_SIZE = '30px'
+
 export const AvatarContainer = styled.div`
   position: relative;
   display: flex;
-  height: ${({ size }) => (size === 'sm' ? '21px' : '30px')};
+  height: ${({ size }) => (size === 'sm' ? '21px' : AVATAR_CONTAINER_SIZE)};
   aspect-ratio: 1/1;
   padding: 2.5px;
   justify-content: center;
@@ -24,8 +26,8 @@ export const AvatarAlt = styled.div`
 
 export const SelectedAvatarContainer = styled.div`
   display: flex;
-  width: 30px;
-  height: 30px;
+  width: ${AVATAR_CONTAINER_SIZE};
+  height: ${AVATAR_CONTAINER_SIZE};
   padding: 5px;
   justify-content: center;
   align-items: center;
