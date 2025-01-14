@@ -13,7 +13,7 @@ import {
  * @param {{
  *  avatarSrc: string,
  *  initials: string,
- *  size= 'md' | 'sm',
+ *  size: 'md' | 'sm',
  *  isSelected: boolean,
  *  isPinned: boolean
  * }} props
