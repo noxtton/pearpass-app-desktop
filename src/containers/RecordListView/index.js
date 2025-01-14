@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -71,12 +71,12 @@ export const RecordListView = ({
     navigate(currentPage, { recordId: record.id })
   }
 
-  const handleRecordClick = (record) => {
+  const handleRecordClick = (record, isSelected) => {
     if (isMultiSelect) {
       setSelectedRecords((prev) =>
-        prev.includes(record.name)
-          ? prev.filter((name) => name !== record.name)
-          : [...prev, record.name]
+        isSelected
+          ? prev.filter((id) => id !== record.id)
+          : [...prev, record.id]
       )
 
       return
@@ -169,18 +169,22 @@ export const RecordListView = ({
 
       <${RecordsSection}>
         <${DatePeriod}> ${i18n._('Last 7 days')} <//>
-        ${sortedRecords.map(
-          (record, index) =>
-            html`<${Record}
-                key=${record.name}
+        ${sortedRecords.map((record, index) => {
+          const isSelected = selectedRecords.includes(record.id)
+
+          return html`
+            <${React.Fragment} key=${record.id}>
+              <${Record}
                 record=${record}
-                isSelected=${selectedRecords.includes(record.name)}
-                onClick=${() => handleRecordClick(record)}
+                isSelected=${isSelected}
+                onClick=${() => handleRecordClick(record, isSelected)}
               />
 
               ${isNextRecordInLast14Days(sortedRecords, index) &&
-              html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `} `
-        )}
+              html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `}
+            <//>
+          `
+        })}
       <//>
     <//>
   `
