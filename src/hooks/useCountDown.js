@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 
+import { SECONDS_IN_A_MINUTE } from '../constants/time'
+
 /**
  * @param {{
  *  initialSeconds: number,
@@ -24,8 +26,8 @@ export const useCountDown = ({ initialSeconds, onFinish }) => {
   }, [timeLeft])
 
   const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60)
-    const remainingSeconds = seconds % 60
+    const minutes = Math.floor(seconds / SECONDS_IN_A_MINUTE)
+    const remainingSeconds = seconds % SECONDS_IN_A_MINUTE
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 
