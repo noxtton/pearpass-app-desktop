@@ -9,5 +9,5 @@ export const generateAvatarInitials = (name) => {
     return nameParts[0].slice(0, 2).toUpperCase()
   }
 
-  return nameParts.map((part) => part[0].toUpperCase()).join('')
+  return nameParts.map((part) => part[0]).join('').toUpperCase()
 }
