@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { SECONDS_IN_A_MINUTE } from '../constants/time'
+import { MS_PER_SECOND, SECONDS_PER_MINUTE } from '../constants/time'
 
 /**
  * @param {{
@@ -20,14 +20,14 @@ export const useCountDown = ({ initialSeconds, onFinish }) => {
 
     const intervalId = setInterval(() => {
       setTimeLeft((prev) => prev - 1)
-    }, 1000)
+    }, MS_PER_SECOND)
 
     return () => clearInterval(intervalId)
   }, [timeLeft])
 
   const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / SECONDS_IN_A_MINUTE)
-    const remainingSeconds = seconds % SECONDS_IN_A_MINUTE
+    const minutes = Math.floor(seconds / SECONDS_PER_MINUTE)
+    const remainingSeconds = seconds % SECONDS_PER_MINUTE
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 

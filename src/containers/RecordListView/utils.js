@@ -1,4 +1,4 @@
-import { MS_IN_A_WEEK } from '../../constants/time'
+import { MS_PER_WEEK } from '../../constants/time'
 
 /**
  * @param {{
@@ -14,7 +14,7 @@ export const isNextRecordInLast14Days = (records, index) => {
 
   return (
     !!records?.[index + 1] &&
-    now - records[index].updatedAt >= MS_IN_A_WEEK &&
-    now - records[index + 1].updatedAt <= MS_IN_A_WEEK
+    now - records[index].updatedAt >= MS_PER_WEEK &&
+    now - records[index + 1].updatedAt <= MS_PER_WEEK
   )
 }
