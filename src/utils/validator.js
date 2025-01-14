@@ -14,7 +14,7 @@ export class Validator {
     if (this.type !== 'string')
       throw new Error('minLength is only applicable to strings')
     this.validations.push((value) =>
-      value && value.length < length
+      value?.length < length
         ? message || `Minimum length is ${length}`
         : null
     )
@@ -25,7 +25,7 @@ export class Validator {
     if (this.type !== 'string')
       throw new Error('maxLength is only applicable to strings')
     this.validations.push((value) =>
-      value && value.length > length
+      value?.length > length
         ? message || `Maximum length is ${length}`
         : null
     )
