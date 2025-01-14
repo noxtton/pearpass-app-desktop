@@ -23,11 +23,11 @@ import {
   RightActions,
   ViewWrapper
 } from './styles'
+import { isNextRecordInLast14Days } from './utils'
 import { PopupMenu } from '../../components/PopupMenu'
 import { Record } from '../../components/Record'
 import { RecordPin } from '../../components/RecordPin/index.'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
-import { SEVEN_DAYS_IN_MILLISECONDS } from '../../constants/time'
 import { useRouter } from '../../context/RouterContext'
 
 /**
@@ -63,19 +63,9 @@ export const RecordListView = ({
 
   const sortedRecords = records.sort((a, b) => a.updatedAt - b.updatedAt)
 
-  const now = Date.now()
-
   const [isSortPopupOpen, setIsSortPopupOpen] = useState(false)
   const [sortType, setSortType] = useState('recent')
   const [isMultiSelect, setIsMultiSelect] = useState(false)
-
-  const isNextRecordInLast14Days = (records, index) => {
-    return (
-      records[index + 1] &&
-      now - records[index].updatedAt >= SEVEN_DAYS_IN_MILLISECONDS &&
-      now - records[index + 1].updatedAt <= SEVEN_DAYS_IN_MILLISECONDS
-    )
-  }
 
   const openRecordDetails = (record) => {
     navigate(currentPage, { recordId: record.id })
