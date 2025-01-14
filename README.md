@@ -4,7 +4,10 @@ PearPass is a distributed password manager powered by Pear Runtime. It allows se
 
 ## Prerequisites
 
-- **Node.js**: Ensure you have the correct Node.js version installed. You can check the required version in the `.nvs` 
+- **Node.js**: Ensure you have the correct Node.js version installed. You can check the required version in the `.nvmrc` file. And ensure it matches to your current node version  by running:
+```bash
+node --version
+```
 
 - **Pear**: Ensure you have Pear installed mode details can be found [here](https://docs.pears.com/guides)
 
