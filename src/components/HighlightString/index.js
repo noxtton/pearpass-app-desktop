@@ -10,11 +10,16 @@ export const HighlightString = ({ text }) => {
     return parts.map((part, index) => {
       if (/^\d+$/.test(part)) {
         return html`<${NumberSpan} key=${index}>${part}<//>`
-      } else if (part === '-') {
+      }
+
+      if (part === '-') {
         return html`<${DashSpan} key=${index}>${part}<//>`
-      } else if (/[^a-zA-Z\d\s]/.test(part)) {
+      }
+
+      if (/[^a-zA-Z\d\s]/.test(part)) {
         return html`<${SymbolSpan} key=${index}>${part}<//>`
       }
+
       return part
     })
   }
