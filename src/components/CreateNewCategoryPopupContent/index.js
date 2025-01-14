@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
 
 import { MenuItem, MenuList } from './styles'
-import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByTYpe'
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 
 /**
