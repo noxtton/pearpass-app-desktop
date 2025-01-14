@@ -36,15 +36,11 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
   const [values, setValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
 
-  const getHasAnyErrors = (errors) => {
-    const filteredErrors = Object.entries(errors).filter(
-      ([_, value]) => !!value?.length
-    )
-
-    return Object.keys(filteredErrors).length > 0
+  const hasSomeErrors = (errors) => {
+    return Object.entries(errors).some(([_, value]) => !!value?.length)
   }
 
-  const hasErrors = React.useMemo(() => getHasAnyErrors(errors), [errors])
+  const hasErrors = React.useMemo(() => hasSomeErrors(errors), [errors])
 
   const register = (name) => ({
     name,
@@ -111,7 +107,7 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
 
     const validationErrors = validate(values) || {}
 
-    if (!getHasAnyErrors(validationErrors)) {
+    if (!hasSomeErrors(validationErrors)) {
       callback(values)
     } else {
       setErrors(validationErrors)
