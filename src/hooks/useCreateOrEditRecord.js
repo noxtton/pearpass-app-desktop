@@ -5,6 +5,7 @@ import { CreateOrEditCustomModalContent } from '../containers/Modal/CreateOrEdit
 import { CreateOrEditIdentityModalContent } from '../containers/Modal/CreateOrEditIdentityModalContent'
 import { CreateOrEditLoginModalContent } from '../containers/Modal/CreateOrEditLoginModalContent'
 import { CreateOrEditNoteModalContent } from '../containers/Modal/CreateOrEditNoteModalContent'
+import { GeneratePasswordSideDrawerContent } from '../containers/Modal/GeneratePasswordSideDrawerContent'
 import { useModal } from '../context/ModalContext'
 
 /**
@@ -17,7 +18,7 @@ import { useModal } from '../context/ModalContext'
 export const useCreateOrEditRecord = () => {
   const { setModal } = useModal()
 
-  const getModalCOntentByRecordType = ({ recordType }) => {
+  const getModalContentByRecordType = ({ recordType }) => {
     if (recordType === 'login') {
       return html`<${CreateOrEditLoginModalContent} />`
     }
@@ -39,15 +40,22 @@ export const useCreateOrEditRecord = () => {
     }
   }
 
+  const getSideDrawerContentByRecordType = ({ recordType }) => {
+    if (recordType === 'password') {
+      return html`<${GeneratePasswordSideDrawerContent} />`
+    }
+  }
+
   const handleCreateOrEditRecord = ({ recordType }) => {
     if (recordType === 'password') {
-      setModal(html`<div>password</div>`, {
+      setModal(getSideDrawerContentByRecordType({ recordType }), {
         modalType: 'sideDrawer'
       })
+
       return
     }
 
-    setModal(getModalCOntentByRecordType({ recordType }))
+    setModal(getModalContentByRecordType({ recordType }))
   }
 
   return {

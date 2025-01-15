@@ -16,6 +16,7 @@ import {
   PearHand,
   Title
 } from './styles'
+import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 
@@ -26,7 +27,9 @@ export const InitialWelcomePage = () => {
   const { navigate } = useRouter()
 
   const handleNewVaultCreation = () => {
-    navigate('vault')
+    navigate('vault', {
+      recordType: 'all'
+    })
   }
 
   const handleLoadVault = () => {

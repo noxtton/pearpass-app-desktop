@@ -13,28 +13,38 @@ import {
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
+  FoldersWrapper,
   SettingsContainer,
   SettingsSeparator,
   sideBarContent,
-  SidebarLogo,
   SidebarNestedFoldersContainer,
   SidebarSettings,
   SidebarWrapper
 } from './styles'
 import { SidebarSearch } from '../../components/SidebarSearch'
-import { PearPassTextLogo } from '../../svgs/PearPassLogo'
+import { useModal } from '../../context/ModalContext'
+import { useRouter } from '../../context/RouterContext'
+import { LogoLock } from '../../svgs/LogoLock'
+import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
- * @typedef SidebarProps
- * @property {'default' | 'tight'} [sidebarSize]
+ * @param {{
+ *    sidebarSize?: 'default' | 'tight'
+ * }} props
  */
-
-/**
- * @param {SidebarProps} props
- */
-
 export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const { i18n } = useLingui()
+  const { navigate } = useRouter()
+
+  const handleSettingsClick = () => {
+    navigate('settings', {})
+  }
+
+  const openEmptyStates = () => {
+    navigate('empty', {
+      recordType: 'all'
+    })
+  }
 
   const sampleData = {
     name: i18n._('All Folders'),
@@ -83,11 +93,17 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     ]
   }
 
+  const { setModal } = useModal()
+
+  const handleAddDevice = () => {
+    setModal(html`<${AddDeviceModalContent} />`)
+  }
+
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
-      <${SidebarLogo}>
-        <${PearPassTextLogo} />
-      <//>
+      <div onClick=${openEmptyStates}>
+        <${LogoLock} width="126" height="26" />
+      </div>
 
       <${sideBarContent}>
         <${SideBarCategories} sidebarSize=${sidebarSize} />
@@ -95,19 +111,21 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${SidebarNestedFoldersContainer}>
           <${SidebarSearch} />
 
-          <${SidebarNestedFolders} item=${sampleData} key="rootFolder" />
+          <${FoldersWrapper}>
+            <${SidebarNestedFolders} item=${sampleData} key="rootFolder" />
+          <//>
         <//>
       <//>
 
       <${SidebarSettings}>
-        <${SettingsContainer}>
+        <${SettingsContainer} onClick=${handleSettingsClick}>
           <${SettingsIcon} size="14" />
           ${i18n._('Settings')}
         <//>
 
         <${SettingsSeparator} />
 
-        <${ButtonThin} leftIcon=${UserSecurityIcon}>
+        <${ButtonThin} leftIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
         <//>
       <//>

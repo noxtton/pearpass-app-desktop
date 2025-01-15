@@ -10,7 +10,7 @@ import {
 /**
  * @param {{
  *  size: 'default' | 'tight',
- *  selected: boolean,
+ *  isSelected: boolean,
  *  categoryName: string,
  *  quantity: number,
  *  color: string,
@@ -20,7 +20,7 @@ import {
  */
 export const SidebarCategory = ({
   size = 'default',
-  selected = false,
+  isSelected = false,
   categoryName,
   quantity = 0,
   color,
@@ -31,18 +31,18 @@ export const SidebarCategory = ({
     <${CategoryButton}
       size=${size}
       color=${color}
-      selected=${selected}
+      isSelected=${isSelected}
       onClick=${onClick}
     >
       <${CategoryDescription} size=${size}>
-        <${CategoryIconWrapper} selected=${selected} color=${color}>
+        <${CategoryIconWrapper} isSelected=${isSelected} color=${color}>
           <${icon} />
         <//>
 
         <span>${categoryName}</span>
       <//>
 
-      <${CategoryQuantity}>${quantity}<//>
+      <${CategoryQuantity} size=${size}>${quantity}<//>
     <//>
   `
 }

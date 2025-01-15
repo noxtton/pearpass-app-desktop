@@ -5,7 +5,7 @@ export const NestedFoldersContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 2px 4px;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 `
 
 export const NestedItem = styled.div`

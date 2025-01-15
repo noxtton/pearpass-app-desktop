@@ -1,12 +1,14 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
     "type": "desktop",
     "gui": {
       "backgroundColor": "#1F2430",
+      "minWidth": "1080",
+      "minHeight": "720",
       "height": "1024",
       "width": "1440"
     }
@@ -32,7 +34,7 @@
     "@lingui/macro": "^5.1.2",
     "@lingui/react": "^5.1.2",
     "htm": "^3.1.1",
-    "pearpass-lib-ui-react-components": "github:tetherto/pearpass-lib-ui-react-components#v0.0.14",
+    "pearpass-lib-ui-react-components": "github:tetherto/pearpass-lib-ui-react-components#v0.0.27",
     "pearpass-lib-ui-theme-provider": "github:tetherto/pearpass-lib-ui-theme-provider#v0.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

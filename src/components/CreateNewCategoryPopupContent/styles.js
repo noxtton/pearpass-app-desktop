@@ -1,49 +1,5 @@
 import styled from 'styled-components'
 
-export const MenuWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-`
-
-export const MenuCard = styled.div`
-  position: absolute;
-  z-index: 1000;
-  width: 200px;
-  bottom: -10px;
-  ${({ side, align }) => {
-    let styles = ''
-
-    switch (side) {
-      case 'left':
-        styles += 'left: 0;'
-        break
-      case 'center':
-        styles += 'left: 50%;'
-        break
-      case 'right':
-        styles += 'left: 100%;'
-        break
-    }
-
-    switch (align) {
-      case 'left':
-        styles += 'transform: translateX(0);'
-        break
-      case 'center':
-        styles += 'transform: translateX(-50%);'
-        break
-      case 'right':
-        styles += 'transform: translateX(-100%);'
-        break
-    }
-
-    return styles
-  }};
-`
-
-export const MenuTrigger = styled.div`
-  cursor: pointer;
-`
 export const MenuList = styled.div`
   display: flex;
   font-family: 'Inter';
