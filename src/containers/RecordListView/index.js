@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -23,11 +23,11 @@ import {
   RightActions,
   ViewWrapper
 } from './styles'
+import { isNextRecordInLast14Days } from './utils'
 import { PopupMenu } from '../../components/PopupMenu'
 import { Record } from '../../components/Record'
 import { RecordPin } from '../../components/RecordPin/index.'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
-import { SEVEN_DAYS_IN_MILLISECONDS } from '../../constants/time'
 import { useRouter } from '../../context/RouterContext'
 
 /**
@@ -63,30 +63,20 @@ export const RecordListView = ({
 
   const sortedRecords = records.sort((a, b) => a.updatedAt - b.updatedAt)
 
-  const now = Date.now()
-
   const [isSortPopupOpen, setIsSortPopupOpen] = useState(false)
   const [sortType, setSortType] = useState('recent')
   const [isMultiSelect, setIsMultiSelect] = useState(false)
-
-  const isNextRecordInLast14Days = (records, index) => {
-    return (
-      records[index + 1] &&
-      now - records[index].updatedAt >= SEVEN_DAYS_IN_MILLISECONDS &&
-      now - records[index + 1].updatedAt <= SEVEN_DAYS_IN_MILLISECONDS
-    )
-  }
 
   const openRecordDetails = (record) => {
     navigate(currentPage, { recordId: record.id })
   }
 
-  const handleRecordClick = (record) => {
+  const handleRecordClick = (record, isSelected) => {
     if (isMultiSelect) {
       setSelectedRecords((prev) =>
-        prev.includes(record.name)
-          ? prev.filter((name) => name !== record.name)
-          : [...prev, record.name]
+        isSelected
+          ? prev.filter((id) => id !== record.id)
+          : [...prev, record.id]
       )
 
       return
@@ -179,6 +169,7 @@ export const RecordListView = ({
 
       <${RecordsSection}>
         <${DatePeriod}> ${i18n._('Last 7 days')} <//>
+        <<<<<<< HEAD
         ${sortedRecords.map(
           (record, index) =>
             html`<${Record}
@@ -191,6 +182,24 @@ export const RecordListView = ({
               ${isNextRecordInLast14Days(sortedRecords, index) &&
               html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `} `
         )}
+        =======
+        ${sortedRecords.map((record, index) => {
+          const isSelected = selectedRecords.includes(record.id)
+
+          return html`
+            <${React.Fragment} key=${record.id}>
+              <${Record}
+                record=${record}
+                isSelected=${isSelected}
+                onClick=${() => handleRecordClick(record, isSelected)}
+              />
+
+              ${isNextRecordInLast14Days(sortedRecords, index) &&
+              html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `}
+            <//>
+          `
+        })}
+        >>>>>>> main
       <//>
     <//>
   `

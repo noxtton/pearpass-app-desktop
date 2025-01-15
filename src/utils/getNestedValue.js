@@ -1,9 +1,17 @@
-export const getNestedValue = (obj, path, defaultValue) => {
-  if (!obj) return defaultValue
+import { getPathArray } from './getPathArray'
 
-  const pathArray = Array.isArray(path)
-    ? path
-    : path.replace(/\[(\w+)\]/g, '.$1').split('.')
+/**
+ * @param {object} obj
+ * @param {string | string[]} path
+ * @param {any} value
+ * @returns {object}
+ */
+export const getNestedValue = (obj, path, defaultValue) => {
+  if (!obj) {
+    return defaultValue
+  }
+
+  const pathArray = getPathArray(path)
 
   return pathArray.reduce((acc, key) => {
     return acc && acc[key] !== undefined ? acc[key] : defaultValue

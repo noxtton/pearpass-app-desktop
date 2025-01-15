@@ -6,6 +6,7 @@ import { Overlay } from '../components/Overlay'
 import { BASE_TRANSITION_DURATION } from '../constants/transitions'
 import { ModalWrapper } from '../containers/Modal'
 import { SideDrawer } from '../containers/Modal/SideDrawer'
+import { generateUniqueId } from '../utils/generateUniqueId'
 
 const ModalContext = createContext()
 
@@ -24,7 +25,7 @@ export const ModalProvider = ({ children }) => {
       ...prevState,
       {
         content,
-        id: new Date().getTime(),
+        id: generateUniqueId(),
         isOpen: true,
         params: {
           hasOverlay: params?.hasOverlay ?? true,

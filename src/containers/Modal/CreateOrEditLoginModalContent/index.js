@@ -43,8 +43,8 @@ export const CreateOrEditLoginModalContent = () => {
   ])
 
   const handleAddWebsite = () => {
-    setWebsites((websites) => [
-      ...websites,
+    setWebsites((prev) => [
+      ...prev,
       {
         id: generateUniqueId()
       }

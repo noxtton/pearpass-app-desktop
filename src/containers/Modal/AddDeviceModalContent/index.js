@@ -90,7 +90,7 @@ export const AddDeviceModalContent = () => {
 
           <${WarningText}>
             ${i18n._(
-              'Caution: You’re generating a secure invitation to sync another device with your vault. Treat ths invite with the same confidentiality as your password.'
+              'Caution: You’re generating a secure invitation to sync another device with your vault. Treat this invite with the same confidentiality as your password.'
             )}
           <//>
         <//>

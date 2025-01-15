@@ -1,13 +1,13 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
     "type": "desktop",
     "gui": {
       "backgroundColor": "#1F2430",
-      "minWidth": "1280",
+      "minWidth": "1080",
       "minHeight": "720",
       "height": "1024",
       "width": "1440"

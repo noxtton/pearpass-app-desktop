@@ -1,11 +1,19 @@
+import { getPathArray } from './getPathArray'
+
+/**
+ * @param {object} obj
+ * @param {string | string[]} path
+ * @param {any} value
+ * @returns {object}
+ */
 export const setNestedValue = (obj, path, value) => {
-  if (!obj) return
+  if (!obj) {
+    return
+  }
 
   const result = { ...obj }
 
-  const pathArray = Array.isArray(path)
-    ? path
-    : path.replace(/\[(\w+)\]/g, '.$1').split('.')
+  const pathArray = getPathArray(path)
 
   pathArray.reduce((acc, key, index) => {
     if (index === pathArray.length - 1) {
