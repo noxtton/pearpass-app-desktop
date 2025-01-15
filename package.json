@@ -25,7 +25,7 @@
   "devDependencies": {
     "brittle": "^3.0.0",
     "pear-interface": "^1.0.0",
-    "pearpass-eslint-config": "github:noxtton/pearpass-eslint-config#v0.0.1"
+    "pearpass-eslint-config": "github:noxtton/pearpass-eslint-config#v0.0.2"
   },
   "dependencies": {
     "@lingui/cli": "^5.1.2",
