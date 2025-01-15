@@ -169,20 +169,6 @@ export const RecordListView = ({
 
       <${RecordsSection}>
         <${DatePeriod}> ${i18n._('Last 7 days')} <//>
-        <<<<<<< HEAD
-        ${sortedRecords.map(
-          (record, index) =>
-            html`<${Record}
-                key=${record.name}
-                record=${record}
-                isSelected=${selectedRecords.includes(record.name)}
-                onClick=${() => handleRecordClick(record)}
-              />
-
-              ${isNextRecordInLast14Days(sortedRecords, index) &&
-              html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `} `
-        )}
-        =======
         ${sortedRecords.map((record, index) => {
           const isSelected = selectedRecords.includes(record.id)
 
@@ -199,7 +185,6 @@ export const RecordListView = ({
             <//>
           `
         })}
-        >>>>>>> main
       <//>
     <//>
   `

@@ -1,4 +1,4 @@
-SSSSS /**
+/**
  * @param {string} name
  * @returns {string}
  */
