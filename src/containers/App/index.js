@@ -3,12 +3,12 @@ import { useEffect } from 'react'
 import { html } from 'htm/react'
 
 import { AppWrapper } from './styles.js'
-import { SettingsView } from '../../components/SettingsView/index.js'
 import { useRouter } from '../../context/RouterContext.js'
 import { InitialLoadPage } from '../InitialPage'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { MainView } from '../MainView/index.js'
 import { RecordDetails } from '../RecordDetails'
+import { SettingsView } from '../SettingsView/index.js'
 import { InitialWelcomePage } from '../WelcomePage'
 
 export const App = () => {
@@ -32,7 +32,7 @@ export const App = () => {
     // Simulate loading
     setTimeout(() => {
       navigate('welcome')
-    }, 2000)
+    }, 3000)
   }, [])
 
   return html`

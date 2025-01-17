@@ -21,6 +21,8 @@ import {
   HeaderTitle,
   IconWrapper,
   QRCode,
+  QRCodeCopy,
+  QRCodeCopyWrapper,
   QRCodeSection,
   QRCodeText,
   WarningSection,
@@ -57,11 +59,9 @@ export const AddDeviceModalContent = () => {
     >
       <${Content}>
         <${QRCodeSection}>
-          <${QRCodeText}> ${i18n._('This device’s QR code')} <//>
+          <${QRCodeText}> ${i18n._('Scan this QR code')} <//>
 
           <${QRCode} src="assets/images/qr-code.png" />
-
-          <${QRCodeText}> ${i18n._('or copy account link')} <//>
         <//>
 
         <${BackgroundSection}>
@@ -76,10 +76,14 @@ export const AddDeviceModalContent = () => {
         <//>
 
         <${BackgroundSection} onClick=${() => copyToClipboard(URL)}>
-          <${CopyText}> ${i18n._(isCopied ? 'Copied!' : URL)} <//>
-
-          <${IconWrapper}>
-            <${CopyIcon} color=${colors.primary400.mode1} />
+          <${QRCodeCopyWrapper}>
+            <${QRCodeCopy}>
+              <${QRCodeText}> ${i18n._('Copy accont link')} <//>
+              <${IconWrapper}>
+                <${CopyIcon} color=${colors.primary400.mode1} />
+              <//>
+            <//>
+            <${CopyText}> ${i18n._(isCopied ? 'Copied!' : URL)} <//>
           <//>
         <//>
 

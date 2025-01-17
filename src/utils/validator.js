@@ -68,7 +68,28 @@ export class Validator {
     return this
   }
 
+  email(message) {
+    if (this.type !== 'string') {
+      throw new Error('email is only applicable to strings')
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    this.validations.push((value) =>
+      value && !emailRegex.test(value) ? message : null
+    )
+
+    return this
+  }
+
   validate(value) {
+    if (
+      this.type !== 'array' &&
+      value !== undefined &&
+      typeof value !== this.type
+    ) {
+      return `Expected ${this.type}, but got ${typeof value}`
+    }
+
     if (this.type === 'array' && this.itemSchema) {
       const itemErrors = value?.map((item) => this.itemSchema.validate(item))
 

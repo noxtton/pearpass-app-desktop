@@ -17,7 +17,8 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useModal } from '../../../context/ModalContext'
-import { useCustomFields } from '../../../hooks/useCustomFields'
+import { useForm } from '../../../hooks/useForm'
+import { Validator } from '../../../utils/validator'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 import { UploadImageModalContent } from '../UploadImageModalContent'
@@ -25,7 +26,52 @@ import { UploadImageModalContent } from '../UploadImageModalContent'
 export const CreateOrEditIdentityModalContent = () => {
   const { i18n } = useLingui()
   const { setModal, closeModal } = useModal()
-  const { customFields, createCustomField } = useCustomFields()
+
+  const schema = Validator.object({
+    title: Validator.string().required(i18n._('Title is required')),
+    fullName: Validator.string(),
+    email: Validator.string().email(i18n._('Invalid email format')),
+    phoneNumber: Validator.string(),
+    address: Validator.string(),
+    cap: Validator.string(),
+    city: Validator.string(),
+    region: Validator.string(),
+    country: Validator.string(),
+    note: Validator.string(),
+    customFields: Validator.array().items(
+      Validator.object({
+        note: Validator.string().required(i18n._('Note is required'))
+      })
+    )
+  })
+
+  const form = useForm({
+    initialValues: {
+      title: '',
+      fullName: '',
+      email: '',
+      phoneNumber: '',
+      address: '',
+      cap: '',
+      city: '',
+      region: '',
+      country: '',
+      note: ''
+    },
+    validate: (values) => {
+      return schema.validate(values)
+    }
+  })
+
+  const { hasErrors, register, handleSubmit, registerArray } = form
+
+  const { value: list, addItem, registerItem } = registerArray('customFields')
+
+  const onSubmit = () => {
+    if (!hasErrors) {
+      closeModal()
+    }
+  }
 
   const onLoadPicture = () => {
     setModal(html` <${UploadImageModalContent} /> `)
@@ -41,7 +87,12 @@ export const CreateOrEditIdentityModalContent = () => {
               ${i18n._('Load picture')}
             <//>
 
-            <${ButtonLittle} startIcon=${SaveIcon}> ${i18n._('Identity')} <//>
+            <${ButtonLittle}
+              onClick=${handleSubmit(onSubmit)}
+              startIcon=${SaveIcon}
+            >
+              ${i18n._('Identity')}
+            <//>
           `}
         >
           <${FolderDropdown} />
@@ -54,6 +105,7 @@ export const CreateOrEditIdentityModalContent = () => {
             label=${i18n._('Title')}
             placeholder=${i18n._('Insert title')}
             variant="outline"
+            ...${register('title')}
           />
         <//>
 
@@ -63,6 +115,7 @@ export const CreateOrEditIdentityModalContent = () => {
             placeholder=${i18n._('Full name')}
             variant="outline"
             icon=${UserIcon}
+            ...${register('fullname')}
           />
 
           <${InputField}
@@ -70,6 +123,7 @@ export const CreateOrEditIdentityModalContent = () => {
             placeholder=${i18n._('Insert email')}
             variant="outline"
             icon=${EmailIcon}
+            ...${register('email')}
           />
 
           <${InputField}
@@ -77,6 +131,7 @@ export const CreateOrEditIdentityModalContent = () => {
             placeholder=${i18n._('Phone number ')}
             variant="outline"
             icon=${PhoneIcon}
+            ...${register('phoneNumber')}
           />
         <//>
 
@@ -85,41 +140,48 @@ export const CreateOrEditIdentityModalContent = () => {
             label=${i18n._('Address')}
             placeholder=${i18n._('Address')}
             variant="outline"
+            ...${register('address')}
           />
 
           <${InputField}
             label=${i18n._('CAP')}
             placeholder=${i18n._('Inser cap')}
             variant="outline"
+            ...${register('cap')}
           />
 
           <${InputField}
             label=${i18n._('City')}
             placeholder=${i18n._('City')}
             variant="outline"
+            ...${register('city')}
           />
 
           <${InputField}
             label=${i18n._('Region')}
             placeholder=${i18n._('Region')}
             variant="outline"
+            ...${register('region')}
           />
 
           <${InputField}
             label=${i18n._('Country')}
             placeholder=${i18n._('Country')}
             variant="outline"
+            ...${register('country')}
           />
         <//>
 
         <${FormGroup}>
-          <${InputFieldNote} />
+          <${InputFieldNote} ...${register('note')} />
         <//>
 
-        <${CustomFields} customFields=${customFields} />
+        <${CustomFields} customFields=${list} register=${registerItem} />
 
         <${FormGroup}>
-          <${CreateCustomField} onCreateCustom=${createCustomField} />
+          <${CreateCustomField}
+            onCreateCustom=${(type) => addItem({ type: type, name: type })}
+          />
         <//>
       <//>
     <//>

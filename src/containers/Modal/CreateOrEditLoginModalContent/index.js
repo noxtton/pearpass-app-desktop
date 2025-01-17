@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -14,7 +14,8 @@ import {
   PasswordIcon,
   PlusIcon,
   DeleteIcon,
-  WorldIcon
+  WorldIcon,
+  PasswordField
 } from 'pearpass-lib-ui-react-components'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
@@ -25,35 +26,71 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
-import { useCustomFields } from '../../../hooks/useCustomFields'
-import { generateUniqueId } from '../../../utils/generateUniqueId'
+import { useForm } from '../../../hooks/useForm'
+import { Validator } from '../../../utils/validator'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
 export const CreateOrEditLoginModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
-  const { customFields, createCustomField } = useCustomFields()
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
-  const [websites, setWebsites] = useState([
-    {
-      id: generateUniqueId()
+  const schema = Validator.object({
+    title: Validator.string().required(i18n._('Title is required')),
+    emailOrUsername: Validator.string(),
+    password: Validator.string(),
+    secretKey: Validator.string(),
+    note: Validator.string(),
+    websites: Validator.array().items(
+      Validator.object({
+        website: Validator.string().required(i18n._('Website is required'))
+      })
+    ),
+    customFields: Validator.array().items(
+      Validator.object({
+        note: Validator.string().required(i18n._('Note is required'))
+      })
+    )
+  })
+
+  const form = useForm({
+    initialValues: {
+      title: '',
+      emailOrUsername: '',
+      password: '',
+      secretKey: '',
+      note: ''
+    },
+    validate: (values) => {
+      return schema.validate(values)
     }
-  ])
+  })
 
-  const handleAddWebsite = () => {
-    setWebsites((prev) => [
-      ...prev,
-      {
-        id: generateUniqueId()
-      }
-    ])
+  const { hasErrors, register, handleSubmit, registerArray } = form
+
+  const {
+    value: list,
+    addItem,
+    registerItem,
+    removeItem
+  } = registerArray('websites')
+
+  const {
+    value: customFieldsList,
+    addItem: addCustomField,
+    registerItem: registerCustomFieldItem
+  } = registerArray('customFields')
+
+  const onSubmit = () => {
+    if (!hasErrors) {
+      closeModal()
+    }
   }
 
-  const handleRemoveWebsite = (id) => {
-    setWebsites((websites) => websites.filter((website) => website.id !== id))
-  }
+  useEffect(() => {
+    addItem({ name: 'website' })
+  }, [])
 
   return html`
     <${ModalContent}
@@ -61,7 +98,12 @@ export const CreateOrEditLoginModalContent = () => {
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle} startIcon=${SaveIcon}> ${i18n._('Login')} <//>
+            <${ButtonLittle}
+              startIcon=${SaveIcon}
+              onClick=${handleSubmit(onSubmit)}
+            >
+              ${i18n._('Login')}
+            <//>
           `}
         >
           <${FolderDropdown} />
@@ -74,6 +116,7 @@ export const CreateOrEditLoginModalContent = () => {
             label=${i18n._('Title')}
             placeholder=${i18n._('Insert title')}
             variant="outline"
+            ...${register('title')}
           />
         <//>
 
@@ -83,9 +126,10 @@ export const CreateOrEditLoginModalContent = () => {
             placeholder=${i18n._('Email or username')}
             variant="outline"
             icon=${UserIcon}
+            ...${register('emailOrUsername')}
           />
 
-          <${InputField}
+          <${PasswordField}
             label=${i18n._('Password')}
             placeholder=${i18n._('Password')}
             variant="outline"
@@ -97,6 +141,7 @@ export const CreateOrEditLoginModalContent = () => {
                   handleCreateOrEditRecord({ recordType: 'password' })}
               />
             `}
+            ...${register('password')}
           />
 
           <${InputField}
@@ -104,22 +149,24 @@ export const CreateOrEditLoginModalContent = () => {
             placeholder=${i18n._('Insert code')}
             variant="outline"
             icon=${LockIcon}
+            ...${register('secretKey')}
           />
         <//>
 
         <${CompoundField}>
-          ${websites.map((website, index) => {
+          ${list.map((website, index) => {
             return html`
               <${React.Fragment} key=${website.id}>
                 <${InputField}
                   label=${i18n._('Website')}
                   placeholder=${i18n._('https://')}
                   icon=${WorldIcon}
+                  ...${registerItem('website', index)}
                   additionalItems=${index === 0
                     ? html`
                         <${ButtonSingleInput}
                           startIcon=${PlusIcon}
-                          onClick=${handleAddWebsite}
+                          onClick=${() => addItem({ name: 'website' })}
                         >
                           ${i18n._('Add website')}
                         <//>
@@ -127,7 +174,7 @@ export const CreateOrEditLoginModalContent = () => {
                     : html`
                         <${ButtonSingleInput}
                           startIcon=${DeleteIcon}
-                          onClick=${() => handleRemoveWebsite(website.id)}
+                          onClick=${() => removeItem(index)}
                         >
                           ${i18n._('Remove website')}
                         <//>
@@ -139,13 +186,19 @@ export const CreateOrEditLoginModalContent = () => {
         <//>
 
         <${FormGroup}>
-          <${InputFieldNote} />
+          <${InputFieldNote} ...${register('note')} />
         <//>
 
-        <${CustomFields} customFields=${customFields} />
+        <${CustomFields}
+          customFields=${customFieldsList}
+          register=${registerCustomFieldItem}
+        />
 
         <${FormGroup}>
-          <${CreateCustomField} onCreateCustom=${createCustomField} />
+          <${CreateCustomField}
+            onCreateCustom=${(type) =>
+              addCustomField({ type: type, name: type })}
+          />
         <//>
       <//>
     <//>

@@ -15,7 +15,6 @@ export const useRecordActionItems = ({ excludeTypes = [] } = {}) => {
   const { i18n } = useLingui()
 
   const defaultActions = [
-    { name: i18n._('Fix element'), type: 'fix' },
     { name: i18n._('Select element'), type: 'select' },
     { name: i18n._('Pin element'), type: 'pin' },
     { name: i18n._('Move to another folder'), type: 'move' },

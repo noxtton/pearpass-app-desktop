@@ -18,15 +18,13 @@ import {
   DatePeriod,
   Folder,
   LeftActions,
-  PinnedRecordsSection,
   RecordsSection,
   RightActions,
   ViewWrapper
 } from './styles'
-import { isNextRecordInLast14Days } from './utils'
+import { isStartOfLast14DaysGroup, isStartOfLast7DaysGroup } from './utils'
 import { PopupMenu } from '../../components/PopupMenu'
 import { Record } from '../../components/Record'
-import { RecordPin } from '../../components/RecordPin/index.'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
 import { useRouter } from '../../context/RouterContext'
 
@@ -61,7 +59,12 @@ export const RecordListView = ({
     { name: i18n._('Oldest to newest'), icon: ArrowUpAndDown, type: 'oldToNew' }
   ]
 
-  const sortedRecords = records.sort((a, b) => a.updatedAt - b.updatedAt)
+  const sortedRecords = records.sort((a, b) => {
+    if (a.isPinned === b.isPinned) {
+      return b.updatedAt - a.updatedAt
+    }
+    return a.isPinned ? -1 : 1
+  })
 
   const [isSortPopupOpen, setIsSortPopupOpen] = useState(false)
   const [sortType, setSortType] = useState('recent')
@@ -94,8 +97,6 @@ export const RecordListView = ({
   const selectedSortAction = sortActions.find(
     (action) => action.type === sortType
   )
-
-  const pinnedRecords = records.filter((record) => record.isPinned)
 
   return html`
     <${ViewWrapper}>
@@ -152,36 +153,36 @@ export const RecordListView = ({
       <//>
 
       ${!isMultiSelect &&
-      html`
-        <${PinnedRecordsSection}>
-          ${pinnedRecords.map(
-            (record) =>
-              html`<${RecordPin}
-                name=${record.name}
-                avatarSrc=${record.avatarSrc}
-                onClick=${() => openRecordDetails(record)}
-              />`
-          )}
-        <//>
-
-        <${Folder}><${FolderIcon} /> Social media <//>
-      `}
+      html` <${Folder}><${FolderIcon} /> Social media <//> `}
 
       <${RecordsSection}>
-        <${DatePeriod}> ${i18n._('Last 7 days')} <//>
         ${sortedRecords.map((record, index) => {
           const isSelected = selectedRecords.includes(record.id)
 
+          const isStartOfLast7Days = isStartOfLast7DaysGroup(
+            record,
+            index,
+            sortedRecords
+          )
+
+          const isStartOfLast14Days = isStartOfLast14DaysGroup(
+            record,
+            index,
+            sortedRecords
+          )
+
           return html`
             <${React.Fragment} key=${record.id}>
+              ${isStartOfLast7Days &&
+              html`<${DatePeriod}> ${i18n._('Last 7 days')} <//>`}
+              ${isStartOfLast14Days &&
+              html`<${DatePeriod}> ${i18n._('Last 14 days')} <//>`}
+
               <${Record}
                 record=${record}
                 isSelected=${isSelected}
                 onClick=${() => handleRecordClick(record, isSelected)}
               />
-
-              ${isNextRecordInLast14Days(sortedRecords, index) &&
-              html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `}
             <//>
           `
         })}

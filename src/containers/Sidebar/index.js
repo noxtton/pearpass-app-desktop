@@ -14,6 +14,7 @@ import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
   FoldersWrapper,
+  LogoWrapper,
   SettingsContainer,
   SettingsSeparator,
   sideBarContent,
@@ -40,8 +41,8 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     navigate('settings', {})
   }
 
-  const openEmptyStates = () => {
-    navigate('empty', {
+  const openMainView = () => {
+    navigate('vault', {
       recordType: 'all'
     })
   }
@@ -101,9 +102,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
-      <div onClick=${openEmptyStates}>
+      <${LogoWrapper} onClick=${openMainView}>
         <${LogoLock} width="126" height="26" />
-      </div>
+      <//>
 
       <${sideBarContent}>
         <${SideBarCategories} sidebarSize=${sidebarSize} />
@@ -125,7 +126,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
         <${SettingsSeparator} />
 
-        <${ButtonThin} leftIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
+        <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
         <//>
       <//>

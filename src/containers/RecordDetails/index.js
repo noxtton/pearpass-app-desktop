@@ -106,7 +106,7 @@ export const RecordDetails = () => {
 
         <${CompoundField} isDisabled>
           <${InputField}
-            label=${i18n._('Website')}
+            label=${i18n._('Note')}
             value=${MOCK_DATA.note}
             icon=${CommonFileIcon}
             isDisabled

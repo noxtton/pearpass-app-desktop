@@ -3,16 +3,15 @@ import { html } from 'htm/react'
 import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
 
 import { NavBar, Wrapper } from './styles'
+import { SettingsReportProblem } from '../../components/SettingsReportProblem'
 import { useRouter } from '../../context/RouterContext'
-import { SettingsReportProblem } from '../SettingsReportProblem'
 
 export const SettingsView = () => {
   const { i18n } = useLingui()
   const { navigate } = useRouter()
 
   const handleGoBack = () => {
-    navigate('welcome', {
-      recordId: '',
+    navigate('vault', {
       recordType: 'all'
     })
   }

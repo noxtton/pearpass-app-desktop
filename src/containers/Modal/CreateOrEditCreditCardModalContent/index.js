@@ -22,23 +22,24 @@ import { Validator } from '../../../utils/validator'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
-const schema = Validator.object({
-  title: Validator.string().required('Title is required'),
-  fullName: Validator.string(),
-  numberOnCard: Validator.string(),
-  dateOfExpire: Validator.string(),
-  securityCode: Validator.string(),
-  pinCode: Validator.string(),
-  customFields: Validator.array().items(
-    Validator.object({
-      note: Validator.string().required('Type is required')
-    })
-  )
-})
-
 export const CreateOrEditCreditCardModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+
+  const schema = Validator.object({
+    title: Validator.string().required(i18n._('Title is required')),
+    fullName: Validator.string(),
+    numberOnCard: Validator.string(),
+    dateOfExpire: Validator.string(),
+    securityCode: Validator.string(),
+    pinCode: Validator.string(),
+    note: Validator.string(),
+    customFields: Validator.array().items(
+      Validator.object({
+        note: Validator.string().required(i18n._('Note is required'))
+      })
+    )
+  })
 
   const form = useForm({
     initialValues: {
@@ -47,7 +48,8 @@ export const CreateOrEditCreditCardModalContent = () => {
       numberOnCard: '',
       dateOfExpire: '',
       securityCode: '',
-      pinCode: ''
+      pinCode: '',
+      note: ''
     },
     validate: (values) => {
       return schema.validate(values)
@@ -135,7 +137,7 @@ export const CreateOrEditCreditCardModalContent = () => {
         <//>
 
         <${FormGroup}>
-          <${InputFieldNote} />
+          <${InputFieldNote} ...${register('note')} />
         <//>
 
         <${CustomFields} customFields=${list} register=${registerItem} />

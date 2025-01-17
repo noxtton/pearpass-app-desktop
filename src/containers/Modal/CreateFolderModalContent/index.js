@@ -12,13 +12,13 @@ import { HeaderWrapper } from './styles'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
 
-const schema = Validator.object({
-  title: Validator.string().required('Title is required')
-})
-
 export const CreateFolderModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+
+  const schema = Validator.object({
+    title: Validator.string().required(i18n._('Title is required'))
+  })
 
   const { hasErrors, register, handleSubmit } = useForm({
     initialValues: {
