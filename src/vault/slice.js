@@ -138,7 +138,7 @@ export const selectRecords =
           return false
         }
 
-        return true
+        return filters?.isFolder === true || !!record.data
       }) ?? []
 
     const sortedRecords = [...records].sort((a, b) => {
@@ -168,7 +168,8 @@ export const selectRecords =
 export const selectFolders = (filters) => (state) => {
   const { isLoading, data: records } = selectRecords({
     filters: {
-      searchPattern: filters?.searchPattern
+      searchPattern: filters?.searchPattern,
+      isFolder: true
     }
   })(state)
 
