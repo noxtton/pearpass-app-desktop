@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
  * @param {{ value: any, delay: number }} params
  * @returns {{ debouncedValue: any, debounce: (callback: () => void) => void }}
  */
-export const useDebounce = ({ value, delay }) => {
+export const useDebounce = ({ value, delay = 200 } = {}) => {
   const [debouncedValue, setDebouncedValue] = useState(value)
 
   const debounce = (callback) => {

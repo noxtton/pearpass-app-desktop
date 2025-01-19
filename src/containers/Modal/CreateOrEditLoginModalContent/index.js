@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -9,7 +9,6 @@ import {
   CompoundField,
   UserIcon,
   KeyIcon,
-  LockIcon,
   ButtonSingleInput,
   PasswordIcon,
   PlusIcon,
@@ -24,53 +23,93 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
+import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
-export const CreateOrEditLoginModalContent = () => {
+/**
+ * @param {{
+ *   initialRecord: {
+ *   data: {
+ *    title: string
+ *    username: string
+ *    password: string
+ *    note: string
+ *    websites: string[]
+ *    customFields: {
+ *        type: string
+ *        name: string
+ *     }[]
+ *    }
+ *  }
+ *  selectedFolder?: string
+ * }} props
+ */
+export const CreateOrEditLoginModalContent = ({
+  initialRecord,
+  selectedFolder
+}) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
+  const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
+    onCompleted: () => {
+      closeModal()
+    }
+  })
+
+  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+    onCompleted: () => {
+      closeModal()
+    }
+  })
+
+  const isLoading = isCreateLoading || isUpdateLoading
+
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
-    emailOrUsername: Validator.string(),
+    username: Validator.string(),
     password: Validator.string(),
-    secretKey: Validator.string(),
     note: Validator.string(),
     websites: Validator.array().items(
       Validator.object({
-        website: Validator.string().required(i18n._('Website is required'))
+        website: Validator.string()
       })
     ),
     customFields: Validator.array().items(
       Validator.object({
         note: Validator.string().required(i18n._('Note is required'))
       })
-    )
+    ),
+    folder: Validator.string()
   })
 
-  const form = useForm({
+  const { register, handleSubmit, registerArray, values, setValue } = useForm({
     initialValues: {
-      title: '',
-      emailOrUsername: '',
-      password: '',
-      secretKey: '',
-      note: ''
+      title: initialRecord?.data?.title ?? '',
+      username: initialRecord?.data?.username ?? '',
+      password: initialRecord?.data?.password ?? '',
+      note: initialRecord?.data?.note ?? '',
+      websites: initialRecord?.data?.websites?.length
+        ? initialRecord?.data?.websites.map((website) => ({ website }))
+        : [{ name: 'website' }],
+      customFields: initialRecord?.data.customFields ?? [],
+      folder: selectedFolder ?? initialRecord?.folder
     },
     validate: (values) => {
       return schema.validate(values)
     }
   })
 
-  const { hasErrors, register, handleSubmit, registerArray } = form
-
   const {
-    value: list,
+    value: websitesList,
     addItem,
     registerItem,
     removeItem
@@ -82,15 +121,31 @@ export const CreateOrEditLoginModalContent = () => {
     registerItem: registerCustomFieldItem
   } = registerArray('customFields')
 
-  const onSubmit = () => {
-    if (!hasErrors) {
-      closeModal()
+  const onSubmit = (values) => {
+    const data = {
+      type: 'login',
+      folder: values.folder,
+      data: {
+        title: values.title,
+        username: values.username,
+        password: values.password,
+        note: values.note,
+        websites: values.websites
+          .map((website) => website.website)
+          .filter((website) => !!website?.trim().length),
+        customFields: values.customFields
+      }
+    }
+
+    if (initialRecord) {
+      updateRecord({
+        ...initialRecord,
+        ...data
+      })
+    } else {
+      createRecord(data)
     }
   }
-
-  useEffect(() => {
-    addItem({ name: 'website' })
-  }, [])
 
   return html`
     <${ModalContent}
@@ -106,7 +161,10 @@ export const CreateOrEditLoginModalContent = () => {
             <//>
           `}
         >
-          <${FolderDropdown} />
+          <${FolderDropdown}
+            selectedFolder=${values?.folder}
+            onFolderSelect=${(folder) => setValue('folder', folder)}
+          />
         <//>
       `}
     >
@@ -126,7 +184,7 @@ export const CreateOrEditLoginModalContent = () => {
             placeholder=${i18n._('Email or username')}
             variant="outline"
             icon=${UserIcon}
-            ...${register('emailOrUsername')}
+            ...${register('username')}
           />
 
           <${PasswordField}
@@ -143,18 +201,10 @@ export const CreateOrEditLoginModalContent = () => {
             `}
             ...${register('password')}
           />
-
-          <${InputField}
-            label=${i18n._('Secret key (2FA)')}
-            placeholder=${i18n._('Insert code')}
-            variant="outline"
-            icon=${LockIcon}
-            ...${register('secretKey')}
-          />
         <//>
 
         <${CompoundField}>
-          ${list.map((website, index) => {
+          ${websitesList.map((website, index) => {
             return html`
               <${React.Fragment} key=${website.id}>
                 <${InputField}
@@ -201,6 +251,8 @@ export const CreateOrEditLoginModalContent = () => {
           />
         <//>
       <//>
+
+      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

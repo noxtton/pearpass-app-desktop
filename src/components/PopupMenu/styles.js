@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const TRANSITION_DURATION = 350
+export const TRANSITION_DURATION = 250
 
 export const MenuWrapper = styled.div`
   position: relative;

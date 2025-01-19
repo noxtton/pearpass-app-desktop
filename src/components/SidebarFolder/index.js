@@ -17,24 +17,22 @@ import {
 } from './styles'
 
 /**
- * @typedef SidebarFolderProps
- * @property {boolean} [isOpen]
- * @property {boolean} [isRoot]
- * @property {() => void} [onClick]
- * @property {string} [name]
- * @property {() => void} [onAddClick]
+ * @param {{
+ *  isOpen: boolean
+ *  onClick: () => void
+ *  onAddClick: () => void
+ *  isRoot: boolean
+ *  name: string
+ *  icon: string
+ * }} props
  */
-
-/**
- * @param {SidebarFolderProps} props
- */
-
 export const SidebarFolder = ({
   isOpen,
   onClick,
   onAddClick,
   isRoot,
-  name
+  name,
+  icon: Icon
 }) => {
   return html`
     <${React.Fragment}>
@@ -45,7 +43,7 @@ export const SidebarFolder = ({
           </div>
 
           <${NestedFolder}>
-            ${!isRoot && html` <${FolderIcon} size="14" /> `}
+            ${!isRoot && html` <${Icon ?? FolderIcon} size="14" /> `}
 
             <span>${name}</span>
           <//>

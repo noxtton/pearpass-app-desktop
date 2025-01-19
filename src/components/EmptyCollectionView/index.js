@@ -9,10 +9,13 @@ import {
 } from './styles'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useRouter } from '../../context/RouterContext'
+import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 
 export const EmptyCollectionView = () => {
   const { data } = useRouter()
   const { i18n } = useLingui()
+
+  const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const createCollectionOptions = [
     { text: i18n._('Create a login'), type: 'login' },

@@ -12,43 +12,94 @@ import { FolderDropdown } from '../../../components/FolderDropdown'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
+import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
-export const CreateOrEditNoteModalContent = () => {
+/**
+ * @param {{
+ *   initialRecord: {
+ *    data: {
+ *     title: string
+ *     note: string
+ *     customFields: {
+ *        type: string
+ *        name: string
+ *      }[]
+ *     }
+ *    }
+ *  selectedFolder?: string
+ * }} props
+ */
+export const CreateOrEditNoteModalContent = ({
+  initialRecord,
+  selectedFolder
+}) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
+  const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
+    onCompleted: () => {
+      closeModal()
+    }
+  })
+
+  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+    onCompleted: () => {
+      closeModal()
+    }
+  })
+
+  const isLoading = isCreateLoading || isUpdateLoading
+
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
-    text: Validator.number(),
+    note: Validator.string(),
     customFields: Validator.array().items(
       Validator.object({
         note: Validator.string().required(i18n._('Note is required'))
       })
-    )
+    ),
+    folder: Validator.string()
   })
 
-  const form = useForm({
+  const { register, handleSubmit, registerArray, values, setValue } = useForm({
     initialValues: {
-      title: '',
-      text: ''
+      title: initialRecord?.data?.title ?? '',
+      note: initialRecord?.data?.note ?? '',
+      customFields: initialRecord?.data?.customFields ?? [],
+      folder: selectedFolder ?? initialRecord?.folder
     },
     validate: (values) => {
       return schema.validate(values)
     }
   })
 
-  const { hasErrors, register, handleSubmit, registerArray } = form
-
   const { value: list, addItem, registerItem } = registerArray('customFields')
 
-  const onSubmit = () => {
-    if (!hasErrors) {
-      closeModal()
+  const onSubmit = (values) => {
+    const data = {
+      type: 'note',
+      folder: values.folder,
+      data: {
+        title: values.title,
+        note: values.note,
+        customFields: values.customFields
+      }
+    }
+
+    if (initialRecord) {
+      updateRecord({
+        ...initialRecord,
+        ...data
+      })
+    } else {
+      createRecord(data)
     }
   }
 
@@ -60,13 +111,16 @@ export const CreateOrEditNoteModalContent = () => {
           buttons=${html`
             <${ButtonLittle}
               onClick=${handleSubmit(onSubmit)}
-              leftIcon=${SaveIcon}
+              startIcon=${SaveIcon}
             >
               ${i18n._('Note')}
             <//>
           `}
         >
-          <${FolderDropdown} />
+          <${FolderDropdown}
+            selectedFolder=${values?.folder}
+            onFolderSelect=${(folder) => setValue('folder', folder)}
+          />
         <//>
       `}
     >
@@ -82,7 +136,7 @@ export const CreateOrEditNoteModalContent = () => {
 
         <${FormGroup}>
           <${TextArea}
-            ...${register('text')}
+            ...${register('note')}
             placeholder=${i18n._('Write a note...')}
           />
         <//>
@@ -95,6 +149,8 @@ export const CreateOrEditNoteModalContent = () => {
           />
         <//>
       <//>
+
+      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

@@ -13,4 +13,5 @@ export const NestedFile = styled.div`
   align-items: center;
   gap: 10px;
   color: ${({ color }) => color};
+  cursor: pointer;
 `

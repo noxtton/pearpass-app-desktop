@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
@@ -6,21 +8,46 @@ import {
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
 
+import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { useCreateFolder } from '../../../vault/hooks/useCreateFolder'
+import { useFolders } from '../../../vault/hooks/useFolders'
 
 export const CreateFolderModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
-  const schema = Validator.object({
-    title: Validator.string().required(i18n._('Title is required'))
+  const { isLoading, createFolder } = useCreateFolder({
+    onCompleted: () => {
+      closeModal()
+    }
   })
 
-  const { hasErrors, register, handleSubmit } = useForm({
+  const { data } = useFolders()
+
+  const customFolders = Object.values(data?.customFolders ?? {})
+
+  const schema = Validator.object({
+    title: Validator.string()
+      .required(i18n._('Title is required'))
+      .refine((value) => {
+        const isDuplicate = customFolders.some(
+          (folder) => folder.name === value
+        )
+
+        if (isDuplicate) {
+          return i18n._('Folder already exists')
+        }
+
+        return null
+      })
+  })
+
+  const { register, handleSubmit } = useForm({
     initialValues: {
       title: ''
     },
@@ -29,32 +56,34 @@ export const CreateFolderModalContent = () => {
     }
   })
 
-  const onSubmit = () => {
-    if (!hasErrors) {
-      closeModal()
-    }
+  const onSubmit = (values) => {
+    createFolder(values.title)
   }
 
   return html`
-    <${ModalContent}
-      onClose=${closeModal}
-      headerChildren=${html`
-        <${HeaderWrapper}>
-          <${ButtonLittle}
-            startIcon=${FolderIcon}
-            onClick=${handleSubmit(onSubmit)}
-          >
-            ${i18n._('Create folder')}
+    <${React.Fragment}>
+      <${ModalContent}
+        onClose=${closeModal}
+        headerChildren=${html`
+          <${HeaderWrapper}>
+            <${ButtonLittle}
+              startIcon=${FolderIcon}
+              onClick=${handleSubmit(onSubmit)}
+            >
+              ${i18n._('Create folder')}
+            <//>
           <//>
-        <//>
-      `}
-    >
-      <${InputField}
-        label=${i18n._('Title')}
-        placeholder=${i18n._('Insert folder name')}
-        variant="outline"
-        ...${register('title')}
-      />
+        `}
+      >
+        <${InputField}
+          label=${i18n._('Title')}
+          placeholder=${i18n._('Insert folder name')}
+          variant="outline"
+          ...${register('title')}
+        />
+      <//>
+
+      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

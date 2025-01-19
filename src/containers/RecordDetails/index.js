@@ -24,12 +24,14 @@ import {
   RecordActions,
   Title
 } from './styles.js'
-import { PopupMenu } from '../../components/PopupMenu/index.js'
-import { RecordActionsPopupContent } from '../../components/RecordActionsPopupContent/index.js'
+import { PopupMenu } from '../../components/PopupMenu'
+import { RecordActionsPopupContent } from '../../components/RecordActionsPopupContent'
+import { useRouter } from '../../context/RouterContext.js'
+import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
+import { useRecordById } from '../../vault/hooks/useRecordById.js'
 
 const MOCK_DATA = {
-  title: 'Google',
   userName: 'caldarace',
   password: 'caldce',
   website: 'Google.com',
@@ -39,6 +41,16 @@ const MOCK_DATA = {
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()
+
+  const { data: routerData } = useRouter()
+
+  const { data: record } = useRecordById({
+    variables: {
+      id: routerData.recordId
+    }
+  })
+
+  const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const { actions } = useRecordActionItems({
     excludeTypes: ['select', 'pin']
@@ -50,11 +62,18 @@ export const RecordDetails = () => {
     window.open(MOCK_DATA.websiteUrl, '_blank')
   }
 
+  const handleEdit = () => {
+    handleCreateOrEditRecord({
+      recordType: record?.type,
+      initialRecord: record
+    })
+  }
+
   return html`
     <${React.Fragment}>
       <${Header}>
         <div>
-          <${Title}> ${MOCK_DATA.title} <//>
+          <${Title}> ${record?.data?.title} <//>
 
           <${FavoriteWrapper}>
             <${StarIcon} size="14" color=${colors.grey200.mode1} />
@@ -63,7 +82,9 @@ export const RecordDetails = () => {
         </div>
 
         <${HeaderRight}>
-          <${ButtonLittle} startIcon=${BrushIcon}> ${i18n._('Edit')} <//>
+          <${ButtonLittle} startIcon=${BrushIcon} onClick=${handleEdit}>
+            ${i18n._('Edit')}
+          <//>
 
           <${RecordActions}>
             <${PopupMenu}

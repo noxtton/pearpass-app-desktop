@@ -16,21 +16,61 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
+import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
-export const CreateOrEditCreditCardModalContent = () => {
+/**
+ * @param {{
+ *   initialRecord: {
+ *   data: {
+ *    title: string
+ *    name: string
+ *    number: string
+ *    expireDate: string
+ *    securityCode: string
+ *    pinCode: string
+ *    note: string
+ *    customFields: {
+ *       type: string
+ *       name: string
+ *    }[]
+ *  }
+ * }
+ *  selectedFolder?: string
+ * }} props
+ */
+export const CreateOrEditCreditCardModalContent = ({
+  initialRecord,
+  selectedFolder
+}) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
+  const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
+    onCompleted: () => {
+      closeModal()
+    }
+  })
+
+  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+    onCompleted: () => {
+      closeModal()
+    }
+  })
+
+  const isLoading = isCreateLoading || isUpdateLoading
+
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
-    fullName: Validator.string(),
-    numberOnCard: Validator.string(),
-    dateOfExpire: Validator.string(),
+    name: Validator.string(),
+    number: Validator.string(),
+    expireDate: Validator.string(),
     securityCode: Validator.string(),
     pinCode: Validator.string(),
     note: Validator.string(),
@@ -38,31 +78,52 @@ export const CreateOrEditCreditCardModalContent = () => {
       Validator.object({
         note: Validator.string().required(i18n._('Note is required'))
       })
-    )
+    ),
+    folder: Validator.string()
   })
 
-  const form = useForm({
+  const { values, register, handleSubmit, registerArray, setValue } = useForm({
     initialValues: {
-      title: '',
-      fullName: '',
-      numberOnCard: '',
-      dateOfExpire: '',
-      securityCode: '',
-      pinCode: '',
-      note: ''
+      title: initialRecord?.data?.title ?? '',
+      name: initialRecord?.data?.name ?? '',
+      number: initialRecord?.data?.number ?? '',
+      expireDate: initialRecord?.data?.expireDate ?? '',
+      securityCode: initialRecord?.data?.securityCode ?? '',
+      pinCode: initialRecord?.data?.pinCode ?? '',
+      note: initialRecord?.data?.note ?? '',
+      customFields: initialRecord?.data?.customFields ?? [],
+      folder: selectedFolder ?? initialRecord?.folder
     },
     validate: (values) => {
       return schema.validate(values)
     }
   })
 
-  const { hasErrors, register, handleSubmit, registerArray } = form
-
   const { value: list, addItem, registerItem } = registerArray('customFields')
 
-  const onSubmit = () => {
-    if (!hasErrors) {
-      closeModal()
+  const onSubmit = (values) => {
+    const data = {
+      type: 'creditCard',
+      folder: values.folder,
+      data: {
+        title: values.title,
+        name: values.name,
+        number: values.number,
+        expireDate: values.expireDate,
+        securityCode: values.securityCode,
+        pinCode: values.pinCode,
+        note: values.note,
+        customFields: values.customFields
+      }
+    }
+
+    if (initialRecord) {
+      updateRecord({
+        ...initialRecord,
+        ...data
+      })
+    } else {
+      createRecord(data)
     }
   }
 
@@ -80,7 +141,10 @@ export const CreateOrEditCreditCardModalContent = () => {
             <//>
           `}
         >
-          <${FolderDropdown} />
+          <${FolderDropdown}
+            selectedFolder=${values?.folder}
+            onFolderSelect=${(folder) => setValue('folder', folder)}
+          />
         <//>
       `}
     >
@@ -100,7 +164,7 @@ export const CreateOrEditCreditCardModalContent = () => {
             placeholder=${i18n._('Full name')}
             variant="outline"
             icon=${UserIcon}
-            ...${register('fullName')}
+            ...${register('name')}
           />
 
           <${InputField}
@@ -108,7 +172,7 @@ export const CreateOrEditCreditCardModalContent = () => {
             placeholder="1234 1234 1234 1234 "
             variant="outline"
             icon=${CreditCardIcon}
-            ...${register('numberOnCard')}
+            ...${register('number')}
           />
 
           <${InputField}
@@ -116,7 +180,7 @@ export const CreateOrEditCreditCardModalContent = () => {
             placeholder="MM/AA"
             variant="outline"
             icon=${CalendarIcon}
-            ...${register('dateOfExpire')}
+            ...${register('expireDate')}
           />
 
           <${InputField}
@@ -148,6 +212,8 @@ export const CreateOrEditCreditCardModalContent = () => {
           />
         <//>
       <//>
+
+      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

@@ -18,25 +18,44 @@ import { useModal } from '../context/ModalContext'
 export const useCreateOrEditRecord = () => {
   const { setModal } = useModal()
 
-  const getModalContentByRecordType = ({ recordType }) => {
+  const getModalContentByRecordType = ({
+    recordType,
+    initialRecord,
+    selectedFolder
+  }) => {
     if (recordType === 'login') {
-      return html`<${CreateOrEditLoginModalContent} />`
+      return html`<${CreateOrEditLoginModalContent}
+        initialRecord=${initialRecord}
+        selectedFolder=${selectedFolder}
+      />`
     }
 
     if (recordType === 'creditCard') {
-      return html`<${CreateOrEditCreditCardModalContent} />`
+      return html`<${CreateOrEditCreditCardModalContent}
+        initialRecord=${initialRecord}
+        selectedFolder=${selectedFolder}
+      />`
     }
 
     if (recordType === 'identity') {
-      return html`<${CreateOrEditIdentityModalContent} />`
+      return html`<${CreateOrEditIdentityModalContent}
+        initialRecord=${initialRecord}
+        selectedFolder=${selectedFolder}
+      />`
     }
 
     if (recordType === 'note') {
-      return html`<${CreateOrEditNoteModalContent} />`
+      return html`<${CreateOrEditNoteModalContent}
+        initialRecord=${initialRecord}
+        selectedFolder=${selectedFolder}
+      />`
     }
 
     if (recordType === 'custom') {
-      return html`<${CreateOrEditCustomModalContent} />`
+      return html`<${CreateOrEditCustomModalContent}
+        initialRecord=${initialRecord}
+        selectedFolder=${selectedFolder}
+      />`
     }
   }
 
@@ -46,7 +65,11 @@ export const useCreateOrEditRecord = () => {
     }
   }
 
-  const handleCreateOrEditRecord = ({ recordType }) => {
+  const handleCreateOrEditRecord = ({
+    recordType,
+    initialRecord,
+    selectedFolder
+  }) => {
     if (recordType === 'password') {
       setModal(getSideDrawerContentByRecordType({ recordType }), {
         modalType: 'sideDrawer'
@@ -55,7 +78,9 @@ export const useCreateOrEditRecord = () => {
       return
     }
 
-    setModal(getModalContentByRecordType({ recordType }))
+    setModal(
+      getModalContentByRecordType({ recordType, initialRecord, selectedFolder })
+    )
   }
 
   return {

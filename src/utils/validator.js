@@ -1,3 +1,25 @@
+const isNullOrUndefined = (value) => value === null || value === undefined
+
+const isEmpty = (value) => {
+  if (isNullOrUndefined(value)) {
+    return true
+  }
+
+  if (typeof value === 'string' && value.trim() === '') {
+    return true
+  }
+
+  return false
+}
+
+const checkFilledValueType = (value, type) => {
+  if (type === 'array') {
+    return !isNullOrUndefined(value) && !Array.isArray(value)
+  }
+
+  return !isNullOrUndefined(value) && typeof value !== type
+}
+
 export class Validator {
   constructor(type) {
     this.type = type
@@ -6,7 +28,8 @@ export class Validator {
   }
 
   required(message = 'This field is required') {
-    this.validations.push((value) => (!value?.length ? message : null))
+    this.validations.push((value) => (isEmpty(value) ? message : null))
+
     return this
   }
 
@@ -81,12 +104,14 @@ export class Validator {
     return this
   }
 
+  refine(fn) {
+    this.validations.push((value) => fn(value))
+
+    return this
+  }
+
   validate(value) {
-    if (
-      this.type !== 'array' &&
-      value !== undefined &&
-      typeof value !== this.type
-    ) {
+    if (checkFilledValueType(value, this.type)) {
       return `Expected ${this.type}, but got ${typeof value}`
     }
 
@@ -113,6 +138,10 @@ export class Validator {
     return null
   }
 
+  static boolean() {
+    return new Validator('boolean')
+  }
+
   static string() {
     return new Validator('string')
   }
@@ -129,10 +158,13 @@ export class Validator {
     return {
       validate(obj) {
         const errors = {}
+
         for (const [key, validator] of Object.entries(schema)) {
           const error = validator.validate(obj[key])
+
           if (error) errors[key] = error
         }
+
         return Object.keys(errors).length > 0 ? errors : null
       }
     }
