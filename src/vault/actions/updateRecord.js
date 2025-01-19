@@ -28,7 +28,7 @@ export const updateRecord = createAsyncThunk(
 
           reject(error)
         }
-      }, 1500)
+      }, 1000)
     })
   }
 )
