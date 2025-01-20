@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -44,10 +44,6 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     variables: { searchPattern: searchValue }
   })
 
-  const { favorites, noFolder, customFolders } = data || {}
-
-  const otherFolders = Object.values(customFolders ?? {})
-
   const handleSettingsClick = () => {
     navigate('settings', {})
   }
@@ -58,45 +54,51 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     })
   }
 
-  const sampleData = {
-    name: i18n._('All Folders'),
-    id: 'allFolders',
-    children: [
-      {
-        name: i18n._('Favorite'),
-        id: 'favorites',
-        icon: StarIcon,
-        children:
-          favorites?.records?.map((record) => {
-            return {
-              name: record.data.title,
-              id: record.id,
-              icon: RECORD_ICON_BY_TYPE[record.type]
-            }
-          }) ?? []
-      },
-      ...otherFolders.map((folder) => {
-        return {
-          name: folder.name,
-          id: folder.name,
-          children: folder.records?.map((record) => {
-            return {
-              name: record.data?.title,
-              id: record.id,
-              icon: RECORD_ICON_BY_TYPE[record.type]
-            }
-          })
-        }
-      }),
-      ...(noFolder?.records?.map((record) => {
-        return {
-          name: record.data.title,
-          id: record.id,
-          icon: RECORD_ICON_BY_TYPE[record.type]
-        }
-      }) ?? [])
-    ]
-  }
+  const folders = React.useMemo(() => {
+    const { favorites, noFolder, customFolders } = data || {}
+
+    const otherFolders = Object.values(customFolders ?? {})
+
+    return {
+      name: i18n._('All Folders'),
+      id: 'allFolders',
+      children: [
+        {
+          name: i18n._('Favorite'),
+          id: 'favorites',
+          icon: StarIcon,
+          children:
+            favorites?.records?.map((record) => {
+              return {
+                name: record.data.title,
+                id: record.id,
+                icon: RECORD_ICON_BY_TYPE[record.type]
+              }
+            }) ?? []
+        },
+        ...otherFolders.map((folder) => {
+          return {
+            name: folder.name,
+            id: folder.name,
+            children: folder.records?.map((record) => {
+              return {
+                name: record.data?.title,
+                id: record.id,
+                icon: RECORD_ICON_BY_TYPE[record.type]
+              }
+            })
+          }
+        }),
+        ...(noFolder?.records?.map((record) => {
+          return {
+            name: record.data.title,
+            id: record.id,
+            icon: RECORD_ICON_BY_TYPE[record.type]
+          }
+        }) ?? [])
+      ]
+    }
+  }, [data, i18n])
 
   const { setModal } = useModal()
 
@@ -119,7 +121,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
             <${SidebarSearch} value=${searchValue} onChange=${setSearchValue} />
 
             <${FoldersWrapper}>
-              <${SidebarNestedFolders} item=${sampleData} key="rootFolder" />
+              <${SidebarNestedFolders} item=${folders} key="rootFolder" />
             <//>
           <//>
         `}

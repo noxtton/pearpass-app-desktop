@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -38,9 +38,8 @@ import { CustomFields } from '../../CustomFields'
 export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
 
-  const { register, registerArray } = useForm({
-    initialValues: {
-      title: initialRecord?.data?.title ?? '',
+  const initialValues = React.useMemo(
+    () => ({
       username: initialRecord?.data?.username ?? '',
       password: initialRecord?.data?.password ?? '',
       note: initialRecord?.data?.note ?? '',
@@ -49,7 +48,12 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
         : [{ name: 'website' }],
       customFields: initialRecord?.data.customFields ?? [],
       folder: selectedFolder ?? initialRecord?.folder
-    }
+    }),
+    [initialRecord, selectedFolder]
+  )
+
+  const { register, registerArray, setValues } = useForm({
+    initialValues: initialValues
   })
 
   const { value: websitesList, registerItem } = registerArray('websites')
@@ -61,18 +65,12 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     window.open(url, '_blank')
   }
 
+  useEffect(() => {
+    setValues(initialValues)
+  }, [initialValues, setValues])
+
   return html`
     <${FormWrapper}>
-      <${FormGroup}>
-        <${InputField}
-          label=${i18n._('Title')}
-          placeholder=${i18n._('Insert title')}
-          variant="outline"
-          isDisabled
-          ...${register('title')}
-        />
-      <//>
-
       <${FormGroup}>
         <${InputField}
           label=${i18n._('Email or username')}

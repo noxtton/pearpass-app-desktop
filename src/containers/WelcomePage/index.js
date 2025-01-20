@@ -20,7 +20,7 @@ import { useRouter } from '../../context/RouterContext'
 import { useCreateVault } from '../../vault/hooks/useCreateVault'
 import { LoadVaultModalContent } from '../Modal/LoadVaultModalContent'
 
-export const InitialWelcomePage = () => {
+export const WelcomePage = () => {
   const { i18n } = useLingui()
 
   const { setModal } = useModal()

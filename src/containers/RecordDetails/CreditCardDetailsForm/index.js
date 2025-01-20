@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
@@ -37,9 +39,8 @@ import { CustomFields } from '../../CustomFields'
 export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
 
-  const { register, registerArray } = useForm({
-    initialValues: {
-      title: initialRecord?.data?.title ?? '',
+  const initialValues = React.useMemo(
+    () => ({
       name: initialRecord?.data?.name ?? '',
       number: initialRecord?.data?.number ?? '',
       expireDate: initialRecord?.data?.expireDate ?? '',
@@ -48,23 +49,22 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
       note: initialRecord?.data?.note ?? '',
       customFields: initialRecord?.data?.customFields ?? [],
       folder: selectedFolder ?? initialRecord?.folder
-    }
+    }),
+    [initialRecord, selectedFolder]
+  )
+
+  const { register, registerArray, setValues } = useForm({
+    initialValues: initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
 
+  useEffect(() => {
+    setValues(initialValues)
+  }, [initialValues, setValues])
+
   return html`
     <${FormWrapper}>
-      <${FormGroup}>
-        <${InputField}
-          label=${i18n._('Title')}
-          placeholder=${i18n._('Insert title')}
-          variant="outline"
-          isDisabled
-          ...${register('title')}
-        />
-      <//>
-
       <${FormGroup}>
         <${InputField}
           label=${i18n._('Full name')}

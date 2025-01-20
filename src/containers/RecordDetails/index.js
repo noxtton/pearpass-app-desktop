@@ -5,6 +5,7 @@ import { html } from 'htm/react'
 import {
   BrushIcon,
   ButtonLittle,
+  CollapseIcon,
   FolderIcon,
   KebabMenuIcon,
   StarIcon
@@ -101,6 +102,7 @@ export const RecordDetails = () => {
           />
         <//>
       <//>
+
       <${Fields}>
         <${RecordDetailsContent} record=${record} />
       <//>

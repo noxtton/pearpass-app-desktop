@@ -34,8 +34,6 @@ export const LoadVaultModalContent = () => {
 
   const handleLoadVault = () => {
     refetch(vaultId)
-
-    navigate('loading')
   }
 
   return html` <${LoadVaultCard} isLoading=${isLoading}>

@@ -7,7 +7,7 @@ import { InitialLoadPage } from '../InitialPage'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { MainView } from '../MainView'
 import { RecordDetails } from '../RecordDetails'
-import { InitialWelcomePage } from '../WelcomePage'
+import { WelcomePage } from '../WelcomePage'
 
 export const Routes = () => {
   const { currentPage, data, navigate } = useRouter()
@@ -37,7 +37,7 @@ export const Routes = () => {
   }
 
   if (currentPage === 'welcome') {
-    return html` <${InitialWelcomePage} /> `
+    return html` <${WelcomePage} /> `
   }
 
   if (['vault', 'settings'].includes(currentPage)) {

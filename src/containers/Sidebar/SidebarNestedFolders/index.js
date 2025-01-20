@@ -13,7 +13,15 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
 
 /**
  * @param {{
- *  item:Record<string,any>,
+ *  item: {
+ *    name: string,
+ *    icon: string,
+ *    isAlwaysVisible: boolean,
+ *     children: {
+ *        name: string,
+ *        icon: string,
+ *     }[]
+ *   },
  *  level: number
  * }} props
  */

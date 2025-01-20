@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
@@ -39,9 +41,8 @@ import { CustomFields } from '../../CustomFields'
 export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
 
-  const { register, registerArray } = useForm({
-    initialValues: {
-      title: initialRecord?.data?.title ?? '',
+  const initialValues = React.useMemo(
+    () => ({
       fullName: initialRecord?.data?.fullName ?? '',
       email: initialRecord?.data?.email ?? '',
       phoneNumber: initialRecord?.data?.phoneNumber ?? '',
@@ -53,23 +54,22 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
       note: initialRecord?.data?.note ?? '',
       customFields: initialRecord?.data?.customFields || [],
       folder: selectedFolder ?? initialRecord?.folder
-    }
+    }),
+    [initialRecord, selectedFolder]
+  )
+
+  const { register, registerArray, setValues } = useForm({
+    initialValues: initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
 
+  useEffect(() => {
+    setValues(initialValues)
+  }, [initialValues, setValues])
+
   return html`
     <${FormWrapper}>
-      <${FormGroup}>
-        <${InputField}
-          label=${i18n._('Title')}
-          placeholder=${i18n._('Insert title')}
-          variant="outline"
-          isDisabled
-          ...${register('title')}
-        />
-      <//>
-
       <${FormGroup} title=${i18n._('Personal information')} isCollapse>
         <${InputField}
           label=${i18n._('Full name')}
