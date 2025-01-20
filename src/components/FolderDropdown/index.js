@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -17,21 +17,28 @@ import {
   Wrapper
 } from './styles'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
-
-const FOLDER_NAMES = ['Games', 'Work', 'Trip', 'Social Media']
+import { useFolders } from '../../vault/hooks/useFolders'
 
 /**
- * @property {
- *  {
- *    selectedFolder: string,
+ * @param {{
+ *    selectedFolder?: string,
  *    onFolderSelect: (folder: string) => void
- *  }
- * }
+ *  }} props
  */
 export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
   const { i18n } = useLingui()
 
   const [isOpen, setIsOpen] = useState(false)
+
+  const { data } = useFolders()
+
+  const customFolders = React.useMemo(
+    () =>
+      Object.values(data?.customFolders ?? {})
+        .map((folder) => folder.name)
+        .filter((folder) => folder !== selectedFolder),
+    [data, selectedFolder]
+  )
 
   const wrapperRef = useOutsideClick({
     onOutsideClick: () => {
@@ -79,7 +86,7 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
         ${renderLabel()}
         ${isOpen &&
         html`<${DropDown}>
-          ${FOLDER_NAMES.map((folder) =>
+          ${customFolders.map((folder) =>
             renderDropDownItem({
               folder,
               onClick: () => handleFolderSelect(folder)

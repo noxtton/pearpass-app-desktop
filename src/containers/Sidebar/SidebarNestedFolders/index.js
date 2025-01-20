@@ -17,14 +17,14 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
  *  level: number
  * }} props
  */
-
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const { i18n } = useLingui()
   const { setModal } = useModal()
 
-  const [isOpen, setIsOpen] = useState(false)
-
   const isRoot = level === 0
+
+  const [isOpen, setIsOpen] = useState(isRoot)
+
   const isFolder = 'children' in item
 
   const handleAddClick = () => {
@@ -35,10 +35,15 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
     return html`
       <${SidebarNestedFile}
         icon=${item.icon}
+        id=${item.id}
         name=${item.name}
         key=${item.name + item.id + 'file'}
       />
     `
+  }
+
+  if (!item.children.length) {
+    return html``
   }
 
   return html`
@@ -49,24 +54,28 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         onClick=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
         name=${item.name}
+        icon=${item.icon}
         key=${item.name + item.id}
       />
 
       ${isOpen &&
       html`
-        ${item.children.map(
-          (childItem) => html`
-            <${SidebarNestedFolders}
-              key=${childItem.name + childItem.id + level}
-              item=${childItem}
-              level=${level + 1}
-            />
-          `
+        ${item.children.map((childItem) =>
+          childItem?.name?.length
+            ? html`
+                <${SidebarNestedFolders}
+                  key=${childItem.name + childItem.id + level}
+                  item=${childItem}
+                  level=${level + 1}
+                />
+              `
+            : html``
         )}
         ${!isRoot &&
         html`
           <${SidebarNestedFile}
             key=${item.id + 'newFile'}
+            folderName=${item.name}
             icon=${PlusIcon}
             name=${i18n._('New')}
             isNew=${true}

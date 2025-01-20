@@ -15,6 +15,7 @@ export const useCountDown = ({ initialSeconds, onFinish }) => {
   useEffect(() => {
     if (timeLeft <= 0) {
       onFinish?.()
+
       return
     }
 
@@ -22,12 +23,15 @@ export const useCountDown = ({ initialSeconds, onFinish }) => {
       setTimeLeft((prev) => prev - 1)
     }, MS_PER_SECOND)
 
-    return () => clearInterval(intervalId)
+    return () => {
+      clearInterval(intervalId)
+    }
   }, [timeLeft])
 
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / SECONDS_PER_MINUTE)
     const remainingSeconds = seconds % SECONDS_PER_MINUTE
+
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`
   }
 

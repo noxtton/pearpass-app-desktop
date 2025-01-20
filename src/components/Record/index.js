@@ -19,22 +19,37 @@ import { RecordAvatar } from '../RecordAvatar'
  *
  * @param {{
  *  record: {
- *    name: string,
- *    avatarSrc: string,
- *    updatedAt: number,
+ *    id: string
+ *    createdAt: number
+ *    updatedAt: number
  *    isPinned: boolean
+ *    isFavorite: boolean
+ *    vaultId: string
+ *    folder: string
+ *    data: {
+ *      title: string
+ *      [key: string]: any
+ *    }
  *  },
  *  isSelected: boolean,
  *  onClick: () => void
+ *  onSelect: () => void
  * }} props
  */
-export const Record = ({ record, isSelected = false, onClick }) => {
+export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
   const [isOpen, setIsOpen] = useState()
 
-  const { actions } = useRecordActionItems()
+  const { actions } = useRecordActionItems({
+    record,
+    onSelect,
+    onClose: () => {
+      setIsOpen(false)
+    }
+  })
 
   const handleActionMenuToggle = (e) => {
     e.stopPropagation()
+
     setIsOpen(!isOpen)
   }
 
@@ -46,16 +61,16 @@ export const Record = ({ record, isSelected = false, onClick }) => {
     >
       <${RecordInformation}>
         <${RecordAvatar}
-          avatarSrc=${record?.avatarSrc}
-          initials=${generateAvatarInitials(record.name)}
+          avatarSrc=${record.data?.avatarSrc}
+          initials=${generateAvatarInitials(record.data?.title)}
           isSelected=${isSelected}
-          isPinned=${record.isPinned}
+          isPinned=${record?.isPinned}
         />
 
         <${RecordName}>
-          <span>${record.name}</span>
+          <span>${record.data?.title}</span>
 
-          <p>caldarace</p>
+          <p>${record.folder}</p>
         <//>
       <//>
 

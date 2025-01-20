@@ -1,39 +1,74 @@
 import styled from 'styled-components'
 
+export const TRANSITION_DURATION = 250
+
 export const MenuWrapper = styled.div`
   position: relative;
   display: inline-block;
 `
 
+const getTransformByDirection = (direction) => {
+  if (direction === 'top') {
+    return 'translate(-100%, calc(-100% - 10px))'
+  }
+  if (direction === 'right') {
+    return 'translate(10px, -50%)'
+  }
+  if (direction === 'bottom') {
+    return 'translate(-50%, 10px)'
+  }
+  if (direction === 'left') {
+    return 'translate(10px, -50%)'
+  }
+  if (direction === 'topRight') {
+    return 'translate(0, calc(-100% - 10px))'
+  }
+  if (direction === 'topLeft') {
+    return 'translate(-100%, calc(-100% - 10px))'
+  }
+  if (direction === 'bottomRight') {
+    return 'translate(0, 10px)'
+  }
+  if (direction === 'bottomLeft') {
+    return 'translate(-100%, 10px)'
+  }
+}
+
 export const MenuCard = styled.div.withConfig({
-  shouldForwardProp: (prop) => !['side', 'align'].includes(prop)
+  shouldForwardProp: (prop) =>
+    ![
+      'direction',
+      'isOpen',
+      'top',
+      'left',
+      'height',
+      'width',
+      'shouldRender'
+    ].includes(prop)
 })`
-  position: absolute;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
+  position: fixed;
   z-index: 1000;
-  bottom: -10px;
+  left: ${({ left }) => left}px;
+  top: ${({ top }) => top}px;
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  visibility: ${({ shouldRender }) => (shouldRender ? 'visible' : 'hidden')};
+  transition:
+    opacity ${TRANSITION_DURATION}ms ease-in-out,
+    visibility ${TRANSITION_DURATION}ms ease-in-out;
 
-  ${({ side }) => {
-    switch (side) {
-      case 'left':
-        return 'left: 0;'
-      case 'center':
-        return 'left: 50%;'
-      case 'right':
-        return 'left: 100%;'
+  & {
+    transform: ${({ direction }) => getTransformByDirection(direction)};
+  }
+
+  @keyframes identifier {
+    from {
+      opacity: 0;
     }
-  }};
-
-  & > div {
-    ${({ align }) => {
-      switch (align) {
-        case 'left':
-          return 'transform: translateX(0);'
-        case 'center':
-          return 'transform: translateX(-50%);'
-        case 'right':
-          return 'transform: translateX(-100%);'
-      }
-    }}
+    to {
+      opacity: 1;
+    }
   }
 `
 

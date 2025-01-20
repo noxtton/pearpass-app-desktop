@@ -67,6 +67,7 @@ export const DropDownItem = styled.div`
   align-items: center;
   gap: 10px;
   white-space: nowrap;
+  cursor: pointer;
 `
 
 export const FolderIconWrapper = styled.div`

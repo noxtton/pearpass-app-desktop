@@ -12,7 +12,6 @@ export const SidebarSearchContainer = styled.div`
 
 export const SearchLabelIcon = styled.label`
   position: absolute;
-  height: 14px;
   left: 4px;
 
   & path {
@@ -23,7 +22,16 @@ export const SearchLabelIcon = styled.label`
 export const SearchInput = styled.input`
   border: none;
   background: transparent;
-  color: ${({ theme }) => theme.colors.grey200.mode1};
+  color: ${({ theme }) => theme.colors.white.mode1};
+  padding: 0;
+  font-family: 'Inter';
+  font-size: 16px;
+  font-weight: 500;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.grey200.mode1};
+  }
+
   &:focus {
     border: none;
     box-shadow: none;

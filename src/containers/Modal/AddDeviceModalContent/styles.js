@@ -31,6 +31,18 @@ export const QRCodeText = styled.div`
   font-weight: 500;
 `
 
+export const QRCodeCopy = styled.div`
+  display: flex;
+  gap: 10px;
+`
+export const QRCodeCopyWrapper = styled.div`
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+`
+
 export const QRCode = styled.img`
   width: 226px;
   height: 226px;
@@ -70,6 +82,7 @@ export const CopyText = styled.div`
   font-weight: 500;
   flex: 1;
   min-width: 0;
+  width: 100%;
 `
 
 export const WarningSection = styled.div`

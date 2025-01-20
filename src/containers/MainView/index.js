@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { html } from 'htm/react'
 
@@ -7,94 +7,64 @@ import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
 import { CreateNewCategoryPopupContent } from '../../components/CreateNewCategoryPopupContent'
 import { InputSearch } from '../../components/InputSearch'
 import { PopupMenu } from '../../components/PopupMenu'
+import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
+import { useRecords } from '../../vault/hooks/useRecords'
 import { EmptyCollectionView } from '../EmptyCollectionView'
 import { RecordListView } from '../RecordListView/'
-
-const RECORD_LIST_MOCK_DATA = [
-  {
-    id: '1',
-    name: 'Google',
-    avatarSrc: '',
-    updatedAt: 1736194461000,
-    isPinned: true
-  },
-  {
-    id: '2',
-    name: 'Instagram',
-    avatarSrc: '',
-    updatedAt: 1735883961000,
-    isPinned: false
-  },
-  {
-    id: '3',
-    name: 'Steam',
-    avatarSrc: '',
-    updatedAt: 1735181200000,
-    isPinned: true
-  },
-  {
-    id: '4',
-    name: 'Epic Games',
-    avatarSrc: '',
-    updatedAt: 1735618705000,
-    isPinned: false
-  },
-  {
-    id: '5',
-    name: 'Facebook',
-    avatarSrc: '',
-    updatedAt: 1735326642000,
-    isPinned: false
-  },
-  {
-    id: '6',
-    name: 'Twitter',
-    avatarSrc: '',
-    updatedAt: 1734361804000,
-    isPinned: false
-  },
-  {
-    id: '7',
-    name: 'Spotify',
-    avatarSrc: '',
-    updatedAt: 1736287800000,
-    isPinned: false
-  },
-  {
-    id: '8',
-    name: 'Amazon',
-    avatarSrc: '',
-    updatedAt: 1735360201000,
-    isPinned: false
-  },
-  {
-    id: '9',
-    name: 'Apple',
-    avatarSrc: '',
-    updatedAt: 1734869123000,
-    isPinned: true
-  },
-  {
-    id: '10',
-    name: 'Microsoft',
-    avatarSrc: '',
-    updatedAt: 1734423245000,
-    isPinned: false
-  }
-]
 
 export const MainView = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedRecords, setSelectedRecords] = useState([])
-  const [searchValue, setSearchValue] = useState('')
   const { popupItems } = useRecordMenuItems()
+  const { data: routerData } = useRouter()
+
+  const [searchValue, setSearchValue] = useState('')
+  const [sortType, setSortType] = useState('recent')
+
+  const sort = React.useMemo(() => {
+    if (sortType === 'recent') {
+      return {
+        key: 'updatedAt',
+        direction: 'desc'
+      }
+    }
+
+    if (sortType === 'newToOld') {
+      return {
+        key: 'createdAt',
+        direction: 'desc'
+      }
+    }
+
+    if (sortType === 'oldToNew') {
+      return {
+        key: 'createdAt',
+        direction: 'asc'
+      }
+    }
+
+    return undefined
+  })
+
+  const { data: records } = useRecords({
+    shouldSkip: true,
+    variables: {
+      filters: {
+        searchPattern: searchValue,
+        type:
+          routerData?.recordType === 'all' ? undefined : routerData?.recordType
+      },
+      sort: sort
+    }
+  })
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const handleMenuItemClick = (item) => {
     handleCreateOrEditRecord({ recordType: item.type })
+
     setIsOpen(false)
   }
 
@@ -122,13 +92,15 @@ export const MainView = () => {
         <//>
       <//>
 
-      ${searchValue?.length
+      ${!records?.length
         ? html` <${EmptyCollectionView} />`
         : html` <${ContentWrapper}>
             <${RecordListView}
-              records=${RECORD_LIST_MOCK_DATA}
+              records=${records}
               selectedRecords=${selectedRecords}
               setSelectedRecords=${setSelectedRecords}
+              sortType=${sortType}
+              setSortType=${setSortType}
             />
           <//>`}
     <//>

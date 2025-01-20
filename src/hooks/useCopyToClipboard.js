@@ -13,7 +13,6 @@ export const useCopyToClipboard = () => {
   const copyToClipboard = React.useCallback((text) => {
     if (!navigator.clipboard) {
       console.error('Clipboard API is not available')
-
       return false
     }
 

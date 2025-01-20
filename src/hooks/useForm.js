@@ -4,6 +4,29 @@ import { generateUniqueId } from '../utils/generateUniqueId'
 import { getNestedValue } from '../utils/getNestedValue'
 import { setNestedValue } from '../utils/setNestedValue'
 
+const assignUniqueId = (item) => {
+  return {
+    id: generateUniqueId(),
+    ...item
+  }
+}
+
+const setInitialValues = (initialValues) => {
+  return Object.entries(initialValues).reduce((acc, [key, value]) => {
+    if (Array.isArray(value)) {
+      return {
+        ...acc,
+        [key]: value.map(assignUniqueId)
+      }
+    }
+
+    return {
+      ...acc,
+      [key]: value
+    }
+  }, {})
+}
+
 /**
  * @param {{
  *  initialValues: Record<string, string>;
@@ -13,7 +36,8 @@ import { setNestedValue } from '../utils/setNestedValue'
  *  values: Record<string, string>;
  *  errors: Record<string, string>;
  *  hasErrors: boolean;
- *  setValues: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+ *  setValues: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+ *  setValue: (name: string, value: any) => void;
  *  register: (name: string) => {
  *      name: string;
  *      value: string;
@@ -30,10 +54,12 @@ import { setNestedValue } from '../utils/setNestedValue'
  *    value: string;
  *    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
  *  };
+ * };
  * }}
  */
 export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
-  const [values, setValues] = useState(initialValues)
+  const [values, setValues] = useState(setInitialValues(initialValues))
+
   const [errors, setErrors] = useState({})
 
   const hasSomeErrors = (errors) => {
@@ -41,6 +67,10 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
   }
 
   const hasErrors = React.useMemo(() => hasSomeErrors(errors), [errors])
+
+  const setValue = (name, value) => {
+    setValues((prev) => setNestedValue(prev, name, value))
+  }
 
   const register = (name) => ({
     name,
@@ -51,7 +81,7 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
 
       setErrors((prev) => setNestedValue(prev, name, null))
 
-      setValues((prev) => setNestedValue(prev, name, value))
+      setValue(name, value)
     }
   })
 
@@ -81,13 +111,7 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
           i === index ? error[itemName] : null
         )?.error?.[itemName],
         onChange: (e) => {
-          setValues((prev) =>
-            setNestedValue(
-              prev,
-              `${name}[${index}].${itemName}`,
-              e?.target?.value || e
-            )
-          )
+          setValue(`${name}[${index}].${itemName}`, e?.target?.value || e)
 
           setErrors((prev) => {
             return {
@@ -121,6 +145,7 @@ export const useForm = ({ initialValues = {}, validate = () => ({}) }) => {
     register,
     handleSubmit,
     setValues,
+    setValue,
     setErrors,
     registerArray
   }

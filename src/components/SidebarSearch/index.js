@@ -4,19 +4,30 @@ import { SearchIcon } from 'pearpass-lib-ui-react-components'
 
 import { SearchInput, SearchLabelIcon, SidebarSearchContainer } from './styles'
 
-export const SidebarSearch = () => {
+/**
+ * @param {{
+ *  value: string
+ *  onChange: (value: string) => void
+ * }} props
+ */
+export const SidebarSearch = ({ value, onChange }) => {
   const { i18n } = useLingui()
+
+  const handleSearch = (e) => {
+    onChange(e.target.value)
+  }
 
   return html`
     <${SidebarSearchContainer}>
-      <${SearchLabelIcon} htmlFor="search">
-        <${SearchIcon} />
+      <${SearchLabelIcon}>
+        <${SearchIcon} size="13" />
       <//>
 
       <${SearchInput}
         type="search"
+        value=${value}
+        onChange=${handleSearch}
         placeholder=${i18n._('Search folder...')}
-        id="search"
       />
     <//>
   `
