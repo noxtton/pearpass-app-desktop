@@ -12,7 +12,8 @@ import {
   ButtonLittle,
   CompoundField,
   InputField,
-  PasswordField
+  PasswordField,
+  CollapseIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
@@ -42,7 +43,7 @@ const MOCK_DATA = {
 export const RecordDetails = () => {
   const { i18n } = useLingui()
 
-  const { data: routerData } = useRouter()
+  const { currentPage, data: routerData, navigate } = useRouter()
 
   const { data: record } = useRecordById({
     variables: {
@@ -67,6 +68,10 @@ export const RecordDetails = () => {
       recordType: record?.type,
       initialRecord: record
     })
+  }
+
+  const handleCollapseRecordDetails = () => {
+    navigate(currentPage, { ...routerData, recordId: '' })
   }
 
   return html`
@@ -99,6 +104,12 @@ export const RecordDetails = () => {
               <${ButtonLittle} variant="secondary" startIcon=${KebabMenuIcon} />
             <//>
           <//>
+
+          <${ButtonLittle}
+            variant="secondary"
+            startIcon=${CollapseIcon}
+            onClick=${handleCollapseRecordDetails}
+          />
         <//>
       <//>
 
