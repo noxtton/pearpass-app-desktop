@@ -12,7 +12,7 @@ export const Title = styled.div`
   font-weight: 700;
 `
 
-export const FavoriteWrapper = styled.div`
+export const FolderWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;

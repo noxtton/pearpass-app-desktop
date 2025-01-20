@@ -28,6 +28,7 @@ import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { RECORD_TYPES } from '../../../vault/constants/recordTypes'
 import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
 import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
@@ -123,7 +124,7 @@ export const CreateOrEditLoginModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: 'login',
+      type: RECORD_TYPES.LOGIN,
       folder: values.folder,
       data: {
         title: values.title,

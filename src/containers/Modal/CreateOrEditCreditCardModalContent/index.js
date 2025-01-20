@@ -20,6 +20,7 @@ import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { RECORD_TYPES } from '../../../vault/constants/recordTypes'
 import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
 import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
@@ -103,7 +104,7 @@ export const CreateOrEditCreditCardModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: 'creditCard',
+      type: RECORD_TYPES.CREDIT_CARD,
       folder: values.folder,
       data: {
         title: values.title,

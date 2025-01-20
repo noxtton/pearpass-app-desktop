@@ -3,22 +3,17 @@ import React, { useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
-  StarIcon,
   BrushIcon,
-  KebabMenuIcon,
-  UserIcon,
-  WorldIcon,
-  CommonFileIcon,
   ButtonLittle,
-  CompoundField,
-  InputField,
-  PasswordField,
-  CollapseIcon
+  FolderIcon,
+  KebabMenuIcon,
+  StarIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
+import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
-  FavoriteWrapper,
+  FolderWrapper,
   Fields,
   Header,
   HeaderRight,
@@ -31,14 +26,6 @@ import { useRouter } from '../../context/RouterContext.js'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
 import { useRecordById } from '../../vault/hooks/useRecordById.js'
-
-const MOCK_DATA = {
-  userName: 'caldarace',
-  password: 'caldce',
-  website: 'Google.com',
-  websiteUrl: 'https://google.com',
-  note: 'Last account'
-}
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()
@@ -59,10 +46,6 @@ export const RecordDetails = () => {
 
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleWebsiteClick = () => {
-    window.open(MOCK_DATA.websiteUrl, '_blank')
-  }
-
   const handleEdit = () => {
     handleCreateOrEditRecord({
       recordType: record?.type,
@@ -79,10 +62,16 @@ export const RecordDetails = () => {
       <${Header}>
         <div>
           <${Title}> ${record?.data?.title} <//>
-
-          <${FavoriteWrapper}>
-            <${StarIcon} size="14" color=${colors.grey200.mode1} />
-            ${i18n._('Favourites')}
+          <${FolderWrapper}>
+            ${record.isFavorite
+              ? html`
+                  <${StarIcon} size="14" color=${colors.grey200.mode1} />
+                  ${i18n._('Favourites')}
+                `
+              : html`
+                  <${FolderIcon} size="14" color=${colors.grey200.mode1} />
+                  ${record.folder}
+                `}
           <//>
         </div>
 
@@ -112,38 +101,8 @@ export const RecordDetails = () => {
           />
         <//>
       <//>
-
       <${Fields}>
-        <${CompoundField} isDisabled>
-          <${InputField}
-            label=${i18n._('Email or username')}
-            value=${MOCK_DATA.userName}
-            icon=${UserIcon}
-            isDisabled
-          />
-
-          <${PasswordField} value=${MOCK_DATA.password} isDisabled />
-        <//>
-
-        <${CompoundField} isDisabled>
-          <${InputField}
-            label=${i18n._('Website')}
-            value=${MOCK_DATA.website}
-            icon=${WorldIcon}
-            type="url"
-            onClick=${handleWebsiteClick}
-            isDisabled
-          />
-        <//>
-
-        <${CompoundField} isDisabled>
-          <${InputField}
-            label=${i18n._('Note')}
-            value=${MOCK_DATA.note}
-            icon=${CommonFileIcon}
-            isDisabled
-          />
-        <//>
+        <${RecordDetailsContent} record=${record} />
       <//>
     <//>
   `

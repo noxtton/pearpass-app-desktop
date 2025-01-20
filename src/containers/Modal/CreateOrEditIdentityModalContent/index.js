@@ -19,6 +19,7 @@ import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { useForm } from '../../../hooks/useForm'
 import { Validator } from '../../../utils/validator'
+import { RECORD_TYPES } from '../../../vault/constants/recordTypes'
 import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
 import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
@@ -111,7 +112,7 @@ export const CreateOrEditIdentityModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: 'custom',
+      type: RECORD_TYPES.IDENTITY,
       folder: values.folder,
       data: {
         title: values.title,
