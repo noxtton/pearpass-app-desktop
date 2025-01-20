@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
@@ -35,8 +35,8 @@
     "@lingui/react": "^5.1.2",
     "@reduxjs/toolkit": "^2.5.0",
     "htm": "^3.1.1",
-    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.35",
-    "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.3",
+    "pearpass-lib-ui-react-components": "github:tetherto/pearpass-lib-ui-react-components#v0.0.35",
+    "pearpass-lib-ui-theme-provider": "github:tetherto/pearpass-lib-ui-theme-provider#v0.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.0",
     "react-redux": "^9.1.2",
