@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { KebabMenuIcon } from 'pearpass-lib-ui-react-components'
 
@@ -37,7 +38,10 @@ import { RecordAvatar } from '../RecordAvatar'
  * }} props
  */
 export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
+  const { i18n } = useLingui()
   const [isOpen, setIsOpen] = useState()
+
+  const folderName = record.isFavorite ? i18n._('Favorite') : record.folder
 
   const { actions } = useRecordActionItems({
     record,
@@ -70,7 +74,7 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
         <${RecordName}>
           <span>${record.data?.title}</span>
 
-          <p>${record.folder}</p>
+          <p>${folderName}</p>
         <//>
       <//>
 

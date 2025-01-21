@@ -17,12 +17,19 @@ import { Validator } from '../../../utils/validator'
 import { useCreateFolder } from '../../../vault/hooks/useCreateFolder'
 import { useFolders } from '../../../vault/hooks/useFolders'
 
-export const CreateFolderModalContent = () => {
+/**
+ * @param {{
+ *  onCreate: (folderName: string) => void
+ * }} props
+ */
+export const CreateFolderModalContent = ({ onCreate }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
   const { isLoading, createFolder } = useCreateFolder({
-    onCompleted: () => {
+    onCompleted: (folderName) => {
+      onCreate?.(folderName)
+
       closeModal()
     }
   })

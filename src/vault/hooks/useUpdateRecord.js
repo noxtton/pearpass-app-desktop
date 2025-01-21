@@ -1,6 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 
-import { updateRecord as updateRecordAction } from '../actions/updateRecord'
+import {
+  updateRecord as updateRecordAction,
+  updateFolder as updateFolderAction,
+  updatePinnedState as updatePinnedStateAction
+} from '../actions/updateRecord'
 import { selectVault } from '../slice'
 
 export const useUpdateRecord = ({ onCompleted } = {}) => {
@@ -16,5 +20,25 @@ export const useUpdateRecord = ({ onCompleted } = {}) => {
     }
   }
 
-  return { isLoading, updateRecord }
+  const updateFolder = async (recordId, folder) => {
+    const { error, payload } = await dispatch(
+      updateFolderAction(recordId, folder)
+    )
+
+    if (!error) {
+      onCompleted?.(payload)
+    }
+  }
+
+  const updatePinnedState = async (recordId, isPinned) => {
+    const { error, payload } = await dispatch(
+      updatePinnedStateAction(recordId, isPinned)
+    )
+
+    if (!error) {
+      onCompleted?.(payload)
+    }
+  }
+
+  return { isLoading, updateRecord, updateFolder, updatePinnedState }
 }

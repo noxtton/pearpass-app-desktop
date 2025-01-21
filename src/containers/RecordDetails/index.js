@@ -31,6 +31,8 @@ import { useRecordById } from '../../vault/hooks/useRecordById.js'
 export const RecordDetails = () => {
   const { i18n } = useLingui()
 
+  const [isOpen, setIsOpen] = useState(false)
+
   const { currentPage, data: routerData, navigate } = useRouter()
 
   const { data: record } = useRecordById({
@@ -42,10 +44,12 @@ export const RecordDetails = () => {
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const { actions } = useRecordActionItems({
-    excludeTypes: ['select', 'pin']
+    excludeTypes: ['select', 'pin'],
+    record: record,
+    onClose: () => {
+      setIsOpen(false)
+    }
   })
-
-  const [isOpen, setIsOpen] = useState(false)
 
   const handleEdit = () => {
     handleCreateOrEditRecord({

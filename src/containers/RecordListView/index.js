@@ -8,7 +8,7 @@ import {
   DeleteIcon,
   FolderIcon,
   MoveToIcon,
-  MultiSelection,
+  MultiSelectionIcon,
   TimeIcon,
   XIcon
 } from 'pearpass-lib-ui-react-components'
@@ -26,8 +26,10 @@ import { isStartOfLast14DaysGroup, isStartOfLast7DaysGroup } from './utils'
 import { PopupMenu } from '../../components/PopupMenu'
 import { Record } from '../../components/Record'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
+import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { useDeleteRecord } from '../../vault/hooks/useDeleteRecord'
+import { MoveFolderModalContent } from '../Modal/MoveFolderModalContent'
 
 /**
  * @param {{
@@ -44,7 +46,7 @@ import { useDeleteRecord } from '../../vault/hooks/useDeleteRecord'
  *      [key: string]: any
  *    }
  *  }>,
- *  selectedRecords: Array<number>,
+ *  selectedRecords: Array<{id: string}>,
  *  setSelectedRecords: () => void
  * }} props
  */
@@ -57,6 +59,7 @@ export const RecordListView = ({
 }) => {
   const { i18n } = useLingui()
   const { currentPage, navigate, data } = useRouter()
+  const { setModal } = useModal()
 
   const { deleteRecord } = useDeleteRecord()
 
@@ -87,7 +90,9 @@ export const RecordListView = ({
     setIsMultiSelect(true)
 
     setSelectedRecords((prev) =>
-      isSelected ? prev.filter((id) => id !== record.id) : [...prev, record.id]
+      isSelected
+        ? prev.filter((selectedRecord) => selectedRecord.id !== record.id)
+        : [...prev, record]
     )
   }
 
@@ -104,10 +109,25 @@ export const RecordListView = ({
     setSortType(type)
   }
 
-  const handleDelete = async () => {
-    await Promise.all(selectedRecords.map((id) => deleteRecord(id)))
-
+  const onClearSelection = () => {
     setSelectedRecords([])
+
+    setIsMultiSelect(false)
+  }
+
+  const handleDelete = async () => {
+    await Promise.all(selectedRecords.map((record) => deleteRecord(record.id)))
+
+    onClearSelection()
+  }
+
+  const handleMoveClick = () => {
+    setModal(html`
+      <${MoveFolderModalContent}
+        records=${selectedRecords}
+        onCompleted=${() => onClearSelection()}
+      />
+    `)
   }
 
   return html`
@@ -118,6 +138,7 @@ export const RecordListView = ({
             ? html`<${ButtonFilter}
                   isDisabled=${!isRecordsSelected}
                   startIcon=${MoveToIcon}
+                  onClick=${handleMoveClick}
                 >
                   ${i18n._('Move')}
                 <//>
@@ -150,17 +171,14 @@ export const RecordListView = ({
         <${RightActions}>
           ${isMultiSelect
             ? html`<${ButtonFilter}
-                onClick=${() => {
-                  setSelectedRecords([])
-                  setIsMultiSelect(false)
-                }}
+                onClick=${onClearSelection}
                 startIcon=${XIcon}
               >
                 ${i18n._('Cancel')}
               <//>`
             : html`<${ButtonFilter}
                 onClick=${() => setIsMultiSelect(true)}
-                startIcon=${MultiSelection}
+                startIcon=${MultiSelectionIcon}
               >
                 ${i18n._('Multiple selection')}
               <//> `}
@@ -176,7 +194,9 @@ export const RecordListView = ({
             return html``
           }
 
-          const isSelected = selectedRecords.includes(record.id)
+          const isSelected = selectedRecords.some(
+            (selectedRecord) => selectedRecord.id === record.id
+          )
 
           const isStartOfLast7Days = isStartOfLast7DaysGroup(
             record,

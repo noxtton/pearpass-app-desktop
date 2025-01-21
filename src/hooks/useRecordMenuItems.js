@@ -1,5 +1,7 @@
 import { useLingui } from '@lingui/react'
 
+import { RECORD_TYPES } from '../vault/constants/recordTypes'
+
 /**
  * @returns {{
  * categoriesItems: Array<{
@@ -17,23 +19,23 @@ export const useRecordMenuItems = () => {
   const defaultItems = [
     {
       name: i18n._('Login'),
-      type: 'login'
+      type: RECORD_TYPES.LOGIN
     },
     {
       name: i18n._('Identity'),
-      type: 'identity'
+      type: RECORD_TYPES.IDENTITY
     },
     {
       name: i18n._('Credit Card'),
-      type: 'creditCard'
+      type: RECORD_TYPES.CREDIT_CARD
     },
     {
       name: i18n._('Note'),
-      type: 'note'
+      type: RECORD_TYPES.NOTE
     },
     {
       name: i18n._('Custom'),
-      type: 'custom'
+      type: RECORD_TYPES.CUSTOM
     }
   ]
 

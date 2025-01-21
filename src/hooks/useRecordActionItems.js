@@ -1,5 +1,8 @@
 import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
 
+import { MoveFolderModalContent } from '../containers/Modal/MoveFolderModalContent'
+import { useModal } from '../context/ModalContext'
 import { useDeleteRecord } from '../vault/hooks/useDeleteRecord'
 import { useUpdateRecord } from '../vault/hooks/useUpdateRecord'
 
@@ -26,9 +29,10 @@ export const useRecordActionItems = ({
   onClose
 } = {}) => {
   const { i18n } = useLingui()
+  const { setModal } = useModal()
 
   const { deleteRecord } = useDeleteRecord()
-  const { updateRecord } = useUpdateRecord()
+  const { updatePinnedState } = useUpdateRecord()
 
   const handleDelete = () => {
     deleteRecord(record.id)
@@ -37,10 +41,7 @@ export const useRecordActionItems = ({
   }
 
   const handlePin = () => {
-    updateRecord({
-      ...record,
-      isPinned: !record.isPinned
-    })
+    updatePinnedState(record.id, !record.isPinned)
 
     onClose?.()
   }
@@ -51,10 +52,18 @@ export const useRecordActionItems = ({
     onClose?.()
   }
 
+  const handleMoveClick = () => {
+    setModal(html` <${MoveFolderModalContent} records=${[record]} /> `)
+  }
+
   const defaultActions = [
     { name: i18n._('Select element'), type: 'select', click: handleSelect },
     { name: i18n._('Pin element'), type: 'pin', click: handlePin },
-    { name: i18n._('Move to another folder'), type: 'move' },
+    {
+      name: i18n._('Move to another folder'),
+      type: 'move',
+      click: handleMoveClick
+    },
     { name: i18n._('Delete element'), type: 'delete', click: handleDelete }
   ]
 
