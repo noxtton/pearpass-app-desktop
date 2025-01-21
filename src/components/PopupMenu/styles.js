@@ -2,37 +2,21 @@ import styled from 'styled-components'
 
 export const TRANSITION_DURATION = 250
 
+const TRANSFORM_BY_DIRECTION = {
+  top: 'translate(-100%, calc(-100% - 10px))',
+  right: 'translate(10px, -50%)',
+  bottom: 'translate(-50%, 10px)',
+  left: 'translate(10px, -50%)',
+  topRight: 'translate(0, calc(-100% - 10px))',
+  topLeft: 'translate(-100%, calc(-100% - 10px))',
+  bottomRight: 'translate(0, 10px)',
+  bottomLeft: 'translate(-100%, 10px)'
+}
+
 export const MenuWrapper = styled.div`
   position: relative;
   display: inline-block;
 `
-
-const getTransformByDirection = (direction) => {
-  if (direction === 'top') {
-    return 'translate(-100%, calc(-100% - 10px))'
-  }
-  if (direction === 'right') {
-    return 'translate(10px, -50%)'
-  }
-  if (direction === 'bottom') {
-    return 'translate(-50%, 10px)'
-  }
-  if (direction === 'left') {
-    return 'translate(10px, -50%)'
-  }
-  if (direction === 'topRight') {
-    return 'translate(0, calc(-100% - 10px))'
-  }
-  if (direction === 'topLeft') {
-    return 'translate(-100%, calc(-100% - 10px))'
-  }
-  if (direction === 'bottomRight') {
-    return 'translate(0, 10px)'
-  }
-  if (direction === 'bottomLeft') {
-    return 'translate(-100%, 10px)'
-  }
-}
 
 export const MenuCard = styled.div.withConfig({
   shouldForwardProp: (prop) =>
@@ -59,7 +43,7 @@ export const MenuCard = styled.div.withConfig({
     visibility ${TRANSITION_DURATION}ms ease-in-out;
 
   & {
-    transform: ${({ direction }) => getTransformByDirection(direction)};
+    transform: ${({ direction }) => TRANSFORM_BY_DIRECTION[direction]};
   }
 
   @keyframes identifier {
