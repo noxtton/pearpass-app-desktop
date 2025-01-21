@@ -14,6 +14,21 @@ import { useRecords } from '../../vault/hooks/useRecords'
 import { EmptyCollectionView } from '../EmptyCollectionView'
 import { RecordListView } from '../RecordListView/'
 
+const SORT_BY_TYPE = {
+  recent: {
+    key: 'updatedAt',
+    direction: 'desc'
+  },
+  newToOld: {
+    key: 'createdAt',
+    direction: 'desc'
+  },
+  oldToNew: {
+    key: 'createdAt',
+    direction: 'asc'
+  }
+}
+
 export const MainView = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedRecords, setSelectedRecords] = useState([])
@@ -24,29 +39,8 @@ export const MainView = () => {
   const [sortType, setSortType] = useState('recent')
 
   const sort = React.useMemo(() => {
-    if (sortType === 'recent') {
-      return {
-        key: 'updatedAt',
-        direction: 'desc'
-      }
-    }
-
-    if (sortType === 'newToOld') {
-      return {
-        key: 'createdAt',
-        direction: 'desc'
-      }
-    }
-
-    if (sortType === 'oldToNew') {
-      return {
-        key: 'createdAt',
-        direction: 'asc'
-      }
-    }
-
-    return undefined
-  })
+    return SORT_BY_TYPE[sortType]
+  }, [sortType])
 
   const { data: records } = useRecords({
     shouldSkip: true,
