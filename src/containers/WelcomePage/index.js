@@ -4,6 +4,7 @@ import {
   ButtonPrimary,
   ButtonSecondary
 } from 'pearpass-lib-ui-react-components'
+import { useCreateVault } from 'pearpass-lib-vault'
 
 import {
   ActionCardTitle,
@@ -17,7 +18,6 @@ import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import { LoadingOverlay } from '../../components/LoadingOverlay'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
-import { useCreateVault } from '../../vault/hooks/useCreateVault'
 import { LoadVaultModalContent } from '../Modal/LoadVaultModalContent'
 
 export const WelcomePage = () => {

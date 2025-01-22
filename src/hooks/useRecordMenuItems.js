@@ -1,6 +1,5 @@
 import { useLingui } from '@lingui/react'
-
-import { RECORD_TYPES } from '../vault/constants/recordTypes'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
 
 /**
  * @returns {{

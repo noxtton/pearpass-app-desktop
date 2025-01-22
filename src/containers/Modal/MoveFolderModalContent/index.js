@@ -7,13 +7,12 @@ import {
   ButtonSingleInput,
   NewFolderIcon
 } from 'pearpass-lib-ui-react-components'
+import { useUpdateRecord, useFolders } from 'pearpass-lib-vault'
 
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { FolderList, HeaderWrapper } from './styles'
-import { useFolders } from '../../../vault/hooks/useFolders'
-import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CreateFolderModalContent } from '../CreateFolderModalContent'
 
 /**

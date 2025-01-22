@@ -7,6 +7,7 @@ import {
   ArrowUpIcon,
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
+import { useFolders } from 'pearpass-lib-vault'
 
 import {
   DropDown,
@@ -17,7 +18,6 @@ import {
   Wrapper
 } from './styles'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
-import { useFolders } from '../../vault/hooks/useFolders'
 
 /**
  * @param {{

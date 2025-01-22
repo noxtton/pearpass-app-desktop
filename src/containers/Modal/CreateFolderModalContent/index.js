@@ -2,20 +2,19 @@ import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 import {
   InputField,
   ButtonLittle,
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
+import { Validator } from 'pearpass-lib-validator'
+import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
 
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
-import { useForm } from '../../../hooks/useForm'
-import { Validator } from '../../../utils/validator'
-import { useCreateFolder } from '../../../vault/hooks/useCreateFolder'
-import { useFolders } from '../../../vault/hooks/useFolders'
 
 /**
  * @param {{

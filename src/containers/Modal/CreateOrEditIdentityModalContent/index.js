@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 import {
   InputField,
   ButtonLittle,
@@ -8,6 +9,9 @@ import {
   EmailIcon,
   PhoneIcon
 } from 'pearpass-lib-ui-react-components'
+import { Validator } from 'pearpass-lib-validator'
+import { useCreateRecord, useUpdateRecord } from 'pearpass-lib-vault'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'
@@ -17,11 +21,6 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
-import { useForm } from '../../../hooks/useForm'
-import { Validator } from '../../../utils/validator'
-import { RECORD_TYPES } from '../../../vault/constants/recordTypes'
-import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
-import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 

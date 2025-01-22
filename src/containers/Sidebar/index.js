@@ -8,6 +8,7 @@ import {
   ButtonThin,
   StarIcon
 } from 'pearpass-lib-ui-react-components'
+import { useFolders } from 'pearpass-lib-vault'
 
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
@@ -26,7 +27,6 @@ import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
-import { useFolders } from '../../vault/hooks/useFolders'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**

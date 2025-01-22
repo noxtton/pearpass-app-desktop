@@ -1,10 +1,9 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useDeleteRecord, useUpdateRecord } from 'pearpass-lib-vault'
 
 import { MoveFolderModalContent } from '../containers/Modal/MoveFolderModalContent'
 import { useModal } from '../context/ModalContext'
-import { useDeleteRecord } from '../vault/hooks/useDeleteRecord'
-import { useUpdateRecord } from '../vault/hooks/useUpdateRecord'
 
 /**
  * @param {{

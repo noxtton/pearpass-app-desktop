@@ -1,8 +1,8 @@
 import { html } from 'htm/react'
+import { useVault } from 'pearpass-lib-vault'
 
 import { SettingsView } from '../../containers/SettingsView'
 import { useRouter } from '../../context/RouterContext.js'
-import { useVault } from '../../vault/hooks/useVault.js'
 import { InitialLoadPage } from '../InitialPage'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { MainView } from '../MainView'

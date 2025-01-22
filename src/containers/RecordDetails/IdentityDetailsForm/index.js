@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 import {
   EmailIcon,
   InputField,
@@ -12,7 +13,6 @@ import {
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
-import { useForm } from '../../../hooks/useForm'
 import { CustomFields } from '../../CustomFields'
 
 /**

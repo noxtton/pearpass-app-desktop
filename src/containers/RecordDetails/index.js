@@ -11,6 +11,7 @@ import {
   StarIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+import { useRecordById } from 'pearpass-lib-vault'
 
 import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
@@ -26,7 +27,6 @@ import { RecordActionsPopupContent } from '../../components/RecordActionsPopupCo
 import { useRouter } from '../../context/RouterContext.js'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
-import { useRecordById } from '../../vault/hooks/useRecordById.js'
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()

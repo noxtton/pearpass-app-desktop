@@ -12,6 +12,7 @@ import {
   TimeIcon,
   XIcon
 } from 'pearpass-lib-ui-react-components'
+import { useDeleteRecord } from 'pearpass-lib-vault'
 
 import {
   ActionsSection,
@@ -28,7 +29,6 @@ import { Record } from '../../components/Record'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
-import { useDeleteRecord } from '../../vault/hooks/useDeleteRecord'
 import { MoveFolderModalContent } from '../Modal/MoveFolderModalContent'
 
 /**

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 
 import { FormWrapper } from '../../../components/FormWrapper'
-import { useForm } from '../../../hooks/useForm'
 import { CustomFields } from '../../CustomFields'
 
 /**
