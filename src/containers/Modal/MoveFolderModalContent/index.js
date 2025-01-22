@@ -86,7 +86,6 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
         <${ButtonSingleInput}
           startIcon=${NewFolderIcon}
           onClick=${() => handleCreateClick()}
-          variant="bordered"
         >
           ${i18n._('Create new folder')}
         <//>

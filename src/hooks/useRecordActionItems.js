@@ -53,6 +53,8 @@ export const useRecordActionItems = ({
 
   const handleMoveClick = () => {
     setModal(html` <${MoveFolderModalContent} records=${[record]} /> `)
+
+    onClose?.()
   }
 
   const defaultActions = [
