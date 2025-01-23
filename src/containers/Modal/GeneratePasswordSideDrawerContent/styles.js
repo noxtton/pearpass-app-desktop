@@ -35,6 +35,7 @@ export const PasswordWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 42px;
+  min-height: 20px;
   gap: 8px;
 `
 

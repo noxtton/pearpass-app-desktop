@@ -59,19 +59,22 @@ export const useCreateOrEditRecord = () => {
     }
   }
 
-  const getSideDrawerContentByRecordType = ({ recordType }) => {
+  const getSideDrawerContentByRecordType = ({ recordType, setValue }) => {
     if (recordType === 'password') {
-      return html`<${GeneratePasswordSideDrawerContent} />`
+      return html`<${GeneratePasswordSideDrawerContent}
+        onPaswordInsert=${setValue}
+      />`
     }
   }
 
   const handleCreateOrEditRecord = ({
     recordType,
     initialRecord,
-    selectedFolder
+    selectedFolder,
+    setValue
   }) => {
     if (recordType === 'password') {
-      setModal(getSideDrawerContentByRecordType({ recordType }), {
+      setModal(getSideDrawerContentByRecordType({ recordType, setValue }), {
         modalType: 'sideDrawer'
       })
 

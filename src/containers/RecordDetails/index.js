@@ -15,8 +15,8 @@ import { useRecordById } from 'pearpass-lib-vault'
 
 import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
-  FolderWrapper,
   Fields,
+  FolderWrapper,
   Header,
   HeaderRight,
   RecordActions,
@@ -106,7 +106,6 @@ export const RecordDetails = () => {
           />
         <//>
       <//>
-
       <${Fields}>
         <${RecordDetailsContent} record=${record} />
       <//>

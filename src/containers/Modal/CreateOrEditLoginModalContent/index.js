@@ -196,7 +196,10 @@ export const CreateOrEditLoginModalContent = ({
               <${ButtonSingleInput}
                 startIcon=${PasswordIcon}
                 onClick=${() =>
-                  handleCreateOrEditRecord({ recordType: 'password' })}
+                  handleCreateOrEditRecord({
+                    recordType: 'password',
+                    setValue: (value) => setValue('password', value)
+                  })}
               />
             `}
             ...${register('password')}
