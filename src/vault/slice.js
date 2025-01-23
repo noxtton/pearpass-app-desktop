@@ -142,21 +142,21 @@ export const selectRecords =
       }) ?? []
 
     const sortedRecords = [...records].sort((a, b) => {
-      if (a.isPinned === b.isPinned) {
-        if (sort?.key === 'updatedAt') {
-          return sort?.direction === 'asc'
-            ? a.updatedAt - b.updatedAt
-            : b.updatedAt - a.updatedAt
-        }
-
-        if (sort?.key === 'createdAt') {
-          return sort?.direction === 'asc'
-            ? a.createdAt - b.createdAt
-            : b.createdAt - a.createdAt
-        }
+      if (a.isPinned !== b.isPinned) {
+        return a.isPinned ? -1 : 1
       }
 
-      return a.isPinned ? -1 : 1
+      if (sort?.key === 'updatedAt') {
+        return sort?.direction === 'asc'
+          ? a.updatedAt - b.updatedAt
+          : b.updatedAt - a.updatedAt
+      }
+
+      if (sort?.key === 'createdAt') {
+        return sort?.direction === 'asc'
+          ? a.createdAt - b.createdAt
+          : b.createdAt - a.createdAt
+      }
     })
 
     return {
