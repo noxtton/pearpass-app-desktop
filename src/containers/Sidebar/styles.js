@@ -17,6 +17,11 @@ export const SidebarWrapper = styled.div`
   height: 100%;
 `
 
+export const LogoWrapper = styled.div`
+  display: flex;
+  cursor: pointer;
+`
+
 export const sideBarContent = styled.div`
   display: flex;
   flex-direction: column;

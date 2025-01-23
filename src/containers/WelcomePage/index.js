@@ -9,16 +9,16 @@ import {
   ActionCardTitle,
   Actions,
   ActionsCard,
-  LoadVaultCard,
-  LoadVaultInput,
-  LoadVaultTitle,
   PageContainer,
   PearHand,
   Title
 } from './styles'
 import { InitialPageWrapper } from '../../components/InitialPageWrapper'
+import { LoadingOverlay } from '../../components/LoadingOverlay'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
+import { useCreateVault } from '../../vault/hooks/useCreateVault'
+import { LoadVaultModalContent } from '../Modal/LoadVaultModalContent'
 
 export const InitialWelcomePage = () => {
   const { i18n } = useLingui()
@@ -26,21 +26,16 @@ export const InitialWelcomePage = () => {
   const { setModal } = useModal()
   const { navigate } = useRouter()
 
-  const handleNewVaultCreation = () => {
-    navigate('vault', {
-      recordType: 'all'
-    })
-  }
+  const { isLoading, createVault } = useCreateVault({
+    onCompleted: () => {
+      navigate('vault', {
+        recordType: 'all'
+      })
+    }
+  })
 
   const handleLoadVault = () => {
-    setModal(
-      html` <${LoadVaultCard}>
-        <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
-
-        <${LoadVaultInput} placeholder=${i18n._('Insert your code vault...')} />
-      <//>`,
-      { overlayType: 'blur' }
-    )
+    setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
   }
 
   return html`
@@ -56,7 +51,7 @@ export const InitialWelcomePage = () => {
           <//>
 
           <${Actions}>
-            <${ButtonPrimary} size="md" onClick=${handleNewVaultCreation}>
+            <${ButtonPrimary} size="md" onClick=${createVault}>
               ${i18n._('Create a new vault')}
             <//>
 
@@ -72,6 +67,8 @@ export const InitialWelcomePage = () => {
 
         <${PearHand} src="assets/images/pearHandBig.png" alt="pearHand" />
       <//>
+
+      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

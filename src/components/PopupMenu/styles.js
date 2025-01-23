@@ -1,39 +1,58 @@
 import styled from 'styled-components'
 
+export const TRANSITION_DURATION = 250
+
+const TRANSFORM_BY_DIRECTION = {
+  top: 'translate(-100%, calc(-100% - 10px))',
+  right: 'translate(10px, -50%)',
+  bottom: 'translate(-50%, 10px)',
+  left: 'translate(10px, -50%)',
+  topRight: 'translate(0, calc(-100% - 10px))',
+  topLeft: 'translate(-100%, calc(-100% - 10px))',
+  bottomRight: 'translate(0, 10px)',
+  bottomLeft: 'translate(-100%, 10px)'
+}
+
 export const MenuWrapper = styled.div`
   position: relative;
   display: inline-block;
 `
 
 export const MenuCard = styled.div.withConfig({
-  shouldForwardProp: (prop) => !['side', 'align'].includes(prop)
+  shouldForwardProp: (prop) =>
+    ![
+      'direction',
+      'isOpen',
+      'top',
+      'left',
+      'height',
+      'width',
+      'shouldRender'
+    ].includes(prop)
 })`
-  position: absolute;
+  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}px;
+  position: fixed;
   z-index: 1000;
-  bottom: -10px;
+  left: ${({ left }) => left}px;
+  top: ${({ top }) => top}px;
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  visibility: ${({ shouldRender }) => (shouldRender ? 'visible' : 'hidden')};
+  transition:
+    opacity ${TRANSITION_DURATION}ms ease-in-out,
+    visibility ${TRANSITION_DURATION}ms ease-in-out;
 
-  ${({ side }) => {
-    switch (side) {
-      case 'left':
-        return 'left: 0;'
-      case 'center':
-        return 'left: 50%;'
-      case 'right':
-        return 'left: 100%;'
+  & {
+    transform: ${({ direction }) => TRANSFORM_BY_DIRECTION[direction]};
+  }
+
+  @keyframes identifier {
+    from {
+      opacity: 0;
     }
-  }};
-
-  & > div {
-    ${({ align }) => {
-      switch (align) {
-        case 'left':
-          return 'transform: translateX(0);'
-        case 'center':
-          return 'transform: translateX(-50%);'
-        case 'right':
-          return 'transform: translateX(-100%);'
-      }
-    }}
+    to {
+      opacity: 1;
+    }
   }
 `
 

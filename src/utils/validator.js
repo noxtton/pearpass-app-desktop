@@ -1,3 +1,33 @@
+const isNullOrUndefined = (value) => value === null || value === undefined
+
+const isEmpty = (value) => {
+  if (isNullOrUndefined(value)) {
+    return true
+  }
+
+  if (typeof value === 'string' && value.trim() === '') {
+    return true
+  }
+
+  if (Array.isArray(value) && value.length === 0) {
+    return true
+  }
+
+  if (typeof value === 'object' && Object.keys(value).length === 0) {
+    return true
+  }
+
+  return false
+}
+
+const checkFilledValueType = (value, type) => {
+  if (type === 'array') {
+    return !isNullOrUndefined(value) && !Array.isArray(value)
+  }
+
+  return !isNullOrUndefined(value) && typeof value !== type
+}
+
 export class Validator {
   constructor(type) {
     this.type = type
@@ -6,7 +36,7 @@ export class Validator {
   }
 
   required(message = 'This field is required') {
-    this.validations.push((value) => (!value?.length ? message : null))
+    this.validations.push((value) => (isEmpty(value) ? message : null))
 
     return this
   }
@@ -69,7 +99,30 @@ export class Validator {
     return this
   }
 
+  email(message) {
+    if (this.type !== 'string') {
+      throw new Error('email is only applicable to strings')
+    }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    this.validations.push((value) =>
+      value && !emailRegex.test(value) ? message : null
+    )
+
+    return this
+  }
+
+  refine(fn) {
+    this.validations.push((value) => fn(value))
+
+    return this
+  }
+
   validate(value) {
+    if (checkFilledValueType(value, this.type)) {
+      return `Expected ${this.type}, but got ${typeof value}`
+    }
+
     if (this.type === 'array' && this.itemSchema) {
       const itemErrors = value?.map((item) => this.itemSchema.validate(item))
 
@@ -93,6 +146,10 @@ export class Validator {
     return null
   }
 
+  static boolean() {
+    return new Validator('boolean')
+  }
+
   static string() {
     return new Validator('string')
   }
@@ -109,10 +166,13 @@ export class Validator {
     return {
       validate(obj) {
         const errors = {}
+
         for (const [key, validator] of Object.entries(schema)) {
           const error = validator.validate(obj[key])
+
           if (error) errors[key] = error
         }
+
         return Object.keys(errors).length > 0 ? errors : null
       }
     }

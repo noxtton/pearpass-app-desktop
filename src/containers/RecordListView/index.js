@@ -18,38 +18,50 @@ import {
   DatePeriod,
   Folder,
   LeftActions,
-  PinnedRecordsSection,
   RecordsSection,
   RightActions,
   ViewWrapper
 } from './styles'
-import { isNextRecordInLast14Days } from './utils'
+import { isStartOfLast14DaysGroup, isStartOfLast7DaysGroup } from './utils'
 import { PopupMenu } from '../../components/PopupMenu'
 import { Record } from '../../components/Record'
-import { RecordPin } from '../../components/RecordPin/index.'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
 import { useRouter } from '../../context/RouterContext'
+import { useDeleteRecord } from '../../vault/hooks/useDeleteRecord'
 
 /**
  * @param {{
  *  records: Array<{
- *    id: string,
- *    name: string,
- *    avatarSrc: string,
- *    updatedAt: number,
+ *    id: string
+ *    createdAt: number
+ *    updatedAt: number
  *    isPinned: boolean
+ *    isFavorite: boolean
+ *    vaultId: string
+ *    folder: string
+ *    data: {
+ *      title: string
+ *      [key: string]: any
+ *    }
  *  }>,
- *    selectedRecords: Array<number>,
- *    selectedRecords: () => void
+ *  selectedRecords: Array<number>,
+ *  setSelectedRecords: () => void
  * }} props
  */
 export const RecordListView = ({
   records,
   selectedRecords,
-  setSelectedRecords
+  setSelectedRecords,
+  sortType,
+  setSortType
 }) => {
   const { i18n } = useLingui()
-  const { currentPage, navigate } = useRouter()
+  const { currentPage, navigate, data } = useRouter()
+
+  const { deleteRecord } = useDeleteRecord()
+
+  const [isSortPopupOpen, setIsSortPopupOpen] = useState(false)
+  const [isMultiSelect, setIsMultiSelect] = useState(false)
 
   const sortActions = [
     { name: i18n._('Recent'), icon: TimeIcon, type: 'recent' },
@@ -61,24 +73,27 @@ export const RecordListView = ({
     { name: i18n._('Oldest to newest'), icon: ArrowUpAndDown, type: 'oldToNew' }
   ]
 
-  const sortedRecords = records.sort((a, b) => a.updatedAt - b.updatedAt)
+  const isRecordsSelected = selectedRecords.length > 0
 
-  const [isSortPopupOpen, setIsSortPopupOpen] = useState(false)
-  const [sortType, setSortType] = useState('recent')
-  const [isMultiSelect, setIsMultiSelect] = useState(false)
+  const selectedSortAction = sortActions.find(
+    (action) => action.type === sortType
+  )
 
   const openRecordDetails = (record) => {
-    navigate(currentPage, { recordId: record.id })
+    navigate(currentPage, { recordId: record.id, recordType: data.recordType })
+  }
+
+  const handleSelect = (record, isSelected) => {
+    setIsMultiSelect(true)
+
+    setSelectedRecords((prev) =>
+      isSelected ? prev.filter((id) => id !== record.id) : [...prev, record.id]
+    )
   }
 
   const handleRecordClick = (record, isSelected) => {
     if (isMultiSelect) {
-      setSelectedRecords((prev) =>
-        isSelected
-          ? prev.filter((id) => id !== record.id)
-          : [...prev, record.id]
-      )
-
+      handleSelect(record, isSelected)
       return
     }
 
@@ -89,13 +104,11 @@ export const RecordListView = ({
     setSortType(type)
   }
 
-  const isRecordsSelected = selectedRecords.length > 0
+  const handleDelete = async () => {
+    await Promise.all(selectedRecords.map((id) => deleteRecord(id)))
 
-  const selectedSortAction = sortActions.find(
-    (action) => action.type === sortType
-  )
-
-  const pinnedRecords = records.filter((record) => record.isPinned)
+    setSelectedRecords([])
+  }
 
   return html`
     <${ViewWrapper}>
@@ -108,11 +121,14 @@ export const RecordListView = ({
                 >
                   ${i18n._('Move')}
                 <//>
+
                 <${ButtonFilter}
                   isDisabled=${!isRecordsSelected}
                   startIcon=${DeleteIcon}
-                  >${i18n._('Delete')}<//
-                >`
+                  onClick=${handleDelete}
+                >
+                  ${i18n._('Delete')}
+                <//> `
             : html`<${PopupMenu}
                 side="left"
                 align="left"
@@ -152,36 +168,41 @@ export const RecordListView = ({
       <//>
 
       ${!isMultiSelect &&
-      html`
-        <${PinnedRecordsSection}>
-          ${pinnedRecords.map(
-            (record) =>
-              html`<${RecordPin}
-                name=${record.name}
-                avatarSrc=${record.avatarSrc}
-                onClick=${() => openRecordDetails(record)}
-              />`
-          )}
-        <//>
-
-        <${Folder}><${FolderIcon} /> Social media <//>
-      `}
+      html` <${Folder}><${FolderIcon} /> Social media <//> `}
 
       <${RecordsSection}>
-        <${DatePeriod}> ${i18n._('Last 7 days')} <//>
-        ${sortedRecords.map((record, index) => {
+        ${records.map((record, index) => {
+          if (!record.data) {
+            return html``
+          }
+
           const isSelected = selectedRecords.includes(record.id)
+
+          const isStartOfLast7Days = isStartOfLast7DaysGroup(
+            record,
+            index,
+            records
+          )
+
+          const isStartOfLast14Days = isStartOfLast14DaysGroup(
+            record,
+            index,
+            records
+          )
 
           return html`
             <${React.Fragment} key=${record.id}>
+              ${isStartOfLast7Days &&
+              html`<${DatePeriod}> ${i18n._('Last 7 days')} <//>`}
+              ${isStartOfLast14Days &&
+              html`<${DatePeriod}> ${i18n._('Last 14 days')} <//>`}
+
               <${Record}
                 record=${record}
                 isSelected=${isSelected}
+                onSelect=${() => handleSelect(record, isSelected)}
                 onClick=${() => handleRecordClick(record, isSelected)}
               />
-
-              ${isNextRecordInLast14Days(sortedRecords, index) &&
-              html` <${DatePeriod}> ${i18n._('Last 14 days')} <//> `}
             <//>
           `
         })}

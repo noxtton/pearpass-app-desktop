@@ -39,7 +39,10 @@ export const ModalProvider = ({ children }) => {
   const closeModal = () => {
     setModalStack((prevState) => {
       const newStack = [...prevState]
-      newStack[newStack.length - 1].isOpen = false
+
+      if (newStack?.[newStack?.length - 1]?.isOpen) {
+        newStack[newStack.length - 1].isOpen = false
+      }
 
       return newStack
     })

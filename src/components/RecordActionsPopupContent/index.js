@@ -5,9 +5,13 @@ import { RECORD_ACTION_ICON_BY_TYPE } from '../../constants/recordActions'
 
 /**
  * @param {{
- *  menuItems: Array<string>,
+ *  menuItems: Array<{
+ *    name: string,
+ *    type: string,
+ *    click?: () => void,
+ *  }>,
  *  variant: 'default' | 'compact',
- *  onClick: () => void,
+ *  onClick?: () => void,
  * }}
  */
 export const RecordActionsPopupContent = ({
@@ -15,12 +19,6 @@ export const RecordActionsPopupContent = ({
   menuItems,
   onClick
 }) => {
-  const handleMenuItemClick = (e) => {
-    e.stopPropagation()
-
-    onClick()
-  }
-
   return html`
     <${MenuCard} variant=${variant}>
       ${menuItems.map(
@@ -28,7 +26,16 @@ export const RecordActionsPopupContent = ({
           <${MenuItem}
             key=${item.type}
             variant=${variant}
-            onClick=${handleMenuItemClick}
+            onClick=${(e) => {
+              e.stopPropagation()
+
+              if (item.click) {
+                item.click()
+                return
+              }
+
+              onClick?.()
+            }}
           >
             <${RECORD_ACTION_ICON_BY_TYPE[item.type]} size="14" />
 

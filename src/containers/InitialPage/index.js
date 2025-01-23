@@ -18,11 +18,10 @@ export const InitialLoadPage = () => {
       <${PageContainer}>
         <${PageContentContainer}>
           <${Title}>
-            ${i18n._('Protect')}
+            ${i18n._('Protect')}${' '}
 
             <${GreenText}>${i18n._('your digital')}<//>
-
-            ${i18n._('life')}
+            ${' '} ${i18n._('life')}
           <//>
 
           <${PearHand} src="assets/images/pearHand.png" alt="pearHand" />
