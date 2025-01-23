@@ -48,6 +48,13 @@ export const PopupMenu = ({
   }, [isOpen, setIsOpen])
 
   const { newDirection, newPositions } = React.useMemo(() => {
+    const {
+      right = 0,
+      left = 0,
+      top = 0,
+      bottom = 0
+    } = boxRef.current?.getBoundingClientRect() || {}
+
     const width =
       boxRef.current?.children[0]?.getBoundingClientRect().width ?? 0
     const height =
@@ -61,12 +68,10 @@ export const PopupMenu = ({
       vertical: getVertical(direction)
     }
 
-    const rightPosition =
-      screenWidth - (boxRef.current?.getBoundingClientRect().right ?? 0)
-    const leftPosition = boxRef.current?.getBoundingClientRect().left ?? 0
-    const topPosition = boxRef.current?.getBoundingClientRect().top ?? 0
-    const bottomPosition =
-      screenHeight - (boxRef.current?.getBoundingClientRect().bottom ?? 0)
+    const rightPosition = screenWidth - right
+    const leftPosition = left
+    const topPosition = top
+    const bottomPosition = screenHeight - bottom
 
     const newPositions = {
       right: rightPosition - (positionToSet.horizontal === 'right' ? width : 0),
