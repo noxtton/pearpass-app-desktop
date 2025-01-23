@@ -114,39 +114,46 @@ export const PopupMenu = ({
       return { top: 0, left: 0 }
     }
 
-    const triggerElementRect = wrapperRef.current.getBoundingClientRect()
+    const {
+      top = 0,
+      bottom = 0,
+      left = 0,
+      right = 0,
+      width = 0,
+      height = 0
+    } = wrapperRef.current.getBoundingClientRect() || {}
 
     switch (newDirection) {
       case 'top':
         return {
-          top: triggerElementRect.top,
-          left: triggerElementRect.left + triggerElementRect.width / 2
+          top: top,
+          left: left + width / 2
         }
       case 'bottom':
         return {
-          top: triggerElementRect.bottom,
-          left: triggerElementRect.left + triggerElementRect.width / 2
+          top: bottom,
+          left: left + width / 2
         }
       case 'left':
         return {
-          top: triggerElementRect.top + triggerElementRect.height / 2,
-          left: triggerElementRect.left
+          top: top + height / 2,
+          left: left
         }
       case 'right':
         return {
-          top: triggerElementRect.top + triggerElementRect.height / 2,
-          left: triggerElementRect.right
+          top: top + height / 2,
+          left: right
         }
       case 'topRight':
-        return { top: triggerElementRect.top, left: triggerElementRect.left }
+        return { top: top, left: left }
       case 'topLeft':
-        return { top: triggerElementRect.top, left: triggerElementRect.right }
+        return { top: top, left: right }
       case 'bottomRight':
-        return { top: triggerElementRect.bottom, left: triggerElementRect.left }
+        return { top: bottom, left: left }
       case 'bottomLeft':
         return {
-          top: triggerElementRect.bottom,
-          left: triggerElementRect.right
+          top: bottom,
+          left: right
         }
       default:
         return { top: 0, left: 0 }
