@@ -20,7 +20,6 @@ import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 
 /**
- *
  * @param {{
  *  initialRecord: {
  *    data: {

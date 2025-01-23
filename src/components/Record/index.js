@@ -74,7 +74,11 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
         <${RecordName}>
           <span>${record.data?.title}</span>
 
+          <<<<<<< HEAD
           <p>${folderName}</p>
+          =======
+          <p>${record.folder}</p>
+          >>>>>>> main
         <//>
       <//>
 

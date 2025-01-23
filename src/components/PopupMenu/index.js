@@ -48,6 +48,13 @@ export const PopupMenu = ({
   }, [isOpen, setIsOpen])
 
   const { newDirection, newPositions } = React.useMemo(() => {
+    const {
+      right = 0,
+      left = 0,
+      top = 0,
+      bottom = 0
+    } = boxRef.current?.getBoundingClientRect() || {}
+
     const width =
       boxRef.current?.children[0]?.getBoundingClientRect().width ?? 0
     const height =
@@ -61,12 +68,10 @@ export const PopupMenu = ({
       vertical: getVertical(direction)
     }
 
-    const rightPosition =
-      screenWidth - (boxRef.current?.getBoundingClientRect().right ?? 0)
-    const leftPosition = boxRef.current?.getBoundingClientRect().left ?? 0
-    const topPosition = boxRef.current?.getBoundingClientRect().top ?? 0
-    const bottomPosition =
-      screenHeight - (boxRef.current?.getBoundingClientRect().bottom ?? 0)
+    const rightPosition = screenWidth - right
+    const leftPosition = left
+    const topPosition = top
+    const bottomPosition = screenHeight - bottom
 
     const newPositions = {
       right: rightPosition - (positionToSet.horizontal === 'right' ? width : 0),
@@ -109,39 +114,46 @@ export const PopupMenu = ({
       return { top: 0, left: 0 }
     }
 
-    const triggerElementRect = wrapperRef.current.getBoundingClientRect()
+    const {
+      top = 0,
+      bottom = 0,
+      left = 0,
+      right = 0,
+      width = 0,
+      height = 0
+    } = wrapperRef.current.getBoundingClientRect() || {}
 
     switch (newDirection) {
       case 'top':
         return {
-          top: triggerElementRect.top,
-          left: triggerElementRect.left + triggerElementRect.width / 2
+          top: top,
+          left: left + width / 2
         }
       case 'bottom':
         return {
-          top: triggerElementRect.bottom,
-          left: triggerElementRect.left + triggerElementRect.width / 2
+          top: bottom,
+          left: left + width / 2
         }
       case 'left':
         return {
-          top: triggerElementRect.top + triggerElementRect.height / 2,
-          left: triggerElementRect.left
+          top: top + height / 2,
+          left: left
         }
       case 'right':
         return {
-          top: triggerElementRect.top + triggerElementRect.height / 2,
-          left: triggerElementRect.right
+          top: top + height / 2,
+          left: right
         }
       case 'topRight':
-        return { top: triggerElementRect.top, left: triggerElementRect.left }
+        return { top: top, left: left }
       case 'topLeft':
-        return { top: triggerElementRect.top, left: triggerElementRect.right }
+        return { top: top, left: right }
       case 'bottomRight':
-        return { top: triggerElementRect.bottom, left: triggerElementRect.left }
+        return { top: bottom, left: left }
       case 'bottomLeft':
         return {
-          top: triggerElementRect.bottom,
-          left: triggerElementRect.right
+          top: bottom,
+          left: right
         }
       default:
         return { top: 0, left: 0 }
