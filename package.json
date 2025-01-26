@@ -23,12 +23,12 @@
     "lingui:compile": "lingui compile"
   },
   "devDependencies": {
+    "@lingui/cli": "=5.1.2",
     "brittle": "=3.0.0",
     "pear-interface": "=1.0.0",
     "pearpass-eslint-config": "github:noxtton/pearpass-eslint-config#v0.0.3"
   },
   "dependencies": {
-    "@lingui/cli": "=5.1.2",
     "@lingui/core": "=5.1.2",
     "@lingui/format-json": "=5.1.2",
     "@lingui/macro": "=5.1.2",
