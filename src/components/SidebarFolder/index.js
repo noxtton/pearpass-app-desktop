@@ -29,16 +29,22 @@ import {
 export const SidebarFolder = ({
   isOpen,
   onClick,
+  onDropDown,
   onAddClick,
   isRoot,
   name,
   icon: Icon
 }) => {
+  const handleDropDownClick = (e) => {
+    e.stopPropagation()
+    onDropDown()
+  }
+
   return html`
     <${React.Fragment}>
       <${NestedFoldersContainer}>
         <${NestedItem} onClick=${onClick}>
-          <div>
+          <div onClick=${handleDropDownClick}>
             <${isOpen ? ArrowDownIcon : ArrowUpIcon} ArrowUpIcon="14" />
           </div>
 

@@ -21,7 +21,7 @@ export const SideBarCategories = ({ sidebarSize = 'default' }) => {
   const { data: recordCountData } = useRecordCountsByType()
 
   const handleRecordClick = (type) => {
-    navigate('vault', { ...routerData, recordType: type })
+    navigate('vault', { ...routerData, recordType: type, folder: undefined })
   }
 
   return html`

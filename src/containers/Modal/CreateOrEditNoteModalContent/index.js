@@ -17,9 +17,11 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
+import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
+import { DropdownsWrapper } from '../styles'
 
 /**
  * @param {{
@@ -34,11 +36,13 @@ import { ModalContent } from '../ModalContent'
  *     }
  *    }
  *  selectedFolder?: string
+ *  onTypeChange: (type: string) => void
  * }} props
  */
 export const CreateOrEditNoteModalContent = ({
   initialRecord,
-  selectedFolder
+  selectedFolder,
+  onTypeChange
 }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
@@ -103,6 +107,10 @@ export const CreateOrEditNoteModalContent = ({
     }
   }
 
+  const handleRecordTypeChange = (type) => {
+    onTypeChange(type)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -117,10 +125,17 @@ export const CreateOrEditNoteModalContent = ({
             <//>
           `}
         >
-          <${FolderDropdown}
-            selectedFolder=${values?.folder}
-            onFolderSelect=${(folder) => setValue('folder', folder)}
-          />
+          <${DropdownsWrapper}>
+            <${FolderDropdown}
+              selectedFolder=${values?.folder}
+              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+            />
+            ${!initialRecord &&
+            html` <${RecordTypeDropdown}
+              selectedRecord=${RECORD_TYPES.NOTE}
+              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+            />`}
+          <//>
         <//>
       `}
     >

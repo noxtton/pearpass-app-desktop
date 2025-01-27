@@ -48,7 +48,8 @@ export const MainView = () => {
       filters: {
         searchPattern: searchValue,
         type:
-          routerData?.recordType === 'all' ? undefined : routerData?.recordType
+          routerData?.recordType === 'all' ? undefined : routerData?.recordType,
+        folder: routerData?.folder ? routerData?.folder : undefined
       },
       sort: sort
     }

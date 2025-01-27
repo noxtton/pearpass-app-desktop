@@ -8,6 +8,7 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
 import { NestedFoldersWrapper } from './styles'
 import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
+import { useRouter } from '../../../context/RouterContext'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 
@@ -28,6 +29,7 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const { i18n } = useLingui()
   const { setModal } = useModal()
+  const { navigate, data: routerData } = useRouter()
 
   const isRoot = level === 0
 
@@ -37,6 +39,10 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
 
   const handleAddClick = () => {
     setModal(html` <${CreateFolderModalContent} /> `)
+  }
+
+  const handleFolderClick = () => {
+    navigate('vault', { ...routerData, recordType: 'all', folder: item.id })
   }
 
   if (!isFolder) {
@@ -59,7 +65,8 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
       <${SidebarFolder}
         onAddClick=${handleAddClick}
         isOpen=${isOpen}
-        onClick=${() => setIsOpen(!isOpen)}
+        onClick=${handleFolderClick}
+        onDropDown=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
         name=${item.name}
         icon=${item.icon}

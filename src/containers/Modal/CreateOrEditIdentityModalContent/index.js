@@ -2,16 +2,19 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pearpass-lib-form'
 import {
-  InputField,
   ButtonLittle,
-  SaveIcon,
-  UserIcon,
   EmailIcon,
-  PhoneIcon
+  InputField,
+  PhoneIcon,
+  SaveIcon,
+  UserIcon
 } from 'pearpass-lib-ui-react-components'
 import { Validator } from 'pearpass-lib-validator'
-import { useCreateRecord, useUpdateRecord } from 'pearpass-lib-vault'
-import { RECORD_TYPES } from 'pearpass-lib-vault'
+import {
+  RECORD_TYPES,
+  useCreateRecord,
+  useUpdateRecord
+} from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'
@@ -20,9 +23,11 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
+import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
+import { DropdownsWrapper } from '../styles'
 
 /**
  * @param {{
@@ -45,11 +50,13 @@ import { ModalContent } from '../ModalContent'
  *   }
  *  }
  *  selectedFolder?: string
+ *  onTypeChange: (type: string) => void
  * }} props
  */
 export const CreateOrEditIdentityModalContent = ({
   initialRecord,
-  selectedFolder
+  selectedFolder,
+  onTypeChange
 }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
@@ -138,6 +145,10 @@ export const CreateOrEditIdentityModalContent = ({
     }
   }
 
+  const handleRecordTypeChange = (type) => {
+    onTypeChange(type)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -152,10 +163,17 @@ export const CreateOrEditIdentityModalContent = ({
             <//>
           `}
         >
-          <${FolderDropdown}
-            selectedFolder=${values?.folder}
-            onFolderSelect=${(folder) => setValue('folder', folder)}
-          />
+          <${DropdownsWrapper}>
+            <${FolderDropdown}
+              selectedFolder=${values?.folder}
+              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+            />
+            ${!initialRecord &&
+            html` <${RecordTypeDropdown}
+              selectedRecord=${RECORD_TYPES.IDENTITY}
+              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+            />`}
+          <//>
         <//>
       `}
     >

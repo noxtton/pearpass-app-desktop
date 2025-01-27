@@ -16,6 +16,7 @@ import { useRecordById } from 'pearpass-lib-vault'
 import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
   Fields,
+  FavoriteButtonWrapper,
   FolderWrapper,
   Header,
   HeaderRight,
@@ -81,6 +82,13 @@ export const RecordDetails = () => {
         </div>
 
         <${HeaderRight}>
+          <${FavoriteButtonWrapper} favorite=${record.isFavorite}>
+            <${StarIcon}
+              width="21"
+              height="21"
+              color=${colors.primary400.mode1}
+            />
+          <//>
           <${ButtonLittle} startIcon=${BrushIcon} onClick=${handleEdit}>
             ${i18n._('Edit')}
           <//>

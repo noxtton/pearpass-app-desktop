@@ -10,6 +10,7 @@ import {
   RecordName,
   RecordWrapper
 } from './styles'
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems'
 import { generateAvatarInitials } from '../../utils/generateAvatarInitials'
 import { PopupMenu } from '../PopupMenu'
@@ -27,6 +28,7 @@ import { RecordAvatar } from '../RecordAvatar'
  *    isFavorite: boolean
  *    vaultId: string
  *    folder: string
+ *    type: 'note' | 'creditCard' | 'custom' | 'identity' | 'login'
  *    data: {
  *      title: string
  *      [key: string]: any
@@ -69,6 +71,7 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
           initials=${generateAvatarInitials(record.data?.title)}
           isSelected=${isSelected}
           isPinned=${record?.isPinned}
+          color=${RECORD_COLOR_BY_TYPE[record.type]}
         />
 
         <${RecordName}>

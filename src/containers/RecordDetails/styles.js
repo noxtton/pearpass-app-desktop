@@ -29,6 +29,15 @@ export const HeaderRight = styled.div`
   gap: 10px;
 `
 
+export const FavoriteButtonWrapper = styled.div`
+  display: flex;
+  cursor: pointer;
+
+  & path {
+    fill: ${({ favorite, theme }) => favorite && theme.colors.primary400.mode1};
+  }
+`
+
 export const Fields = styled.div`
   display: flex;
   flex-direction: column;
