@@ -37,7 +37,7 @@ import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
  */
 export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const { i18n } = useLingui()
-  const { navigate } = useRouter()
+  const { navigate, data: routerData } = useRouter()
 
   const [searchValue, setSearchValue] = useState('')
 
@@ -79,6 +79,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           id: 'favorites',
           icon: StarIcon,
           isOpenInitially: matchesSearch(favorites?.records ?? [], searchValue),
+          isActive: routerData?.folder === 'favorites',
           children:
             favorites?.records?.map((record) => {
               return {
@@ -92,6 +93,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           return {
             name: folder.name,
             id: folder.name,
+            isActive: routerData?.folder === folder.name,
             isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
             children: folder.records?.map((record) => {
               return {
@@ -111,7 +113,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         }) ?? [])
       ]
     }
-  }, [data, i18n])
+  }, [data, i18n, routerData])
 
   const { setModal } = useModal()
 

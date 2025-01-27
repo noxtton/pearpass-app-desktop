@@ -19,6 +19,7 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
  *    icon: string,
  *    isAlwaysVisible: boolean,
  *    isOpenInitially: boolean,
+ *    isActive: boolean,
  *     children: {
  *        name: string,
  *        icon: string,
@@ -78,6 +79,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         onClick=${handleFolderClick}
         onDropDown=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
+        isActive=${item.isActive}
         name=${item.name}
         icon=${item.icon}
         key=${item.name + item.id}
