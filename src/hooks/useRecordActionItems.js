@@ -59,7 +59,11 @@ export const useRecordActionItems = ({
 
   const defaultActions = [
     { name: i18n._('Select element'), type: 'select', click: handleSelect },
-    { name: i18n._('Pin element'), type: 'pin', click: handlePin },
+    {
+      name: i18n._(record.isPinned ? 'Unpin element' : 'Pin element'),
+      type: 'pin',
+      click: handlePin
+    },
     {
       name: i18n._('Move to another folder'),
       type: 'move',

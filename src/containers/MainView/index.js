@@ -76,6 +76,7 @@ export const MainView = () => {
         <${InputSearch}
           value=${searchValue}
           onChange=${(e) => setSearchValue(e.target.value)}
+          quantity=${records?.length}
         />
 
         <${PopupMenu}
