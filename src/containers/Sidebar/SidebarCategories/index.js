@@ -27,16 +27,16 @@ export const SideBarCategories = ({ sidebarSize = 'default' }) => {
   return html`
     <${CategoriesContainer} size=${sidebarSize}>
       ${menuItems.map((record) => {
-        const count = recordCountData[record.type] || 0
+        const count = recordCountData[record?.type] || 0
         return html`
           <${SidebarCategory}
-            key=${record.type}
-            categoryName=${record.name}
-            color=${RECORD_COLOR_BY_TYPE[record.type]}
+            key=${record?.type}
+            categoryName=${record?.name}
+            color=${RECORD_COLOR_BY_TYPE[record?.type]}
             quantity=${count}
-            isSelected=${routerData.recordType === record.type}
-            icon=${RECORD_ICON_BY_TYPE[record.type]}
-            onClick=${() => handleRecordClick(record.type)}
+            isSelected=${routerData.recordType === record?.type}
+            icon=${RECORD_ICON_BY_TYPE[record?.type]}
+            onClick=${() => handleRecordClick(record?.type)}
             size=${sidebarSize}
           />
         `

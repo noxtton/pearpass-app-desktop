@@ -173,7 +173,7 @@ export const CreateOrEditIdentityModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeDropdown}
               selectedRecord=${RECORD_TYPES.IDENTITY}
-              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}
           <//>
         <//>

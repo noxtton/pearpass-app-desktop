@@ -159,7 +159,7 @@ export const CreateOrEditCreditCardModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeDropdown}
               selectedRecord=${RECORD_TYPES.CREDIT_CARD}
-              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}
           <//>
         <//>

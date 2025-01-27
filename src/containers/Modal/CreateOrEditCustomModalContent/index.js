@@ -134,7 +134,7 @@ export const CreateOrEditCustomModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeDropdown}
               selectedRecord=${RECORD_TYPES.CUSTOM}
-              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}
           <//>
         <//>

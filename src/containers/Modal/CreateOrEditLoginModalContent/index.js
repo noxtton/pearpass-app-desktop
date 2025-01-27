@@ -182,7 +182,7 @@ export const CreateOrEditLoginModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeDropdown}
               selectedRecord=${RECORD_TYPES.LOGIN}
-              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}
           <//>
         <//>

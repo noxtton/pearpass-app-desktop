@@ -43,7 +43,7 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
   const { i18n } = useLingui()
   const [isOpen, setIsOpen] = useState()
 
-  const folderName = record.isFavorite ? i18n._('Favorite') : record.folder
+  const folderName = record?.isFavorite ? i18n._('Favorite') : record?.folder
 
   const { actions } = useRecordActionItems({
     record,
@@ -67,15 +67,15 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
     >
       <${RecordInformation}>
         <${RecordAvatar}
-          avatarSrc=${record.data?.avatarSrc}
-          initials=${generateAvatarInitials(record.data?.title)}
+          avatarSrc=${record?.data?.avatarSrc}
+          initials=${generateAvatarInitials(record?.data?.title)}
           isSelected=${isSelected}
           isPinned=${record?.isPinned}
-          color=${RECORD_COLOR_BY_TYPE[record.type]}
+          color=${RECORD_COLOR_BY_TYPE[record?.type]}
         />
 
         <${RecordName}>
-          <span>${record.data?.title}</span>
+          <span>${record?.data?.title}</span>
 
           <p>${folderName}</p>
         <//>

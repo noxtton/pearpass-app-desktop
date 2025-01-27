@@ -30,6 +30,7 @@ import { Record } from '../../components/Record'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
+import { ConfirmationModalContent } from '../Modal/ConfirmationModalContent'
 import { MoveFolderModalContent } from '../Modal/MoveFolderModalContent'
 
 /**
@@ -60,7 +61,7 @@ export const RecordListView = ({
 }) => {
   const { i18n } = useLingui()
   const { currentPage, navigate, data: routeData } = useRouter()
-  const { setModal } = useModal()
+  const { setModal, closeModal } = useModal()
 
   const { deleteRecord } = useDeleteRecord()
 
@@ -86,7 +87,7 @@ export const RecordListView = ({
 
   const openRecordDetails = (record) => {
     navigate(currentPage, {
-      recordId: record.id,
+      recordId: record?.id,
       recordType: routeData.recordType
     })
   }
@@ -96,7 +97,7 @@ export const RecordListView = ({
 
     setSelectedRecords((prev) =>
       isSelected
-        ? prev.filter((selectedRecord) => selectedRecord.id !== record.id)
+        ? prev.filter((selectedRecord) => selectedRecord.id !== record?.id)
         : [...prev, record]
     )
   }
@@ -120,10 +121,25 @@ export const RecordListView = ({
     setIsMultiSelect(false)
   }
 
-  const handleDelete = async () => {
-    await Promise.all(selectedRecords.map((record) => deleteRecord(record.id)))
+  const handleDeleteConfirm = async () => {
+    await Promise.all(selectedRecords.map((record) => deleteRecord(record?.id)))
 
     onClearSelection()
+
+    closeModal()
+  }
+
+  const handleDelete = async () => {
+    setModal(html`
+      <${ConfirmationModalContent}
+        title=${i18n._('Are you sure to delete this item(s)?')}
+        text=${i18n._('This is permanent and cannot be undone')}
+        primaryLabel=${i18n._('No')}
+        secondaryLabel=${i18n._('Yes')}
+        secondaryAction=${handleDeleteConfirm}
+        primaryAction=${closeModal}
+      />
+    `)
   }
 
   const handleMoveClick = () => {
@@ -198,12 +214,12 @@ export const RecordListView = ({
 
       <${RecordsSection}>
         ${records.map((record, index) => {
-          if (!record.data) {
+          if (!record?.data) {
             return html``
           }
 
           const isSelected = selectedRecords.some(
-            (selectedRecord) => selectedRecord.id === record.id
+            (selectedRecord) => selectedRecord.id === record?.id
           )
 
           const isStartOfLast7Days = isStartOfLast7DaysGroup(
@@ -219,7 +235,7 @@ export const RecordListView = ({
           )
 
           return html`
-            <${React.Fragment} key=${record.id}>
+            <${React.Fragment} key=${record?.id}>
               ${isStartOfLast7Days &&
               html`<${DatePeriod}> ${i18n._('Last 7 days')} <//>`}
               ${isStartOfLast14Days &&

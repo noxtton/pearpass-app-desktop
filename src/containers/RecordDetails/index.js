@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -64,28 +64,39 @@ export const RecordDetails = () => {
     navigate(currentPage, { ...routerData, recordId: '' })
   }
 
+  useEffect(() => {
+    if (!record) {
+      handleCollapseRecordDetails()
+    }
+  }, [record])
+
+  if (!record) {
+    return null
+  }
+
   return html`
     <${React.Fragment}>
       <${Header}>
         <div>
           <${Title}> ${record?.data?.title} <//>
           <${FolderWrapper}>
-            ${record.isFavorite
+            ${record?.isFavorite
               ? html`
                   <${StarIcon} size="14" color=${colors.grey200.mode1} />
                   ${i18n._('Favourites')}
                 `
               : html`
                   <${FolderIcon} size="14" color=${colors.grey200.mode1} />
-                  ${record.folder}
+                  ${record?.folder}
                 `}
           <//>
         </div>
 
         <${HeaderRight}>
           <${FavoriteButtonWrapper}
-            favorite=${record.isFavorite}
-            onClick=${() => updateFavoriteState(record.id, !record.isFavorite)}
+            favorite=${record?.isFavorite}
+            onClick=${() =>
+              updateFavoriteState(record?.id, !record?.isFavorite)}
           >
             <${StarIcon} size="21" color=${colors.primary400.mode1} />
           <//>

@@ -135,7 +135,7 @@ export const CreateOrEditNoteModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeDropdown}
               selectedRecord=${RECORD_TYPES.NOTE}
-              onRecordSelect=${(record) => handleRecordTypeChange(record.type)}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}
           <//>
         <//>

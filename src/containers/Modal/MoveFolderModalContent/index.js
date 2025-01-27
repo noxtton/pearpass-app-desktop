@@ -46,7 +46,7 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
 
   const handleMove = async (folderName) => {
     await Promise.all(
-      records.map((record) => updateFolder(record.id, folderName))
+      records.map((record) => updateFolder(record?.id, folderName))
     )
 
     onCompleted?.()

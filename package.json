@@ -37,7 +37,7 @@
     "globals": "=15.14.0",
     "htm": "=3.1.1",
     "pearpass-lib-form": "github:noxtton/pearpass-lib-form#v0.0.3",
-    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.40",
+    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.41",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.3",
     "pearpass-lib-validator": "github:noxtton/pearpass-lib-validator#v0.0.2",
     "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.8",

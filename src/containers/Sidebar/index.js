@@ -61,7 +61,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     }
 
     return records.some((record) => {
-      return matchPatternToValue(searchValue, record.data?.title ?? '')
+      return matchPatternToValue(searchValue, record?.data?.title ?? '')
     })
   }
 
@@ -83,9 +83,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           children:
             favorites?.records?.map((record) => {
               return {
-                name: record.data.title,
-                id: record.id,
-                icon: RECORD_ICON_BY_TYPE[record.type]
+                name: record?.data.title,
+                id: record?.id,
+                icon: RECORD_ICON_BY_TYPE[record?.type]
               }
             }) ?? []
         },
@@ -97,18 +97,18 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
             isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
             children: folder.records?.map((record) => {
               return {
-                name: record.data?.title,
-                id: record.id,
-                icon: RECORD_ICON_BY_TYPE[record.type]
+                name: record?.data?.title,
+                id: record?.id,
+                icon: RECORD_ICON_BY_TYPE[record?.type]
               }
             })
           }
         }),
         ...(noFolder?.records?.map((record) => {
           return {
-            name: record.data.title,
-            id: record.id,
-            icon: RECORD_ICON_BY_TYPE[record.type]
+            name: record?.data.title,
+            id: record?.id,
+            icon: RECORD_ICON_BY_TYPE[record?.type]
           }
         }) ?? [])
       ]
