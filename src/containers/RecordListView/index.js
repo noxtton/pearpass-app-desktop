@@ -9,6 +9,7 @@ import {
   FolderIcon,
   MoveToIcon,
   MultiSelectionIcon,
+  StarIcon,
   TimeIcon,
   XIcon
 } from 'pearpass-lib-ui-react-components'
@@ -58,7 +59,7 @@ export const RecordListView = ({
   setSortType
 }) => {
   const { i18n } = useLingui()
-  const { currentPage, navigate, data } = useRouter()
+  const { currentPage, navigate, data: routeData } = useRouter()
   const { setModal } = useModal()
 
   const { deleteRecord } = useDeleteRecord()
@@ -77,13 +78,17 @@ export const RecordListView = ({
   ]
 
   const isRecordsSelected = selectedRecords.length > 0
+  const isFavorite = routeData.folder === 'favorites'
 
   const selectedSortAction = sortActions.find(
     (action) => action.type === sortType
   )
 
   const openRecordDetails = (record) => {
-    navigate(currentPage, { recordId: record.id, recordType: data.recordType })
+    navigate(currentPage, {
+      recordId: record.id,
+      recordType: routeData.recordType
+    })
   }
 
   const handleSelect = (record, isSelected) => {
@@ -186,7 +191,10 @@ export const RecordListView = ({
       <//>
 
       ${!isMultiSelect &&
-      html` <${Folder}><${FolderIcon} /> Social media <//> `}
+      !!routeData?.folder?.length &&
+      (isFavorite
+        ? html`<${Folder}><${StarIcon} /> ${i18n._('Favorite')}<//>`
+        : html`<${Folder}><${FolderIcon} /> ${routeData.folder}<//>`)}
 
       <${RecordsSection}>
         ${records.map((record, index) => {

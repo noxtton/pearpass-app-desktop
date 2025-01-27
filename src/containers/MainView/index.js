@@ -49,7 +49,12 @@ export const MainView = () => {
         searchPattern: searchValue,
         type:
           routerData?.recordType === 'all' ? undefined : routerData?.recordType,
-        folder: routerData?.folder ? routerData?.folder : undefined
+        folder:
+          routerData?.folder && routerData.folder !== 'favorites'
+            ? routerData.folder
+            : undefined,
+        isFavorite:
+          routerData?.folder && routerData.folder === 'favorites' ? true : false
       },
       sort: sort
     }

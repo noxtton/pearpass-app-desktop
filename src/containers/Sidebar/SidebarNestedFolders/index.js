@@ -30,7 +30,7 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const { i18n } = useLingui()
   const { setModal } = useModal()
-  const { navigate, data: routerData } = useRouter()
+  const { navigate } = useRouter()
 
   const isRoot = level === 0
 
@@ -43,7 +43,10 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
   }
 
   const handleFolderClick = () => {
-    navigate('vault', { ...routerData, recordType: 'all', folder: item.id })
+    if (isRoot) {
+      return navigate('vault', { recordType: 'all' })
+    }
+    navigate('vault', { recordType: 'all', folder: item.id })
   }
 
   if (!isFolder) {
