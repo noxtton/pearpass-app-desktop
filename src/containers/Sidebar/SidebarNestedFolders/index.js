@@ -100,7 +100,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         html`
           <${SidebarNestedFile}
             key=${item.id + 'newFile'}
-            folderName=${item.name}
+            folderId=${item.id}
             icon=${PlusIcon}
             name=${i18n._('New')}
             isNew=${true}

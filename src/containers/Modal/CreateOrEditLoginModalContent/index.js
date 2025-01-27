@@ -34,6 +34,7 @@ import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
+import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 import { DropdownsWrapper } from '../styles'
@@ -131,7 +132,8 @@ export const CreateOrEditLoginModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.LOGIN,
-      folder: values.folder,
+      folder: isFavorite(values.folder) ? undefined : values.folder,
+      isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
         username: values.username,

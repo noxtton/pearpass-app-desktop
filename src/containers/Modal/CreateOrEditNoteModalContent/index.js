@@ -19,6 +19,7 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
+import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 import { DropdownsWrapper } from '../styles'
@@ -89,7 +90,8 @@ export const CreateOrEditNoteModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.NOTE,
-      folder: values.folder,
+      folder: isFavorite(values.folder) ? undefined : values.folder,
+      isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
         note: values.note,

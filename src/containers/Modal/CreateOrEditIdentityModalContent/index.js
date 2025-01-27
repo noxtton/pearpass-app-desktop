@@ -25,6 +25,7 @@ import { InputFieldNote } from '../../../components/InputFieldNote'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
+import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
 import { DropdownsWrapper } from '../styles'
@@ -119,7 +120,8 @@ export const CreateOrEditIdentityModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.IDENTITY,
-      folder: values.folder,
+      folder: isFavorite(values.folder) ? undefined : values.folder,
+      isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
         fullName: values.fullName,
