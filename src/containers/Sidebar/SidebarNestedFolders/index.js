@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -18,6 +18,7 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
  *    name: string,
  *    icon: string,
  *    isAlwaysVisible: boolean,
+ *    isOpenInitially: boolean,
  *     children: {
  *        name: string,
  *        icon: string,
@@ -55,6 +56,12 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
       />
     `
   }
+
+  useEffect(() => {
+    if (!isRoot) {
+      setIsOpen(item.isOpenInitially)
+    }
+  }, [item.isOpenInitially, isRoot])
 
   if (!item.children.length) {
     return html``

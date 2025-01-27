@@ -27,6 +27,7 @@ import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
+import { matchPatternToValue } from '../../utils/matchPatternToValue'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
@@ -54,6 +55,16 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     })
   }
 
+  const matchesSearch = (records, searchValue) => {
+    if (!searchValue) {
+      return false
+    }
+
+    return records.some((record) => {
+      return matchPatternToValue(searchValue, record.data?.title ?? '')
+    })
+  }
+
   const folders = React.useMemo(() => {
     const { favorites, noFolder, customFolders } = data || {}
 
@@ -67,6 +78,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           name: i18n._('Favorite'),
           id: 'favorites',
           icon: StarIcon,
+          isOpenInitially: matchesSearch(favorites?.records ?? [], searchValue),
           children:
             favorites?.records?.map((record) => {
               return {
@@ -80,6 +92,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           return {
             name: folder.name,
             id: folder.name,
+            isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
             children: folder.records?.map((record) => {
               return {
                 name: record.data?.title,
