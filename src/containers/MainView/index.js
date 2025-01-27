@@ -11,6 +11,7 @@ import { PopupMenu } from '../../components/PopupMenu'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
+import { isFavorite } from '../../utils/isFavorite'
 import { EmptyCollectionView } from '../EmptyCollectionView'
 import { RecordListView } from '../RecordListView'
 
@@ -50,11 +51,12 @@ export const MainView = () => {
         type:
           routerData?.recordType === 'all' ? undefined : routerData?.recordType,
         folder:
-          routerData?.folder && routerData.folder !== 'favorites'
+          routerData?.folder && !isFavorite(routerData.folder)
             ? routerData.folder
             : undefined,
-        isFavorite:
-          routerData?.folder && routerData.folder === 'favorites' ? true : false
+        isFavorite: routerData?.folder
+          ? isFavorite(routerData.folder)
+          : undefined
       },
       sort: sort
     }
