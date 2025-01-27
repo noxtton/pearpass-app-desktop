@@ -1,8 +1,16 @@
 import { useLingui } from '@lingui/react'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
+
+import { RECORD_COLOR_BY_TYPE } from '../constants/recordColorByType'
+import { RECORD_ICON_BY_TYPE } from '../constants/recordIconByType'
 
 /**
  * @returns {{
  * categoriesItems: Array<{
+ *  name: string,
+ *  type: string
+ *  }>,
+ * defaultItems: Array<{
  *  name: string,
  *  type: string
  *  }>,
@@ -17,23 +25,33 @@ export const useRecordMenuItems = () => {
   const defaultItems = [
     {
       name: i18n._('Login'),
-      type: 'login'
+      type: RECORD_TYPES.LOGIN,
+      icon: RECORD_ICON_BY_TYPE.login,
+      color: RECORD_COLOR_BY_TYPE.login
     },
     {
       name: i18n._('Identity'),
-      type: 'identity'
+      type: RECORD_TYPES.IDENTITY,
+      icon: RECORD_ICON_BY_TYPE.identity,
+      color: RECORD_COLOR_BY_TYPE.identity
     },
     {
       name: i18n._('Credit Card'),
-      type: 'creditCard'
+      type: RECORD_TYPES.CREDIT_CARD,
+      icon: RECORD_ICON_BY_TYPE.creditCard,
+      color: RECORD_COLOR_BY_TYPE.creditCard
     },
     {
       name: i18n._('Note'),
-      type: 'note'
+      type: RECORD_TYPES.NOTE,
+      icon: RECORD_ICON_BY_TYPE.note,
+      color: RECORD_COLOR_BY_TYPE.note
     },
     {
       name: i18n._('Custom'),
-      type: 'custom'
+      type: RECORD_TYPES.CUSTOM,
+      icon: RECORD_ICON_BY_TYPE.custom,
+      color: RECORD_COLOR_BY_TYPE.custom
     }
   ]
 
@@ -53,5 +71,5 @@ export const useRecordMenuItems = () => {
     }
   ]
 
-  return { menuItems, popupItems }
+  return { menuItems, popupItems, defaultItems }
 }

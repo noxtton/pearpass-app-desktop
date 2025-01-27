@@ -2,20 +2,27 @@ import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 import {
-  InputField,
   ButtonLittle,
-  SaveIcon,
-  CompoundField,
-  UserIcon,
-  KeyIcon,
   ButtonSingleInput,
+  CompoundField,
+  DeleteIcon,
+  InputField,
+  KeyIcon,
+  PasswordField,
   PasswordIcon,
   PlusIcon,
-  DeleteIcon,
-  WorldIcon,
-  PasswordField
+  SaveIcon,
+  UserIcon,
+  WorldIcon
 } from 'pearpass-lib-ui-react-components'
+import { Validator } from 'pearpass-lib-validator'
+import {
+  RECORD_TYPES,
+  useCreateRecord,
+  useUpdateRecord
+} from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'
@@ -24,14 +31,13 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
+import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
 import { useCreateOrEditRecord } from '../../../hooks/useCreateOrEditRecord'
-import { useForm } from '../../../hooks/useForm'
-import { Validator } from '../../../utils/validator'
-import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
-import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
+import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
+import { DropdownsWrapper } from '../styles'
 
 /**
  * @param {{
@@ -49,11 +55,13 @@ import { ModalContent } from '../ModalContent'
  *    }
  *  }
  *  selectedFolder?: string
+ *  onTypeChange: (type: string) => void
  * }} props
  */
 export const CreateOrEditLoginModalContent = ({
   initialRecord,
-  selectedFolder
+  selectedFolder,
+  onTypeChange
 }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
@@ -123,8 +131,9 @@ export const CreateOrEditLoginModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: 'login',
-      folder: values.folder,
+      type: RECORD_TYPES.LOGIN,
+      folder: isFavorite(values.folder) ? undefined : values.folder,
+      isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
         username: values.username,
@@ -147,6 +156,10 @@ export const CreateOrEditLoginModalContent = ({
     }
   }
 
+  const handleRecordTypeChange = (type) => {
+    onTypeChange(type)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -161,10 +174,17 @@ export const CreateOrEditLoginModalContent = ({
             <//>
           `}
         >
-          <${FolderDropdown}
-            selectedFolder=${values?.folder}
-            onFolderSelect=${(folder) => setValue('folder', folder)}
-          />
+          <${DropdownsWrapper}>
+            <${FolderDropdown}
+              selectedFolder=${values?.folder}
+              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+            />
+            ${!initialRecord &&
+            html` <${RecordTypeDropdown}
+              selectedRecord=${RECORD_TYPES.LOGIN}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
+            />`}
+          <//>
         <//>
       `}
     >
@@ -196,7 +216,10 @@ export const CreateOrEditLoginModalContent = ({
               <${ButtonSingleInput}
                 startIcon=${PasswordIcon}
                 onClick=${() =>
-                  handleCreateOrEditRecord({ recordType: 'password' })}
+                  handleCreateOrEditRecord({
+                    recordType: 'password',
+                    setValue: (value) => setValue('password', value)
+                  })}
               />
             `}
             ...${register('password')}

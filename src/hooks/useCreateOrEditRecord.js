@@ -1,10 +1,6 @@
 import { html } from 'htm/react'
 
-import { CreateOrEditCreditCardModalContent } from '../containers/Modal/CreateOrEditCreditCardModalContent'
-import { CreateOrEditCustomModalContent } from '../containers/Modal/CreateOrEditCustomModalContent'
-import { CreateOrEditIdentityModalContent } from '../containers/Modal/CreateOrEditIdentityModalContent'
-import { CreateOrEditLoginModalContent } from '../containers/Modal/CreateOrEditLoginModalContent'
-import { CreateOrEditNoteModalContent } from '../containers/Modal/CreateOrEditNoteModalContent'
+import { CreateOrEditCategoryWrapper } from '../containers/Modal/CreateOrEditCategoryWrapper'
 import { GeneratePasswordSideDrawerContent } from '../containers/Modal/GeneratePasswordSideDrawerContent'
 import { useModal } from '../context/ModalContext'
 
@@ -23,55 +19,31 @@ export const useCreateOrEditRecord = () => {
     initialRecord,
     selectedFolder
   }) => {
-    if (recordType === 'login') {
-      return html`<${CreateOrEditLoginModalContent}
+    return html`
+      <${CreateOrEditCategoryWrapper}
+        recordType=${recordType}
         initialRecord=${initialRecord}
         selectedFolder=${selectedFolder}
-      />`
-    }
-
-    if (recordType === 'creditCard') {
-      return html`<${CreateOrEditCreditCardModalContent}
-        initialRecord=${initialRecord}
-        selectedFolder=${selectedFolder}
-      />`
-    }
-
-    if (recordType === 'identity') {
-      return html`<${CreateOrEditIdentityModalContent}
-        initialRecord=${initialRecord}
-        selectedFolder=${selectedFolder}
-      />`
-    }
-
-    if (recordType === 'note') {
-      return html`<${CreateOrEditNoteModalContent}
-        initialRecord=${initialRecord}
-        selectedFolder=${selectedFolder}
-      />`
-    }
-
-    if (recordType === 'custom') {
-      return html`<${CreateOrEditCustomModalContent}
-        initialRecord=${initialRecord}
-        selectedFolder=${selectedFolder}
-      />`
-    }
+      />
+    `
   }
 
-  const getSideDrawerContentByRecordType = ({ recordType }) => {
+  const getSideDrawerContentByRecordType = ({ recordType, setValue }) => {
     if (recordType === 'password') {
-      return html`<${GeneratePasswordSideDrawerContent} />`
+      return html`<${GeneratePasswordSideDrawerContent}
+        onPaswordInsert=${setValue}
+      />`
     }
   }
 
   const handleCreateOrEditRecord = ({
     recordType,
     initialRecord,
-    selectedFolder
+    selectedFolder,
+    setValue
   }) => {
     if (recordType === 'password') {
-      setModal(getSideDrawerContentByRecordType({ recordType }), {
+      setModal(getSideDrawerContentByRecordType({ recordType, setValue }), {
         modalType: 'sideDrawer'
       })
 

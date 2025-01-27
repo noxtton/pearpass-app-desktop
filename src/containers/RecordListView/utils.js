@@ -12,7 +12,7 @@ export const isRecordInLast7Days = (record) => {
   const now = Date.now()
   const sevenDaysAgo = now - MS_PER_WEEK
 
-  return record.updatedAt >= sevenDaysAgo
+  return record?.updatedAt >= sevenDaysAgo
 }
 
 /**
@@ -28,7 +28,9 @@ export const isRecordInLast14Days = (record) => {
   const fourteenDaysAgo = now - MS_PER_WEEK * 2
   const sevenDaysAgo = now - MS_PER_WEEK
 
-  return record.updatedAt >= fourteenDaysAgo && record.updatedAt < sevenDaysAgo
+  return (
+    record?.updatedAt >= fourteenDaysAgo && record?.updatedAt < sevenDaysAgo
+  )
 }
 
 /**
@@ -51,7 +53,7 @@ export const isStartOfLast7DaysGroup = (record, index, sortedRecords) => {
 
   const isInLast7Days = isRecordInLast7Days(record)
 
-  return !record.isPinned && isInLast7Days && (index === 0 || prevIsPinned)
+  return !record?.isPinned && isInLast7Days && (index === 0 || prevIsPinned)
 }
 
 /**
@@ -75,7 +77,7 @@ export const isStartOfLast14DaysGroup = (record, index, sortedRecords) => {
   const isInLast14Days = isRecordInLast14Days(record)
 
   return (
-    !record.isPinned &&
+    !record?.isPinned &&
     isInLast14Days &&
     (index === 0 || prevIsPinned || prevIsInLast7Days)
   )

@@ -15,8 +15,12 @@ export const NestedItem = styled.div`
   cursor: pointer;
 `
 
-export const NestedFolder = styled.div`
+export const NestedFolder = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['isActive'].includes(prop)
+})`
   display: flex;
+  color: ${({ theme, isActive }) =>
+    isActive ? theme.colors.primary400.mode1 : undefined};
   align-items: center;
   gap: 10px;
 `

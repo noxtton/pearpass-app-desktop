@@ -2,11 +2,11 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useVault } from 'pearpass-lib-vault'
 
 import { LoadVaultCard, LoadVaultInput, LoadVaultTitle } from './styles'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
-import { useVault } from '../../../vault/hooks/useVault'
 
 export const LoadVaultModalContent = () => {
   const { i18n } = useLingui()
@@ -34,8 +34,6 @@ export const LoadVaultModalContent = () => {
 
   const handleLoadVault = () => {
     refetch(vaultId)
-
-    navigate('loading')
   }
 
   return html` <${LoadVaultCard} isLoading=${isLoading}>

@@ -1,7 +1,11 @@
 import { useLingui } from '@lingui/react'
+import { html } from 'htm/react'
+import { useDeleteRecord, useUpdateRecord } from 'pearpass-lib-vault'
 
-import { useDeleteRecord } from '../vault/hooks/useDeleteRecord'
-import { useUpdateRecord } from '../vault/hooks/useUpdateRecord'
+import { ConfirmationModalContent } from '../containers/Modal/ConfirmationModalContent'
+import { MoveFolderModalContent } from '../containers/Modal/MoveFolderModalContent'
+import { useModal } from '../context/ModalContext'
+import { useRouter } from '../context/RouterContext'
 
 /**
  * @param {{
@@ -26,21 +30,39 @@ export const useRecordActionItems = ({
   onClose
 } = {}) => {
   const { i18n } = useLingui()
+  const { setModal, closeModal } = useModal()
+  const { data: routerData, navigate, currentPage } = useRouter()
 
   const { deleteRecord } = useDeleteRecord()
-  const { updateRecord } = useUpdateRecord()
+  const { updatePinnedState } = useUpdateRecord()
+
+  const handleDeleteConfirm = () => {
+    if (routerData?.recordId === record?.id) {
+      navigate(currentPage, { ...routerData, recordId: undefined })
+    }
+
+    deleteRecord(record?.id)
+
+    closeModal?.()
+  }
 
   const handleDelete = () => {
-    deleteRecord(record.id)
+    setModal(html`
+      <${ConfirmationModalContent}
+        title=${i18n._('Are you sure to delete this item?')}
+        text=${i18n._('This is permanent and cannot be undone')}
+        primaryLabel=${i18n._('No')}
+        secondaryLabel=${i18n._('Yes')}
+        secondaryAction=${handleDeleteConfirm}
+        primaryAction=${closeModal}
+      />
+    `)
 
     onClose?.()
   }
 
   const handlePin = () => {
-    updateRecord({
-      ...record,
-      isPinned: !record.isPinned
-    })
+    updatePinnedState(record?.id, !record?.isPinned)
 
     onClose?.()
   }
@@ -51,10 +73,24 @@ export const useRecordActionItems = ({
     onClose?.()
   }
 
+  const handleMoveClick = () => {
+    setModal(html` <${MoveFolderModalContent} records=${[record]} /> `)
+
+    onClose?.()
+  }
+
   const defaultActions = [
     { name: i18n._('Select element'), type: 'select', click: handleSelect },
-    { name: i18n._('Pin element'), type: 'pin', click: handlePin },
-    { name: i18n._('Move to another folder'), type: 'move' },
+    {
+      name: i18n._(record?.isPinned ? 'Unpin element' : 'Pin element'),
+      type: 'pin',
+      click: handlePin
+    },
+    {
+      name: i18n._('Move to another folder'),
+      type: 'move',
+      click: handleMoveClick
+    },
     { name: i18n._('Delete element'), type: 'delete', click: handleDelete }
   ]
 

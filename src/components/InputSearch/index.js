@@ -8,9 +8,10 @@ import { Container, IconWrapper, Input, QuantityWrapper } from './styles'
  * @param {{
  *  value: string
  *  onChange: (event: import('react').ChangeEvent<HTMLInputElement>) => void
+ *  quantity?: number
  * }} props
  */
-export const InputSearch = ({ value, onChange }) => {
+export const InputSearch = ({ value, onChange, quantity }) => {
   const { i18n } = useLingui()
   return html`
     <${Container}>
@@ -22,7 +23,7 @@ export const InputSearch = ({ value, onChange }) => {
         value=${value}
         onChange=${onChange}
       />
-      <${QuantityWrapper}>70<//>
+      <${QuantityWrapper}>${quantity}<//>
     <//>
   `
 }

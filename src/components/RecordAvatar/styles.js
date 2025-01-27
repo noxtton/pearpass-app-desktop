@@ -15,7 +15,7 @@ export const AvatarContainer = styled.div`
 `
 
 export const AvatarAlt = styled.div`
-  color: ${({ theme }) => theme.colors.primary400.mode1};
+  color: ${({ color }) => color};
   text-align: center;
   font-family: 'Inter';
   font-size: ${({ size }) => (size === 'sm' ? '12px' : '16px')};

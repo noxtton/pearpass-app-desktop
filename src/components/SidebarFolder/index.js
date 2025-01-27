@@ -24,26 +24,43 @@ import {
  *  isRoot: boolean
  *  name: string
  *  icon: string
+ *  isActive: boolean
  * }} props
  */
 export const SidebarFolder = ({
   isOpen,
   onClick,
+  onDropDown,
   onAddClick,
   isRoot,
   name,
-  icon: Icon
+  icon: Icon,
+  isActive
 }) => {
+  const handleDropDownClick = (e) => {
+    e.stopPropagation()
+    onDropDown()
+  }
+
   return html`
     <${React.Fragment}>
       <${NestedFoldersContainer}>
         <${NestedItem} onClick=${onClick}>
-          <div>
-            <${isOpen ? ArrowDownIcon : ArrowUpIcon} ArrowUpIcon="14" />
+          <div onClick=${handleDropDownClick}>
+            <${isOpen ? ArrowDownIcon : ArrowUpIcon}
+              ArrowUpIcon="14"
+              color=${isActive ? colors.primary400.mode1 : undefined}
+            />
           </div>
 
-          <${NestedFolder}>
-            ${!isRoot && html` <${Icon ?? FolderIcon} size="14" /> `}
+          <${NestedFolder} isActive=${isActive}>
+            ${!isRoot &&
+            html`
+              <${Icon ?? FolderIcon}
+                size="14"
+                color=${isActive ? colors.primary400.mode1 : undefined}
+              />
+            `}
 
             <span>${name}</span>
           <//>

@@ -45,10 +45,6 @@ export const FoldersWrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 0;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `
 
 export const SidebarSettings = styled.div`

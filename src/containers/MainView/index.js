@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import { html } from 'htm/react'
+import { useRecords } from 'pearpass-lib-vault'
 
 import { ContentWrapper, SearchContainer, Wrapper } from './styles'
 import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
@@ -10,9 +11,9 @@ import { PopupMenu } from '../../components/PopupMenu'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
-import { useRecords } from '../../vault/hooks/useRecords'
+import { isFavorite } from '../../utils/isFavorite'
 import { EmptyCollectionView } from '../EmptyCollectionView'
-import { RecordListView } from '../RecordListView/'
+import { RecordListView } from '../RecordListView'
 
 const SORT_BY_TYPE = {
   recent: {
@@ -48,7 +49,14 @@ export const MainView = () => {
       filters: {
         searchPattern: searchValue,
         type:
-          routerData?.recordType === 'all' ? undefined : routerData?.recordType
+          routerData?.recordType === 'all' ? undefined : routerData?.recordType,
+        folder:
+          routerData?.folder && !isFavorite(routerData.folder)
+            ? routerData.folder
+            : undefined,
+        isFavorite: routerData?.folder
+          ? isFavorite(routerData.folder)
+          : undefined
       },
       sort: sort
     }
@@ -68,6 +76,7 @@ export const MainView = () => {
         <${InputSearch}
           value=${searchValue}
           onChange=${(e) => setSearchValue(e.target.value)}
+          quantity=${records?.length}
         />
 
         <${PopupMenu}

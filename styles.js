@@ -186,5 +186,9 @@ export const setFontsAndResetCSS = () => {
     input:focus {
       outline: none;
     }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
   `)
 }
