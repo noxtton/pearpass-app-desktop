@@ -37,6 +37,10 @@ export const PasswordWrapper = styled.div`
   margin-top: 42px;
   min-height: 20px;
   gap: 8px;
+  font-family: 'Inter';
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
 `
 
 export const RadioWrapper = styled.div`
