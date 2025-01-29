@@ -41,7 +41,7 @@ export const useRecordActionItems = ({
       navigate(currentPage, { ...routerData, recordId: undefined })
     }
 
-    deleteRecord(record?.id)
+    deleteRecord(record?.id, record?.vaultId)
 
     closeModal?.()
   }

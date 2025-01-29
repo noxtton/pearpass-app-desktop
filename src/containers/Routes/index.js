@@ -13,7 +13,18 @@ export const Routes = () => {
   const { currentPage, data, navigate } = useRouter()
 
   useVault({
-    onCompleted: () => {
+    variables: {
+      vaultId: '123' // currently we have only 1 vault so we can hardcode this for now
+    },
+    onCompleted: (payload) => {
+      if (payload.id) {
+        navigate('vault', {
+          recordType: 'all'
+        })
+
+        return
+      }
+
       navigate('welcome')
     }
   })
