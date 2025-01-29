@@ -21,7 +21,7 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
-import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
+import { RecordTypeMenu } from '../../../components/RecordTypeMenu'
 import { useModal } from '../../../context/ModalContext'
 import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
@@ -157,7 +157,7 @@ export const CreateOrEditCreditCardModalContent = ({
               onFolderSelect=${(folder) => setValue('folder', folder.name)}
             />
             ${!initialRecord &&
-            html` <${RecordTypeDropdown}
+            html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.CREDIT_CARD}
               onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}

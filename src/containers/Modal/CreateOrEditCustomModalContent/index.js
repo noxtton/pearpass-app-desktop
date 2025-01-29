@@ -19,7 +19,7 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
-import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
+import { RecordTypeMenu } from '../../../components/RecordTypeMenu'
 import { useModal } from '../../../context/ModalContext'
 import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
@@ -132,7 +132,7 @@ export const CreateOrEditCustomModalContent = ({
               onFolderSelect=${(folder) => setValue('folder', folder.name)}
             />
             ${!initialRecord &&
-            html` <${RecordTypeDropdown}
+            html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.CUSTOM}
               onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}

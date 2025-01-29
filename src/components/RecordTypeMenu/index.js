@@ -15,7 +15,7 @@ import { MenuDropdown } from '../MenuDropdown'
  *  }) => void
  * }} props
  */
-export const RecordTypeDropdown = ({ selectedRecord, onRecordSelect }) => {
+export const RecordTypeMenu = ({ selectedRecord, onRecordSelect }) => {
   const { defaultItems } = useRecordMenuItems()
 
   const selectedItem = defaultItems.filter(
