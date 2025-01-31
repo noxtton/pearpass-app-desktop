@@ -18,9 +18,7 @@ import { MenuDropdown } from '../MenuDropdown'
 export const RecordTypeDropdown = ({ selectedRecord, onRecordSelect }) => {
   const { defaultItems } = useRecordMenuItems()
 
-  const selectedItem = defaultItems.find(
-    (item) => item.type === selectedRecord
-  )
+  const selectedItem = defaultItems.find((item) => item.type === selectedRecord)
 
   return html`
     <${MenuDropdown}

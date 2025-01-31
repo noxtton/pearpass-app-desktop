@@ -88,6 +88,7 @@ export const generatePassphrase = (capitalLetters, symbols, numbers, words) => {
 const COMMON_PASSWORDS = [
   'password',
   '123456',
+  '12345678',
   'qwerty',
   'abc123',
   'letmein',
@@ -97,8 +98,9 @@ const COMMON_PASSWORDS = [
   'monkey',
   'hello'
 ]
+
 export const isPasswordSafe = (password) => {
-  if (password && password.length < 12) {
+  if (password && password.length < 5) {
     return false
   }
 

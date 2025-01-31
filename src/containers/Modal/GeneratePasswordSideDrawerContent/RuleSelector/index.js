@@ -16,6 +16,7 @@ export const RuleSelector = ({ rules, selectedRules, setRules }) => {
   const isAllRuleSelected = Object.values(selectedRules).every(
     (value) => value === true
   )
+
   const handleSwitchToggle = (ruleName) => {
     const updatedRules = { ...selectedRules }
 
