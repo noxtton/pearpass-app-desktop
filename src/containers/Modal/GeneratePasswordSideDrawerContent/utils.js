@@ -117,7 +117,7 @@ export const isPasswordSafe = (password) => {
     return false
   }
 
-  if (/(\w)\1{2,}/.test(password)) {
+  if (/(.)\1{2,}/.test(password)) {
     return false
   }
 
@@ -127,20 +127,15 @@ export const isPasswordSafe = (password) => {
 const MIN_LENGTH = 20
 const MIN_WORDS = 3
 export const isPassphraseSafe = (wordsArray) => {
-  if (!wordsArray) {
-    return false
-  }
-
-  if (wordsArray.length < MIN_WORDS) {
-    return false
-  }
-
-  const passphraseLength = wordsArray.join('').length
-  if (passphraseLength < MIN_LENGTH) {
+  if (!wordsArray?.length || wordsArray.length < MIN_WORDS) {
     return false
   }
 
   const passphrase = wordsArray.join('')
+  if (passphrase.length < MIN_LENGTH) {
+    return false
+  }
+
   const hasUpperCase = /[A-Z]/.test(passphrase)
   const hasLowerCase = /[a-z]/.test(passphrase)
   const hasNumber = /\d/.test(passphrase)
