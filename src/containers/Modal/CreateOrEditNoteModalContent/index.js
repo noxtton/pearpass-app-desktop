@@ -17,7 +17,7 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
-import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
+import { RecordTypeDropdown } from '../../../components/RecordTypeDropdown'
 import { useModal } from '../../../context/ModalContext'
 import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
@@ -109,10 +109,6 @@ export const CreateOrEditNoteModalContent = ({
     }
   }
 
-  const handleRecordTypeChange = (type) => {
-    onTypeChange(type)
-  }
-
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -135,7 +131,7 @@ export const CreateOrEditNoteModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeDropdown}
               selectedRecord=${RECORD_TYPES.NOTE}
-              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
+              onRecordSelect=${(record) => onTypeChange(record?.type)}
             />`}
           <//>
         <//>
