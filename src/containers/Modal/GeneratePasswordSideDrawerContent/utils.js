@@ -115,7 +115,7 @@ export const isPasswordSafe = (password) => {
     return false
   }
 
-  if (/(\w)\1{2,}/.test(password)) {
+  if (/(.)\1{2,}/.test(password)) {
     return false
   }
 
