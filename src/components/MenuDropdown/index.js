@@ -21,7 +21,6 @@ export const MenuDropdown = ({ selectedItem, onItemSelect, items }) => {
     () => items.filter((item) => item?.name !== selectedItem?.name),
     [items, selectedItem]
   )
-  console.log(items, currentItems)
 
   const wrapperRef = useOutsideClick({
     onOutsideClick: () => {
