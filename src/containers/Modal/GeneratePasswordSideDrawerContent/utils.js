@@ -129,12 +129,11 @@ export const isPassphraseSafe = (wordsArray) => {
     return false
   }
 
-  const passphraseLength = wordsArray.join('').length
-  if (passphraseLength < MIN_LENGTH) {
+  const passphrase = wordsArray.join('')
+  if (passphrase.length < MIN_LENGTH) {
     return false
   }
 
-  const passphrase = wordsArray.join('')
   const hasUpperCase = /[A-Z]/.test(passphrase)
   const hasLowerCase = /[a-z]/.test(passphrase)
   const hasNumber = /\d/.test(passphrase)
