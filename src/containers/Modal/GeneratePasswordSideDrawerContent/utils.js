@@ -125,11 +125,7 @@ export const isPasswordSafe = (password) => {
 const MIN_LENGTH = 20
 const MIN_WORDS = 3
 export const isPassphraseSafe = (wordsArray) => {
-  if (!wordsArray) {
-    return false
-  }
-
-  if (wordsArray.length < MIN_WORDS) {
+  if (!wordsArray?.length || wordsArray.length < MIN_WORDS) {
     return false
   }
 
