@@ -1,21 +1,10 @@
 import React, { useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  FolderIcon
-} from 'pearpass-lib-ui-react-components'
 
-import {
-  DropDown,
-  DropDownItem,
-  FolderIconWrapper,
-  Label,
-  MainWrapper,
-  Wrapper
-} from './styles'
+import { MenuDropdownItem } from './MenuDropdownItem'
+import { MenuDropdownLabel } from './MenuDropdownLabel'
+import { DropDown, MainWrapper, Wrapper } from './styles'
 import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 /**
@@ -26,14 +15,13 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
  *  }} props
  */
 export const MenuDropdown = ({ selectedItem, onItemSelect, items }) => {
-  const { i18n } = useLingui()
-
   const [isOpen, setIsOpen] = useState(false)
 
   const currentItems = React.useMemo(
-    () => items.filter((item) => item.name !== selectedItem.name),
+    () => items.filter((item) => item?.name !== selectedItem?.name),
     [items, selectedItem]
   )
+  console.log(items, currentItems)
 
   const wrapperRef = useOutsideClick({
     onOutsideClick: () => {
@@ -47,46 +35,31 @@ export const MenuDropdown = ({ selectedItem, onItemSelect, items }) => {
     setIsOpen(false)
   }
 
-  const renderDropDownItem = ({ item, onClick }) => {
-    return html`
-      <${DropDownItem} onClick=${() => onClick?.()}>
-        <${FolderIconWrapper}>
-          <${item.icon ?? FolderIcon}
-            size="14"
-            color=${item.color ?? undefined}
-          />
-        <//>
-
-        ${item.name}
-      <//>
-    `
-  }
-
-  const renderLabel = (isHidden) => {
-    return html`
-      <${Label} isHidden=${isHidden} onClick=${() => setIsOpen(!isOpen)}>
-        <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="14" />
-
-        ${selectedItem.name
-          ? renderDropDownItem({ item: selectedItem })
-          : i18n._('No folder')}
-      <//>
-    `
-  }
-
   return html`
     <${MainWrapper} ref=${wrapperRef}>
-      ${renderLabel(true)}
+      <${MenuDropdownLabel}
+        isHidden
+        selectedItem=${selectedItem}
+        isOpen=${isOpen}
+      />
 
       <${Wrapper} isOpen=${isOpen}>
-        ${renderLabel()}
+        <${MenuDropdownLabel}
+          selectedItem=${selectedItem}
+          isOpen=${isOpen}
+          setIsOpen=${setIsOpen}
+        />
+
         ${isOpen &&
         html`<${DropDown}>
-          ${currentItems.map((item) =>
-            renderDropDownItem({
-              item,
-              onClick: () => handleFolderSelect(item)
-            })
+          ${currentItems.map(
+            (item) => html`
+              <${MenuDropdownItem}
+                key=${item.name}
+                item=${item}
+                onClick=${() => handleFolderSelect(item)}
+              />
+            `
           )}
         <//>`}
       <//>
