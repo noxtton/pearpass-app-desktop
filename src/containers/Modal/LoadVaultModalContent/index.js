@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useVault } from 'pearpass-lib-vault'
+import { usePair, useVault } from 'pearpass-lib-vault'
 
 import { LoadVaultCard, LoadVaultInput, LoadVaultTitle } from './styles'
 import { useModal } from '../../../context/ModalContext'
@@ -13,9 +13,9 @@ export const LoadVaultModalContent = () => {
   const { navigate } = useRouter()
   const { closeModal } = useModal()
 
-  const [vaultId, setVaultId] = useState('')
+  const [inviteCode, setInviteCodeId] = useState('')
 
-  const { refetch, isLoading } = useVault({
+  const { isLoading, refetch } = useVault({
     shouldSkip: true,
     onCompleted: (data) => {
       if (data) {
@@ -28,12 +28,20 @@ export const LoadVaultModalContent = () => {
     }
   })
 
+  const { pair } = usePair({
+    onCompleted: (vault) => {
+      if (vault?.id) {
+        refetch(vault?.id)
+      }
+    }
+  })
+
   const handleChange = (e) => {
-    setVaultId(e.target.value)
+    setInviteCodeId(e.target.value)
   }
 
-  const handleLoadVault = () => {
-    refetch(vaultId)
+  const handleLoadVault = async () => {
+    await pair(inviteCode)
   }
 
   return html` <${LoadVaultCard} isLoading=${isLoading}>
@@ -42,7 +50,7 @@ export const LoadVaultModalContent = () => {
     <${LoadVaultInput}
       autoFocus
       placeholder=${i18n._('Insert your code vault...')}
-      value=${vaultId}
+      value=${inviteCode}
       onChange=${handleChange}
       onKeyPress=${(e) => {
         if (e.key === 'Enter') {

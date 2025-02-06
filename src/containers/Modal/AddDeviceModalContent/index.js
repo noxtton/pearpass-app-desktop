@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
@@ -7,6 +9,7 @@ import {
   YellowErrorIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+import { useCreateInvite } from 'pearpass-lib-vault'
 
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
@@ -30,12 +33,11 @@ import {
 } from './styles'
 import useCountDown from '../../../hooks/useCountDown'
 
-const URL =
-  'pear://pearpass/yrd19ra5p8ef5tkdqfhozjyt1szxesnqworcbbw4gzmxxmhf8zpjy9sl48q49hesbr99yet6sj3gkgbwub5w4sjsw5nq3cexmg8sqn378ksp1gd8'
-
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+
+  const { createInvite, data } = useCreateInvite()
 
   const expireTime = useCountDown({
     initialSeconds: 120,
@@ -43,6 +45,10 @@ export const AddDeviceModalContent = () => {
   })
 
   const { copyToClipboard, isCopied } = useCopyToClipboard()
+
+  useEffect(() => {
+    createInvite()
+  }, [])
 
   return html`
     <${ModalContent}
@@ -75,7 +81,7 @@ export const AddDeviceModalContent = () => {
           <//>
         <//>
 
-        <${BackgroundSection} onClick=${() => copyToClipboard(URL)}>
+        <${BackgroundSection} onClick=${() => copyToClipboard(data?.publicKey)}>
           <${QRCodeCopyWrapper}>
             <${QRCodeCopy}>
               <${QRCodeText}> ${i18n._('Copy accont link')} <//>
@@ -83,7 +89,7 @@ export const AddDeviceModalContent = () => {
                 <${CopyIcon} color=${colors.primary400.mode1} />
               <//>
             <//>
-            <${CopyText}> ${i18n._(isCopied ? 'Copied!' : URL)} <//>
+            <${CopyText}> ${isCopied ? i18n._('Copied!') : data?.publicKey} <//>
           <//>
         <//>
 
