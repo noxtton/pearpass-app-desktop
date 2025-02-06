@@ -16,19 +16,14 @@ export const RuleSelector = ({ rules, selectedRules, setRules }) => {
   const isAllRuleSelected = Object.values(selectedRules).every(
     (value) => value === true
   )
+
   const handleSwitchToggle = (ruleName) => {
     const updatedRules = { ...selectedRules }
 
     if (ruleName === 'all') {
-      if (isAllRuleSelected) {
-        Object.keys(updatedRules).forEach((rule) => {
-          updatedRules[rule] = false
-        })
-      } else {
-        Object.keys(updatedRules).forEach((rule) => {
-          updatedRules[rule] = true
-        })
-      }
+      Object.keys(updatedRules).forEach((rule) => {
+        updatedRules[rule] = !isAllRuleSelected
+      })
     } else {
       updatedRules[ruleName] = !updatedRules[ruleName]
     }

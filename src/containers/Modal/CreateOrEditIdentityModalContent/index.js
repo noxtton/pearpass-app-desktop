@@ -147,10 +147,6 @@ export const CreateOrEditIdentityModalContent = ({
     }
   }
 
-  const handleRecordTypeChange = (type) => {
-    onTypeChange(type)
-  }
-
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -173,7 +169,7 @@ export const CreateOrEditIdentityModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.IDENTITY}
-              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
+              onRecordSelect=${(record) => onTypeChange(record?.type)}
             />`}
           <//>
         <//>

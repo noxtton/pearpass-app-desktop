@@ -109,10 +109,6 @@ export const CreateOrEditNoteModalContent = ({
     }
   }
 
-  const handleRecordTypeChange = (type) => {
-    onTypeChange(type)
-  }
-
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -135,7 +131,7 @@ export const CreateOrEditNoteModalContent = ({
             ${!initialRecord &&
             html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.NOTE}
-              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
+              onRecordSelect=${(record) => onTypeChange(record?.type)}
             />`}
           <//>
         <//>

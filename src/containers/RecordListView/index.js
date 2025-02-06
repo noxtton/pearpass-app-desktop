@@ -122,9 +122,7 @@ export const RecordListView = ({
   }
 
   const handleDeleteConfirm = async () => {
-    await Promise.all(
-      selectedRecords.map((record) => deleteRecord(record?.id, record?.vaultId))
-    )
+    await Promise.all(selectedRecords.map((record) => deleteRecord(record?.id)))
 
     onClearSelection()
 

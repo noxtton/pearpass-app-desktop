@@ -68,12 +68,7 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
   }
 
   const handleCopyAndClose = () => {
-    let copyText
-    if (selectedOption === 'passphrase') {
-      copyText = pass.join('-')
-    } else {
-      copyText = pass
-    }
+    const copyText = selectedOption === 'passphrase' ? pass.join('-') : pass
 
     copyToClipboard(copyText)
     closeModal()

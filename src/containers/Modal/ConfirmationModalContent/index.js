@@ -41,11 +41,9 @@ export const ConfirmationModalContent = (props) => {
       <${TextWrapper}> ${text} <//>
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} onClick=${() => primaryAction()}> ${primaryLabel} <//>
+        <${ButtonPrimary} onClick=${primaryAction}> ${primaryLabel} <//>
 
-        <${ButtonSecondary} onClick=${() => secondaryAction()}>
-          ${secondaryLabel}
-        <//>
+        <${ButtonSecondary} onClick=${secondaryAction}> ${secondaryLabel} <//>
       <//>
     <//>
   `
