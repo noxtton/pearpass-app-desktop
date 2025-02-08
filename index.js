@@ -2,7 +2,7 @@ import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
 import { html } from 'htm/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
-import { VaultProvider } from 'pearpass-lib-vault'
+import { setStoragePath, VaultProvider } from 'pearpass-lib-vault'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/containers/App'
@@ -19,6 +19,8 @@ setFontsAndResetCSS()
 
 i18n.load('en', messages)
 i18n.activate('en')
+
+setStoragePath(Pear.config.storage)
 
 root.render(html`
   <${VaultProvider}>
