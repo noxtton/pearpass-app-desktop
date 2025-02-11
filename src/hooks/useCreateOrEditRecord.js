@@ -31,7 +31,7 @@ export const useCreateOrEditRecord = () => {
   const getSideDrawerContentByRecordType = ({ recordType, setValue }) => {
     if (recordType === 'password') {
       return html`<${GeneratePasswordSideDrawerContent}
-        onPaswordInsert=${setValue}
+        onPasswordInsert=${setValue}
       />`
     }
   }

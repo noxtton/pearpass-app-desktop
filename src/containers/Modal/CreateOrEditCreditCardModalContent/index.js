@@ -147,7 +147,7 @@ export const CreateOrEditCreditCardModalContent = ({
               startIcon=${SaveIcon}
               onClick=${handleSubmit(onSubmit)}
             >
-              ${i18n._('Credit card')}
+              ${i18n._('Save')}
             <//>
           `}
         >

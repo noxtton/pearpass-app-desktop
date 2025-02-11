@@ -119,7 +119,7 @@ export const CreateOrEditNoteModalContent = ({
               onClick=${handleSubmit(onSubmit)}
               startIcon=${SaveIcon}
             >
-              ${i18n._('Note')}
+              ${i18n._('Save')}
             <//>
           `}
         >

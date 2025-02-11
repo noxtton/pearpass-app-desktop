@@ -170,7 +170,7 @@ export const CreateOrEditLoginModalContent = ({
               startIcon=${SaveIcon}
               onClick=${handleSubmit(onSubmit)}
             >
-              ${i18n._('Login')}
+              ${i18n._('Save')}
             <//>
           `}
         >
