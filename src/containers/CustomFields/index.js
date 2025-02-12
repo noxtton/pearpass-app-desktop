@@ -13,10 +13,16 @@ import { InputFieldNote } from '../../components/InputFieldNote'
  *      type: 'note'
  *      props: any
  *  }[]
+ *  onClick?: () => void
  *  areInputsDisabled: boolean
  * }} props
  */
-export const CustomFields = ({ customFields, register, areInputsDisabled }) => {
+export const CustomFields = ({
+  customFields,
+  register,
+  areInputsDisabled,
+  onClick
+}) => {
   return html`
     <${React.Fragment}>
       ${customFields?.map((customField, index) => {
@@ -24,6 +30,7 @@ export const CustomFields = ({ customFields, register, areInputsDisabled }) => {
           return html`
             <${FormGroup} key=${customField.id}>
               <${InputFieldNote}
+                onClick=${onClick}
                 isDisabled=${areInputsDisabled}
                 ...${register('note', index)}
               />

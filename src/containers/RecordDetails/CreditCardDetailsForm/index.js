@@ -11,9 +11,11 @@ import {
   UserIcon
 } from 'pearpass-lib-ui-react-components'
 
+import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -38,6 +40,7 @@ import { CustomFields } from '../../CustomFields'
  */
 export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
+  const { copyToClipboard, isCopied } = useCopyToClipboard()
 
   const initialValues = React.useMemo(
     () => ({
@@ -59,6 +62,10 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
 
   const { value: list, registerItem } = registerArray('customFields')
 
+  const handleCopy = (value) => {
+    copyToClipboard(value)
+  }
+
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -71,6 +78,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder=${i18n._('Full name')}
           variant="outline"
           icon=${UserIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('name')}
         />
@@ -80,6 +88,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder="1234 1234 1234 1234 "
           variant="outline"
           icon=${CreditCardIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('number')}
         />
@@ -89,6 +98,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder="MM/AA"
           variant="outline"
           icon=${CalendarIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('expireDate')}
         />
@@ -98,6 +108,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder="123"
           variant="outline"
           icon=${CreditCardIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('securityCode')}
         />
@@ -107,20 +118,27 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder="1234"
           variant="outline"
           icon=${NineDotsIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('pinCode')}
         />
       <//>
 
       <${FormGroup}>
-        <${InputFieldNote} isDisabled ...${register('note')} />
+        <${InputFieldNote}
+          onClick=${handleCopy}
+          isDisabled
+          ...${register('note')}
+        />
       <//>
 
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}
+        onClick=${handleCopy}
         register=${registerItem}
       />
+      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
     <//>
   `
 }

@@ -10,9 +10,11 @@ import {
   UserIcon
 } from 'pearpass-lib-ui-react-components'
 
+import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -40,6 +42,7 @@ import { CustomFields } from '../../CustomFields'
  */
 export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
+  const { copyToClipboard, isCopied } = useCopyToClipboard()
 
   const initialValues = React.useMemo(
     () => ({
@@ -64,6 +67,10 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
 
   const { value: list, registerItem } = registerArray('customFields')
 
+  const handleCopy = (value) => {
+    copyToClipboard(value)
+  }
+
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -76,6 +83,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder=${i18n._('Full name')}
           variant="outline"
           icon=${UserIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('fullname')}
         />
@@ -85,6 +93,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder=${i18n._('Insert email')}
           variant="outline"
           icon=${EmailIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('email')}
         />
@@ -94,6 +103,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder=${i18n._('Phone number ')}
           variant="outline"
           icon=${PhoneIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('phoneNumber')}
         />
@@ -104,6 +114,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           label=${i18n._('Address')}
           placeholder=${i18n._('Address')}
           variant="outline"
+          onClick=${handleCopy}
           isDisabled
           ...${register('address')}
         />
@@ -112,6 +123,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           label=${i18n._('ZIP')}
           placeholder=${i18n._('Insert zip')}
           variant="outline"
+          onClick=${handleCopy}
           isDisabled
           ...${register('zip')}
         />
@@ -120,6 +132,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           label=${i18n._('City')}
           placeholder=${i18n._('City')}
           variant="outline"
+          onClick=${handleCopy}
           isDisabled
           ...${register('city')}
         />
@@ -128,6 +141,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           label=${i18n._('Region')}
           placeholder=${i18n._('Region')}
           variant="outline"
+          onClick=${handleCopy}
           isDisabled
           ...${register('region')}
         />
@@ -136,20 +150,28 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           label=${i18n._('Country')}
           placeholder=${i18n._('Country')}
           variant="outline"
+          onClick=${handleCopy}
           isDisabled
           ...${register('country')}
         />
       <//>
 
       <${FormGroup}>
-        <${InputFieldNote} isDisabled ...${register('note')} />
+        <${InputFieldNote}
+          onClick=${handleCopy}
+          isDisabled
+          ...${register('note')}
+        />
       <//>
 
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}
+        onClick=${handleCopy}
         register=${registerItem}
       />
+
+      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
     <//>
   `
 }

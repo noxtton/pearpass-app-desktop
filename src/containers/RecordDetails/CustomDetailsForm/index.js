@@ -3,7 +3,9 @@ import React, { useEffect } from 'react'
 import { html } from 'htm/react'
 import { useForm } from 'pearpass-lib-form'
 
+import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -23,6 +25,8 @@ import { CustomFields } from '../../CustomFields'
  * @returns
  */
 export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
+  const { copyToClipboard, isCopied } = useCopyToClipboard()
+
   const initialValues = React.useMemo(
     () => ({
       customFields: initialRecord?.data?.customFields || [],
@@ -37,6 +41,10 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
 
   const { value: list, registerItem } = registerArray('customFields')
 
+  const handleCopy = (value) => {
+    copyToClipboard(value)
+  }
+
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -46,8 +54,10 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}
+        onClick=${handleCopy}
         register=${registerItem}
       />
+      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
     <//>
   `
 }
