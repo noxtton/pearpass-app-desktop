@@ -12,7 +12,7 @@ import {
   WorldIcon
 } from 'pearpass-lib-ui-react-components'
 
-import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
+import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
@@ -69,6 +69,10 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   }
 
   const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
     copyToClipboard(value)
   }
 
@@ -132,7 +136,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
         register=${registerCustomFieldItem}
         areInputsDisabled=${true}
       />
-      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
+      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { html } from 'htm/react'
 import { useForm } from 'pearpass-lib-form'
 
-import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
+import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
@@ -35,13 +35,15 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
     [initialRecord, selectedFolder]
   )
 
-  const { registerArray, setValues } = useForm({
-    initialValues: initialValues
-  })
+  const { registerArray, setValues } = useForm({ initialValues: initialValues })
 
   const { value: list, registerItem } = registerArray('customFields')
 
   const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
     copyToClipboard(value)
   }
 
@@ -57,7 +59,7 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
         onClick=${handleCopy}
         register=${registerItem}
       />
-      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
+      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

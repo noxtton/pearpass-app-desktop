@@ -10,7 +10,7 @@ import { Badge } from './styles'
  *  isCopied: boolean
  * }} props
  */
-export const BadgeCopiedToClipboard = ({ isCopied }) => {
+export const BadgeCopyClipboard = ({ isCopied }) => {
   const { i18n } = useLingui()
   return isCopied
     ? html` <${Badge}>

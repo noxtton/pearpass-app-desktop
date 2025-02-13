@@ -5,7 +5,7 @@ import { html } from 'htm/react'
 import { useForm } from 'pearpass-lib-form'
 import { TextArea } from 'pearpass-lib-ui-react-components'
 
-import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
+import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
@@ -46,6 +46,10 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { value: list, registerItem } = registerArray('customFields')
 
   const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
     copyToClipboard(value)
   }
 
@@ -71,7 +75,7 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
         register=${registerItem}
       />
 
-      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
+      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

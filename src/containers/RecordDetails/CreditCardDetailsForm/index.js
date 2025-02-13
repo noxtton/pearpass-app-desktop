@@ -11,7 +11,7 @@ import {
   UserIcon
 } from 'pearpass-lib-ui-react-components'
 
-import { BadgeCopiedToClipboard } from '../../../components/BadgeCopiedToClipboard'
+import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
@@ -63,6 +63,10 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { value: list, registerItem } = registerArray('customFields')
 
   const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
     copyToClipboard(value)
   }
 
@@ -138,7 +142,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
         onClick=${handleCopy}
         register=${registerItem}
       />
-      <${BadgeCopiedToClipboard} isCopied=${isCopied} />
+      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

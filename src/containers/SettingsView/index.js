@@ -39,14 +39,16 @@ export const SettingsView = () => {
           <${TabTitle}
             onClick=${() => handleActiveTabChange('general')}
             isActive=${activeTab === 'general'}
-            >${i18n._('General')}<//
           >
+            ${i18n._('General')}
+          <//>
 
           <${TabTitle}
             onClick=${() => handleActiveTabChange('vaults')}
             isActive=${activeTab === 'vaults'}
-            >${i18n._('Vaults')}<//
           >
+            ${i18n._('Vaults')}
+          <//>
         <//>
         ${activeTab === 'general'
           ? html`<${SettingsTab} />`
