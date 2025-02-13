@@ -1,74 +1,44 @@
+import React from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonPrimary,
-  ButtonSecondary
-} from 'pearpass-lib-ui-react-components'
-import { useCreateVault } from 'pearpass-lib-vault'
 
-import {
-  ActionCardTitle,
-  Actions,
-  ActionsCard,
-  PageContainer,
-  PearHand,
-  Title
-} from './styles'
+import { CardVaultActions, PageContainer, PearHand, Title } from './styles'
+import { CardCreateOrLoadVault } from '../../components/CardCreateOrLoadVault'
+import { CardUnlockPearPass } from '../../components/CardUnlockPearPass'
+import { CardUnlockVault } from '../../components/CardUnlockVault'
+import { CardVaultSelect } from '../../components/CardVaultSelect'
 import { InitialPageWrapper } from '../../components/InitialPageWrapper'
-import { LoadingOverlay } from '../../components/LoadingOverlay'
-import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
-import { LoadVaultModalContent } from '../Modal/LoadVaultModalContent'
 
 export const WelcomePage = () => {
   const { i18n } = useLingui()
+  const { data } = useRouter()
 
-  const { setModal } = useModal()
-  const { navigate } = useRouter()
-
-  const { isLoading, createVault } = useCreateVault({
-    onCompleted: () => {
-      navigate('vault', {
-        recordType: 'all'
-      })
+  const Card = React.useMemo(() => {
+    switch (data.state) {
+      case 'masterPassword':
+        return CardUnlockPearPass
+      case 'vaults':
+        return CardVaultSelect
+      case 'vaultPassword':
+        return CardUnlockVault
+      default:
+        return CardCreateOrLoadVault
     }
-  })
-
-  const handleLoadVault = () => {
-    setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
-  }
+  }, [data.state])
 
   return html`
     <${InitialPageWrapper}>
       <${PageContainer}>
         <${Title}>${i18n._('Hi Peer! Welcome to PearPass!')}<//>
 
-        <${ActionsCard}>
-          <${ActionCardTitle}>
-            ${i18n._('Start with')}
-            <br />
-            ${i18n._('creating a new vault or importing one')}
-          <//>
-
-          <${Actions}>
-            <${ButtonPrimary} size="md" onClick=${createVault}>
-              ${i18n._('Create a new vault')}
-            <//>
-
-            <${ButtonSecondary}
-              size="md"
-              onClick=${handleLoadVault}
-              type="button"
-            >
-              ${i18n._('Load a vault')}
-            <//>
-          <//>
+        <${CardVaultActions}>
+          <${Card} />
         <//>
 
         <${PearHand} src="assets/images/pearHandBig.png" alt="pearHand" />
       <//>
-
-      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

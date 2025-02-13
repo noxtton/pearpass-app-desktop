@@ -124,10 +124,7 @@ export const CreateOrEditCreditCardModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({
-        ...initialRecord,
-        ...data
-      })
+      updateRecord({ ...initialRecord, ...data })
     } else {
       createRecord(data)
     }

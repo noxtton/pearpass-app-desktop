@@ -1,8 +1,8 @@
 import {
   CheckIcon,
-  PinIcon,
   MoveToIcon,
-  DeleteIcon
+  DeleteIcon,
+  StarIcon
 } from 'pearpass-lib-ui-react-components'
 
 /**
@@ -10,7 +10,7 @@ import {
  */
 export const RECORD_ACTION_ICON_BY_TYPE = {
   select: CheckIcon,
-  pin: PinIcon,
+  favorite: StarIcon,
   move: MoveToIcon,
   delete: DeleteIcon
 }
