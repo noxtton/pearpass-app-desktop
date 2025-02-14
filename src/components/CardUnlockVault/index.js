@@ -46,8 +46,8 @@ export const CardUnlockVault = () => {
         <${Title}>
           ${i18n._('Unlock {vaultName} with your vault password', {
             vaultName: MOCK_VAULT_NAME
-          })}<//
-        >
+          })}
+        <//>
       <//>
 
       <${PearPassPasswordField} ...${register('password')} />
