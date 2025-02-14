@@ -65,6 +65,10 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     registerArray('customFields')
 
   const handleWebsiteClick = (url) => {
+    if (!url?.length) {
+      return
+    }
+
     window.open(url, '_blank')
   }
 
