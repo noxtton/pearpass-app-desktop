@@ -11,10 +11,10 @@ import { Validator } from 'pearpass-lib-validator'
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useRouter } from '../../context/RouterContext'
 
+const MOCK_VAULT_NAME = 'Personal'
+
 export const CardUnlockVault = () => {
   const { i18n } = useLingui()
-
-  const vaultName = 'Personal'
 
   const { navigate } = useRouter()
 
@@ -45,7 +45,7 @@ export const CardUnlockVault = () => {
       <${CardTitle}>
         <${Title}>
           ${i18n._('Unlock {vaultName} with your vault password', {
-            vaultName
+            vaultName: MOCK_VAULT_NAME
           })}<//
         >
       <//>
