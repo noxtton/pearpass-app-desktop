@@ -15,6 +15,7 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
 /**
  * @param {{
  *  item: {
+ *    id:string,
  *    name: string,
  *    icon: string,
  *    isAlwaysVisible: boolean,
@@ -33,7 +34,8 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const { setModal } = useModal()
   const { navigate } = useRouter()
 
-  const isRoot = level === 0
+  const isRoot = item.id === 'allFolders'
+  const IsFavorites = item.id === 'favorites'
 
   const [isOpen, setIsOpen] = useState(isRoot)
 
@@ -99,6 +101,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
             : html``
         )}
         ${!isRoot &&
+        !IsFavorites &&
         html`
           <${SidebarNestedFile}
             key=${item.id + 'newFile'}

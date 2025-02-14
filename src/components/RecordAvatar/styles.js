@@ -37,7 +37,7 @@ export const SelectedAvatarContainer = styled.div`
   background: ${({ theme }) => theme.colors.primary400.mode1};
 `
 
-export const Pin = styled.div`
+export const FavoriteIcon = styled.div`
   position: absolute;
   right: -3px;
   bottom: -4px;

@@ -17,10 +17,10 @@ import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 
 /**
  * @param {{
- * onPaswordInsert: (pass: string) => void
+ * onPasswordInsert: (pass: string) => void
  * }} props
  */
-export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
+export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const { copyToClipboard } = useCopyToClipboard()
@@ -75,7 +75,8 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
   }
 
   const handleInsertPassword = () => {
-    onPaswordInsert(pass)
+    const passText = selectedOption === 'passphrase' ? pass.join('-') : pass
+    onPasswordInsert(passText)
     closeModal()
   }
 
@@ -83,7 +84,7 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
     <${Wrapper}>
       <${ModalHeader} onClose=${closeModal}>
         <${HeaderButtonWrapper}>
-          ${onPaswordInsert
+          ${onPasswordInsert
             ? html`<${ButtonLittle} onClick=${handleInsertPassword}>
                 ${i18n._('Insert password')}
               <//> `

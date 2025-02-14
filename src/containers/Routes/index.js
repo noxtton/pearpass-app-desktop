@@ -3,6 +3,7 @@ import { useVault } from 'pearpass-lib-vault'
 
 import { SettingsView } from '../../containers/SettingsView'
 import { useRouter } from '../../context/RouterContext.js'
+import { useSimulatedLoading } from '../../hooks/useSimulatedLoading.js'
 import { InitialLoadPage } from '../InitialPage'
 import { LayoutWithSidebar } from '../LayoutWithSidebar'
 import { MainView } from '../MainView'
@@ -11,18 +12,16 @@ import { WelcomePage } from '../WelcomePage'
 
 export const Routes = () => {
   const { currentPage, data, navigate } = useRouter()
-
+  const loading = useSimulatedLoading()
   useVault({
     onCompleted: (payload) => {
       if (payload?.id) {
-        navigate('vault', {
-          recordType: 'all'
-        })
-
+        // navigate('vault', { recordType: 'all' })
+        navigate('welcome', { state: 'masterPassword' })
         return
       }
 
-      navigate('welcome')
+      navigate('welcome', { state: 'fresh' })
     }
   })
 
@@ -40,7 +39,7 @@ export const Routes = () => {
     }
   }
 
-  if (currentPage === 'loading') {
+  if (loading || currentPage === 'loading') {
     return html` <${InitialLoadPage} /> `
   }
 

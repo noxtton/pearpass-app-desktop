@@ -34,7 +34,7 @@ export const useRecordActionItems = ({
   const { data: routerData, navigate, currentPage } = useRouter()
 
   const { deleteRecord } = useDeleteRecord()
-  const { updatePinnedState } = useUpdateRecord()
+  const { updateFavoriteState } = useUpdateRecord()
 
   const handleDeleteConfirm = () => {
     if (routerData?.recordId === record?.id) {
@@ -61,8 +61,8 @@ export const useRecordActionItems = ({
     onClose?.()
   }
 
-  const handlePin = () => {
-    updatePinnedState(record?.id, !record?.isPinned)
+  const handleFavoriteToggle = () => {
+    updateFavoriteState(record?.id, !record?.isFavorite)
 
     onClose?.()
   }
@@ -82,9 +82,11 @@ export const useRecordActionItems = ({
   const defaultActions = [
     { name: i18n._('Select element'), type: 'select', click: handleSelect },
     {
-      name: i18n._(record?.isPinned ? 'Unpin element' : 'Pin element'),
-      type: 'pin',
-      click: handlePin
+      name: i18n._(
+        record?.isFavorite ? 'Remove from Favorites' : 'Mark as favorite'
+      ),
+      type: 'favorite',
+      click: handleFavoriteToggle
     },
     {
       name: i18n._('Move to another folder'),

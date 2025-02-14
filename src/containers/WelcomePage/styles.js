@@ -17,22 +17,23 @@ export const Title = styled.p`
   line-height: normal;
 `
 
-export const ActionsCard = styled.div`
-  display: flex;
-  font-family: 'Inter';
+export const CardVaultActions = styled.div`
+  display: inline-flex;
+  padding: 20px;
   flex-direction: column;
-  gap: 23px;
-  width: 376px;
-  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
   background: ${({ theme }) => theme.colors.grey500.mode1};
   border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
   border-radius: 20px;
-  padding: 15px 9px;
+  padding: 20px;
   z-index: 1;
 `
 
 export const ActionCardTitle = styled.p`
   color: ${({ theme }) => theme.colors.white.mode1};
+  width: 293px;
+  font-family: 'Inter';
   text-align: center;
   font-size: 29px;
   font-style: normal;

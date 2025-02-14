@@ -5,8 +5,10 @@ import { html } from 'htm/react'
 import { useForm } from 'pearpass-lib-form'
 import { TextArea } from 'pearpass-lib-ui-react-components'
 
+import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -26,6 +28,7 @@ import { CustomFields } from '../../CustomFields'
  */
 export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
+  const { copyToClipboard, isCopied } = useCopyToClipboard()
 
   const initialValues = React.useMemo(
     () => ({
@@ -42,6 +45,14 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
 
   const { value: list, registerItem } = registerArray('customFields')
 
+  const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
+    copyToClipboard(value)
+  }
+
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -52,6 +63,7 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
         <${TextArea}
           ...${register('note')}
           placeholder=${i18n._('Write a note...')}
+          onClick=${handleCopy}
           isDisabled
         />
       <//>
@@ -59,8 +71,11 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}
+        onClick=${handleCopy}
         register=${registerItem}
       />
+
+      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

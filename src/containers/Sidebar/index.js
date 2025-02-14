@@ -6,7 +6,8 @@ import {
   UserSecurityIcon,
   SettingsIcon,
   ButtonThin,
-  StarIcon
+  StarIcon,
+  LockCircleIcon
 } from 'pearpass-lib-ui-react-components'
 import { useFolders } from 'pearpass-lib-vault'
 
@@ -50,9 +51,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   }
 
   const openMainView = () => {
-    navigate('vault', {
-      recordType: 'all'
-    })
+    navigate('vault', { recordType: 'all' })
   }
 
   const matchesSearch = (records, searchValue) => {
@@ -70,49 +69,49 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
     const otherFolders = Object.values(customFolders ?? {})
 
-    return {
-      name: i18n._('All Folders'),
-      id: 'allFolders',
-      children: [
-        {
-          name: i18n._('Favorite'),
-          id: 'favorites',
-          icon: StarIcon,
-          isOpenInitially: matchesSearch(favorites?.records ?? [], searchValue),
-          isActive: routerData?.folder === 'favorites',
-          children:
-            favorites?.records?.map((record) => {
-              return {
-                name: record?.data.title,
-                id: record?.id,
-                icon: RECORD_ICON_BY_TYPE[record?.type]
-              }
-            }) ?? []
-        },
-        ...otherFolders.map((folder) => {
-          return {
-            name: folder.name,
-            id: folder.name,
-            isActive: routerData?.folder === folder.name,
-            isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
-            children: folder.records?.map((record) => {
-              return {
-                name: record?.data?.title,
-                id: record?.id,
-                icon: RECORD_ICON_BY_TYPE[record?.type]
-              }
-            })
-          }
-        }),
-        ...(noFolder?.records?.map((record) => {
-          return {
-            name: record?.data.title,
-            id: record?.id,
-            icon: RECORD_ICON_BY_TYPE[record?.type]
-          }
-        }) ?? [])
-      ]
-    }
+    return [
+      {
+        name: i18n._('Favorite'),
+        id: 'favorites',
+        icon: StarIcon,
+        children:
+          favorites?.records?.map((record) => {
+            return {
+              name: record?.data.title,
+              id: record?.id,
+              icon: RECORD_ICON_BY_TYPE[record?.type]
+            }
+          }) ?? []
+      },
+      {
+        name: i18n._('All Folders'),
+        id: 'allFolders',
+        children: [
+          ...otherFolders.map((folder) => {
+            return {
+              name: folder.name,
+              id: folder.name,
+              isActive: routerData?.folder === folder.name,
+              isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
+              children: folder.records?.map((record) => {
+                return {
+                  name: record?.data?.title,
+                  id: record?.id,
+                  icon: RECORD_ICON_BY_TYPE[record?.type]
+                }
+              })
+            }
+          }),
+          ...(noFolder?.records?.map((record) => {
+            return {
+              name: record?.data.title,
+              id: record?.id,
+              icon: RECORD_ICON_BY_TYPE[record?.type]
+            }
+          }) ?? [])
+        ]
+      }
+    ]
   }, [data, i18n, routerData])
 
   const { setModal } = useModal()
@@ -136,7 +135,13 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
             <${SidebarSearch} value=${searchValue} onChange=${setSearchValue} />
 
             <${FoldersWrapper}>
-              <${SidebarNestedFolders} item=${folders} key="rootFolder" />
+              ${folders.map(
+                (folder) =>
+                  html`<${SidebarNestedFolders}
+                    item=${folder}
+                    key="rootFolder"
+                  />`
+              )}
             <//>
           <//>
         `}
@@ -152,6 +157,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
+        <//>
+        <${ButtonThin} startIcon=${LockCircleIcon} onClick=${() => {}}>
+          ${i18n._('Swap Vault')}
         <//>
       <//>
     <//>

@@ -124,10 +124,7 @@ export const CreateOrEditCreditCardModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({
-        ...initialRecord,
-        ...data
-      })
+      updateRecord({ ...initialRecord, ...data })
     } else {
       createRecord(data)
     }
@@ -147,7 +144,7 @@ export const CreateOrEditCreditCardModalContent = ({
               startIcon=${SaveIcon}
               onClick=${handleSubmit(onSubmit)}
             >
-              ${i18n._('Credit card')}
+              ${i18n._('Save')}
             <//>
           `}
         >

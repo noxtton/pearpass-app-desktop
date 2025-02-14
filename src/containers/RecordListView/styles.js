@@ -23,12 +23,6 @@ export const RightActions = styled.div`
   display: flex;
 `
 
-export const PinnedRecordsSection = styled.div`
-  width: 100%;
-  display: flex;
-  gap: 13px;
-`
-
 export const Folder = styled.div`
   width: 100%;
   display: flex;

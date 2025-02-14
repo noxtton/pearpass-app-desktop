@@ -12,9 +12,11 @@ import {
   WorldIcon
 } from 'pearpass-lib-ui-react-components'
 
+import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -37,6 +39,7 @@ import { CustomFields } from '../../CustomFields'
  */
 export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
+  const { copyToClipboard, isCopied } = useCopyToClipboard()
 
   const initialValues = React.useMemo(
     () => ({
@@ -65,6 +68,14 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     window.open(url, '_blank')
   }
 
+  const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
+    copyToClipboard(value)
+  }
+
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -77,6 +88,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder=${i18n._('Email or username')}
           variant="outline"
           icon=${UserIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('username')}
         />
@@ -86,6 +98,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
           placeholder=${i18n._('Password')}
           variant="outline"
           icon=${KeyIcon}
+          onClick=${handleCopy}
           isDisabled
           ...${register('password')}
         />
@@ -110,14 +123,20 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
       <//>
 
       <${FormGroup}>
-        <${InputFieldNote} ...${register('note')} isDisabled />
+        <${InputFieldNote}
+          ...${register('note')}
+          onClick=${handleCopy}
+          isDisabled
+        />
       <//>
 
       <${CustomFields}
         customFields=${customFieldsList}
+        onClick=${handleCopy}
         register=${registerCustomFieldItem}
         areInputsDisabled=${true}
       />
+      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

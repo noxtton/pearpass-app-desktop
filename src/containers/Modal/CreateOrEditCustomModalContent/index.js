@@ -122,7 +122,7 @@ export const CreateOrEditCustomModalContent = ({
               startIcon=${SaveIcon}
               onClick=${handleSubmit(onSubmit)}
             >
-              ${i18n._('Custom')}
+              ${i18n._('Save')}
             <//>
           `}
         >

@@ -5,6 +5,12 @@ export const Header = styled.div`
   justify-content: space-between;
 `
 
+export const RecordInfo = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`
+
 export const Title = styled.div`
   color: ${({ theme }) => theme.colors.white.option2};
   font-family: 'Inter';

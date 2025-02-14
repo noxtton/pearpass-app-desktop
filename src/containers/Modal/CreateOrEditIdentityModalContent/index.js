@@ -157,7 +157,7 @@ export const CreateOrEditIdentityModalContent = ({
               onClick=${handleSubmit(onSubmit)}
               startIcon=${SaveIcon}
             >
-              ${i18n._('Identity')}
+              ${i18n._('Save')}
             <//>
           `}
         >
