@@ -7,7 +7,8 @@ import {
   SettingsIcon,
   ButtonThin,
   StarIcon,
-  LockCircleIcon
+  LockCircleIcon,
+  ExitIcon
 } from 'pearpass-lib-ui-react-components'
 import { useFolders } from 'pearpass-lib-vault'
 
@@ -30,6 +31,7 @@ import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
 import { matchPatternToValue } from '../../utils/matchPatternToValue'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
+import { SwapVaultModalContent } from '../Modal/SwapVaultModalContent'
 
 /**
  * @param {{
@@ -119,6 +121,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const handleAddDevice = () => {
     setModal(html`<${AddDeviceModalContent} />`)
   }
+  const handleSwapVault = () => {
+    setModal(html`<${SwapVaultModalContent} />`)
+  }
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
@@ -158,8 +163,11 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
         <//>
-        <${ButtonThin} startIcon=${LockCircleIcon} onClick=${() => {}}>
+        <${ButtonThin} startIcon=${LockCircleIcon} onClick=${handleSwapVault}>
           ${i18n._('Swap Vault')}
+        <//>
+        <${ButtonThin} startIcon=${ExitIcon} onClick=${() => {}}>
+          ${i18n._('Exit Vault')}
         <//>
       <//>
     <//>

@@ -3,6 +3,10 @@ import { useMemo, useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { ButtonLittle } from 'pearpass-lib-ui-react-components'
+import {
+  generatePassphrase,
+  generatePassword
+} from 'pearpass-utils-password-generator'
 
 import { RadioSelect } from '../../../components/RadioSelect'
 import { useModal } from '../../../context/ModalContext'
@@ -12,7 +16,6 @@ import { PassphraseGenerator } from './PassphraseGenerator/index.'
 import { PasswordChecker } from './PasswordChecker'
 import { PasswordGenerator } from './PasswordGenerator'
 import { HeaderButtonWrapper, RadioWrapper, Wrapper } from './styles'
-import { generatePassphrase, generatePassword } from './utils'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 
 /**
