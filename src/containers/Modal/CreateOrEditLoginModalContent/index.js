@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { Validator } from 'pear-apps-utils-validator'
 import { useForm } from 'pearpass-lib-form'
 import {
   ButtonLittle,
@@ -17,7 +18,6 @@ import {
   UserIcon,
   WorldIcon
 } from 'pearpass-lib-ui-react-components'
-import { Validator } from 'pearpass-lib-validator'
 import {
   RECORD_TYPES,
   useCreateRecord,

@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { Validator } from 'pear-apps-utils-validator'
 import { useForm } from 'pearpass-lib-form'
 import {
   InputField,
@@ -10,7 +11,6 @@ import {
   CalendarIcon,
   NineDotsIcon
 } from 'pearpass-lib-ui-react-components'
-import { Validator } from 'pearpass-lib-validator'
 import { useCreateRecord, useUpdateRecord } from 'pearpass-lib-vault'
 import { RECORD_TYPES } from 'pearpass-lib-vault'
 

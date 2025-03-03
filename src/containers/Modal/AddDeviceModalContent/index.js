@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { generateQRCodeSVG } from 'pear-apps-utils-qr'
 import {
   CopyIcon,
   TimeIcon,
@@ -14,6 +15,7 @@ import { useCreateInvite } from 'pearpass-lib-vault'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import useCountDown from '../../../hooks/useCountDown'
 import { ModalContent } from '../ModalContent'
 import {
   BackgroundSection,
@@ -31,12 +33,11 @@ import {
   WarningSection,
   WarningText
 } from './styles'
-import useCountDown from '../../../hooks/useCountDown'
 
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
-
+  const [qrSvg, setQrSvg] = useState('')
   const { createInvite, data } = useCreateInvite()
 
   const expireTime = useCountDown({
@@ -49,6 +50,14 @@ export const AddDeviceModalContent = () => {
   useEffect(() => {
     createInvite()
   }, [])
+
+  useEffect(() => {
+    if (data?.publicKey) {
+      generateQRCodeSVG(data?.publicKey, { type: 'svg', margin: 0 }).then(
+        (value) => setQrSvg(value)
+      )
+    }
+  }, [data])
 
   return html`
     <${ModalContent}
@@ -67,7 +76,10 @@ export const AddDeviceModalContent = () => {
         <${QRCodeSection}>
           <${QRCodeText}> ${i18n._('Scan this QR code')} <//>
 
-          <${QRCode} src="assets/images/qr-code.png" />
+          <${QRCode}
+            style=${{ width: '200px', height: '200px' }}
+            dangerouslySetInnerHTML=${{ __html: qrSvg }}
+          />
         <//>
 
         <${BackgroundSection}>
