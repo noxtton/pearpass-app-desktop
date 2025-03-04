@@ -1,17 +1,12 @@
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import Autopass from 'autopass'
-import Corestore from 'corestore'
 import { html } from 'htm/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import {
-  closeActiveVaultInstance,
-  closeVaultsInstance,
-  setAutoPassInstance,
-  setCoreStoreInstance,
-  setStoragePath,
+  closeAllInstances,
+  initPearpass,
   VaultProvider
-} from 'pearpass-lib-vault'
+} from 'pearpass-lib-vault-desktop'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/containers/App'
@@ -21,9 +16,7 @@ import { messages } from './src/locales/en/messages.mjs'
 import { setFontsAndResetCSS } from './styles'
 
 Pear.updates(async () => {
-  await closeActiveVaultInstance?.()
-
-  await closeVaultsInstance?.()
+  await closeAllInstances()
 
   Pear.reload()
 })
@@ -35,9 +28,7 @@ setFontsAndResetCSS()
 i18n.load('en', messages)
 i18n.activate('en')
 
-setStoragePath(Pear.config.storage)
-setAutoPassInstance(Autopass)
-setCoreStoreInstance(Corestore)
+initPearpass(Pear.config.storage)
 
 root.render(html`
   <${VaultProvider}>

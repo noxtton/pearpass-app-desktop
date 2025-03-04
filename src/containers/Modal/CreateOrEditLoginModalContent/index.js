@@ -22,7 +22,7 @@ import {
   RECORD_TYPES,
   useCreateRecord,
   useUpdateRecord
-} from 'pearpass-lib-vault'
+} from 'pearpass-lib-vault-desktop'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'

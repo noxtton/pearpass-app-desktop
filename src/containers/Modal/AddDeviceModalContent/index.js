@@ -9,7 +9,7 @@ import {
   YellowErrorIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useCreateInvite } from 'pearpass-lib-vault'
+import { useCreateInvite } from 'pearpass-lib-vault-desktop'
 
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'

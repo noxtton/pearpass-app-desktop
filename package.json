@@ -42,7 +42,7 @@
     "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.45",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.3",
     "pearpass-lib-validator": "github:noxtton/pearpass-lib-validator#v0.0.2",
-    "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.13",
+    "pearpass-lib-vault-desktop": "github:noxtton/pearpass-lib-vault-desktop#main",
     "pearpass-utils-password-check": "github:noxtton/pearpass-utils-password-check#v0.0.3",
     "pearpass-utils-password-generator": "github:noxtton/pearpass-utils-password-generator#v0.0.3",
     "react": "=18.3.1",
