@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react'
+import { createContext, useState, useContext, useEffect } from 'react'
 
 import { html } from 'htm/react'
 
@@ -56,6 +56,20 @@ export const ModalProvider = ({ children }) => {
       })
     }, BASE_TRANSITION_DURATION)
   }
+
+  useEffect(() => {
+    const handleKeydown = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        closeModal()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeydown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeydown)
+    }
+  }, [isOpen])
 
   return html`
     <${ModalContext.Provider} value=${{ isOpen, setModal, closeModal }}>

@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
+import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
 
 import { Pin } from './styles'
-import { generateAvatarInitials } from '../../utils/generateAvatarInitials'
 import { RecordAvatar } from '../RecordAvatar'
 
 /**

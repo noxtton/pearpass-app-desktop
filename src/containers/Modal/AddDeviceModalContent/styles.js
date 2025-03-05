@@ -43,10 +43,12 @@ export const QRCodeCopyWrapper = styled.div`
   gap: 10px;
 `
 
-export const QRCode = styled.img`
+export const QRCode = styled.div`
   width: 226px;
   height: 226px;
+  padding: 15px;
   border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.white.mode1};
 `
 
 export const BackgroundSection = styled.div`

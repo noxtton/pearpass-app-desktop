@@ -1,11 +1,11 @@
 import { useState } from 'react'
 
 import { html } from 'htm/react'
+import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
 import { KebabMenuIcon } from 'pearpass-lib-ui-react-components'
 
 import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems'
-import { generateAvatarInitials } from '../../utils/generateAvatarInitials'
 import { PopupMenu } from '../PopupMenu'
 import { RecordActionsPopupContent } from '../RecordActionsPopupContent'
 import { RecordAvatar } from '../RecordAvatar'

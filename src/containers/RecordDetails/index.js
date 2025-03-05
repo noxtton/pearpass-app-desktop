@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
 import {
   BrushIcon,
   ButtonLittle,
@@ -31,7 +32,6 @@ import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType.js'
 import { useRouter } from '../../context/RouterContext.js'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
-import { generateAvatarInitials } from '../../utils/generateAvatarInitials.js'
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()
