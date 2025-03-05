@@ -8,8 +8,11 @@ import {
   SaveIcon,
   TextArea
 } from 'pearpass-lib-ui-react-components'
-import { useCreateRecord, useUpdateRecord } from 'pearpass-lib-vault'
-import { RECORD_TYPES } from 'pearpass-lib-vault'
+import {
+  useCreateRecord,
+  useUpdateRecord,
+  RECORD_TYPES
+} from 'pearpass-lib-vault-desktop'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'

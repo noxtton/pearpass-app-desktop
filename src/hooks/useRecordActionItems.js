@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useDeleteRecord, useUpdateRecord } from 'pearpass-lib-vault'
+import { useDeleteRecord, useUpdateRecord } from 'pearpass-lib-vault-desktop'
 
 import { ConfirmationModalContent } from '../containers/Modal/ConfirmationModalContent'
 import { MoveFolderModalContent } from '../containers/Modal/MoveFolderModalContent'

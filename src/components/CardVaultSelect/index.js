@@ -4,7 +4,7 @@ import {
   ButtonPrimary,
   ButtonSecondary
 } from 'pearpass-lib-ui-react-components'
-import { useCreateVault } from 'pearpass-lib-vault'
+import { useCreateVault } from 'pearpass-lib-vault-desktop'
 
 import { Vault } from '../Vault'
 import {

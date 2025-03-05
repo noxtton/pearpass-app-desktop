@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { html } from 'htm/react'
-import { useRecords } from 'pearpass-lib-vault'
+import { useRecords } from 'pearpass-lib-vault-desktop'
 
 import { ContentWrapper, SearchContainer, Wrapper } from './styles'
 import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'

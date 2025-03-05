@@ -9,7 +9,7 @@ import {
   ButtonLittle,
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
-import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
+import { useCreateFolder, useFolders } from 'pearpass-lib-vault-desktop'
 
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'

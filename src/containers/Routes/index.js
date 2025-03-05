@@ -1,5 +1,5 @@
 import { html } from 'htm/react'
-import { useVault } from 'pearpass-lib-vault'
+import { useVault } from 'pearpass-lib-vault-desktop'
 
 import { SettingsView } from '../../containers/SettingsView'
 import { useRouter } from '../../context/RouterContext.js'

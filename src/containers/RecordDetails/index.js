@@ -12,7 +12,7 @@ import {
   StarIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useRecordById, useUpdateRecord } from 'pearpass-lib-vault'
+import { useRecordById, useUpdateRecord } from 'pearpass-lib-vault-desktop'
 
 import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
