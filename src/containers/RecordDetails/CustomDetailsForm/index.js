@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { html } from 'htm/react'
-import { useForm } from 'pearpass-lib-form'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
 
 import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormWrapper } from '../../../components/FormWrapper'

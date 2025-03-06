@@ -1,7 +1,7 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import { useForm } from 'pearpass-lib-form'
 import {
   ButtonPrimary,
   ButtonSecondary,
@@ -10,6 +10,7 @@ import {
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useRouter } from '../../context/RouterContext'
+import { useVault } from 'pearpass-lib-vault-desktop'
 
 const MOCK_VAULT_NAME = 'Personal'
 
@@ -17,6 +18,8 @@ export const CardUnlockVault = () => {
   const { i18n } = useLingui()
 
   const { navigate } = useRouter()
+
+  const { refetch } = useVault({ shouldSkip: true })
 
   const schema = Validator.object({
     password: Validator.string().required(i18n._('Password is required'))
@@ -29,15 +32,15 @@ export const CardUnlockVault = () => {
     }
   })
 
-  const handleContinue = (data) => {
-    console.log(data)
+  const handleContinue = (vaultId) => {
+    console.log(vaultId)
     navigate('vault', { recordType: 'all' })
   }
 
-  const onSubmit = (values) => {
-    const data = { password: values.password }
+  const onSubmit = async (vaultId) => {
+    await refetch(vaultId)
 
-    handleContinue(data)
+    handleContinue(vaultId)
   }
 
   return html`

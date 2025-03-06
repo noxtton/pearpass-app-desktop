@@ -1,7 +1,7 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import { useForm } from 'pearpass-lib-form'
 import {
   ButtonLittle,
   EmailIcon,

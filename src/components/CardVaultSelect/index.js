@@ -4,8 +4,11 @@ import {
   ButtonPrimary,
   ButtonSecondary
 } from 'pearpass-lib-ui-react-components'
-import { useCreateVault } from 'pearpass-lib-vault-desktop'
+import { useCreateVault, useVaults } from 'pearpass-lib-vault-desktop'
 
+import { LoadVaultModalContent } from '../../containers/Modal/LoadVaultModalContent'
+import { useModal } from '../../context/ModalContext'
+import { useRouter } from '../../context/RouterContext'
 import { Vault } from '../Vault'
 import {
   ButtonWrapper,
@@ -14,19 +17,13 @@ import {
   Title,
   VaultsContainer
 } from './styles'
-import { LoadVaultModalContent } from '../../containers/Modal/LoadVaultModalContent'
-import { useModal } from '../../context/ModalContext'
-import { useRouter } from '../../context/RouterContext'
-
-const MOCK_DATA_VAULTS = [
-  { name: 'Personal', createdAt: '10/12/2024' },
-  { name: 'Work', createdAt: '10/12/2024' }
-]
 
 export const CardVaultSelect = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
   const { setModal } = useModal()
+
+  const { data } = useVaults()
 
   const { createVault } = useCreateVault({
     onCompleted: () => {
@@ -38,8 +35,8 @@ export const CardVaultSelect = () => {
     setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
   }
 
-  const handleSelectVault = () => {
-    navigate(currentPage, { state: 'vaultPassword' })
+  const handleSelectVault = (vaultId) => {
+    navigate(currentPage, { state: 'vaultPassword', vaultId: vaultId })
   }
 
   return html`
@@ -51,9 +48,12 @@ export const CardVaultSelect = () => {
       <//>
 
       <${VaultsContainer}>
-        ${MOCK_DATA_VAULTS.map(
+        ${data.map(
           (vault) =>
-            html`<${Vault} onClick=${handleSelectVault} vault=${vault} />`
+            html`<${Vault}
+              onClick=${() => handleSelectVault(vault.id)}
+              vault=${vault}
+            />`
         )}
       <//>
 

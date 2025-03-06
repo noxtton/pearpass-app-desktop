@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { useThrottle } from './useThrottle'
+import { useThrottle } from 'pear-apps-lib-ui-react-hooks'
 
 /**
  * Hook to get the window size with throttling.
