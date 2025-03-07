@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useForm } from 'pearpass-lib-form'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import {
   CalendarIcon,
   CreditCardIcon,

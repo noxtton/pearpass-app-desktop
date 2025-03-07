@@ -2,10 +2,13 @@ import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { Validator } from 'pear-apps-utils-validator'
 import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
+import { useVault, useVaults } from 'pearpass-lib-vault-desktop'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
@@ -19,16 +22,32 @@ import {
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { Vault } from '../../../components/Vault'
 
-const MOCK_DATA_VAULTS = [
-  { name: 'Personal', createdAt: '10/12/2024' },
-  { name: 'Work', createdAt: '10/12/2024' }
-]
-
 export const SwapVaultModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
+  const schema = Validator.object({
+    password: Validator.string().required(i18n._('Password is required'))
+  })
+
+  const { register, handleSubmit } = useForm({
+    initialValues: {
+      password: ''
+    },
+    validate: (values) => {
+      return schema.validate(values)
+    }
+  })
+
+  const { data } = useVaults()
+  const { refetch } = useVault({ shouldSkip: true })
+
   const [vault, setVault] = useState('')
+
+  const submit = async () => {
+    await refetch(vault)
+    closeModal()
+  }
 
   const titles = useMemo(() => {
     if (vault?.length) {
@@ -60,16 +79,16 @@ export const SwapVaultModalContent = () => {
     ${vault?.length
       ? html`
           <${UnlockVaultContainer}>
-            <${PearPassPasswordField} />
-            <${ButtonPrimary} onClick=${closeModal}> ${i18n._('Submit')} </>
+            <${PearPassPasswordField} ...${register('password')} />
+            <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Submit')} </>
           <//>
         `
       : html` <${VaultsContainer}>
-          ${MOCK_DATA_VAULTS.map(
+          ${data?.map(
             (vault) =>
               html`<${Vault}
                 vault=${vault}
-                onClick=${() => setVault(vault.name)}
+                onClick=${() => setVault(vault.id)}
               />`
           )}
         <//>`}

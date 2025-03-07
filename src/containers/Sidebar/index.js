@@ -56,6 +56,10 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     navigate('vault', { recordType: 'all' })
   }
 
+  const handleExitVault = () => {
+    navigate('welcome', { state: 'masterPassword' })
+  }
+
   const matchesSearch = (records, searchValue) => {
     if (!searchValue) {
       return false
@@ -166,7 +170,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${ButtonThin} startIcon=${LockCircleIcon} onClick=${handleSwapVault}>
           ${i18n._('Swap Vault')}
         <//>
-        <${ButtonThin} startIcon=${ExitIcon} onClick=${() => {}}>
+        <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>
           ${i18n._('Exit Vault')}
         <//>
       <//>

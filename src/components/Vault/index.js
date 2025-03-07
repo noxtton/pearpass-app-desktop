@@ -24,7 +24,7 @@ export const Vault = ({ vault, onClick }) => {
       <${VaultInfo}>
         <${LockCircleIcon} size="21" />
         <${VaultDescription}>
-          <${VaultName}>${vault.name}<//>
+          <${VaultName}>${vault.id}<//>
           <${VaultDate}> ${i18n._('Created')} ${vault.createdAt}<//>
         <//>
       <//>
