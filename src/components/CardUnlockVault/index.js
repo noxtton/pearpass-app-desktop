@@ -32,15 +32,14 @@ export const CardUnlockVault = () => {
     }
   })
 
-  const handleContinue = (vaultId) => {
-    console.log(vaultId)
+  const handleContinue = () => {
     navigate('vault', { recordType: 'all' })
   }
 
   const onSubmit = async (vaultId) => {
     await refetch(vaultId)
 
-    handleContinue(vaultId)
+    handleContinue()
   }
 
   return html`
