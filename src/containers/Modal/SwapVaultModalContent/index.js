@@ -2,13 +2,13 @@ import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { Validator } from 'pear-apps-utils-validator'
 import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
 import { useVault, useVaults } from 'pearpass-lib-vault-desktop'
-import { Validator } from 'pear-apps-utils-validator'
-import { useForm } from 'pear-apps-lib-ui-react-hooks'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'

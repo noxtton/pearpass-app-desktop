@@ -7,10 +7,10 @@ import {
   ButtonSecondary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
+import { useVault } from 'pearpass-lib-vault-desktop'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useRouter } from '../../context/RouterContext'
-import { useVault } from 'pearpass-lib-vault-desktop'
 
 const MOCK_VAULT_NAME = 'Personal'
 
