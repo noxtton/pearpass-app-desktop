@@ -39,8 +39,12 @@ export const SwapVaultModalContent = () => {
     }
   })
 
-  const { data } = useVaults()
-  const { refetch } = useVault({ shouldSkip: true })
+  const { data: vaultsData } = useVaults()
+  const { data: vaultData, refetch } = useVault({ shouldSkip: true })
+
+  const vaults = useMemo(() => {
+    return vaultsData.filter((vault) => vault.id !== vaultData?.id)
+  }, [vaultsData])
 
   const [vault, setVault] = useState('')
 
@@ -84,7 +88,7 @@ export const SwapVaultModalContent = () => {
           <//>
         `
       : html` <${VaultsContainer}>
-          ${data?.map(
+          ${vaults?.map(
             (vault) =>
               html`<${Vault}
                 vault=${vault}

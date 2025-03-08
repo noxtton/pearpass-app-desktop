@@ -1,5 +1,5 @@
 import { html } from 'htm/react'
-import { useVault } from 'pearpass-lib-vault-desktop'
+import { useVaults } from 'pearpass-lib-vault-desktop'
 
 import { SettingsView } from '../../containers/SettingsView'
 import { useRouter } from '../../context/RouterContext.js'
@@ -13,10 +13,10 @@ import { WelcomePage } from '../WelcomePage'
 export const Routes = () => {
   const { currentPage, data, navigate } = useRouter()
   const loading = useSimulatedLoading()
-  useVault({
+
+  useVaults({
     onCompleted: (payload) => {
-      if (payload?.id) {
-        // navigate('vault', { recordType: 'all' })
+      if (payload?.length) {
         navigate('welcome', { state: 'masterPassword' })
         return
       }

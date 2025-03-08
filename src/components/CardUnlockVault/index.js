@@ -17,7 +17,7 @@ const MOCK_VAULT_NAME = 'Personal'
 export const CardUnlockVault = () => {
   const { i18n } = useLingui()
 
-  const { navigate } = useRouter()
+  const { navigate, data: routerData } = useRouter()
 
   const { refetch } = useVault({ shouldSkip: true })
 
@@ -36,8 +36,8 @@ export const CardUnlockVault = () => {
     navigate('vault', { recordType: 'all' })
   }
 
-  const onSubmit = async (vaultId) => {
-    await refetch(vaultId)
+  const onSubmit = async () => {
+    await refetch(routerData.vaultId)
 
     handleContinue()
   }
