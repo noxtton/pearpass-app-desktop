@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -10,7 +10,7 @@ import {
   LockCircleIcon,
   ExitIcon
 } from 'pearpass-lib-ui-react-components'
-import { useFolders } from 'pearpass-lib-vault-desktop'
+import { useFolders, useVault, useVaults } from 'pearpass-lib-vault-desktop'
 
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
@@ -47,6 +47,14 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const { data, isLoading } = useFolders({
     variables: { searchPattern: searchValue }
   })
+
+  const { data: vaultsData } = useVaults()
+
+  const { data: vaultData } = useVault({ shouldSkip: true })
+
+  const vaults = useMemo(() => {
+    return vaultsData.filter((vault) => vault.id !== vaultData?.id)
+  }, [vaultsData, vaultData])
 
   const handleSettingsClick = () => {
     navigate('settings', {})
@@ -167,9 +175,15 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
         <//>
-        <${ButtonThin} startIcon=${LockCircleIcon} onClick=${handleSwapVault}>
+
+        ${!!vaults?.length &&
+        html`<${ButtonThin}
+          startIcon=${LockCircleIcon}
+          onClick=${handleSwapVault}
+        >
           ${i18n._('Swap Vault')}
-        <//>
+        <//> `}
+
         <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>
           ${i18n._('Exit Vault')}
         <//>

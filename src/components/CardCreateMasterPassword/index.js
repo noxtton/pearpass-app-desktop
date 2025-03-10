@@ -6,7 +6,7 @@ import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useUserData, useVaults } from 'pearpass-lib-vault-desktop'
+import { useVaults } from 'pearpass-lib-vault-desktop'
 
 import {
   ButtonWrapper,
@@ -17,38 +17,39 @@ import {
 } from './styles'
 import { useRouter } from '../../context/RouterContext'
 
-export const CardUnlockPearPass = () => {
+export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
 
   const schema = Validator.object({
-    password: Validator.string().required(i18n._('Password is required'))
+    password: Validator.string().required(i18n._('Password is required')),
+    passwordConfirm: Validator.string().required(i18n._('Password is required'))
   })
-
-  const { logIn } = useUserData()
 
   const { initVaults } = useVaults({
     shouldSkip: true,
     onInitialize: () => {
-      navigate(currentPage, { state: 'vaults' })
+      navigate(currentPage, { state: 'masterPassword' })
     }
   })
 
   const { register, handleSubmit, setErrors } = useForm({
-    initialValues: { password: '' },
+    initialValues: {
+      password: '',
+      passwordConfirm: ''
+    },
     validate: (values) => {
       return schema.validate(values)
     }
   })
 
-  const onSubmit = async (values) => {
-    try {
-      await logIn(values.password)
-
-      await initVaults(values.password)
-    } catch (error) {
+  const onSubmit = (values) => {
+    if (values.password === values.passwordConfirm) {
+      initVaults(values.password)
+      return
+    } else {
       setErrors({
-        password: typeof error === 'string' ? error : i18n._('Invalid password')
+        passwordConfirm: i18n._('Passwords do not match')
       })
     }
   }
@@ -56,13 +57,15 @@ export const CardUnlockPearPass = () => {
   return html`
     <${CardContainer}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Unlock PearPass')} <//>
+        <${Title}> ${i18n._('Create Master Password')} <//>
         <${Description}>
-          ${i18n._('Unlock PearPass with your master password')}
+          ${i18n._('Create a master password to secure your vaults')}
         <//>
       <//>
 
       <${PearPassPasswordField} ...${register('password')} />
+
+      <${PearPassPasswordField} ...${register('passwordConfirm')} />
 
       <${ButtonWrapper}>
         <${ButtonPrimary} onClick=${handleSubmit(onSubmit)}>

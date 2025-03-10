@@ -4,7 +4,7 @@ import {
   ButtonPrimary,
   ButtonSecondary
 } from 'pearpass-lib-ui-react-components'
-import { useCreateVault, useVaults } from 'pearpass-lib-vault-desktop'
+import { useCreateVault, useVault, useVaults } from 'pearpass-lib-vault-desktop'
 
 import { LoadVaultModalContent } from '../../containers/Modal/LoadVaultModalContent'
 import { useModal } from '../../context/ModalContext'
@@ -25,6 +25,10 @@ export const CardVaultSelect = () => {
 
   const { data } = useVaults()
 
+  const { refetch, isVaultProtected } = useVault({
+    shouldSkip: true
+  })
+
   const { createVault } = useCreateVault({
     onCompleted: () => {
       navigate('vault', { recordType: 'all' })
@@ -35,8 +39,18 @@ export const CardVaultSelect = () => {
     setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
   }
 
-  const handleSelectVault = (vaultId) => {
-    navigate(currentPage, { state: 'vaultPassword', vaultId: vaultId })
+  const handleSelectVault = async (vaultId) => {
+    const isProtected = await isVaultProtected(vaultId)
+
+    if (isProtected) {
+      navigate(currentPage, { state: 'vaultPassword', vaultId: vaultId })
+
+      return
+    }
+
+    await refetch(vaultId)
+
+    navigate('vault', { recordType: 'all' })
   }
 
   return html`

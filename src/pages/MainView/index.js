@@ -8,12 +8,12 @@ import { ButtonPlusCreateNew } from '../../components/ButtonPlusCreateNew'
 import { CreateNewCategoryPopupContent } from '../../components/CreateNewCategoryPopupContent'
 import { InputSearch } from '../../components/InputSearch'
 import { PopupMenu } from '../../components/PopupMenu'
+import { EmptyCollectionView } from '../../containers/EmptyCollectionView'
+import { RecordListView } from '../../containers/RecordListView'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
 import { isFavorite } from '../../utils/isFavorite'
-import { EmptyCollectionView } from '../EmptyCollectionView'
-import { RecordListView } from '../RecordListView'
 
 const SORT_BY_TYPE = {
   recent: {

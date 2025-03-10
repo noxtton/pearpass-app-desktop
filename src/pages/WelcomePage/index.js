@@ -4,6 +4,7 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { CardVaultActions, PageContainer, PearHand, Title } from './styles'
+import { CardCreateMasterPassword } from '../../components/CardCreateMasterPassword'
 import { CardCreateOrLoadVault } from '../../components/CardCreateOrLoadVault'
 import { CardUnlockPearPass } from '../../components/CardUnlockPearPass'
 import { CardUnlockVault } from '../../components/CardUnlockVault'
@@ -17,14 +18,18 @@ export const WelcomePage = () => {
 
   const Card = React.useMemo(() => {
     switch (data.state) {
+      case 'createMasterPassword':
+        return CardCreateMasterPassword
       case 'masterPassword':
         return CardUnlockPearPass
       case 'vaults':
         return CardVaultSelect
       case 'vaultPassword':
         return CardUnlockVault
-      default:
+      case 'createOrLoadVault':
         return CardCreateOrLoadVault
+      default:
+        return null
     }
   }, [data.state])
 

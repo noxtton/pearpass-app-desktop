@@ -40,7 +40,12 @@ export const SwapVaultModalContent = () => {
   })
 
   const { data: vaultsData } = useVaults()
-  const { data: vaultData, refetch } = useVault({ shouldSkip: true })
+
+  const {
+    data: vaultData,
+    refetch,
+    isVaultProtected
+  } = useVault({ shouldSkip: true })
 
   const vaults = useMemo(() => {
     return vaultsData.filter((vault) => vault.id !== vaultData?.id)
@@ -50,6 +55,21 @@ export const SwapVaultModalContent = () => {
 
   const submit = async () => {
     await refetch(vault)
+
+    closeModal()
+  }
+
+  const onVaultSelect = async (vaultId) => {
+    const isProtected = await isVaultProtected(vaultId)
+
+    if (isProtected) {
+      setVault(vaultId)
+
+      return
+    }
+
+    await refetch(vaultId)
+
     closeModal()
   }
 
@@ -84,6 +104,7 @@ export const SwapVaultModalContent = () => {
       ? html`
           <${UnlockVaultContainer}>
             <${PearPassPasswordField} ...${register('password')} />
+
             <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Submit')} </>
           <//>
         `
@@ -92,7 +113,7 @@ export const SwapVaultModalContent = () => {
             (vault) =>
               html`<${Vault}
                 vault=${vault}
-                onClick=${() => setVault(vault.id)}
+                onClick=${() => onVaultSelect(vault.id)}
               />`
           )}
         <//>`}

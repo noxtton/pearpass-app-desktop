@@ -1,29 +1,30 @@
 import { html } from 'htm/react'
-import { useVaults } from 'pearpass-lib-vault-desktop'
+import { useUserData } from 'pearpass-lib-vault-desktop'
 
-import { SettingsView } from '../../containers/SettingsView'
+import { InitialLoadPage } from '../../containers/InitialPage/index.js'
+import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar/index.js'
+import { RecordDetails } from '../../containers/RecordDetails/index.js'
+import { SettingsView } from '../../containers/SettingsView/index.js'
 import { useRouter } from '../../context/RouterContext.js'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading.js'
-import { InitialLoadPage } from '../InitialPage'
-import { LayoutWithSidebar } from '../LayoutWithSidebar'
-import { MainView } from '../MainView'
-import { RecordDetails } from '../RecordDetails'
-import { WelcomePage } from '../WelcomePage'
+import { MainView } from '../../pages/MainView/index.js'
+import { WelcomePage } from '../../pages/WelcomePage'
 
 export const Routes = () => {
   const { currentPage, data, navigate } = useRouter()
-  const loading = useSimulatedLoading()
+  const isSimulatedLoading = useSimulatedLoading()
 
-  useVaults({
+  const { isLoading: isUserDataLoading } = useUserData({
     onCompleted: (payload) => {
-      if (payload?.length) {
-        navigate('welcome', { state: 'masterPassword' })
-        return
-      }
-
-      navigate('welcome', { state: 'fresh' })
+      navigate('welcome', {
+        state: payload?.hasPasswordSet
+          ? 'masterPassword'
+          : 'createMasterPassword'
+      })
     }
   })
+
+  const isLoading = isUserDataLoading || isSimulatedLoading
 
   const getMainView = () => {
     if (currentPage === 'vault') {
@@ -39,7 +40,7 @@ export const Routes = () => {
     }
   }
 
-  if (loading || currentPage === 'loading') {
+  if (isLoading || currentPage === 'loading') {
     return html` <${InitialLoadPage} /> `
   }
 

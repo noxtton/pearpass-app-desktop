@@ -9,7 +9,7 @@ import {
 } from 'pearpass-lib-vault-desktop'
 import { createRoot } from 'react-dom/client'
 
-import { App } from './src/containers/App'
+import { App } from './src/app/App'
 import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
 import { messages } from './src/locales/en/messages.mjs'
