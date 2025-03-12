@@ -212,6 +212,7 @@ export const CreateOrEditLoginModalContent = ({
             placeholder=${i18n._('Password')}
             variant="outline"
             icon=${KeyIcon}
+            hasStrongness
             additionalItems=${html`
               <${ButtonSingleInput}
                 startIcon=${PasswordIcon}
