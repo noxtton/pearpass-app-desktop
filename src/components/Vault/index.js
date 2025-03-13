@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { formatDate } from 'pear-apps-utils-date'
 import {
   BrushIcon,
   DeleteIcon,
@@ -16,22 +17,40 @@ import {
   VaultName
 } from './styles'
 
-export const Vault = ({ vault, onClick }) => {
+export const Vault = ({
+  vault,
+  onClick,
+  onShareClick,
+  onEditClick,
+  onDeleteClick
+}) => {
   const { i18n } = useLingui()
 
   return html`
     <${VaultContainer} onClick=${onClick}>
       <${VaultInfo}>
         <${LockCircleIcon} size="21" />
+
         <${VaultDescription}>
           <${VaultName}>${vault.id}<//>
-          <${VaultDate}> ${i18n._('Created')} ${vault.createdAt}<//>
+          <${VaultDate}>
+            ${i18n._('Created')} ${' '}
+            ${formatDate(vault.createdAt, 'dd-mm-yyyy', '/')}
+          <//>
         <//>
       <//>
+
       <${VaultActions}>
-        <${ShareIcon} />
-        <${BrushIcon} />
-        <${DeleteIcon} />
+        ${onShareClick &&
+        html`
+          <span onClick=${onShareClick}>
+            <${ShareIcon} />
+          </span>
+        `}
+        ${onEditClick &&
+        html`<span onClick=${onEditClick}> <${BrushIcon} /></span>`}
+        ${onDeleteClick &&
+        html`<span onClick=${onShareClick}><${DeleteIcon} /></span>`}
       <//>
     <//>
   `
