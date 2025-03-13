@@ -3,11 +3,11 @@ import React, { useEffect } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
-import { TextArea } from 'pearpass-lib-ui-react-components'
+import { CopyIcon, TextArea } from 'pearpass-lib-ui-react-components'
 
-import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
@@ -28,7 +28,17 @@ import { CustomFields } from '../../CustomFields'
  */
 export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
+
+  const { setToast } = useToast()
+
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
 
   const initialValues = React.useMemo(
     () => ({
@@ -74,8 +84,6 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
         onClick=${handleCopy}
         register=${registerItem}
       />
-
-      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

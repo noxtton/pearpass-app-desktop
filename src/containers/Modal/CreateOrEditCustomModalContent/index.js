@@ -21,6 +21,7 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { RecordTypeMenu } from '../../../components/RecordTypeMenu'
 import { useModal } from '../../../context/ModalContext'
+import { useToast } from '../../../context/ToastContext'
 import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
@@ -49,16 +50,25 @@ export const CreateOrEditCustomModalContent = ({
 }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { setToast } = useToast()
 
   const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
     onCompleted: () => {
       closeModal()
+
+      setToast({
+        message: i18n._('Record created successfully')
+      })
     }
   })
 
   const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
     onCompleted: () => {
       closeModal()
+
+      setToast({
+        message: i18n._('Record updated successfully')
+      })
     }
   })
 

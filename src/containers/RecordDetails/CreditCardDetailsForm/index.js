@@ -5,16 +5,17 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import {
   CalendarIcon,
+  CopyIcon,
   CreditCardIcon,
   InputField,
   NineDotsIcon,
   UserIcon
 } from 'pearpass-lib-ui-react-components'
 
-import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
@@ -40,7 +41,17 @@ import { CustomFields } from '../../CustomFields'
  */
 export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
+
+  const { setToast } = useToast()
+
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
 
   const initialValues = React.useMemo(
     () => ({
@@ -142,7 +153,6 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
         onClick=${handleCopy}
         register=${registerItem}
       />
-      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }

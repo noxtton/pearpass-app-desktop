@@ -1,16 +1,21 @@
 import styled from 'styled-components'
 
-export const Badge = styled.div`
+export const ToastStack = styled.div`
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 23.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
+
+export const ToastContainer = styled.div`
   display: flex;
   padding: 5px 10px;
   justify-content: center;
   align-items: center;
   gap: 7px;
-
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 23.5px;
 
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.white.mode1};

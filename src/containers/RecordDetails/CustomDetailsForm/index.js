@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
 
+import { useLingui } from '@lingui/react/macro'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { CopyIcon } from 'pearpass-lib-ui-react-components'
 
-import { BadgeCopyClipboard } from '../../../components/BadgeCopyClipboard'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
@@ -25,7 +27,18 @@ import { CustomFields } from '../../CustomFields'
  * @returns
  */
 export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
-  const { copyToClipboard, isCopied } = useCopyToClipboard()
+  const { i18n } = useLingui()
+
+  const { setToast } = useToast()
+
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
 
   const initialValues = React.useMemo(
     () => ({
@@ -59,7 +72,6 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
         onClick=${handleCopy}
         register=${registerItem}
       />
-      <${BadgeCopyClipboard} isCopied=${isCopied} />
     <//>
   `
 }
