@@ -50,12 +50,13 @@ export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
         selectedRules.passphrase.numbers,
         selectedRules.passphrase.words
       )
-    } else {
-      return generatePassword(
-        selectedRules.password.characters,
-        selectedRules.password.specialCharacters
-      )
     }
+    return generatePassword(selectedRules.password.characters, {
+      includeSpecialChars: selectedRules.password.specialCharacters,
+      lowerCase: true,
+      upperCase: true,
+      numbers: true
+    })
   }, [selectedOption, selectedRules])
 
   const radioOptions = [
@@ -98,8 +99,14 @@ export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
       <//>
 
       ${selectedOption === 'passphrase'
-        ? html` <${PassphraseChecker} pass=${pass} />`
-        : html` <${PasswordChecker} pass=${pass} />`}
+        ? html` <${PassphraseChecker}
+            pass=${pass}
+            rules=${selectedRules.passphrase}
+          />`
+        : html` <${PasswordChecker}
+            pass=${pass}
+            rules=${selectedRules.password}
+          />`}
 
       <${RadioWrapper}>
         <${RadioSelect}

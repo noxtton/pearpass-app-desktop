@@ -7,16 +7,25 @@ import { PasswordWrapper } from '../styles'
 /**
  * @param {{
  *  pass: string
+ *  rules: {
+ *    specialCharacters: boolean,
+ *    characters: number
+ *  }
  * }} props
  */
-export const PasswordChecker = ({ pass }) => {
+export const PasswordChecker = ({ pass, rules }) => {
   const { i18n } = useLingui()
 
-  const isCurrentPasswordSafe = isPasswordSafe(pass)
-
+  const result = isPasswordSafe(pass, {
+    includeSpecialChars: rules.specialCharacters,
+    length: rules.characters,
+    upperCase: false,
+    upperCase: false,
+    numbers: true
+  })
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass} />
-    ${!isCurrentPasswordSafe
+    ${!result.isSafe
       ? html` <${NoticeText} text=${i18n._('Vulnerable')} type="error" />`
       : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
   <//>`
