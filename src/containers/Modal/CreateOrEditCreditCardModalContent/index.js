@@ -78,10 +78,12 @@ export const CreateOrEditCreditCardModalContent = ({
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
     name: Validator.string(),
-    number: Validator.string(),
+    number: Validator.string().numeric(
+      i18n._('Number on card must be a number')
+    ),
     expireDate: Validator.string(),
-    securityCode: Validator.string(),
-    pinCode: Validator.string(),
+    securityCode: Validator.string().numeric(i18n._('Note must be a string')),
+    pinCode: Validator.string().numeric(i18n._('Pin code must be a number')),
     note: Validator.string(),
     customFields: Validator.array().items(
       Validator.object({
