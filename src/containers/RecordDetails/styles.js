@@ -35,7 +35,9 @@ export const HeaderRight = styled.div`
   gap: 10px;
 `
 
-export const FavoriteButtonWrapper = styled.div`
+export const FavoriteButtonWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['favorite'].includes(prop)
+})`
   display: flex;
   cursor: pointer;
 
