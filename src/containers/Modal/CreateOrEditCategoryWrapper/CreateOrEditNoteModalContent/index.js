@@ -139,6 +139,7 @@ export const CreateOrEditNoteModalContent = ({
               selectedFolder=${values?.folder}
               onFolderSelect=${(folder) => setValue('folder', folder.name)}
             />
+
             ${!initialRecord &&
             html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.NOTE}
