@@ -83,6 +83,7 @@ export const CreateFolderModalContent = ({ onCreate }) => {
           label=${i18n._('Title')}
           placeholder=${i18n._('Insert folder name')}
           variant="outline"
+          autoFocus
           ...${register('title')}
         />
       <//>

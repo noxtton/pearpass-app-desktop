@@ -43,6 +43,11 @@ export const MainView = () => {
     return SORT_BY_TYPE[sortType]
   }, [sortType])
 
+  const selectedFolder =
+    routerData?.folder && !isFavorite(routerData.folder)
+      ? routerData.folder
+      : undefined
+
   const { data: records } = useRecords({
     shouldSkip: true,
     variables: {
@@ -50,10 +55,7 @@ export const MainView = () => {
         searchPattern: searchValue,
         type:
           routerData?.recordType === 'all' ? undefined : routerData?.recordType,
-        folder:
-          routerData?.folder && !isFavorite(routerData.folder)
-            ? routerData.folder
-            : undefined,
+        folder: selectedFolder,
         isFavorite: routerData?.folder
           ? isFavorite(routerData.folder)
           : undefined
@@ -65,7 +67,10 @@ export const MainView = () => {
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const handleMenuItemClick = (item) => {
-    handleCreateOrEditRecord({ recordType: item.type })
+    handleCreateOrEditRecord({
+      recordType: item.type,
+      selectedFolder: selectedFolder
+    })
 
     setIsOpen(false)
   }
