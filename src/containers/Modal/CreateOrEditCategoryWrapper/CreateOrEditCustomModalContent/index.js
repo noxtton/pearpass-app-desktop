@@ -5,46 +5,45 @@ import { Validator } from 'pear-apps-utils-validator'
 import {
   InputField,
   ButtonLittle,
-  SaveIcon,
-  TextArea
+  SaveIcon
 } from 'pearpass-lib-ui-react-components'
 import {
+  RECORD_TYPES,
   useCreateRecord,
-  useUpdateRecord,
-  RECORD_TYPES
+  useUpdateRecord
 } from 'pearpass-lib-vault'
 
-import { CreateCustomField } from '../../../components/CreateCustomField'
-import { FolderDropdown } from '../../../components/FolderDropdown'
-import { FormGroup } from '../../../components/FormGroup'
-import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
-import { FormWrapper } from '../../../components/FormWrapper'
-import { LoadingOverlay } from '../../../components/LoadingOverlay'
-import { RecordTypeMenu } from '../../../components/RecordTypeMenu'
-import { useModal } from '../../../context/ModalContext'
-import { useToast } from '../../../context/ToastContext'
-import { isFavorite } from '../../../utils/isFavorite'
-import { CustomFields } from '../../CustomFields'
-import { ModalContent } from '../ModalContent'
-import { DropdownsWrapper } from '../styles'
+import { CreateCustomField } from '../../../../components/CreateCustomField'
+import { FolderDropdown } from '../../../../components/FolderDropdown'
+import { FormGroup } from '../../../../components/FormGroup'
+import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWrapper'
+import { FormWrapper } from '../../../../components/FormWrapper'
+import { LoadingOverlay } from '../../../../components/LoadingOverlay'
+import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { useModal } from '../../../../context/ModalContext'
+import { useToast } from '../../../../context/ToastContext'
+import { isFavorite } from '../../../../utils/isFavorite'
+import { CustomFields } from '../../../CustomFields'
+import { ModalContent } from '../../ModalContent'
+import { DropdownsWrapper } from '../../styles'
 
 /**
  * @param {{
- *   initialRecord: {
+ *  initialRecord: {
  *    data: {
- *     title: string
- *     note: string
- *     customFields: {
- *        type: string
- *        name: string
- *      }[]
- *     }
- *    }
+ *      title: string
+ *      customFields: {
+ *          note: string
+ *          type: string
+ *     }[]
+ *   }
+ *  }
  *  selectedFolder?: string
  *  onTypeChange: (type: string) => void
  * }} props
+ * @returns
  */
-export const CreateOrEditNoteModalContent = ({
+export const CreateOrEditCustomModalContent = ({
   initialRecord,
   selectedFolder,
   onTypeChange
@@ -77,7 +76,6 @@ export const CreateOrEditNoteModalContent = ({
 
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
-    note: Validator.string(),
     customFields: Validator.array().items(
       Validator.object({
         note: Validator.string().required(i18n._('Note is required'))
@@ -88,9 +86,8 @@ export const CreateOrEditNoteModalContent = ({
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
     initialValues: {
-      title: initialRecord?.data?.title ?? '',
-      note: initialRecord?.data?.note ?? '',
-      customFields: initialRecord?.data?.customFields ?? [],
+      title: initialRecord?.data?.title || '',
+      customFields: initialRecord?.data?.customFields || [],
       folder: selectedFolder ?? initialRecord?.folder
     },
     validate: (values) => {
@@ -102,12 +99,11 @@ export const CreateOrEditNoteModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: RECORD_TYPES.NOTE,
+      type: RECORD_TYPES.CUSTOM,
       folder: isFavorite(values.folder) ? undefined : values.folder,
       isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
-        note: values.note,
         customFields: values.customFields
       }
     }
@@ -122,16 +118,18 @@ export const CreateOrEditNoteModalContent = ({
     }
   }
 
+  const handleRecordTypeChange = (item) => {
+    onTypeChange(item)
+  }
+
   return html`
     <${ModalContent}
+      onSubmit=${handleSubmit(onSubmit)}
       onClose=${closeModal}
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle}
-              onClick=${handleSubmit(onSubmit)}
-              startIcon=${SaveIcon}
-            >
+            <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
           `}
@@ -143,8 +141,8 @@ export const CreateOrEditNoteModalContent = ({
             />
             ${!initialRecord &&
             html` <${RecordTypeMenu}
-              selectedRecord=${RECORD_TYPES.NOTE}
-              onRecordSelect=${(record) => onTypeChange(record?.type)}
+              selectedRecord=${RECORD_TYPES.CUSTOM}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
             />`}
           <//>
         <//>
@@ -157,13 +155,6 @@ export const CreateOrEditNoteModalContent = ({
             placeholder=${i18n._('Insert title')}
             variant="outline"
             ...${register('title')}
-          />
-        <//>
-
-        <${FormGroup}>
-          <${TextArea}
-            ...${register('note')}
-            placeholder=${i18n._('Write a note...')}
           />
         <//>
 

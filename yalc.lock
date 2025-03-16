@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "pearpass-lib-ui-react-components": {
-      "signature": "bb8d801c9050149f72ebf92a5ba5e47e"
+      "signature": "11d6dd589bdd52ad8ee63b721667bc35"
     },
     "pearpass-lib-vault": {
       "signature": "1c7477561cac1d8dcc85b6c425f29793"

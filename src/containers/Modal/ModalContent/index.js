@@ -8,14 +8,22 @@ import { ModalHeader } from '../ModalHeader'
  *  onClose: () => void
  *  headerChildren: import('react').ReactNode
  *  children: import('react').ReactNode
+ *  onSubmit?: () => void
  * }} props
  */
-export const ModalContent = ({ onClose, headerChildren, children }) => {
+export const ModalContent = ({
+  onClose,
+  onSubmit,
+  headerChildren,
+  children
+}) => {
   return html`
     <${Wrapper}>
-      <${ModalHeader} onClose=${onClose}> ${headerChildren} <//>
+      <${onSubmit ? 'form' : 'div'} onSubmit=${onSubmit}>
+        <${ModalHeader} onClose=${onClose}> ${headerChildren} <//>
 
-      <div>${children}</div>
+        <div>${children}</div>
+      <//>
     <//>
   `
 }

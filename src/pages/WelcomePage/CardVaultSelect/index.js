@@ -6,10 +6,6 @@ import {
 } from 'pearpass-lib-ui-react-components'
 import { useCreateVault, useVault, useVaults } from 'pearpass-lib-vault'
 
-import { LoadVaultModalContent } from '../../containers/Modal/LoadVaultModalContent'
-import { useModal } from '../../context/ModalContext'
-import { useRouter } from '../../context/RouterContext'
-import { Vault } from '../Vault'
 import {
   ButtonWrapper,
   CardContainer,
@@ -17,6 +13,10 @@ import {
   Title,
   VaultsContainer
 } from './styles'
+import { Vault } from '../../../components/Vault'
+import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
+import { useModal } from '../../../context/ModalContext'
+import { useRouter } from '../../../context/RouterContext'
 
 export const CardVaultSelect = () => {
   const { i18n } = useLingui()

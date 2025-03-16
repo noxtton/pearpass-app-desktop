@@ -15,7 +15,7 @@ import {
   Description,
   Title
 } from './styles'
-import { useRouter } from '../../context/RouterContext'
+import { useRouter } from '../../../context/RouterContext'
 
 export const CardUnlockPearPass = () => {
   const { i18n } = useLingui()
@@ -54,9 +54,10 @@ export const CardUnlockPearPass = () => {
   }
 
   return html`
-    <${CardContainer}>
+    <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Unlock PearPass')} <//>
+        <${Title}> ${i18n._('Unlock PearPass')}<//>
+
         <${Description}>
           ${i18n._('Unlock PearPass with your master password')}
         <//>
@@ -65,9 +66,7 @@ export const CardUnlockPearPass = () => {
       <${PearPassPasswordField} ...${register('password')} />
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} onClick=${handleSubmit(onSubmit)}>
-          ${i18n._('Continue')}
-        <//>
+        <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
       <//>
     <//>
   `

@@ -6,11 +6,11 @@ import {
 } from 'pearpass-lib-ui-react-components'
 import { useCreateVault } from 'pearpass-lib-vault'
 
-import { LoadVaultModalContent } from '../../containers/Modal/LoadVaultModalContent'
-import { useModal } from '../../context/ModalContext'
-import { useRouter } from '../../context/RouterContext'
-import { LoadingOverlay } from '../LoadingOverlay'
 import { ActionCardTitle, Actions, CardContainer } from './styles'
+import { LoadingOverlay } from '../../../components/LoadingOverlay'
+import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
+import { useModal } from '../../../context/ModalContext'
+import { useRouter } from '../../../context/RouterContext'
 
 export const CardCreateOrLoadVault = () => {
   const { i18n } = useLingui()

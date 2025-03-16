@@ -69,13 +69,11 @@ export const CreateFolderModalContent = ({ onCreate }) => {
   return html`
     <${React.Fragment}>
       <${ModalContent}
+        onSubmit=${handleSubmit(onSubmit)}
         onClose=${closeModal}
         headerChildren=${html`
           <${HeaderWrapper}>
-            <${ButtonLittle}
-              startIcon=${FolderIcon}
-              onClick=${handleSubmit(onSubmit)}
-            >
+            <${ButtonLittle} startIcon=${FolderIcon} type="submit">
               ${i18n._('Create folder')}
             <//>
           <//>

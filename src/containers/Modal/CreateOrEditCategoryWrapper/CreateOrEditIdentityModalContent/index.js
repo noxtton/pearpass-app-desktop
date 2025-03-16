@@ -16,20 +16,20 @@ import {
   useUpdateRecord
 } from 'pearpass-lib-vault'
 
-import { CreateCustomField } from '../../../components/CreateCustomField'
-import { FolderDropdown } from '../../../components/FolderDropdown'
-import { FormGroup } from '../../../components/FormGroup'
-import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
-import { FormWrapper } from '../../../components/FormWrapper'
-import { InputFieldNote } from '../../../components/InputFieldNote'
-import { LoadingOverlay } from '../../../components/LoadingOverlay'
-import { RecordTypeMenu } from '../../../components/RecordTypeMenu'
-import { useModal } from '../../../context/ModalContext'
-import { useToast } from '../../../context/ToastContext'
-import { isFavorite } from '../../../utils/isFavorite'
-import { CustomFields } from '../../CustomFields'
-import { ModalContent } from '../ModalContent'
-import { DropdownsWrapper } from '../styles'
+import { CreateCustomField } from '../../../../components/CreateCustomField'
+import { FolderDropdown } from '../../../../components/FolderDropdown'
+import { FormGroup } from '../../../../components/FormGroup'
+import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWrapper'
+import { FormWrapper } from '../../../../components/FormWrapper'
+import { InputFieldNote } from '../../../../components/InputFieldNote'
+import { LoadingOverlay } from '../../../../components/LoadingOverlay'
+import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { useModal } from '../../../../context/ModalContext'
+import { useToast } from '../../../../context/ToastContext'
+import { isFavorite } from '../../../../utils/isFavorite'
+import { CustomFields } from '../../../CustomFields'
+import { ModalContent } from '../../ModalContent'
+import { DropdownsWrapper } from '../../styles'
 
 /**
  * @param {{
@@ -160,13 +160,11 @@ export const CreateOrEditIdentityModalContent = ({
   return html`
     <${ModalContent}
       onClose=${closeModal}
+      onSubmit=${handleSubmit(onSubmit)}
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle}
-              onClick=${handleSubmit(onSubmit)}
-              startIcon=${SaveIcon}
-            >
+            <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
           `}

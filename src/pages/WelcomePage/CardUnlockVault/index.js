@@ -10,7 +10,7 @@ import {
 import { useVault } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
-import { useRouter } from '../../context/RouterContext'
+import { useRouter } from '../../../context/RouterContext'
 
 const MOCK_VAULT_NAME = 'Personal'
 
@@ -43,7 +43,7 @@ export const CardUnlockVault = () => {
   }
 
   return html`
-    <${CardContainer}>
+    <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
         <${Title}>
           ${i18n._('Unlock {vaultName} with your vault password', {
@@ -55,9 +55,8 @@ export const CardUnlockVault = () => {
       <${PearPassPasswordField} ...${register('password')} />
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} onClick=${handleSubmit(onSubmit)}>
-          ${i18n._('Continue')}
-        <//>
+        <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
+
         <${ButtonSecondary}> ${i18n._('Select vaults')} <//>
       <//>
     <//>

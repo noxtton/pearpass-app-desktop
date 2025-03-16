@@ -2,11 +2,11 @@ import { useState } from 'react'
 
 import { html } from 'htm/react'
 
-import { CreateOrEditCreditCardModalContent } from '../CreateOrEditCreditCardModalContent'
-import { CreateOrEditCustomModalContent } from '../CreateOrEditCustomModalContent'
-import { CreateOrEditIdentityModalContent } from '../CreateOrEditIdentityModalContent'
-import { CreateOrEditLoginModalContent } from '../CreateOrEditLoginModalContent'
-import { CreateOrEditNoteModalContent } from '../CreateOrEditNoteModalContent'
+import { CreateOrEditCreditCardModalContent } from './CreateOrEditCreditCardModalContent'
+import { CreateOrEditCustomModalContent } from './CreateOrEditCustomModalContent'
+import { CreateOrEditIdentityModalContent } from './CreateOrEditIdentityModalContent'
+import { CreateOrEditLoginModalContent } from './CreateOrEditLoginModalContent'
+import { CreateOrEditNoteModalContent } from './CreateOrEditNoteModalContent'
 
 export const CreateOrEditCategoryWrapper = ({
   initialRecord,

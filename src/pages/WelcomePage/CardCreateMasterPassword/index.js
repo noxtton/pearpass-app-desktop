@@ -15,7 +15,7 @@ import {
   Description,
   Title
 } from './styles'
-import { useRouter } from '../../context/RouterContext'
+import { useRouter } from '../../../context/RouterContext'
 
 export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
@@ -55,9 +55,10 @@ export const CardCreateMasterPassword = () => {
   }
 
   return html`
-    <${CardContainer}>
+    <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
         <${Title}> ${i18n._('Create Master Password')} <//>
+
         <${Description}>
           ${i18n._('Create a master password to secure your vaults')}
         <//>
@@ -68,9 +69,7 @@ export const CardCreateMasterPassword = () => {
       <${PearPassPasswordField} ...${register('passwordConfirm')} />
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} onClick=${handleSubmit(onSubmit)}>
-          ${i18n._('Continue')}
-        <//>
+        <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
       <//>
     <//>
   `
