@@ -9,6 +9,7 @@ import {
   CreditCardIcon,
   InputField,
   NineDotsIcon,
+  PasswordField,
   UserIcon
 } from 'pearpass-lib-ui-react-components'
 
@@ -118,7 +119,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           ...${register('expireDate')}
         />
 
-        <${InputField}
+        <${PasswordField}
           label=${i18n._('Security code')}
           placeholder="123"
           variant="outline"
@@ -128,7 +129,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
           ...${register('securityCode')}
         />
 
-        <${InputField}
+        <${PasswordField}
           label=${i18n._('Pin code')}
           placeholder="1234"
           variant="outline"
