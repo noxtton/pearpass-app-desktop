@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react'
-import { RECORD_TYPES } from 'pearpass-lib-vault-desktop'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { RECORD_COLOR_BY_TYPE } from '../constants/recordColorByType'
 import { RECORD_ICON_BY_TYPE } from '../constants/recordIconByType'

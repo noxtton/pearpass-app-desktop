@@ -16,7 +16,7 @@ import {
   useCreateRecord,
   useUpdateRecord,
   RECORD_TYPES
-} from 'pearpass-lib-vault-desktop'
+} from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'

@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useVaults } from 'pearpass-lib-vault-desktop'
+import { useVaults } from 'pearpass-lib-vault'
 
 import { CardSingleSetting } from '../CardSingleSetting'
 import { Vault } from '../Vault'

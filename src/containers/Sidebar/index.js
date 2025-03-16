@@ -10,7 +10,7 @@ import {
   LockCircleIcon,
   ExitIcon
 } from 'pearpass-lib-ui-react-components'
-import { useFolders, useVault, useVaults } from 'pearpass-lib-vault-desktop'
+import { useFolders, useVault, useVaults } from 'pearpass-lib-vault'
 
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'

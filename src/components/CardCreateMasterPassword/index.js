@@ -6,7 +6,7 @@ import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVaults } from 'pearpass-lib-vault-desktop'
+import { useVaults } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,

@@ -4,9 +4,10 @@ import { html } from 'htm/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import {
   closeAllInstances,
-  initPearpass,
+  setPearpassVaultClient,
   VaultProvider
-} from 'pearpass-lib-vault-desktop'
+} from 'pearpass-lib-vault'
+import { createPearpassVaultClient } from 'pearpass-lib-vault-desktop'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/app/App'
@@ -29,7 +30,7 @@ setFontsAndResetCSS()
 i18n.load('en', messages)
 i18n.activate('en')
 
-initPearpass(Pear.config.storage)
+setPearpassVaultClient(createPearpassVaultClient(Pear.config.storage))
 
 root.render(html`
   <${ThemeProvider}>

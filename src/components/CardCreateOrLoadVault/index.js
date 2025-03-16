@@ -4,7 +4,7 @@ import {
   ButtonPrimary,
   ButtonSecondary
 } from 'pearpass-lib-ui-react-components'
-import { useCreateVault } from 'pearpass-lib-vault-desktop'
+import { useCreateVault } from 'pearpass-lib-vault'
 
 import { LoadVaultModalContent } from '../../containers/Modal/LoadVaultModalContent'
 import { useModal } from '../../context/ModalContext'

@@ -7,7 +7,7 @@ import {
   ButtonSingleInput,
   NewFolderIcon
 } from 'pearpass-lib-ui-react-components'
-import { useUpdateRecord, useFolders } from 'pearpass-lib-vault-desktop'
+import { useUpdateRecord, useFolders } from 'pearpass-lib-vault'
 
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'

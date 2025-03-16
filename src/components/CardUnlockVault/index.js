@@ -7,7 +7,7 @@ import {
   ButtonSecondary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVault } from 'pearpass-lib-vault-desktop'
+import { useVault } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useRouter } from '../../context/RouterContext'

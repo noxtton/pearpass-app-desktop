@@ -1,5 +1,5 @@
 import { html } from 'htm/react'
-import { useUserData } from 'pearpass-lib-vault-desktop'
+import { useUserData } from 'pearpass-lib-vault'
 
 import { InitialLoadPage } from '../../containers/InitialPage/index.js'
 import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar/index.js'

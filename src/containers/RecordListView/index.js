@@ -13,7 +13,7 @@ import {
   TimeIcon,
   XIcon
 } from 'pearpass-lib-ui-react-components'
-import { useDeleteRecord } from 'pearpass-lib-vault-desktop'
+import { useDeleteRecord } from 'pearpass-lib-vault'
 
 import {
   ActionsSection,

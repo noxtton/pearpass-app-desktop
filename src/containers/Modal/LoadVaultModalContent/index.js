@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { usePair, useVault } from 'pearpass-lib-vault-desktop'
+import { usePair, useVault } from 'pearpass-lib-vault'
 
 import { LoadVaultCard, LoadVaultInput, LoadVaultTitle } from './styles'
 import { useModal } from '../../../context/ModalContext'

@@ -8,7 +8,7 @@ import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVault, useVaults } from 'pearpass-lib-vault-desktop'
+import { useVault, useVaults } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
