@@ -69,7 +69,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
     }
   }, [item.isOpenInitially, isRoot])
 
-  if (!item.children.length) {
+  if (!item.children.length && !isRoot) {
     return html``
   }
 

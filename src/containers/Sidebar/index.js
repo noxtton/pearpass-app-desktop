@@ -133,6 +133,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const handleAddDevice = () => {
     setModal(html`<${AddDeviceModalContent} />`)
   }
+
   const handleSwapVault = () => {
     setModal(html`<${SwapVaultModalContent} />`)
   }
