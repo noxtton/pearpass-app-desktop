@@ -10,11 +10,9 @@ export const SideBarWrapper = styled.div`
   flex-shrink: 0;
 `
 
-export const ContentWrapper = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'isFullWidth'
-})`
+export const ContentWrapper = styled.div`
   flex: 1;
-  padding: 29px ${({ isFullWidth }) => (isFullWidth ? '15px' : '22px')} 0;
+  padding: 29px 15px 0;
   display: flex;
   align-items: center;
   align-self: stretch;
