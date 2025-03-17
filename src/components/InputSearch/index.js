@@ -23,7 +23,7 @@ export const InputSearch = ({ value, onChange, quantity }) => {
         value=${value}
         onChange=${onChange}
       />
-      <${QuantityWrapper}>${quantity}<//>
+      <${QuantityWrapper}>${value?.length ? quantity : null}<//>
     <//>
   `
 }

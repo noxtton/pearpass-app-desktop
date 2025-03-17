@@ -31,7 +31,7 @@ export const LayoutWithSidebar = ({ mainView, sideView }) => {
         />
       <//>
 
-      <${ContentWrapper} ${mainView} <//>
+      <${ContentWrapper}> ${mainView} <//>
 
       ${sideView && html` <${SideViewWrapper}> ${sideView} <//>`}
     <//>

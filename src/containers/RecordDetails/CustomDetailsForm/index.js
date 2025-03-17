@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { useLingui } from '@lingui/react/macro'
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { CopyIcon } from 'pearpass-lib-ui-react-components'
