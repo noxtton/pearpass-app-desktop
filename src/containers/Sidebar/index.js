@@ -3,12 +3,11 @@ import React, { useMemo, useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
-  UserSecurityIcon,
-  SettingsIcon,
   ButtonThin,
+  ExitIcon,
+  SettingsIcon,
   StarIcon,
-  LockCircleIcon,
-  ExitIcon
+  UserSecurityIcon
 } from 'pearpass-lib-ui-react-components'
 import { useFolders, useVault, useVaults } from 'pearpass-lib-vault'
 
@@ -24,6 +23,7 @@ import {
   SidebarSettings,
   SidebarWrapper
 } from './styles'
+import { DropdownSwapVault } from '../../components/DropdownSwapVault'
 import { SidebarSearch } from '../../components/SidebarSearch'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useModal } from '../../context/ModalContext'
@@ -31,7 +31,6 @@ import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
 import { matchPatternToValue } from '../../utils/matchPatternToValue'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
-import { SwapVaultModalContent } from '../Modal/SwapVaultModalContent'
 
 /**
  * @param {{
@@ -134,10 +133,6 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     setModal(html`<${AddDeviceModalContent} />`)
   }
 
-  const handleSwapVault = () => {
-    setModal(html`<${SwapVaultModalContent} />`)
-  }
-
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
       <${LogoWrapper} onClick=${openMainView}>
@@ -145,6 +140,8 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <//>
 
       <${sideBarContent}>
+        <${DropdownSwapVault} vaults=${vaults} selectedVault=${vaultData} />
+
         <${SideBarCategories} sidebarSize=${sidebarSize} />
 
         ${!isLoading &&
@@ -176,14 +173,6 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
         <//>
-
-        ${!!vaults?.length &&
-        html`<${ButtonThin}
-          startIcon=${LockCircleIcon}
-          onClick=${handleSwapVault}
-        >
-          ${i18n._('Swap Vault')}
-        <//> `}
 
         <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>
           ${i18n._('Exit Vault')}

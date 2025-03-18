@@ -42,7 +42,7 @@
     "pear-apps-utils-avatar-initials": "github:noxtton/pear-apps-utils-avatar-initials#v0.0.1",
     "pear-apps-utils-date": "github:noxtton/pear-apps-utils-date#v0.0.2",
     "pear-apps-utils-qr": "github:noxtton/pear-apps-utils-qr#v0.0.1",
-    "pear-apps-utils-validator": "github:noxtton/pear-apps-utils-validator#v0.0.2",
+    "pear-apps-utils-validator": "github:noxtton/pear-apps-utils-validator#v0.0.3",
     "pearpass-lib-form": "github:noxtton/pearpass-lib-form#v0.0.3",
     "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.50",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.3",

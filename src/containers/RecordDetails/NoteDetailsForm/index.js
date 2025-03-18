@@ -49,7 +49,7 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues } = useForm({
+  const { register, registerArray, setValues, values } = useForm({
     initialValues: initialValues
   })
 
@@ -70,12 +70,15 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   return html`
     <${FormWrapper}>
       <${FormGroup}>
-        <${TextArea}
-          ...${register('note')}
-          placeholder=${i18n._('Write a note...')}
-          onClick=${handleCopy}
-          isDisabled
-        />
+        ${!!values?.note?.length &&
+        html`
+          <${TextArea}
+            ...${register('note')}
+            placeholder=${i18n._('Write a note...')}
+            onClick=${handleCopy}
+            isDisabled
+          />
+        `}
       <//>
 
       <${CustomFields}

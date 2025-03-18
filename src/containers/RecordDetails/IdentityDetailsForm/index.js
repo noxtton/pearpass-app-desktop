@@ -72,7 +72,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues } = useForm({
+  const { register, registerArray, setValues, values } = useForm({
     initialValues: initialValues
   })
 
@@ -92,17 +92,20 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
   return html`
     <${FormWrapper}>
       <${FormGroup} title=${i18n._('Personal information')} isCollapse>
-        <${InputField}
-          label=${i18n._('Full name')}
-          placeholder=${i18n._('Full name')}
-          variant="outline"
-          icon=${UserIcon}
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('fullname')}
-        />
-
-        <${InputField}
+        ${!!values?.fullname?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Full name')}
+            placeholder=${i18n._('Full name')}
+            variant="outline"
+            icon=${UserIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('fullname')}
+          />
+        `}
+        ${!!values?.email?.length &&
+        html` <${InputField}
           label=${i18n._('Email')}
           placeholder=${i18n._('Insert email')}
           variant="outline"
@@ -110,72 +113,88 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           onClick=${handleCopy}
           isDisabled
           ...${register('email')}
-        />
-
-        <${InputField}
-          label=${i18n._('Phone number ')}
-          placeholder=${i18n._('Phone number ')}
-          variant="outline"
-          icon=${PhoneIcon}
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('phoneNumber')}
-        />
+        />`}
+        ${!!values?.phoneNumber?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Phone number ')}
+            placeholder=${i18n._('Phone number ')}
+            variant="outline"
+            icon=${PhoneIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('phoneNumber')}
+          />
+        `}
       <//>
 
       <${FormGroup} title=${i18n._('Detail of address')} isCollapse>
-        <${InputField}
-          label=${i18n._('Address')}
-          placeholder=${i18n._('Address')}
-          variant="outline"
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('address')}
-        />
-
-        <${InputField}
-          label=${i18n._('ZIP')}
-          placeholder=${i18n._('Insert zip')}
-          variant="outline"
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('zip')}
-        />
-
-        <${InputField}
-          label=${i18n._('City')}
-          placeholder=${i18n._('City')}
-          variant="outline"
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('city')}
-        />
-
-        <${InputField}
-          label=${i18n._('Region')}
-          placeholder=${i18n._('Region')}
-          variant="outline"
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('region')}
-        />
-
-        <${InputField}
-          label=${i18n._('Country')}
-          placeholder=${i18n._('Country')}
-          variant="outline"
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('country')}
-        />
+        ${!!values?.address?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Address')}
+            placeholder=${i18n._('Address')}
+            variant="outline"
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('address')}
+          />
+        `}
+        ${!!values?.zip?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('ZIP')}
+            placeholder=${i18n._('Insert zip')}
+            variant="outline"
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('zip')}
+          />
+        `}
+        ${!!values?.city?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('City')}
+            placeholder=${i18n._('City')}
+            variant="outline"
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('city')}
+          />
+        `}
+        ${!!values?.region?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Region')}
+            placeholder=${i18n._('Region')}
+            variant="outline"
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('region')}
+          />
+        `}
+        ${!!values?.country?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Country')}
+            placeholder=${i18n._('Country')}
+            variant="outline"
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('country')}
+          />
+        `}
       <//>
 
       <${FormGroup}>
-        <${InputFieldNote}
-          onClick=${handleCopy}
-          isDisabled
-          ...${register('note')}
-        />
+        ${!!values?.note?.length &&
+        html`
+          <${InputFieldNote}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('note')}
+          />
+        `}
       <//>
 
       <${CustomFields}

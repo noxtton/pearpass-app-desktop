@@ -8,19 +8,12 @@ import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVault, useVaults } from 'pearpass-lib-vault'
+import { useVault } from 'pearpass-lib-vault'
 
+import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
-import {
-  VaultsContainer,
-  Description,
-  Header,
-  Title,
-  UnlockVaultContainer
-} from './styles'
-import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
-import { Vault } from '../../../components/Vault'
+import { Description, Header, Title, UnlockVaultContainer } from './styles'
 
 export const SwapVaultModalContent = () => {
   const { i18n } = useLingui()
@@ -39,19 +32,9 @@ export const SwapVaultModalContent = () => {
     }
   })
 
-  const { data: vaultsData } = useVaults()
+  const { refetch } = useVault({ shouldSkip: true })
 
-  const {
-    data: vaultData,
-    refetch,
-    isVaultProtected
-  } = useVault({ shouldSkip: true })
-
-  const vaults = useMemo(() => {
-    return vaultsData.filter((vault) => vault.id !== vaultData?.id)
-  }, [vaultsData])
-
-  const [vault, setVault] = useState('')
+  const [vault] = useState('')
 
   const submit = async () => {
     await refetch(vault)
@@ -59,35 +42,15 @@ export const SwapVaultModalContent = () => {
     closeModal()
   }
 
-  const onVaultSelect = async (vaultId) => {
-    const isProtected = await isVaultProtected(vaultId)
-
-    if (isProtected) {
-      setVault(vaultId)
-
-      return
-    }
-
-    await refetch(vaultId)
-
-    closeModal()
-  }
-
-  const titles = useMemo(() => {
-    if (vault?.length) {
-      return {
-        title: i18n._('Insert Vault’s password'),
-        description: i18n._('Unlock with the {vaultName} Vault password', {
-          vaultName: vault
-        })
-      }
-    }
-
-    return {
-      title: i18n._('Swap Vault'),
-      description: i18n._('Select the Vault you want to sign in')
-    }
-  }, [vault])
+  const titles = useMemo(
+    () => ({
+      title: i18n._('Insert Vault’s password'),
+      description: i18n._('Unlock with the {vaultName} Vault password', {
+        vaultName: vault
+      })
+    }),
+    []
+  )
 
   return html` <${ModalContent}
     onClose=${closeModal}
@@ -100,22 +63,10 @@ export const SwapVaultModalContent = () => {
       <//>
     `}
   >
-    ${vault?.length
-      ? html`
-          <${UnlockVaultContainer}>
-            <${PearPassPasswordField} ...${register('password')} />
+    <${UnlockVaultContainer}>
+      <${PearPassPasswordField} ...${register('password')} />
 
-            <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Submit')} </>
-          <//>
-        `
-      : html` <${VaultsContainer}>
-          ${vaults?.map(
-            (vault) =>
-              html`<${Vault}
-                vault=${vault}
-                onClick=${() => onVaultSelect(vault.id)}
-              />`
-          )}
-        <//>`}
-  <//>`
+      <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Submit')} </>
+    <//>
+<//>`
 }
