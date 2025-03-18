@@ -11,6 +11,7 @@ import { createPearpassVaultClient } from 'pearpass-lib-vault-desktop'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/app/App'
+import { LoadingProvider } from './src/context/LoadingContext'
 import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
 import { ToastProvider } from './src/context/ToastContext'
@@ -33,13 +34,15 @@ i18n.activate('en')
 setPearpassVaultClient(createPearpassVaultClient(Pear.config.storage))
 
 root.render(html`
-  <${ThemeProvider}>
-    <${VaultProvider}>
-      <${I18nProvider} i18n=${i18n}>
-        <${ToastProvider}>
-          <${RouterProvider}>
-            <${ModalProvider}>
-              <${App} />
+  <${LoadingProvider}>
+    <${ThemeProvider}>
+      <${VaultProvider}>
+        <${I18nProvider} i18n=${i18n}>
+          <${ToastProvider}>
+            <${RouterProvider}>
+              <${ModalProvider}>
+                <${App} />
+              <//>
             <//>
           <//>
         <//>

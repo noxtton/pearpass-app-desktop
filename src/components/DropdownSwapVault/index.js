@@ -10,22 +10,36 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault } from 'pearpass-lib-vault'
 
 import { Container, Dropdown, DropdownItem, Wrapper } from './styles'
+import { useLoadingContext } from '../../context/LoadingContext'
 
 export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   const [isOpen, setIsOpen] = useState(false)
 
-  const { refetch, isVaultProtected } = useVault({ shouldSkip: true })
+  const { setIsLoading } = useLoadingContext()
+
+  const { refetch, isVaultProtected } = useVault({
+    shouldSkip: true
+  })
 
   const onVaultSelect = async (vaultId) => {
-    const isProtected = await isVaultProtected(vaultId)
+    try {
+      setIsLoading(true)
 
-    if (isProtected) {
-      return
+      const isProtected = await isVaultProtected(vaultId)
+
+      if (isProtected) {
+        return
+      }
+
+      await refetch(vaultId)
+
+      setIsLoading(false)
+
+      setIsOpen(false)
+    } catch (error) {
+      console.error(error)
+      setIsLoading(false)
     }
-
-    await refetch(vaultId)
-
-    setIsOpen(false)
   }
 
   if (!vaults.length) {
