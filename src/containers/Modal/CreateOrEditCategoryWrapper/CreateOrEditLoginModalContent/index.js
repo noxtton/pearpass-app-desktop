@@ -35,6 +35,7 @@ import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useCreateOrEditRecord } from '../../../../hooks/useCreateOrEditRecord'
+import { addHttps } from '../../../../utils/addHttps'
 import { isFavorite } from '../../../../utils/isFavorite'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
@@ -98,7 +99,7 @@ export const CreateOrEditLoginModalContent = ({
     note: Validator.string(),
     websites: Validator.array().items(
       Validator.object({
-        website: Validator.string()
+        website: Validator.string().website('Wrong format of website')
       })
     ),
     customFields: Validator.array().items(
@@ -149,9 +150,11 @@ export const CreateOrEditLoginModalContent = ({
         username: values.username,
         password: values.password,
         note: values.note,
-        websites: values.websites
-          .map((website) => website.website)
-          .filter((website) => !!website?.trim().length),
+        websites: values.websites.map((website) => {
+          if (!!website?.website?.trim().length) {
+            return addHttps(website.website)
+          }
+        }),
         customFields: values.customFields
       }
     }

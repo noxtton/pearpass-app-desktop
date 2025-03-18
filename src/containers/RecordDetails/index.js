@@ -88,10 +88,14 @@ export const RecordDetails = () => {
           />
           <div>
             <${Title}> ${record?.data?.title} <//>
-            <${FolderWrapper}>
-              <${FolderIcon} size="14" color=${colors.grey200.mode1} />
-              ${record?.folder}
-            <//>
+
+            ${!!record?.folder &&
+            html`
+              <${FolderWrapper}>
+                <${FolderIcon} size="14" color=${colors.grey200.mode1} />
+                ${record?.folder}
+              <//>
+            `}
           </div>
         <//>
 
