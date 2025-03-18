@@ -11,10 +11,10 @@ import {
 } from 'pearpass-lib-ui-react-components'
 import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
 
-import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 
 /**
  * @param {{
@@ -32,6 +32,8 @@ export const CreateFolderModalContent = ({ onCreate }) => {
       closeModal()
     }
   })
+
+  useGlobalLoading({ isLoading })
 
   const { data } = useFolders()
 
@@ -87,8 +89,6 @@ export const CreateFolderModalContent = ({ onCreate }) => {
           ...${register('title')}
         />
       <//>
-
-      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

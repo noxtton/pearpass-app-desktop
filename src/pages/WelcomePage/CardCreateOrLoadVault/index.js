@@ -7,8 +7,8 @@ import {
 import { useCreateVault } from 'pearpass-lib-vault'
 
 import { ActionCardTitle, Actions, CardContainer } from './styles'
-import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
 
@@ -23,6 +23,8 @@ export const CardCreateOrLoadVault = () => {
       navigate('vault', { recordType: 'all' })
     }
   })
+
+  useGlobalLoading({ isLoading })
 
   const handleLoadVault = () => {
     setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
@@ -44,6 +46,5 @@ export const CardCreateOrLoadVault = () => {
         ${i18n._('Load a vault')}
       <//>
     <//>
-    ${isLoading && html`<${LoadingOverlay} />`}
   <//>`
 }

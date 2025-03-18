@@ -24,8 +24,8 @@ import { FormGroup } from '../../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../../components/FormWrapper'
 import { InputFieldNote } from '../../../../components/InputFieldNote'
-import { LoadingOverlay } from '../../../../components/LoadingOverlay'
 import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { isFavorite } from '../../../../utils/isFavorite'
@@ -84,6 +84,8 @@ export const CreateOrEditCreditCardModalContent = ({
   })
 
   const isLoading = isCreateLoading || isUpdateLoading
+
+  useGlobalLoading({ isLoading })
 
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
@@ -240,8 +242,6 @@ export const CreateOrEditCreditCardModalContent = ({
           />
         <//>
       <//>
-
-      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }
