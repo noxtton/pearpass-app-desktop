@@ -152,11 +152,11 @@ export const CreateOrEditLoginModalContent = ({
         username: values.username,
         password: values.password,
         note: values.note,
-        websites: values.websites.map((website) => {
-          if (!!website?.website?.trim().length) {
+        websites: values.websites
+          .filter((website) => !!website?.website?.trim().length)
+          .map((website) => {
             return addHttps(website.website)
-          }
-        }),
+          }),
         customFields: values.customFields
       }
     }

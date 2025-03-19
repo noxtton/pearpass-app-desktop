@@ -10,6 +10,7 @@ import { InputSearch } from '../../components/InputSearch'
 import { PopupMenu } from '../../components/PopupMenu'
 import { EmptyCollectionView } from '../../containers/EmptyCollectionView'
 import { RecordListView } from '../../containers/RecordListView'
+import { useGlobalLoading } from '../../context/LoadingContext'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordMenuItems } from '../../hooks/useRecordMenuItems'
@@ -48,7 +49,7 @@ export const MainView = () => {
       ? routerData.folder
       : undefined
 
-  const { data: records } = useRecords({
+  const { data: records, isLoading } = useRecords({
     shouldSkip: true,
     variables: {
       filters: {
@@ -63,6 +64,8 @@ export const MainView = () => {
       sort: sort
     }
   })
+
+  useGlobalLoading({ isLoading })
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
@@ -100,7 +103,8 @@ export const MainView = () => {
         <//>
       <//>
 
-      ${!records?.length
+      ${!isLoading &&
+      (!records?.length
         ? html` <${EmptyCollectionView} />`
         : html` <${ContentWrapper}>
             <${RecordListView}
@@ -110,7 +114,7 @@ export const MainView = () => {
               sortType=${sortType}
               setSortType=${setSortType}
             />
-          <//>`}
+          <//>`)}
     <//>
   `
 }

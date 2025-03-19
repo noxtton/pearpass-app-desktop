@@ -124,7 +124,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
         `}
       <//>
 
-      ${!!values?.websites?.[0].length &&
+      ${!!values?.websites?.length &&
       html`
         <${CompoundField}>
           ${websitesList.map((website, index) => {

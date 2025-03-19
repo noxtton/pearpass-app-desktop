@@ -9,7 +9,12 @@ import {
   StarIcon,
   UserSecurityIcon
 } from 'pearpass-lib-ui-react-components'
-import { useFolders, useVault, useVaults } from 'pearpass-lib-vault'
+import {
+  closeAllInstances,
+  useFolders,
+  useVault,
+  useVaults
+} from 'pearpass-lib-vault'
 
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
@@ -26,6 +31,7 @@ import {
 import { DropdownSwapVault } from '../../components/DropdownSwapVault'
 import { SidebarSearch } from '../../components/SidebarSearch'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
+import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
@@ -43,16 +49,18 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   const [searchValue, setSearchValue] = useState('')
 
+  const { setIsLoading } = useLoadingContext()
+
   const { data, isLoading } = useFolders({
     variables: { searchPattern: searchValue }
   })
 
-  const { data: vaultsData } = useVaults()
+  const { data: vaultsData, resetState } = useVaults()
 
   const { data: vaultData } = useVault({ shouldSkip: true })
 
   const vaults = useMemo(() => {
-    return vaultsData.filter((vault) => vault.id !== vaultData?.id)
+    return vaultsData?.filter((vault) => vault.id !== vaultData?.id)
   }, [vaultsData, vaultData])
 
   const handleSettingsClick = () => {
@@ -63,8 +71,12 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     navigate('vault', { recordType: 'all' })
   }
 
-  const handleExitVault = () => {
+  const handleExitVault = async () => {
+    setIsLoading(true)
+    await closeAllInstances()
     navigate('welcome', { state: 'masterPassword' })
+    resetState()
+    setIsLoading(false)
   }
 
   const matchesSearch = (records, searchValue) => {

@@ -34,6 +34,8 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
       await refetch(vaultId)
 
       setIsOpen(false)
+
+      setIsLoading(false)
     } catch (error) {
       console.error(error)
 
