@@ -152,6 +152,20 @@ export const CreateOrEditCreditCardModalContent = ({
     onTypeChange(item)
   }
 
+  const handleExpireDateChange = (inputValue) => {
+    let value = inputValue.replace(/\D/g, '')
+
+    if (value.length > 4) {
+      value = value.slice(0, 4)
+    }
+
+    if (value.length > 2) {
+      value = `${value.slice(0, 2)} ${value.slice(2)}`
+    }
+
+    setValue('expireDate', value)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -210,7 +224,8 @@ export const CreateOrEditCreditCardModalContent = ({
             placeholder="MM/AA"
             variant="outline"
             icon=${CalendarIcon}
-            ...${register('expireDate')}
+            value=${values.expireDate}
+            onChange=${handleExpireDateChange}
           />
 
           <${PasswordField}
