@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { matchPatternToValue } from 'pear-apps-utils-pattern-search'
 import {
   ButtonThin,
   ExitIcon,
@@ -35,7 +36,6 @@ import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
-import { matchPatternToValue } from '../../utils/matchPatternToValue'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
