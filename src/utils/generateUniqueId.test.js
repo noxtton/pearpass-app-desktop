@@ -14,7 +14,6 @@ describe('generateUniqueId', () => {
 
   it('should generate IDs with consistent format', () => {
     const id = generateUniqueId()
-    // The ID should be a combination of timestamp and random string
     expect(id.length).toBeGreaterThan(10)
   })
 
