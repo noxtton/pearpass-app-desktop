@@ -61,7 +61,6 @@ describe('useCustomFields', () => {
   })
 
   test('should handle multiple custom fields', () => {
-    // Mock generate different IDs for multiple calls
     generateUniqueId.mockReturnValueOnce('id-1').mockReturnValueOnce('id-2')
 
     const { result } = renderHook(() => useCustomFields())

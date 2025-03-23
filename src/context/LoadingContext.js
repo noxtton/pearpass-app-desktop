@@ -4,7 +4,7 @@ import { html } from 'htm/react'
 
 import { LoadingOverlay } from '../components/LoadingOverlay'
 
-const ToastContext = createContext()
+const LoadingContext = createContext()
 
 /**
  * @param {{
@@ -15,10 +15,10 @@ export const LoadingProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   return html`
-    <${ToastContext.Provider} value=${{ isLoading, setIsLoading }}>
+    <${LoadingContext.Provider} value=${{ isLoading, setIsLoading }}>
         ${children}
         ${isLoading && html`<${LoadingOverlay} />`}
-    </${ToastContext.Provider}>
+    </${LoadingContext.Provider}>
   `
 }
 
@@ -29,7 +29,7 @@ export const LoadingProvider = ({ children }) => {
  * }}
  */
 export const useLoadingContext = () => {
-  return useContext(ToastContext)
+  return useContext(LoadingContext)
 }
 
 /**
