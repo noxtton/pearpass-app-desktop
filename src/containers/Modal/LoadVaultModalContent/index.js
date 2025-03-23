@@ -7,6 +7,7 @@ import { usePair, useVault } from 'pearpass-lib-vault'
 import { LoadVaultCard, LoadVaultInput, LoadVaultTitle } from './styles'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
+import { useToast } from '../../../context/ToastContext'
 
 export const LoadVaultModalContent = () => {
   const { i18n } = useLingui()
@@ -14,6 +15,8 @@ export const LoadVaultModalContent = () => {
   const { closeModal } = useModal()
 
   const [inviteCode, setInviteCodeId] = useState('')
+
+  const { setToast } = useToast()
 
   const { isLoading, refetch } = useVault({
     shouldSkip: true,
@@ -33,6 +36,12 @@ export const LoadVaultModalContent = () => {
       if (vault?.id) {
         refetch(vault?.id)
       }
+    },
+    onError: () => {
+      closeModal()
+      setToast({
+        message: i18n._('Something went wrong, please check invite code')
+      })
     }
   })
 
