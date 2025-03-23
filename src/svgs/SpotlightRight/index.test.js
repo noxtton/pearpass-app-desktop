@@ -43,4 +43,6 @@ describe('SpotlightRight', () => {
     expect(svg).toBeInTheDocument()
     expect(svg).toHaveAttribute('fill', '#FF0000')
   })
+
+
 })
