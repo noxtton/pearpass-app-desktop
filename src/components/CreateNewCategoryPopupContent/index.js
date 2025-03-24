@@ -19,21 +19,22 @@ export const CreateNewCategoryPopupContent = ({ menuItems, onClick }) => {
 
   return html`
     <${MenuList}>
-      ${menuItems.map(
-        (item) =>
-          html`<${MenuItem}
-            color=${RECORD_COLOR_BY_TYPE[item.type]}
-            key=${item.type}
-            onClick=${(e) => handleMenuItemClick(e, item)}
-          >
-            <${RECORD_ICON_BY_TYPE[item.type]}
-              size="14"
-              color=${RECORD_COLOR_BY_TYPE[item.type]}
-            />
+      ${menuItems?.map((item) => {
+        const Icon = RECORD_ICON_BY_TYPE?.[item.type]
 
-            ${item.name}
-          <//>`
-      )}
+        return html`<${MenuItem}
+          color=${RECORD_COLOR_BY_TYPE?.[item.type]}
+          key=${item.type}
+          onClick=${(e) => handleMenuItemClick(e, item)}
+        >
+          ${Icon &&
+          html`<${Icon}
+            size="14"
+            color=${RECORD_COLOR_BY_TYPE?.[item.type]}
+          />`}
+          ${item.name}
+        <//>`
+      })}
     <//>
   `
 }

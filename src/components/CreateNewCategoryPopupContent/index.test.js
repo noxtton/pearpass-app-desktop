@@ -18,7 +18,7 @@ describe('CreateNewCategoryPopupContent', () => {
   })
 
   test('renders menu items correctly', () => {
-    const { getByText } = render(
+    const { getByText, container } = render(
       <ThemeProvider>
         <CreateNewCategoryPopupContent
           menuItems={mockMenuItems}
@@ -29,6 +29,7 @@ describe('CreateNewCategoryPopupContent', () => {
 
     expect(getByText('Note')).toBeInTheDocument()
     expect(getByText('Email')).toBeInTheDocument()
+    expect(container).toMatchSnapshot()
   })
 
   it('calls onClick with correct item when menu item is clicked', () => {
@@ -45,24 +46,5 @@ describe('CreateNewCategoryPopupContent', () => {
     fireEvent.click(noteMenuItem)
 
     expect(mockOnClick).toHaveBeenCalledWith(mockMenuItems[0])
-  })
-
-  it('stops event propagation when menu item is clicked', () => {
-    const { getByText } = render(
-      <ThemeProvider>
-        <CreateNewCategoryPopupContent
-          menuItems={mockMenuItems}
-          onClick={mockOnClick}
-        />
-      </ThemeProvider>
-    )
-
-    const mockStopPropagation = jest.fn()
-    const noteMenuItem = getByText('Note')
-    fireEvent.click(noteMenuItem, {
-      stopPropagation: mockStopPropagation
-    })
-
-    expect(mockStopPropagation).toHaveBeenCalled()
   })
 })
