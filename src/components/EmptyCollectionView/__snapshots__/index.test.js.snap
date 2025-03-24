@@ -1,0 +1,273 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmptyCollectionView component renders empty collection message 1`] = `
+<div>
+  <div
+    class="sc-eMwmJz kEYJkU"
+  >
+    <div
+      class="sc-drVZOg ktYYnF"
+    >
+      <div
+        class="sc-eWPXlR bYqhvo"
+      >
+        <span>
+           
+          This collection is empty.
+        </span>
+        <p>
+          Create a new element or pass to another collection
+        </p>
+      </div>
+      <button
+        class="sc-kLhKbu dgvvhq"
+      >
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 14 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_18_231)"
+            >
+              <path
+                d="M7 7.5C8.79493 7.5 10.25 6.04493 10.25 4.25C10.25 2.45507 8.79493 1 7 1C5.20507 1 3.75 2.45507 3.75 4.25C3.75 6.04493 5.20507 7.5 7 7.5Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M13.18 14.0003C12.7602 12.6912 11.9355 11.5492 10.8248 10.739C9.7141 9.92877 8.37481 9.49219 7.00001 9.49219C5.6252 9.49219 4.28591 9.92877 3.17522 10.739C2.06453 11.5492 1.23983 12.6912 0.820007 14.0003H13.18Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_18_231"
+              >
+                <rect
+                  fill="#050B06"
+                  height="14"
+                  transform="translate(0 0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+        Create a login
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        />
+      </button>
+      <button
+        class="sc-kLhKbu dgvvhq"
+      >
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 14 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_18_229)"
+            >
+              <path
+                d="M7 5C8.10457 5 9 4.10457 9 3C9 1.89543 8.10457 1 7 1C5.89543 1 5 1.89543 5 3C5 4.10457 5.89543 5 7 5Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.5 8.5C10.5 7.57174 10.1313 6.6815 9.47487 6.02513C8.8185 5.36875 7.92826 5 7 5C6.07174 5 5.1815 5.36875 4.52513 6.02513C3.86875 6.6815 3.5 7.57174 3.5 8.5V10H5L5.5 14H8.5L9 10H10.5V8.5Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_18_229"
+              >
+                <rect
+                  fill="#050B06"
+                  height="14"
+                  transform="translate(0 0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+        Create an identity
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        />
+      </button>
+      <button
+        class="sc-kLhKbu dgvvhq"
+      >
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 14 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.5 2.69336H1.5C0.947715 2.69336 0.5 3.14107 0.5 3.69336V11.1934C0.5 11.7456 0.947715 12.1934 1.5 12.1934H12.5C13.0523 12.1934 13.5 11.7456 13.5 11.1934V3.69336C13.5 3.14107 13.0523 2.69336 12.5 2.69336Z"
+              stroke="#050B06"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M0.5 6.19336H13.5"
+              stroke="#050B06"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M9.5 9.69336H11"
+              stroke="#050B06"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </div>
+        Create a credit card
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        />
+      </button>
+      <button
+        class="sc-kLhKbu dgvvhq"
+      >
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 14 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_18_230)"
+            >
+              <path
+                d="M12.5 13C12.5 13.2652 12.3946 13.5196 12.2071 13.7071C12.0196 13.8946 11.7652 14 11.5 14H2.5C2.23478 14 1.98043 13.8946 1.79289 13.7071C1.60536 13.5196 1.5 13.2652 1.5 13V2C1.5 1.73478 1.60536 1.48043 1.79289 1.29289C1.98043 1.10536 2.23478 1 2.5 1H7.5L12.5 6V13Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.5 5H6.5"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.5 8H9.5"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.5 11H9.5"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_18_230"
+              >
+                <rect
+                  fill="#050B06"
+                  height="14"
+                  transform="translate(0 0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+        Create a note
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        />
+      </button>
+      <button
+        class="sc-kLhKbu dgvvhq"
+      >
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        >
+          <svg
+            fill="none"
+            height="14"
+            viewBox="0 0 14 15"
+            width="14"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g
+              clip-path="url(#clip0_18_240)"
+            >
+              <path
+                d="M11 6H3C2.44772 6 2 6.44772 2 7V13C2 13.5523 2.44772 14 3 14H11C11.5523 14 12 13.5523 12 13V7C12 6.44772 11.5523 6 11 6Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.5 6V4.5C10.5 3.57174 10.1313 2.6815 9.47487 2.02513C8.8185 1.36875 7.92826 1 7 1C6.07174 1 5.1815 1.36875 4.52513 2.02513C3.86875 2.6815 3.5 3.57174 3.5 4.5V6"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 10.5C7.27614 10.5 7.5 10.2761 7.5 10C7.5 9.72386 7.27614 9.5 7 9.5C6.72386 9.5 6.5 9.72386 6.5 10C6.5 10.2761 6.72386 10.5 7 10.5Z"
+                stroke="#050B06"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clippath
+                id="clip0_18_240"
+              >
+                <rect
+                  fill="#050B06"
+                  height="14"
+                  transform="translate(0 0.5)"
+                  width="14"
+                />
+              </clippath>
+            </defs>
+          </svg>
+        </div>
+        Create a custom element
+        <div
+          class="sc-ixGGxD fVrCUQ"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;

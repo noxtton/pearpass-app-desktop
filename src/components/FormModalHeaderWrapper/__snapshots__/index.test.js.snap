@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormModalHeaderWrapper renders children and buttons correctly 1`] = `
+<div>
+   
+  <div
+    class="sc-blHHSb kcPVdE"
+  >
+    <div
+      class="sc-gtLWhw ebBSjY"
+    >
+       
+      <div
+        data-testid="test-children"
+      >
+        Test Children
+      </div>
+       
+    </div>
+    <div
+      class="sc-egkSDF jvCnot"
+    >
+       
+      <div
+        data-testid="test-buttons"
+      >
+        Test Buttons
+      </div>
+       
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormModalHeaderWrapper renders with empty content 1`] = `
+<div>
+   
+  <div
+    class="sc-blHHSb kcPVdE"
+  >
+    <div
+      class="sc-gtLWhw ebBSjY"
+    >
+       
+       
+    </div>
+    <div
+      class="sc-egkSDF jvCnot"
+    >
+       
+       
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormModalHeaderWrapper renders without buttons 1`] = `
+<div>
+   
+  <div
+    class="sc-blHHSb kcPVdE"
+  >
+    <div
+      class="sc-gtLWhw ebBSjY"
+    >
+       
+      <div
+        data-testid="test-children"
+      >
+        Test Children
+      </div>
+       
+    </div>
+    <div
+      class="sc-egkSDF jvCnot"
+    >
+       
+       
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormModalHeaderWrapper renders without children 1`] = `
+<div>
+   
+  <div
+    class="sc-blHHSb kcPVdE"
+  >
+    <div
+      class="sc-gtLWhw ebBSjY"
+    >
+       
+       
+    </div>
+    <div
+      class="sc-egkSDF jvCnot"
+    >
+       
+      <div
+        data-testid="test-buttons"
+      >
+        Test Buttons
+      </div>
+       
+    </div>
+  </div>
+</div>
+`;

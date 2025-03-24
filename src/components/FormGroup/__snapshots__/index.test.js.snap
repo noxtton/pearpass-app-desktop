@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FormGroup renders with children and title when isCollapse is true 1`] = `
+<div>
+  <div
+    class="sc-blHHSb flsssz"
+  >
+    <div
+      class="sc-gtLWhw fuhZVU"
+    >
+      <div
+        data-testid="arrow-up-icon"
+      >
+        ArrowUp
+      </div>
+      Test Title
+    </div>
+     
+    <div
+      class="sc-egkSDF dXFjag"
+    >
+       
+      <div
+        data-testid="test-children"
+      >
+        Test Children
+      </div>
+       
+    </div>
+     
+  </div>
+</div>
+`;

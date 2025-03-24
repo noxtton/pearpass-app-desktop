@@ -40,8 +40,8 @@ export const RecordAvatar = ({
   return html`<${AvatarContainer} size=${size}>
     ${avatar}
     ${isFavorite &&
-    html` <${FavoriteIcon}
-      ><${StarIcon} width="9" height="9" color=${colors.primary400.mode1}
-    /><//>`}
+    html` <${FavoriteIcon}>
+      <${StarIcon} width="9" height="9" color=${colors.primary400.mode1} />
+    <//>`}
   <//>`
 }
