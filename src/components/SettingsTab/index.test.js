@@ -6,7 +6,6 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { SettingsTab } from './index'
 import '@testing-library/jest-dom'
 
-// Mock dependencies
 jest.mock('pearpass-lib-ui-react-components', () => ({
   TextArea: ({ placeholder, variant }) => (
     <textarea
