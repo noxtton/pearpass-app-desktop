@@ -44,10 +44,13 @@ export const SwapVaultModalContent = () => {
 
   const titles = useMemo(
     () => ({
-      title: i18n._('Insert Vault’s password'),
-      description: i18n._('Unlock with the {vaultName} Vault password', {
-        vaultName: vault
-      })
+      title: i18n._('Enter Your Vault Password'),
+      description: i18n._(
+        'Unlock your {vaultName} Vault to access your stored passwords.',
+        {
+          vaultName: vault
+        }
+      )
     }),
     []
   )
@@ -66,7 +69,7 @@ export const SwapVaultModalContent = () => {
     <${UnlockVaultContainer}>
       <${PearPassPasswordField} ...${register('password')} />
 
-      <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Submit')} </>
+      <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Unlock Vault')} </>
     <//>
 <//>`
 }

@@ -54,11 +54,10 @@ export const LoadVaultModalContent = () => {
   }
 
   return html` <${LoadVaultCard} isLoading=${isLoading}>
-    <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
+    <${LoadVaultTitle}>${i18n._('Vault Name')}<//>
 
     <${LoadVaultInput}
       autoFocus
-      placeholder=${i18n._('Insert your code vault...')}
       value=${inviteCode}
       onChange=${handleChange}
       onKeyPress=${(e) => {
