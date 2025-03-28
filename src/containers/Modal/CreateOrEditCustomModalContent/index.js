@@ -1,10 +1,17 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 import {
   InputField,
   ButtonLittle,
   SaveIcon
 } from 'pearpass-lib-ui-react-components'
+import { Validator } from 'pearpass-lib-validator'
+import {
+  RECORD_TYPES,
+  useCreateRecord,
+  useUpdateRecord
+} from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'
@@ -12,16 +19,14 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
+import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
-import { useForm } from '../../../hooks/useForm'
-import { Validator } from '../../../utils/validator'
-import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
-import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
+import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
+import { DropdownsWrapper } from '../styles'
 
 /**
- *
  * @param {{
  *  initialRecord: {
  *    data: {
@@ -33,12 +38,14 @@ import { ModalContent } from '../ModalContent'
  *   }
  *  }
  *  selectedFolder?: string
+ *  onTypeChange: (type: string) => void
  * }} props
  * @returns
  */
 export const CreateOrEditCustomModalContent = ({
   initialRecord,
-  selectedFolder
+  selectedFolder,
+  onTypeChange
 }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
@@ -82,8 +89,9 @@ export const CreateOrEditCustomModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: 'custom',
-      folder: values.folder,
+      type: RECORD_TYPES.CUSTOM,
+      folder: isFavorite(values.folder) ? undefined : values.folder,
+      isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
         customFields: values.customFields
@@ -100,6 +108,10 @@ export const CreateOrEditCustomModalContent = ({
     }
   }
 
+  const handleRecordTypeChange = (item) => {
+    onTypeChange(item)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -114,10 +126,17 @@ export const CreateOrEditCustomModalContent = ({
             <//>
           `}
         >
-          <${FolderDropdown}
-            selectedFolder=${values?.folder}
-            onFolderSelect=${(folder) => setValue('folder', folder)}
-          />
+          <${DropdownsWrapper}>
+            <${FolderDropdown}
+              selectedFolder=${values?.folder}
+              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+            />
+            ${!initialRecord &&
+            html` <${RecordTypeDropdown}
+              selectedRecord=${RECORD_TYPES.CUSTOM}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
+            />`}
+          <//>
         <//>
       `}
     >

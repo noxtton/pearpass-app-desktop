@@ -23,8 +23,4 @@ export const ContentWrapper = styled.div`
   flex: 1;
   padding-top: 13px;
   overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -8,18 +8,30 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
 import { NestedFoldersWrapper } from './styles'
 import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
+import { useRouter } from '../../../context/RouterContext'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 
 /**
  * @param {{
- *  item:Record<string,any>,
+ *  item: {
+ *    name: string,
+ *    icon: string,
+ *    isAlwaysVisible: boolean,
+ *    isOpenInitially: boolean,
+ *    isActive: boolean,
+ *     children: {
+ *        name: string,
+ *        icon: string,
+ *     }[]
+ *   },
  *  level: number
  * }} props
  */
 export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const { i18n } = useLingui()
   const { setModal } = useModal()
+  const { navigate } = useRouter()
 
   const isRoot = level === 0
 
@@ -29,6 +41,13 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
 
   const handleAddClick = () => {
     setModal(html` <${CreateFolderModalContent} /> `)
+  }
+
+  const handleFolderClick = () => {
+    if (isRoot) {
+      return navigate('vault', { recordType: 'all' })
+    }
+    navigate('vault', { recordType: 'all', folder: item.id })
   }
 
   if (!isFolder) {
@@ -42,6 +61,12 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
     `
   }
 
+  useEffect(() => {
+    if (!isRoot) {
+      setIsOpen(item.isOpenInitially)
+    }
+  }, [item.isOpenInitially, isRoot])
+
   if (!item.children.length) {
     return html``
   }
@@ -51,8 +76,10 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
       <${SidebarFolder}
         onAddClick=${handleAddClick}
         isOpen=${isOpen}
-        onClick=${() => setIsOpen(!isOpen)}
+        onClick=${handleFolderClick}
+        onDropDown=${() => setIsOpen(!isOpen)}
         isRoot=${isRoot}
+        isActive=${item.isActive}
         name=${item.name}
         icon=${item.icon}
         key=${item.name + item.id}
@@ -75,7 +102,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         html`
           <${SidebarNestedFile}
             key=${item.id + 'newFile'}
-            folderName=${item.name}
+            folderId=${item.id}
             icon=${PlusIcon}
             name=${i18n._('New')}
             isNew=${true}

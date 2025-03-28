@@ -12,7 +12,7 @@ export const Title = styled.div`
   font-weight: 700;
 `
 
-export const FavoriteWrapper = styled.div`
+export const FolderWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -27,6 +27,15 @@ export const HeaderRight = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+`
+
+export const FavoriteButtonWrapper = styled.div`
+  display: flex;
+  cursor: pointer;
+
+  & path {
+    fill: ${({ favorite, theme }) => favorite && theme.colors.primary400.mode1};
+  }
 `
 
 export const Fields = styled.div`

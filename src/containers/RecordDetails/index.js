@@ -1,25 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
-  StarIcon,
   BrushIcon,
-  KebabMenuIcon,
-  UserIcon,
-  WorldIcon,
-  CommonFileIcon,
   ButtonLittle,
-  CompoundField,
-  InputField,
-  PasswordField,
-  CollapseIcon
+  CollapseIcon,
+  FolderIcon,
+  KebabMenuIcon,
+  StarIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+import { useRecordById, useUpdateRecord } from 'pearpass-lib-vault'
 
+import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
-  FavoriteWrapper,
   Fields,
+  FavoriteButtonWrapper,
+  FolderWrapper,
   Header,
   HeaderRight,
   RecordActions,
@@ -30,18 +28,11 @@ import { RecordActionsPopupContent } from '../../components/RecordActionsPopupCo
 import { useRouter } from '../../context/RouterContext.js'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
-import { useRecordById } from '../../vault/hooks/useRecordById.js'
-
-const MOCK_DATA = {
-  userName: 'caldarace',
-  password: 'caldce',
-  website: 'Google.com',
-  websiteUrl: 'https://google.com',
-  note: 'Last account'
-}
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()
+
+  const [isOpen, setIsOpen] = useState(false)
 
   const { currentPage, data: routerData, navigate } = useRouter()
 
@@ -52,16 +43,15 @@ export const RecordDetails = () => {
   })
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
+  const { updateFavoriteState } = useUpdateRecord()
 
   const { actions } = useRecordActionItems({
-    excludeTypes: ['select', 'pin']
+    excludeTypes: ['select', 'pin'],
+    record: record,
+    onClose: () => {
+      setIsOpen(false)
+    }
   })
-
-  const [isOpen, setIsOpen] = useState(false)
-
-  const handleWebsiteClick = () => {
-    window.open(MOCK_DATA.websiteUrl, '_blank')
-  }
 
   const handleEdit = () => {
     handleCreateOrEditRecord({
@@ -74,19 +64,43 @@ export const RecordDetails = () => {
     navigate(currentPage, { ...routerData, recordId: '' })
   }
 
+  useEffect(() => {
+    if (!record) {
+      handleCollapseRecordDetails()
+    }
+  }, [record])
+
+  if (!record) {
+    return null
+  }
+
   return html`
     <${React.Fragment}>
       <${Header}>
         <div>
           <${Title}> ${record?.data?.title} <//>
-
-          <${FavoriteWrapper}>
-            <${StarIcon} size="14" color=${colors.grey200.mode1} />
-            ${i18n._('Favourites')}
+          <${FolderWrapper}>
+            ${record?.isFavorite
+              ? html`
+                  <${StarIcon} size="14" color=${colors.grey200.mode1} />
+                  ${i18n._('Favourites')}
+                `
+              : html`
+                  <${FolderIcon} size="14" color=${colors.grey200.mode1} />
+                  ${record?.folder}
+                `}
           <//>
         </div>
 
         <${HeaderRight}>
+          <${FavoriteButtonWrapper}
+            favorite=${record?.isFavorite}
+            onClick=${() =>
+              updateFavoriteState(record?.id, !record?.isFavorite)}
+          >
+            <${StarIcon} size="21" color=${colors.primary400.mode1} />
+          <//>
+
           <${ButtonLittle} startIcon=${BrushIcon} onClick=${handleEdit}>
             ${i18n._('Edit')}
           <//>
@@ -112,38 +126,8 @@ export const RecordDetails = () => {
           />
         <//>
       <//>
-
       <${Fields}>
-        <${CompoundField} isDisabled>
-          <${InputField}
-            label=${i18n._('Email or username')}
-            value=${MOCK_DATA.userName}
-            icon=${UserIcon}
-            isDisabled
-          />
-
-          <${PasswordField} value=${MOCK_DATA.password} isDisabled />
-        <//>
-
-        <${CompoundField} isDisabled>
-          <${InputField}
-            label=${i18n._('Website')}
-            value=${MOCK_DATA.website}
-            icon=${WorldIcon}
-            type="url"
-            onClick=${handleWebsiteClick}
-            isDisabled
-          />
-        <//>
-
-        <${CompoundField} isDisabled>
-          <${InputField}
-            label=${i18n._('Note')}
-            value=${MOCK_DATA.note}
-            icon=${CommonFileIcon}
-            isDisabled
-          />
-        <//>
+        <${RecordDetailsContent} record=${record} />
       <//>
     <//>
   `

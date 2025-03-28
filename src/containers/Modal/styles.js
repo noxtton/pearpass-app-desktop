@@ -11,3 +11,8 @@ export const ModalWrapper = styled.div`
   align-items: center;
   z-index: 500;
 `
+
+export const DropdownsWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`

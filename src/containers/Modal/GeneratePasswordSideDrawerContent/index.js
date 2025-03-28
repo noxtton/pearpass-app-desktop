@@ -1,56 +1,101 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonLittle,
-  NoticeText,
-  Slider
-} from 'pearpass-lib-ui-react-components'
+import { ButtonLittle } from 'pearpass-lib-ui-react-components'
 
-import {
-  HeaderButtonWrapper,
-  PasswordWrapper,
-  RadioWrapper,
-  SliderContainer,
-  SliderLabel,
-  SliderWrapper,
-  SwitchWrapper,
-  Wrapper
-} from './styles'
-import { HighlightString } from '../../../components/HighlightString'
 import { RadioSelect } from '../../../components/RadioSelect'
-import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { useModal } from '../../../context/ModalContext'
 import { ModalHeader } from '../ModalHeader'
+import { PassphraseChecker } from './PassphraseChecker'
+import { PassphraseGenerator } from './PassphraseGenerator/index.'
+import { PasswordChecker } from './PasswordChecker'
+import { PasswordGenerator } from './PasswordGenerator'
+import { HeaderButtonWrapper, RadioWrapper, Wrapper } from './styles'
+import { generatePassphrase, generatePassword } from './utils'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 
-export const GeneratePasswordSideDrawerContent = () => {
+/**
+ * @param {{
+ * onPaswordInsert: (pass: string) => void
+ * }} props
+ */
+export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { copyToClipboard } = useCopyToClipboard()
 
   const [selectedOption, setSelectedOption] = useState('passphrase')
-  const [sliderValue, setSliderValue] = useState(5)
+  const [selectedRules, setSelectedRules] = useState({
+    password: {
+      specialCharacters: true,
+      characters: 5
+    },
+    passphrase: {
+      capitalLetters: true,
+      symbols: true,
+      numbers: true,
+      words: 6
+    }
+  })
+
+  const pass = useMemo(() => {
+    if (selectedOption === 'passphrase') {
+      return generatePassphrase(
+        selectedRules.passphrase.capitalLetters,
+        selectedRules.passphrase.symbols,
+        selectedRules.passphrase.numbers,
+        selectedRules.passphrase.words
+      )
+    } else {
+      return generatePassword(
+        selectedRules.password.characters,
+        selectedRules.password.specialCharacters
+      )
+    }
+  }, [selectedOption, selectedRules])
 
   const radioOptions = [
     { label: i18n._('Passphrase'), value: 'passphrase' },
     { label: i18n._('Password'), value: 'password' }
   ]
 
+  const handleRuleChange = (optionName, value) => {
+    setSelectedRules((prevRules) => ({
+      ...prevRules,
+      [optionName]: value
+    }))
+  }
+
+  const handleCopyAndClose = () => {
+    const copyText = selectedOption === 'passphrase' ? pass.join('-') : pass
+
+    copyToClipboard(copyText)
+    closeModal()
+  }
+
+  const handleInsertPassword = () => {
+    onPaswordInsert(pass)
+    closeModal()
+  }
+
   return html`
     <${Wrapper}>
       <${ModalHeader} onClose=${closeModal}>
         <${HeaderButtonWrapper}>
-          <${ButtonLittle}> ${i18n._('Insert password')} <//>
+          ${onPaswordInsert
+            ? html`<${ButtonLittle} onClick=${handleInsertPassword}>
+                ${i18n._('Insert password')}
+              <//> `
+            : html`<${ButtonLittle} onClick=${handleCopyAndClose}>
+                ${i18n._('Copy and close')}
+              <//> `}
         <//>
       <//>
 
-      <${PasswordWrapper}>
-        <${HighlightString}
-          text="Stench6-Taco2-Manicotti7-Velocity9-Serotonin5 )0Ag;"
-        />
-
-        <${NoticeText} text=${i18n._('Safe')} type="success" />
-      <//>
+      ${selectedOption === 'passphrase'
+        ? html` <${PassphraseChecker} pass=${pass} />`
+        : html` <${PasswordChecker} pass=${pass} />`}
 
       <${RadioWrapper}>
         <${RadioSelect}
@@ -61,34 +106,15 @@ export const GeneratePasswordSideDrawerContent = () => {
         />
       <//>
 
-      <${SliderWrapper}>
-        <${SliderLabel}> 5 words <//>
-
-        <${SliderContainer}>
-          <${Slider}
-            value=${sliderValue}
-            onChange=${setSliderValue}
-            min=${1}
-            max=${32}
-            step=${1}
-          />
-        <//>
-      <//>
-
-      <${SwitchWrapper}>
-        <${SwitchWithLabel} label=${i18n._('Select all')} />
-        <${SwitchWithLabel}
-          label=${i18n._('Capital letters')}
-          isOn=${true}
-          isLabelBold
-        />
-        <${SwitchWithLabel} label=${i18n._('Symbols')} isLabelBold />
-        <${SwitchWithLabel}
-          label=${i18n._('Numbers')}
-          isOn=${true}
-          isLabelBold
-        />
-      <//>
+      ${selectedOption === 'passphrase'
+        ? html` <${PassphraseGenerator}
+            onRuleChange=${handleRuleChange}
+            rules=${selectedRules.passphrase}
+          />`
+        : html`<${PasswordGenerator}
+            onRuleChange=${handleRuleChange}
+            rules=${selectedRules.password}
+          />`}
     <//>
   `
 }

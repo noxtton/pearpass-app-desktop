@@ -14,7 +14,7 @@ import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
  * @param {{
  *  icon: () => void,
  *  color: string,
- *  folderName: string,
+ *  folderId: string,
  *  isNew: boolean,
  *  name: string
  *  id: string
@@ -23,7 +23,7 @@ import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
 export const SidebarNestedFile = ({
   icon,
   name,
-  folderName,
+  folderId,
   color = colors.white.mode1,
   isNew = false,
   id
@@ -50,7 +50,7 @@ export const SidebarNestedFile = ({
   const handleMenuItemClick = (item) => {
     handleCreateOrEditRecord({
       recordType: item.type,
-      selectedFolder: folderName
+      selectedFolder: folderId
     })
 
     setIsNewPopupMenuOpen(false)

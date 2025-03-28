@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useForm } from 'pearpass-lib-form'
 import {
   InputField,
   ButtonLittle,
@@ -9,6 +10,9 @@ import {
   CalendarIcon,
   NineDotsIcon
 } from 'pearpass-lib-ui-react-components'
+import { Validator } from 'pearpass-lib-validator'
+import { useCreateRecord, useUpdateRecord } from 'pearpass-lib-vault'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../components/FolderDropdown'
@@ -17,13 +21,12 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { LoadingOverlay } from '../../../components/LoadingOverlay'
+import { RecordTypeDropdown } from '../../../components/RecordTypeDropDown'
 import { useModal } from '../../../context/ModalContext'
-import { useForm } from '../../../hooks/useForm'
-import { Validator } from '../../../utils/validator'
-import { useCreateRecord } from '../../../vault/hooks/useCreateRecord'
-import { useUpdateRecord } from '../../../vault/hooks/useUpdateRecord'
+import { isFavorite } from '../../../utils/isFavorite'
 import { CustomFields } from '../../CustomFields'
 import { ModalContent } from '../ModalContent'
+import { DropdownsWrapper } from '../styles'
 
 /**
  * @param {{
@@ -43,11 +46,13 @@ import { ModalContent } from '../ModalContent'
  *  }
  * }
  *  selectedFolder?: string
+ *  onTypeChange: (type: string) => void
  * }} props
  */
 export const CreateOrEditCreditCardModalContent = ({
   initialRecord,
-  selectedFolder
+  selectedFolder,
+  onTypeChange
 }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
@@ -103,8 +108,9 @@ export const CreateOrEditCreditCardModalContent = ({
 
   const onSubmit = (values) => {
     const data = {
-      type: 'creditCard',
-      folder: values.folder,
+      type: RECORD_TYPES.CREDIT_CARD,
+      folder: isFavorite(values.folder) ? undefined : values.folder,
+      isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
         name: values.name,
@@ -127,6 +133,10 @@ export const CreateOrEditCreditCardModalContent = ({
     }
   }
 
+  const handleRecordTypeChange = (item) => {
+    onTypeChange(item)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -141,10 +151,17 @@ export const CreateOrEditCreditCardModalContent = ({
             <//>
           `}
         >
-          <${FolderDropdown}
-            selectedFolder=${values?.folder}
-            onFolderSelect=${(folder) => setValue('folder', folder)}
-          />
+          <${DropdownsWrapper}>
+            <${FolderDropdown}
+              selectedFolder=${values?.folder}
+              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+            />
+            ${!initialRecord &&
+            html` <${RecordTypeDropdown}
+              selectedRecord=${RECORD_TYPES.CREDIT_CARD}
+              onRecordSelect=${(record) => handleRecordTypeChange(record?.type)}
+            />`}
+          <//>
         <//>
       `}
     >
