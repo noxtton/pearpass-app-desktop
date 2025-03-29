@@ -57,7 +57,7 @@ export const CardNewVaultCredentials = () => {
       <//>
 
       <${InputsContainer}>
-        <${PearPassInputField} placeholder='Enter Name' ...${register('name')} />
+        <${PearPassInputField} placeholder=${i18n._('Enter Name')} ...${register('name')} />
         <${PearPassPasswordField} ...${register('password')} />
       <//>
 

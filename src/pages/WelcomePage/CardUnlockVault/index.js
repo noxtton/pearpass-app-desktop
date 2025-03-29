@@ -17,7 +17,7 @@ import { useRouter } from '../../../context/RouterContext'
 export const CardUnlockVault = () => {
   const { i18n } = useLingui()
 
-  const { navigate, data: routerData } = useRouter()
+  const { navigate, currentPage, data: routerData } = useRouter()
 
   const { refetch } = useVault({ shouldSkip: true })
   const { data: vaults } = useVaults()
@@ -49,7 +49,7 @@ export const CardUnlockVault = () => {
       <${CardTitle}>
         <${Title}>
           ${i18n._('Unlock {vaultName} with your vault password', {
-            vaultName: !!vault.name ? vault.name : vault.id
+            vaultName: vault.name ?? vault.id
           })}
         <//>
       <//>
@@ -59,7 +59,11 @@ export const CardUnlockVault = () => {
       <${ButtonWrapper}>
         <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
 
-        <${ButtonSecondary}> ${i18n._('Select vaults')} <//>
+        <${ButtonSecondary}
+          onClick=${() => navigate(currentPage, { state: 'vaults' })}
+        >
+          ${i18n._('Select vaults')}
+        <//>
       <//>
     <//>
   `

@@ -57,7 +57,7 @@ export const SwapVaultModalContent = ({ vault }) => {
       description: i18n._(
         'Unlock your {vaultName} Vault to access your stored passwords.',
         {
-          vaultName: !!vault.name ? vault.name : vault.id
+          vaultName: vault.name ?? vault.id
         }
       )
     }),
