@@ -32,7 +32,7 @@ export const Vault = ({
         <${LockCircleIcon} size="21" />
 
         <${VaultDescription}>
-          <${VaultName}>${vault.id}<//>
+          <${VaultName}>${vault.name}<//>
           <${VaultDate}>
             ${i18n._('Created')} ${' '}
             ${formatDate(vault.createdAt, 'dd-mm-yyyy', '/')}

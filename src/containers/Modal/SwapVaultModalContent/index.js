@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -14,10 +14,12 @@ import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapp
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { Description, Header, Title, UnlockVaultContainer } from './styles'
+import { useLoadingContext } from '../../../context/LoadingContext'
 
-export const SwapVaultModalContent = () => {
+export const SwapVaultModalContent = ({ vault }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { setIsLoading } = useLoadingContext()
 
   const schema = Validator.object({
     password: Validator.string().required(i18n._('Password is required'))
@@ -34,12 +36,19 @@ export const SwapVaultModalContent = () => {
 
   const { refetch } = useVault({ shouldSkip: true })
 
-  const [vault] = useState('')
-
   const submit = async () => {
-    await refetch(vault)
+    try {
+      setIsLoading(true)
 
-    closeModal()
+      await refetch(vault.id)
+
+      setIsLoading(false)
+      closeModal()
+    } catch (error) {
+      console.error(error)
+
+      setIsLoading(false)
+    }
   }
 
   const titles = useMemo(
@@ -48,7 +57,7 @@ export const SwapVaultModalContent = () => {
       description: i18n._(
         'Unlock your {vaultName} Vault to access your stored passwords.',
         {
-          vaultName: vault
+          vaultName: !!vault.name ? vault.name : vault.id
         }
       )
     }),

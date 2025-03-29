@@ -19,9 +19,18 @@ jest.mock('../../context/LoadingContext', () => ({
   })
 }))
 
+jest.mock('../../context/ModalContext', () => ({
+  useModal: () => ({
+    setModal: jest.fn()
+  })
+}))
+
 describe('DropdownSwapVault component', () => {
-  const mockVaults = [{ id: 'vault1' }, { id: 'vault2' }]
-  const mockSelectedVault = { id: 'vault1' }
+  const mockVaults = [
+    { id: 'vault2', name: 'vault2' },
+    { id: 'vault3', name: 'vault3' }
+  ]
+  const mockSelectedVault = { id: 'vault1', name: 'vault1' }
 
   test('renders nothing when vaults array is empty', () => {
     const { container } = render(
@@ -45,7 +54,7 @@ describe('DropdownSwapVault component', () => {
 
     const elements = getAllByText('vault1')
 
-    expect(elements).toHaveLength(2)
+    expect(elements).toHaveLength(1)
   })
 
   test('displays all vault options when open', () => {
@@ -58,8 +67,8 @@ describe('DropdownSwapVault component', () => {
       </ThemeProvider>
     )
 
-    fireEvent.click(getByText('vault2'))
+    fireEvent.click(getByText('vault1'))
     const vaultOptions = getAllByText(/vault[12]/)
-    expect(vaultOptions).toHaveLength(3)
+    expect(vaultOptions).toHaveLength(2)
   })
 })

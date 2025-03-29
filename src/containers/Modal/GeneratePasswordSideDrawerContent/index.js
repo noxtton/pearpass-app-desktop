@@ -28,7 +28,7 @@ export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
   const { closeModal } = useModal()
   const { copyToClipboard } = useCopyToClipboard()
 
-  const [selectedOption, setSelectedOption] = useState('passphrase')
+  const [selectedOption, setSelectedOption] = useState('password')
   const [selectedRules, setSelectedRules] = useState({
     password: {
       specialCharacters: true,
@@ -60,8 +60,8 @@ export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
   }, [selectedOption, selectedRules])
 
   const radioOptions = [
-    { label: i18n._('Passphrase'), value: 'passphrase' },
-    { label: i18n._('Password'), value: 'password' }
+    { label: i18n._('Password'), value: 'password' },
+    { label: i18n._('Passphrase'), value: 'passphrase' }
   ]
 
   const handleRuleChange = (optionName, value) => {

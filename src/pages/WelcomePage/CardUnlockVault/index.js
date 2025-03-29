@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
@@ -7,12 +9,10 @@ import {
   ButtonSecondary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVault } from 'pearpass-lib-vault'
+import { useVault, useVaults } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useRouter } from '../../../context/RouterContext'
-
-const MOCK_VAULT_NAME = 'Personal'
 
 export const CardUnlockVault = () => {
   const { i18n } = useLingui()
@@ -20,6 +20,12 @@ export const CardUnlockVault = () => {
   const { navigate, data: routerData } = useRouter()
 
   const { refetch } = useVault({ shouldSkip: true })
+  const { data: vaults } = useVaults()
+
+  const vault = useMemo(
+    () => vaults.find((vault) => vault.id === routerData.vaultId),
+    [vaults, routerData]
+  )
 
   const schema = Validator.object({
     password: Validator.string().required(i18n._('Password is required'))
@@ -32,14 +38,10 @@ export const CardUnlockVault = () => {
     }
   })
 
-  const handleContinue = () => {
-    navigate('vault', { recordType: 'all' })
-  }
-
   const onSubmit = async () => {
     await refetch(routerData.vaultId)
 
-    handleContinue()
+    navigate('vault', { recordType: 'all' })
   }
 
   return html`
@@ -47,7 +49,7 @@ export const CardUnlockVault = () => {
       <${CardTitle}>
         <${Title}>
           ${i18n._('Unlock {vaultName} with your vault password', {
-            vaultName: MOCK_VAULT_NAME
+            vaultName: !!vault.name ? vault.name : vault.id
           })}
         <//>
       <//>

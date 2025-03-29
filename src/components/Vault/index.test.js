@@ -27,7 +27,7 @@ jest.mock('pearpass-lib-ui-react-components', () => ({
 
 describe('Vault Component', () => {
   const dummyVault = {
-    id: 'vault-123',
+    name: 'vault-123',
     createdAt: 1630000000000
   }
 
