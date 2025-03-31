@@ -3,10 +3,10 @@
 exports[`CreateCustomField component renders with correct initial state 1`] = `
 <div>
   <div
-    class="sc-eMwmJz ixqIFI"
+    class="sc-jSSkKI hSAbdd"
   >
     <div
-      class="sc-drVZOg eDOzQd"
+      class="sc-iqyJx eRLMPM"
     >
       <svg
         fill="none"
@@ -32,7 +32,7 @@ exports[`CreateCustomField component renders with correct initial state 1`] = `
         Create Custom
       </div>
       <div
-        class="sc-eWPXlR bwFUWz"
+        class="sc-eDHQDy cnyHMq"
       >
         <svg
           fill="none"

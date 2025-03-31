@@ -21,6 +21,7 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
       </div>
       <button
         class="sc-kLhKbu dgvvhq"
+        type="button"
       >
         <div
           class="sc-ixGGxD fVrCUQ"
@@ -69,6 +70,7 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
       </button>
       <button
         class="sc-kLhKbu dgvvhq"
+        type="button"
       >
         <div
           class="sc-ixGGxD fVrCUQ"
@@ -117,6 +119,7 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
       </button>
       <button
         class="sc-kLhKbu dgvvhq"
+        type="button"
       >
         <div
           class="sc-ixGGxD fVrCUQ"
@@ -155,6 +158,7 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
       </button>
       <button
         class="sc-kLhKbu dgvvhq"
+        type="button"
       >
         <div
           class="sc-ixGGxD fVrCUQ"
@@ -215,6 +219,7 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
       </button>
       <button
         class="sc-kLhKbu dgvvhq"
+        type="button"
       >
         <div
           class="sc-ixGGxD fVrCUQ"

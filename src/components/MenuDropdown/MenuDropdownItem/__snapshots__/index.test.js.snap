@@ -3,10 +3,10 @@
 exports[`MenuDropdownItem renders correctly with name 1`] = `
 <div>
   <div
-    class="sc-lnsxGb liANb"
+    class="sc-UblHX dGdVIY"
   >
     <div
-      class="sc-jSSkKI dUSqfS"
+      class="sc-fufdwm fsNpqO"
     >
       <svg
         fill="none"
@@ -31,10 +31,10 @@ exports[`MenuDropdownItem renders correctly with name 1`] = `
 exports[`MenuDropdownItem renders with custom color when provided 1`] = `
 <div>
   <div
-    class="sc-lnsxGb liANb"
+    class="sc-UblHX dGdVIY"
   >
     <div
-      class="sc-jSSkKI dUSqfS"
+      class="sc-fufdwm fsNpqO"
     >
       <svg
         fill="none"
