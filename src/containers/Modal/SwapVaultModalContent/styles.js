@@ -28,7 +28,7 @@ export const VaultsContainer = styled.div`
   align-items: center;
   gap: 15px;
 `
-export const UnlockVaultContainer = styled.div`
+export const UnlockVaultContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: self-start;

@@ -25,7 +25,7 @@ export const SwapVaultModalContent = ({ vault }) => {
     password: Validator.string().required(i18n._('Password is required'))
   })
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setErrors } = useForm({
     initialValues: {
       password: ''
     },
@@ -36,18 +36,27 @@ export const SwapVaultModalContent = ({ vault }) => {
 
   const { refetch } = useVault({ shouldSkip: true })
 
-  const submit = async () => {
+  const submit = async (values) => {
+    if (!vault.id) {
+      return
+    }
+
     try {
       setIsLoading(true)
 
-      await refetch(vault.id)
+      await refetch(vault.id, values.password)
 
       setIsLoading(false)
+
       closeModal()
     } catch (error) {
       console.error(error)
 
       setIsLoading(false)
+
+      setErrors({
+        password: i18n._('Invalid password')
+      })
     }
   }
 
@@ -75,10 +84,10 @@ export const SwapVaultModalContent = ({ vault }) => {
       <//>
     `}
   >
-    <${UnlockVaultContainer}>
+    <${UnlockVaultContainer} onSubmit=${handleSubmit(submit)}>
       <${PearPassPasswordField} ...${register('password')} />
 
-      <${ButtonPrimary} onClick=${handleSubmit(submit)}> ${i18n._('Unlock Vault')} </>
+      <${ButtonPrimary} type="submit"> ${i18n._('Unlock Vault')} </>
     <//>
 <//>`
 }

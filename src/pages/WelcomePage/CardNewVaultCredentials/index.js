@@ -25,7 +25,8 @@ export const CardNewVaultCredentials = () => {
 
   const schema = Validator.object({
     name: Validator.string().required(i18n._('Name is required')),
-    password: Validator.string().required(i18n._('Password is required'))
+    password: Validator.string(),
+    passwordConfirm: Validator.string()
   })
 
   const { createVault } = useCreateVault({
@@ -34,10 +35,9 @@ export const CardNewVaultCredentials = () => {
     }
   })
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setErrors } = useForm({
     initialValues: {
-      name: '',
-      password: ''
+      name: ''
     },
     validate: (values) => {
       return schema.validate(values)
@@ -45,7 +45,15 @@ export const CardNewVaultCredentials = () => {
   })
 
   const onSubmit = (values) => {
-    createVault(values.name, values.password)
+    if (values.password !== values.passwordConfirm) {
+      setErrors({
+        passwordConfirm: i18n._('Passwords do not match')
+      })
+
+      return
+    }
+
+    createVault({ name: values.name, password: values.password })
   }
 
   return html` <${CardContainer}>
@@ -58,7 +66,10 @@ export const CardNewVaultCredentials = () => {
 
       <${InputsContainer}>
         <${PearPassInputField} placeholder=${i18n._('Enter Name')} ...${register('name')} />
+        
         <${PearPassPasswordField} ...${register('password')} />
+
+        <${PearPassPasswordField} ...${register('passwordConfirm')} />
       <//>
 
       <${ButtonWrapper}>

@@ -31,7 +31,11 @@ setFontsAndResetCSS()
 i18n.load('en', messages)
 i18n.activate('en')
 
-setPearpassVaultClient(createPearpassVaultClient(Pear.config.storage))
+setPearpassVaultClient(
+  createPearpassVaultClient(Pear.config.storage, {
+    debugMode: true
+  })
+)
 
 root.render(html`
   <${LoadingProvider}>

@@ -31,17 +31,29 @@ export const CardUnlockVault = () => {
     password: Validator.string().required(i18n._('Password is required'))
   })
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, setErrors } = useForm({
     initialValues: { password: '' },
     validate: (values) => {
       return schema.validate(values)
     }
   })
 
-  const onSubmit = async () => {
-    await refetch(routerData.vaultId)
+  const onSubmit = async (values) => {
+    if (!routerData.vaultId) {
+      return
+    }
 
-    navigate('vault', { recordType: 'all' })
+    try {
+      await refetch(routerData.vaultId, values.password)
+
+      navigate('vault', { recordType: 'all' })
+    } catch (error) {
+      setErrors({
+        password: i18n._('Invalid password')
+      })
+
+      console.error(error)
+    }
   }
 
   return html`

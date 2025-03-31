@@ -6,7 +6,7 @@ import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVaults } from 'pearpass-lib-vault'
+import { useUserData, useVaults } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
@@ -20,6 +20,8 @@ import { useRouter } from '../../../context/RouterContext'
 export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
+
+  const { createMasterPassword } = useUserData()
 
   const schema = Validator.object({
     password: Validator.string().required(i18n._('Password is required')),
@@ -43,15 +45,18 @@ export const CardCreateMasterPassword = () => {
     }
   })
 
-  const onSubmit = (values) => {
-    if (values.password === values.passwordConfirm) {
-      initVaults(values.password)
-      return
-    } else {
+  const onSubmit = async (values) => {
+    if (values.password !== values.passwordConfirm) {
       setErrors({
         passwordConfirm: i18n._('Passwords do not match')
       })
+
+      return
     }
+
+    await createMasterPassword(values.password)
+
+    await initVaults(values.password)
   }
 
   return html`

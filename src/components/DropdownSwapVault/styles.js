@@ -14,7 +14,6 @@ export const Container = styled.div`
   width: 100%;
   gap: 7px;
   padding: 5px 7px;
-  justify-content: space-between;
   align-items: center;
   border-radius: 10px;
   border: 1px solid;
@@ -37,6 +36,11 @@ export const Container = styled.div`
   z-index: 2;
 `
 
+export const ArrowIconWrapper = styled.div`
+  display: flex;
+  margin-left: auto;
+`
+
 export const Dropdown = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.black.mode1};
@@ -52,6 +56,7 @@ export const Dropdown = styled.div`
   opacity: ${({ isOpen }) => (isOpen ? '1' : '0')};
   transition: all 0.3s ease;
 `
+
 export const DropdownItem = styled.div`
   display: flex;
   align-items: center;
