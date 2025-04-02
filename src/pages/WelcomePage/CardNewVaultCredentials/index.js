@@ -56,31 +56,44 @@ export const CardNewVaultCredentials = () => {
     createVault({ name: values.name, password: values.password })
   }
 
-  return html` <${CardContainer}>
+  return html`
     <${CardContainer}>
-      <${CardTitle}>
-        <${Title}>
-          ${i18n._('Enter Name and Password for new Vault')}
-        <//>
-      <//>
-
-      <${InputsContainer}>
-        <${PearPassInputField} placeholder=${i18n._('Enter Name')} ...${register('name')} />
-        
-        <${PearPassPasswordField} ...${register('password')} />
-
-        <${PearPassPasswordField} ...${register('passwordConfirm')} />
-      <//>
-
-      <${ButtonWrapper}>
-        <${ButtonPrimary} size="md" onClick=${handleSubmit(onSubmit)}>
-          ${i18n._('Create a new vault')}
+      <${CardContainer}>
+        <${CardTitle}>
+          <${Title}> ${i18n._('Enter Name and Password for new Vault')} <//>
         <//>
 
-        <${ButtonSecondary} size="md" onClick=${() => navigate(currentPage, { state: 'vaults' })} type="button">
-          ${i18n._('Go back')}
+        <${InputsContainer}>
+          <${PearPassInputField}
+            placeholder=${i18n._('Enter Name')}
+            ...${register('name')}
+          />
+
+          <${PearPassPasswordField}
+            placeholder=${i18n._('Enter Password')}
+            ...${register('password')}
+          />
+
+          <${PearPassPasswordField}
+            placeholder=${i18n._('Confirm Password')}
+            ...${register('passwordConfirm')}
+          />
+        <//>
+
+        <${ButtonWrapper}>
+          <${ButtonPrimary} size="md" onClick=${handleSubmit(onSubmit)}>
+            ${i18n._('Create a new vault')}
+          <//>
+
+          <${ButtonSecondary}
+            size="md"
+            onClick=${() => navigate(currentPage, { state: 'vaults' })}
+            type="button"
+          >
+            ${i18n._('Go back')}
+          <//>
         <//>
       <//>
-    <//></${CardContainer}
-  >`
+    <//>
+  `
 }

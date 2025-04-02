@@ -43,9 +43,9 @@ export const CardUnlockPearPass = () => {
 
   const onSubmit = async (values) => {
     try {
-      await logIn(values.password)
+      await logIn({ password: values.password })
 
-      await initVaults(values.password)
+      await initVaults({ password: values.password })
     } catch (error) {
       setErrors({
         password: typeof error === 'string' ? error : i18n._('Invalid password')
@@ -63,7 +63,10 @@ export const CardUnlockPearPass = () => {
         <//>
       <//>
 
-      <${PearPassPasswordField} ...${register('password')} />
+      <${PearPassPasswordField}
+        placeholder=${i18n._('Master password')}
+        ...${register('password')}
+      />
 
       <${ButtonWrapper}>
         <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
