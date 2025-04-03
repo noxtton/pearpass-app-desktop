@@ -32,9 +32,9 @@ export const LoadVaultModalContent = () => {
   })
 
   const { pair } = usePair({
-    onCompleted: (vault) => {
-      if (vault?.id) {
-        refetch(vault?.id)
+    onCompleted: (vaultId) => {
+      if (vaultId) {
+        refetch(vaultId)
       }
     },
     onError: () => {
