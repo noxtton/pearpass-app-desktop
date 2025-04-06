@@ -10,6 +10,7 @@ PearPass is a distributed password manager powered by Pear Runtime. It allows se
 
 - [Features](#features)
 - [Installation](#installation)
+- [Testing](#testing)
 - [Usage Examples](#usage-examples)
 - [Dependencies](#dependencies)
 - [Related Projects](#related-projects)
