@@ -1,4 +1,8 @@
-# PearPass
+<p align="center">
+  <img src="assets/images/logo.png" alt="Pearpass logo" width="264"/>
+</p>
+
+# pearpass-app-desktop
 
 PearPass is a distributed password manager powered by Pear Runtime. It allows secure storage of passwords, credit card details, and secure notes, with the ability to distribute data across multiple devices.
 
@@ -12,14 +16,13 @@ PearPass is a distributed password manager powered by Pear Runtime. It allows se
 
 ## Features
 
-- Secure password storage with strong encryption
-- Credit card information management
-- Secure notes for sensitive information
-- Cross-device synchronization via Pear Runtime
+- Secure password, identity, and credit card, notes and custom fields storage
+- Cross-device and platform synchronization
 - Offline access to your credentials
+- Encryption for data security
 - Password strength analysis
 - Random password generator
-- Intuitive user interface
+- Easy-to-use interface
 
 ## Installation
 
@@ -54,6 +57,16 @@ npm run lingui:compile
 run the app
 ```bash
 pear run --dev .
+```
+
+## Testing
+
+### Unit Testing
+
+Run unit tests with Jest:
+
+```bash
+npm test
 ```
 
 ## Dependencies
