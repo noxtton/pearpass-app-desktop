@@ -2,11 +2,13 @@ import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useForm } from 'pearpass-lib-form'
-import { TextArea } from 'pearpass-lib-ui-react-components'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { CopyIcon, TextArea } from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { useToast } from '../../../context/ToastContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -27,6 +29,17 @@ import { CustomFields } from '../../CustomFields'
 export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
 
+  const { setToast } = useToast()
+
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
+
   const initialValues = React.useMemo(
     () => ({
       note: initialRecord?.data?.note ?? '',
@@ -36,11 +49,19 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues } = useForm({
+  const { register, registerArray, setValues, values } = useForm({
     initialValues: initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
+
+  const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
+    copyToClipboard(value)
+  }
 
   useEffect(() => {
     setValues(initialValues)
@@ -49,16 +70,21 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   return html`
     <${FormWrapper}>
       <${FormGroup}>
-        <${TextArea}
-          ...${register('note')}
-          placeholder=${i18n._('Write a note...')}
-          isDisabled
-        />
+        ${!!values?.note?.length &&
+        html`
+          <${TextArea}
+            ...${register('note')}
+            placeholder=${i18n._('Write a note...')}
+            onClick=${handleCopy}
+            isDisabled
+          />
+        `}
       <//>
 
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}
+        onClick=${handleCopy}
         register=${registerItem}
       />
     <//>

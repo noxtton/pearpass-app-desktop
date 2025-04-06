@@ -1,5 +1,9 @@
+import { useEffect, useState } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
+import { generateQRCodeSVG } from 'pear-apps-utils-qr'
 import {
   CopyIcon,
   TimeIcon,
@@ -7,6 +11,7 @@ import {
   YellowErrorIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+import { useCreateInvite } from 'pearpass-lib-vault'
 
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
@@ -28,14 +33,12 @@ import {
   WarningSection,
   WarningText
 } from './styles'
-import useCountDown from '../../../hooks/useCountDown'
-
-const URL =
-  'pear://pearpass/yrd19ra5p8ef5tkdqfhozjyt1szxesnqworcbbw4gzmxxmhf8zpjy9sl48q49hesbr99yet6sj3gkgbwub5w4sjsw5nq3cexmg8sqn378ksp1gd8'
 
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const [qrSvg, setQrSvg] = useState('')
+  const { createInvite, data } = useCreateInvite()
 
   const expireTime = useCountDown({
     initialSeconds: 120,
@@ -43,6 +46,18 @@ export const AddDeviceModalContent = () => {
   })
 
   const { copyToClipboard, isCopied } = useCopyToClipboard()
+
+  useEffect(() => {
+    createInvite()
+  }, [])
+
+  useEffect(() => {
+    if (data?.publicKey) {
+      generateQRCodeSVG(data?.publicKey, { type: 'svg', margin: 0 }).then(
+        (value) => setQrSvg(value)
+      )
+    }
+  }, [data])
 
   return html`
     <${ModalContent}
@@ -61,7 +76,10 @@ export const AddDeviceModalContent = () => {
         <${QRCodeSection}>
           <${QRCodeText}> ${i18n._('Scan this QR code')} <//>
 
-          <${QRCode} src="assets/images/qr-code.png" />
+          <${QRCode}
+            style=${{ width: '200px', height: '200px' }}
+            dangerouslySetInnerHTML=${{ __html: qrSvg }}
+          />
         <//>
 
         <${BackgroundSection}>
@@ -75,7 +93,7 @@ export const AddDeviceModalContent = () => {
           <//>
         <//>
 
-        <${BackgroundSection} onClick=${() => copyToClipboard(URL)}>
+        <${BackgroundSection} onClick=${() => copyToClipboard(data?.publicKey)}>
           <${QRCodeCopyWrapper}>
             <${QRCodeCopy}>
               <${QRCodeText}> ${i18n._('Copy accont link')} <//>
@@ -83,7 +101,7 @@ export const AddDeviceModalContent = () => {
                 <${CopyIcon} color=${colors.primary400.mode1} />
               <//>
             <//>
-            <${CopyText}> ${i18n._(isCopied ? 'Copied!' : URL)} <//>
+            <${CopyText}> ${isCopied ? i18n._('Copied!') : data?.publicKey} <//>
           <//>
         <//>
 

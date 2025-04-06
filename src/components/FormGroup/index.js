@@ -15,6 +15,10 @@ import { Collapse, TitleWrapper, Wrapper } from './styles'
 export const FormGroup = ({ title, isCollapse, children }) => {
   const [isOpen, setIsOpen] = useState(true)
 
+  if (!children) {
+    return
+  }
+
   return html`
     <${Wrapper}>
       ${!!title?.length &&

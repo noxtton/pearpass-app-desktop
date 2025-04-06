@@ -35,7 +35,7 @@ export const RuleSelector = ({ rules, selectedRules, setRules }) => {
     (rule) =>
       html`<${SwitchWithLabel}
         label=${rule.label}
-        isOn=${selectedRules[rule.name] | isAllRuleSelected}
+        isOn=${selectedRules[rule.name] || isAllRuleSelected}
         onChange=${() => handleSwitchToggle(rule.name)}
         isLabelBold
       />`

@@ -40,7 +40,7 @@ export const Wrapper = styled.div.withConfig({
   top: 0;
   left: 0;
   position: absolute;
-  z-index: 5;
+  z-index: ${({ isOpen }) => (isOpen ? 6 : 5)};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary400.mode1};

@@ -1,11 +1,11 @@
 import { html } from 'htm/react'
-import { CheckIcon, PinIcon } from 'pearpass-lib-ui-react-components'
+import { CheckIcon, StarIcon } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
   AvatarAlt,
   AvatarContainer,
-  Pin,
+  FavoriteIcon,
   SelectedAvatarContainer
 } from './styles'
 
@@ -15,7 +15,7 @@ import {
  *  initials: string,
  *  size: 'md' | 'sm',
  *  isSelected: boolean,
- *  isPinned: boolean,
+ *  isFavorite: boolean,
  *  color: string
  * }} props
  */
@@ -24,7 +24,7 @@ export const RecordAvatar = ({
   initials,
   size = 'md',
   isSelected = false,
-  isPinned = false,
+  isFavorite = false,
   color
 }) => {
   const avatar = avatarSrc
@@ -39,7 +39,9 @@ export const RecordAvatar = ({
 
   return html`<${AvatarContainer} size=${size}>
     ${avatar}
-    ${isPinned &&
-    html` <${Pin}><${PinIcon} size="9" color=${colors.primary400.mode1} /><//>`}
+    ${isFavorite &&
+    html` <${FavoriteIcon}>
+      <${StarIcon} width="9" height="9" color=${colors.primary400.mode1} />
+    <//>`}
   <//>`
 }

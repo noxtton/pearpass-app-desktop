@@ -2,9 +2,10 @@ import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useForm } from 'pearpass-lib-form'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import {
   CompoundField,
+  CopyIcon,
   InputField,
   KeyIcon,
   PasswordField,
@@ -15,6 +16,8 @@ import {
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { useToast } from '../../../context/ToastContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -38,6 +41,17 @@ import { CustomFields } from '../../CustomFields'
 export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
 
+  const { setToast } = useToast()
+
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
+
   const initialValues = React.useMemo(
     () => ({
       username: initialRecord?.data?.username ?? '',
@@ -52,7 +66,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues } = useForm({
+  const { register, registerArray, setValues, values } = useForm({
     initialValues: initialValues
   })
 
@@ -62,7 +76,19 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     registerArray('customFields')
 
   const handleWebsiteClick = (url) => {
+    if (!url?.length) {
+      return
+    }
+
     window.open(url, '_blank')
+  }
+
+  const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
+    copyToClipboard(value)
   }
 
   useEffect(() => {
@@ -72,49 +98,67 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   return html`
     <${FormWrapper}>
       <${FormGroup}>
-        <${InputField}
-          label=${i18n._('Email or username')}
-          placeholder=${i18n._('Email or username')}
-          variant="outline"
-          icon=${UserIcon}
-          isDisabled
-          ...${register('username')}
-        />
-
-        <${PasswordField}
-          label=${i18n._('Password')}
-          placeholder=${i18n._('Password')}
-          variant="outline"
-          icon=${KeyIcon}
-          isDisabled
-          ...${register('password')}
-        />
+        ${!!values?.username?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Email or username')}
+            placeholder=${i18n._('Email or username')}
+            variant="outline"
+            icon=${UserIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('username')}
+          />
+        `}
+        ${!!values?.password?.length &&
+        html`
+          <${PasswordField}
+            label=${i18n._('Password')}
+            placeholder=${i18n._('Password')}
+            variant="outline"
+            icon=${KeyIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('password')}
+          />
+        `}
       <//>
 
-      <${CompoundField}>
-        ${websitesList.map((website, index) => {
-          return html`
-            <${React.Fragment} key=${website.id}>
-              <${InputField}
-                label=${i18n._('Website')}
-                placeholder=${i18n._('https://')}
-                icon=${WorldIcon}
-                ...${registerItem('website', index)}
-                isDisabled
-                onClick=${() =>
-                  handleWebsiteClick(registerItem('website', index).value)}
-              />
-            <//>
-          `
-        })}
-      <//>
+      ${!!values?.websites?.length &&
+      html`
+        <${CompoundField}>
+          ${websitesList.map((website, index) => {
+            return html`
+              <${React.Fragment} key=${website.id}>
+                <${InputField}
+                  label=${i18n._('Website')}
+                  placeholder=${i18n._('https://')}
+                  icon=${WorldIcon}
+                  ...${registerItem('website', index)}
+                  isDisabled
+                  onClick=${() =>
+                    handleWebsiteClick(registerItem('website', index).value)}
+                />
+              <//>
+            `
+          })}
+        <//>
+      `}
 
       <${FormGroup}>
-        <${InputFieldNote} ...${register('note')} isDisabled />
+        ${!!values?.note?.length &&
+        html`
+          <${InputFieldNote}
+            ...${register('note')}
+            onClick=${handleCopy}
+            isDisabled
+          />
+        `}
       <//>
 
       <${CustomFields}
         customFields=${customFieldsList}
+        onClick=${handleCopy}
         register=${registerCustomFieldItem}
         areInputsDisabled=${true}
       />

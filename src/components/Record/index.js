@@ -1,21 +1,20 @@
 import { useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
 import { KebabMenuIcon } from 'pearpass-lib-ui-react-components'
 
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
+import { useRecordActionItems } from '../../hooks/useRecordActionItems'
+import { PopupMenu } from '../PopupMenu'
+import { RecordActionsPopupContent } from '../RecordActionsPopupContent'
+import { RecordAvatar } from '../RecordAvatar'
 import {
   RecordActions,
   RecordInformation,
   RecordName,
   RecordWrapper
 } from './styles'
-import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
-import { useRecordActionItems } from '../../hooks/useRecordActionItems'
-import { generateAvatarInitials } from '../../utils/generateAvatarInitials'
-import { PopupMenu } from '../PopupMenu'
-import { RecordActionsPopupContent } from '../RecordActionsPopupContent'
-import { RecordAvatar } from '../RecordAvatar'
 
 /**
  *
@@ -24,7 +23,6 @@ import { RecordAvatar } from '../RecordAvatar'
  *    id: string
  *    createdAt: number
  *    updatedAt: number
- *    isPinned: boolean
  *    isFavorite: boolean
  *    vaultId: string
  *    folder: string
@@ -40,10 +38,9 @@ import { RecordAvatar } from '../RecordAvatar'
  * }} props
  */
 export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
-  const { i18n } = useLingui()
   const [isOpen, setIsOpen] = useState()
 
-  const folderName = record?.isFavorite ? i18n._('Favorite') : record?.folder
+  const folderName = record?.folder
 
   const { actions } = useRecordActionItems({
     record,
@@ -70,7 +67,7 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
           avatarSrc=${record?.data?.avatarSrc}
           initials=${generateAvatarInitials(record?.data?.title)}
           isSelected=${isSelected}
-          isPinned=${record?.isPinned}
+          isFavorite=${record?.isFavorite}
           color=${RECORD_COLOR_BY_TYPE[record?.type]}
         />
 

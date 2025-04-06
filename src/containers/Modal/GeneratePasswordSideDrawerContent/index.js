@@ -3,6 +3,10 @@ import { useMemo, useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { ButtonLittle } from 'pearpass-lib-ui-react-components'
+import {
+  generatePassphrase,
+  generatePassword
+} from 'pearpass-utils-password-generator'
 
 import { RadioSelect } from '../../../components/RadioSelect'
 import { useModal } from '../../../context/ModalContext'
@@ -12,20 +16,19 @@ import { PassphraseGenerator } from './PassphraseGenerator/index.'
 import { PasswordChecker } from './PasswordChecker'
 import { PasswordGenerator } from './PasswordGenerator'
 import { HeaderButtonWrapper, RadioWrapper, Wrapper } from './styles'
-import { generatePassphrase, generatePassword } from './utils'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 
 /**
  * @param {{
- * onPaswordInsert: (pass: string) => void
+ * onPasswordInsert: (pass: string) => void
  * }} props
  */
-export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
+export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const { copyToClipboard } = useCopyToClipboard()
 
-  const [selectedOption, setSelectedOption] = useState('passphrase')
+  const [selectedOption, setSelectedOption] = useState('password')
   const [selectedRules, setSelectedRules] = useState({
     password: {
       specialCharacters: true,
@@ -47,17 +50,18 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
         selectedRules.passphrase.numbers,
         selectedRules.passphrase.words
       )
-    } else {
-      return generatePassword(
-        selectedRules.password.characters,
-        selectedRules.password.specialCharacters
-      )
     }
+    return generatePassword(selectedRules.password.characters, {
+      includeSpecialChars: selectedRules.password.specialCharacters,
+      lowerCase: true,
+      upperCase: true,
+      numbers: true
+    })
   }, [selectedOption, selectedRules])
 
   const radioOptions = [
-    { label: i18n._('Passphrase'), value: 'passphrase' },
-    { label: i18n._('Password'), value: 'password' }
+    { label: i18n._('Password'), value: 'password' },
+    { label: i18n._('Passphrase'), value: 'passphrase' }
   ]
 
   const handleRuleChange = (optionName, value) => {
@@ -75,7 +79,8 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
   }
 
   const handleInsertPassword = () => {
-    onPaswordInsert(pass)
+    const passText = selectedOption === 'passphrase' ? pass.join('-') : pass
+    onPasswordInsert(passText)
     closeModal()
   }
 
@@ -83,7 +88,7 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
     <${Wrapper}>
       <${ModalHeader} onClose=${closeModal}>
         <${HeaderButtonWrapper}>
-          ${onPaswordInsert
+          ${onPasswordInsert
             ? html`<${ButtonLittle} onClick=${handleInsertPassword}>
                 ${i18n._('Insert password')}
               <//> `
@@ -94,8 +99,14 @@ export const GeneratePasswordSideDrawerContent = ({ onPaswordInsert }) => {
       <//>
 
       ${selectedOption === 'passphrase'
-        ? html` <${PassphraseChecker} pass=${pass} />`
-        : html` <${PasswordChecker} pass=${pass} />`}
+        ? html` <${PassphraseChecker}
+            pass=${pass}
+            rules=${selectedRules.passphrase}
+          />`
+        : html` <${PasswordChecker}
+            pass=${pass}
+            rules=${selectedRules.password}
+          />`}
 
       <${RadioWrapper}>
         <${RadioSelect}

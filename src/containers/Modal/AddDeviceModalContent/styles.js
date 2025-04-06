@@ -39,14 +39,16 @@ export const QRCodeCopyWrapper = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   gap: 10px;
 `
 
-export const QRCode = styled.img`
+export const QRCode = styled.div`
   width: 226px;
   height: 226px;
+  padding: 15px;
   border-radius: 10px;
+  background-color: ${({ theme }) => theme.colors.white.mode1};
 `
 
 export const BackgroundSection = styled.div`
@@ -92,11 +94,8 @@ export const WarningSection = styled.div`
   gap: 8px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.errorYellow.mode1};
-  background: linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.8) 100%
-    ),
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
     ${({ theme }) => theme.colors.errorYellow.mode1};
 `
 
