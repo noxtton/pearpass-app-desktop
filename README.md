@@ -82,9 +82,9 @@ npm test
 
 - [pearpass-app-mobile](https://github.com/tetherto/pearpass-app-mobile) - A mobile app for PearPass, a password manager
 - [pearpass-lib-ui-react-native-components](https://github.com/tetherto/pearpass-lib-ui-react-native-components) - A library of React Native UI components for PearPass
-- [pearpass-lib-ui-react-components](https://github.com/noxtton/pearpass-lib-ui-react-components) - A library of React UI components for PearPass
+- [pearpass-lib-ui-react-components](https://github.com/tetherto/pearpass-lib-ui-react-components) - A library of React UI components for PearPass
 - [tether-dev-docs](https://github.com/tetherto/tether-dev-docs) - Documentations and guides for developers
-- [pearpass-lib-vault](https://github.com/noxtton/pearpass-lib-vault) - A library for managing password vaults
-- [pearpass-lib-vault-desktop](https://github.com/noxtton/pearpass-lib-vault-desktop) - A library for managing password vaults for Pearpass desktop app
+- [pearpass-lib-vault](https://github.com/tetherto/pearpass-lib-vault) - A library for managing password vaults
+- [pearpass-lib-vault-desktop](https://github.com/tetherto/pearpass-lib-vault-desktop) - A library for managing password vaults for Pearpass desktop app
 
 
