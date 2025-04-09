@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react'
+import { createContext, useState, useContext, useEffect } from 'react'
 
 import { html } from 'htm/react'
 
@@ -57,12 +57,26 @@ export const ModalProvider = ({ children }) => {
     }, BASE_TRANSITION_DURATION)
   }
 
+  useEffect(() => {
+    const handleKeydown = (event) => {
+      if (event.key === 'Escape' && isOpen) {
+        closeModal()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeydown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeydown)
+    }
+  }, [isOpen])
+
   return html`
     <${ModalContext.Provider} value=${{ isOpen, setModal, closeModal }}>
       ${children}
 
-      ${modalStack?.map(({ content, id, isOpen, params }) => {
-        return html`
+      ${modalStack?.map(
+        ({ content, id, isOpen, params }) => html`
           <${ModalWrapper} key=${id}>
             ${params.hasOverlay &&
             html`<${Overlay}
@@ -75,7 +89,7 @@ export const ModalProvider = ({ children }) => {
             ${params.modalType === 'default' && isOpen && content}
           <//>
         `
-      })}
+      )}
     </${ModalContext.Provider}>
   `
 }
@@ -87,6 +101,4 @@ export const ModalProvider = ({ children }) => {
  *   closeModal: () => void
  * }}
  */
-export const useModal = () => {
-  return useContext(ModalContext)
-}
+export const useModal = () => useContext(ModalContext)

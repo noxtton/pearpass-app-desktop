@@ -39,6 +39,4 @@ export const RouterProvider = ({ children }) => {
  *   navigate: (currentPage: string, data: Object.<string, any>) => void
  * }}
  */
-export const useRouter = () => {
-  return useContext(RouterContext)
-}
+export const useRouter = () => useContext(RouterContext)

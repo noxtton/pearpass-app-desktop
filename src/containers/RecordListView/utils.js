@@ -36,12 +36,12 @@ export const isRecordInLast14Days = (record) => {
 /**
  * @param {{
  *  record: {
- *   isPinned: boolean,
+ *   isFavorite: boolean,
  *   updatedAt: number
  *  },
  *  index: number,
  *  sortedRecords: Array<{
- *    isPinned: boolean,
+ *    isFavorite: boolean,
  *    updatedAt: number
  *  }>
  * }}
@@ -49,11 +49,11 @@ export const isRecordInLast14Days = (record) => {
  */
 export const isStartOfLast7DaysGroup = (record, index, sortedRecords) => {
   const prevRecord = sortedRecords[index - 1]
-  const prevIsPinned = prevRecord?.isPinned
+  const prevIsFavorite = prevRecord?.isFavorite
 
   const isInLast7Days = isRecordInLast7Days(record)
 
-  return !record?.isPinned && isInLast7Days && (index === 0 || prevIsPinned)
+  return !record?.isFavorite && isInLast7Days && (index === 0 || prevIsFavorite)
 }
 
 /**
@@ -63,7 +63,7 @@ export const isStartOfLast7DaysGroup = (record, index, sortedRecords) => {
  *  },
  *   index: number,
  *   sortedRecords: Array<{
- *    isPinned: boolean
+ *    isFavorite: boolean
  *    updatedAt: number
  *  }>
  * }}
@@ -71,14 +71,14 @@ export const isStartOfLast7DaysGroup = (record, index, sortedRecords) => {
  */
 export const isStartOfLast14DaysGroup = (record, index, sortedRecords) => {
   const prevRecord = sortedRecords[index - 1]
-  const prevIsPinned = prevRecord?.isPinned
+  const prevIsFavorite = prevRecord?.isFavorite
   const prevIsInLast7Days = prevRecord && isRecordInLast7Days(prevRecord)
 
   const isInLast14Days = isRecordInLast14Days(record)
 
   return (
-    !record?.isPinned &&
+    !record?.isFavorite &&
     isInLast14Days &&
-    (index === 0 || prevIsPinned || prevIsInLast7Days)
+    (index === 0 || prevIsFavorite || prevIsInLast7Days)
   )
 }

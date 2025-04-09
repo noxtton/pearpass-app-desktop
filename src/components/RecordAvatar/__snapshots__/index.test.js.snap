@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RecordAvatar Component renders initials when no avatarSrc is provided 1`] = `
+<div>
+  <div
+    class="sc-blHHSb eEvduG"
+  >
+    <div
+      class="sc-gtLWhw cUQZhP"
+      color="#FF5500"
+    >
+       
+      AB
+       
+    </div>
+  </div>
+</div>
+`;

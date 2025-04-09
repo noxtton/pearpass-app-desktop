@@ -2,18 +2,22 @@ import React, { useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useForm } from 'pearpass-lib-form'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import {
   CalendarIcon,
+  CopyIcon,
   CreditCardIcon,
   InputField,
   NineDotsIcon,
+  PasswordField,
   UserIcon
 } from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { useToast } from '../../../context/ToastContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -39,6 +43,17 @@ import { CustomFields } from '../../CustomFields'
 export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { i18n } = useLingui()
 
+  const { setToast } = useToast()
+
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
+
   const initialValues = React.useMemo(
     () => ({
       name: initialRecord?.data?.name ?? '',
@@ -53,11 +68,19 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues } = useForm({
+  const { register, registerArray, setValues, values } = useForm({
     initialValues: initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
+
+  const handleCopy = (value) => {
+    if (!value?.length) {
+      return
+    }
+
+    copyToClipboard(value)
+  }
 
   useEffect(() => {
     setValues(initialValues)
@@ -66,59 +89,83 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   return html`
     <${FormWrapper}>
       <${FormGroup}>
-        <${InputField}
-          label=${i18n._('Full name')}
-          placeholder=${i18n._('Full name')}
-          variant="outline"
-          icon=${UserIcon}
-          isDisabled
-          ...${register('name')}
-        />
-
-        <${InputField}
-          label=${i18n._('Number on card')}
-          placeholder="1234 1234 1234 1234 "
-          variant="outline"
-          icon=${CreditCardIcon}
-          isDisabled
-          ...${register('number')}
-        />
-
-        <${InputField}
-          label=${i18n._('Date of expire')}
-          placeholder="MM/AA"
-          variant="outline"
-          icon=${CalendarIcon}
-          isDisabled
-          ...${register('expireDate')}
-        />
-
-        <${InputField}
-          label=${i18n._('Security code')}
-          placeholder="123"
-          variant="outline"
-          icon=${CreditCardIcon}
-          isDisabled
-          ...${register('securityCode')}
-        />
-
-        <${InputField}
-          label=${i18n._('Pin code')}
-          placeholder="1234"
-          variant="outline"
-          icon=${NineDotsIcon}
-          isDisabled
-          ...${register('pinCode')}
-        />
+        ${!!values?.name?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Full name')}
+            placeholder=${i18n._('Full name')}
+            variant="outline"
+            icon=${UserIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('name')}
+          />
+        `}
+        ${!!values?.number?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Number on card')}
+            placeholder="1234 1234 1234 1234 "
+            variant="outline"
+            icon=${CreditCardIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('number')}
+          />
+        `}
+        ${!!values?.expireDate?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Date of expire')}
+            placeholder="MM/AA"
+            variant="outline"
+            icon=${CalendarIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('expireDate')}
+          />
+        `}
+        ${!!values?.securityCode?.length &&
+        html`
+          <${PasswordField}
+            label=${i18n._('Security code')}
+            placeholder="123"
+            variant="outline"
+            icon=${CreditCardIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('securityCode')}
+          />
+        `}
+        ${!!values?.pinCode?.length &&
+        html`
+          <${PasswordField}
+            label=${i18n._('Pin code')}
+            placeholder="1234"
+            variant="outline"
+            icon=${NineDotsIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('pinCode')}
+          />
+        `}
       <//>
 
       <${FormGroup}>
-        <${InputFieldNote} isDisabled ...${register('note')} />
+        ${!!values?.note?.length &&
+        html`
+          <${InputFieldNote}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('note')}
+          />
+        `}
       <//>
 
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}
+        onClick=${handleCopy}
         register=${registerItem}
       />
     <//>

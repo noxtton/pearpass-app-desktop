@@ -10,14 +10,12 @@ import { CloseIconWrapper, Header, HeaderChildrenWrapper } from './styles'
  *  children: import('react').ReactNode
  * }} props
  */
-export const ModalHeader = ({ onClose, children }) => {
-  return html`
-    <${Header}>
-      <${HeaderChildrenWrapper}> ${children} <//>
+export const ModalHeader = ({ onClose, children }) => html`
+  <${Header}>
+    <${HeaderChildrenWrapper}> ${children} <//>
 
-      <${CloseIconWrapper} onClick=${onClose}>
-        <${XIcon} size="20" color=${colors.primary400.option2} />
-      <//>
+    <${CloseIconWrapper} onClick=${onClose}>
+      <${XIcon} size="20" color=${colors.primary400.option2} />
     <//>
-  `
-}
+  <//>
+`

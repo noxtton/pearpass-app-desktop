@@ -1,12 +1,15 @@
 import React, { useState, useRef } from 'react'
 
 /**
+ * @param {{
+ *  onCopy?: () => void
+ * }} props
  * @returns {{
  *  isCopied: boolean,
  *  copyToClipboard: (text: string) => boolean
  * }}
  */
-export const useCopyToClipboard = () => {
+export const useCopyToClipboard = ({ onCopy } = {}) => {
   const [isCopied, setIsCopied] = useState(false)
   const timeoutRef = useRef()
 
@@ -19,6 +22,8 @@ export const useCopyToClipboard = () => {
     navigator.clipboard.writeText(text).then(
       () => {
         setIsCopied(true)
+
+        onCopy?.()
 
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current)

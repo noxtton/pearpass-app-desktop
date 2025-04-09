@@ -39,7 +39,6 @@ import { MoveFolderModalContent } from '../Modal/MoveFolderModalContent'
  *    id: string
  *    createdAt: number
  *    updatedAt: number
- *    isPinned: boolean
  *    isFavorite: boolean
  *    vaultId: string
  *    folder: string

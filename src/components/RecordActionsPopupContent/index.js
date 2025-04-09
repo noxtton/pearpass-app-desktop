@@ -18,31 +18,29 @@ export const RecordActionsPopupContent = ({
   variant = 'default',
   menuItems,
   onClick
-}) => {
-  return html`
-    <${MenuCard} variant=${variant}>
-      ${menuItems.map(
-        (item) => html`
-          <${MenuItem}
-            key=${item.type}
-            variant=${variant}
-            onClick=${(e) => {
-              e.stopPropagation()
+}) => html`
+  <${MenuCard} variant=${variant}>
+    ${menuItems.map(
+      (item) => html`
+        <${MenuItem}
+          key=${item.type}
+          variant=${variant}
+          onClick=${(e) => {
+            e.stopPropagation()
 
-              if (item.click) {
-                item.click()
-                return
-              }
+            if (item.click) {
+              item.click()
+              return
+            }
 
-              onClick?.()
-            }}
-          >
-            <${RECORD_ACTION_ICON_BY_TYPE[item.type]} size="14" />
+            onClick?.()
+          }}
+        >
+          <${RECORD_ACTION_ICON_BY_TYPE[item.type]} size="14" />
 
-            <p>${item.name}</p>
-          <//>
-        `
-      )}
-    <//>
-  `
-}
+          <p>${item.name}</p>
+        <//>
+      `
+    )}
+  <//>
+`

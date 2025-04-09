@@ -1,14 +1,21 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { matchPatternToValue } from 'pear-apps-utils-pattern-search'
 import {
-  UserSecurityIcon,
-  SettingsIcon,
   ButtonThin,
-  StarIcon
+  ExitIcon,
+  SettingsIcon,
+  StarIcon,
+  UserSecurityIcon
 } from 'pearpass-lib-ui-react-components'
-import { useFolders } from 'pearpass-lib-vault'
+import {
+  closeAllInstances,
+  useFolders,
+  useVault,
+  useVaults
+} from 'pearpass-lib-vault'
 
 import { SideBarCategories } from './SidebarCategories'
 import { SidebarNestedFolders } from './SidebarNestedFolders'
@@ -22,12 +29,13 @@ import {
   SidebarSettings,
   SidebarWrapper
 } from './styles'
+import { DropdownSwapVault } from '../../components/DropdownSwapVault'
 import { SidebarSearch } from '../../components/SidebarSearch'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
+import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
-import { matchPatternToValue } from '../../utils/matchPatternToValue'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
@@ -41,18 +49,35 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   const [searchValue, setSearchValue] = useState('')
 
+  const { setIsLoading } = useLoadingContext()
+
   const { data, isLoading } = useFolders({
     variables: { searchPattern: searchValue }
   })
+
+  const { data: vaultsData, resetState } = useVaults()
+
+  const { data: vaultData } = useVault({ shouldSkip: true })
+
+  const vaults = useMemo(
+    () => vaultsData?.filter((vault) => vault.id !== vaultData?.id),
+    [vaultsData, vaultData]
+  )
 
   const handleSettingsClick = () => {
     navigate('settings', {})
   }
 
   const openMainView = () => {
-    navigate('vault', {
-      recordType: 'all'
-    })
+    navigate('vault', { recordType: 'all' })
+  }
+
+  const handleExitVault = async () => {
+    setIsLoading(true)
+    await closeAllInstances()
+    navigate('welcome', { state: 'masterPassword' })
+    resetState()
+    setIsLoading(false)
   }
 
   const matchesSearch = (records, searchValue) => {
@@ -60,9 +85,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       return false
     }
 
-    return records.some((record) => {
-      return matchPatternToValue(searchValue, record?.data?.title ?? '')
-    })
+    return records.some((record) =>
+      matchPatternToValue(searchValue, record?.data?.title ?? '')
+    )
   }
 
   const folders = React.useMemo(() => {
@@ -70,49 +95,41 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
     const otherFolders = Object.values(customFolders ?? {})
 
-    return {
-      name: i18n._('All Folders'),
-      id: 'allFolders',
-      children: [
-        {
-          name: i18n._('Favorite'),
-          id: 'favorites',
-          icon: StarIcon,
-          isOpenInitially: matchesSearch(favorites?.records ?? [], searchValue),
-          isActive: routerData?.folder === 'favorites',
-          children:
-            favorites?.records?.map((record) => {
-              return {
-                name: record?.data.title,
-                id: record?.id,
-                icon: RECORD_ICON_BY_TYPE[record?.type]
-              }
-            }) ?? []
-        },
-        ...otherFolders.map((folder) => {
-          return {
+    return [
+      {
+        name: i18n._('Favorite'),
+        id: 'favorites',
+        icon: StarIcon,
+        children:
+          favorites?.records?.map((record) => ({
+            name: record?.data.title,
+            id: record?.id,
+            icon: RECORD_ICON_BY_TYPE[record?.type]
+          })) ?? []
+      },
+      {
+        name: i18n._('All Folders'),
+        id: 'allFolders',
+        children: [
+          ...otherFolders.map((folder) => ({
             name: folder.name,
             id: folder.name,
             isActive: routerData?.folder === folder.name,
             isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
-            children: folder.records?.map((record) => {
-              return {
-                name: record?.data?.title,
-                id: record?.id,
-                icon: RECORD_ICON_BY_TYPE[record?.type]
-              }
-            })
-          }
-        }),
-        ...(noFolder?.records?.map((record) => {
-          return {
+            children: folder.records?.map((record) => ({
+              name: record?.data?.title,
+              id: record?.id,
+              icon: RECORD_ICON_BY_TYPE[record?.type]
+            }))
+          })),
+          ...(noFolder?.records?.map((record) => ({
             name: record?.data.title,
             id: record?.id,
             icon: RECORD_ICON_BY_TYPE[record?.type]
-          }
-        }) ?? [])
-      ]
-    }
+          })) ?? [])
+        ]
+      }
+    ]
   }, [data, i18n, routerData])
 
   const { setModal } = useModal()
@@ -128,6 +145,8 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <//>
 
       <${sideBarContent}>
+        <${DropdownSwapVault} vaults=${vaults} selectedVault=${vaultData} />
+
         <${SideBarCategories} sidebarSize=${sidebarSize} />
 
         ${!isLoading &&
@@ -136,7 +155,13 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
             <${SidebarSearch} value=${searchValue} onChange=${setSearchValue} />
 
             <${FoldersWrapper}>
-              <${SidebarNestedFolders} item=${folders} key="rootFolder" />
+              ${folders.map(
+                (folder) =>
+                  html`<${SidebarNestedFolders}
+                    item=${folder}
+                    key="rootFolder"
+                  />`
+              )}
             <//>
           <//>
         `}
@@ -152,6 +177,10 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
           ${i18n._('Add Device')}
+        <//>
+
+        <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>
+          ${i18n._('Exit Vault')}
         <//>
       <//>
     <//>

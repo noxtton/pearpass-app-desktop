@@ -9,10 +9,10 @@ import {
 } from 'pearpass-lib-ui-react-components'
 import { useUpdateRecord, useFolders } from 'pearpass-lib-vault'
 
-import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { FolderList, HeaderWrapper } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 import { CreateFolderModalContent } from '../CreateFolderModalContent'
 
 /**
@@ -34,6 +34,8 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
   const { data: folders, isLoading: isLoadingFolders } = useFolders()
 
   const isLoading = isUpdating || isLoadingFolders
+
+  useGlobalLoading({ isLoading })
 
   const filteredFolders = React.useMemo(() => {
     const excludedFolder = records?.length === 1 ? records[0].folder : null
@@ -71,8 +73,8 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
         `}
       >
         <${FolderList}>
-          ${filteredFolders.map((folder) => {
-            return html`
+          ${filteredFolders.map(
+            (folder) => html`
               <${ButtonFolder}
                 key=${folder.name}
                 onClick=${() => handleMove(folder.name)}
@@ -80,7 +82,7 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
                 ${folder.name}
               <//>
             `
-          })}
+          )}
         <//>
 
         <${ButtonSingleInput}
@@ -90,8 +92,6 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
           ${i18n._('Create new folder')}
         <//>
       <//>
-
-      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

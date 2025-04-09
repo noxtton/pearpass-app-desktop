@@ -41,10 +41,7 @@ export const SidebarNestedFile = ({
   }
 
   const handleFileClick = () => {
-    navigate('vault', {
-      recordType: data.recordType,
-      recordId: id
-    })
+    navigate('vault', { recordType: data.recordType, recordId: id })
   }
 
   const handleMenuItemClick = (item) => {

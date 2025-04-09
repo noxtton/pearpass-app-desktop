@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
 import {
   BrushIcon,
   ButtonLittle,
@@ -21,10 +22,13 @@ import {
   Header,
   HeaderRight,
   RecordActions,
-  Title
+  Title,
+  RecordInfo
 } from './styles.js'
 import { PopupMenu } from '../../components/PopupMenu'
 import { RecordActionsPopupContent } from '../../components/RecordActionsPopupContent'
+import { RecordAvatar } from '../../components/RecordAvatar/index.js'
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType.js'
 import { useRouter } from '../../context/RouterContext.js'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
@@ -37,9 +41,7 @@ export const RecordDetails = () => {
   const { currentPage, data: routerData, navigate } = useRouter()
 
   const { data: record } = useRecordById({
-    variables: {
-      id: routerData.recordId
-    }
+    variables: { id: routerData.recordId }
   })
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
@@ -77,20 +79,25 @@ export const RecordDetails = () => {
   return html`
     <${React.Fragment}>
       <${Header}>
-        <div>
-          <${Title}> ${record?.data?.title} <//>
-          <${FolderWrapper}>
-            ${record?.isFavorite
-              ? html`
-                  <${StarIcon} size="14" color=${colors.grey200.mode1} />
-                  ${i18n._('Favourites')}
-                `
-              : html`
-                  <${FolderIcon} size="14" color=${colors.grey200.mode1} />
-                  ${record?.folder}
-                `}
-          <//>
-        </div>
+        <${RecordInfo}>
+          <${RecordAvatar}
+            avatarSrc=${record?.data?.avatarSrc}
+            initials=${generateAvatarInitials(record?.data?.title)}
+            isFavorite=${record?.isFavorite}
+            color=${RECORD_COLOR_BY_TYPE[record?.type]}
+          />
+          <div>
+            <${Title}> ${record?.data?.title} <//>
+
+            ${!!record?.folder &&
+            html`
+              <${FolderWrapper}>
+                <${FolderIcon} size="14" color=${colors.grey200.mode1} />
+                ${record?.folder}
+              <//>
+            `}
+          </div>
+        <//>
 
         <${HeaderRight}>
           <${FavoriteButtonWrapper}

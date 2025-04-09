@@ -31,7 +31,7 @@ export const LayoutWithSidebar = ({ mainView, sideView }) => {
         />
       <//>
 
-      <${ContentWrapper} isFullWidth=${!sideView}> ${mainView} <//>
+      <${ContentWrapper}> ${mainView} <//>
 
       ${sideView && html` <${SideViewWrapper}> ${sideView} <//>`}
     <//>

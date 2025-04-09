@@ -2,19 +2,19 @@ import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useForm } from 'pearpass-lib-form'
+import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { Validator } from 'pear-apps-utils-validator'
 import {
   InputField,
   ButtonLittle,
   FolderIcon
 } from 'pearpass-lib-ui-react-components'
-import { Validator } from 'pearpass-lib-validator'
 import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
 
-import { LoadingOverlay } from '../../../components/LoadingOverlay'
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 
 /**
  * @param {{
@@ -32,6 +32,8 @@ export const CreateFolderModalContent = ({ onCreate }) => {
       closeModal()
     }
   })
+
+  useGlobalLoading({ isLoading })
 
   const { data } = useFolders()
 
@@ -57,9 +59,7 @@ export const CreateFolderModalContent = ({ onCreate }) => {
     initialValues: {
       title: ''
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const onSubmit = (values) => {
@@ -69,13 +69,11 @@ export const CreateFolderModalContent = ({ onCreate }) => {
   return html`
     <${React.Fragment}>
       <${ModalContent}
+        onSubmit=${handleSubmit(onSubmit)}
         onClose=${closeModal}
         headerChildren=${html`
           <${HeaderWrapper}>
-            <${ButtonLittle}
-              startIcon=${FolderIcon}
-              onClick=${handleSubmit(onSubmit)}
-            >
+            <${ButtonLittle} startIcon=${FolderIcon} type="submit">
               ${i18n._('Create folder')}
             <//>
           <//>
@@ -85,11 +83,10 @@ export const CreateFolderModalContent = ({ onCreate }) => {
           label=${i18n._('Title')}
           placeholder=${i18n._('Insert folder name')}
           variant="outline"
+          autoFocus
           ...${register('title')}
         />
       <//>
-
-      ${isLoading && html`<${LoadingOverlay} />`}
     <//>
   `
 }

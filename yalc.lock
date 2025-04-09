@@ -2,8 +2,13 @@
   "version": "v1",
   "packages": {
     "pearpass-lib-ui-react-components": {
-      "version": "0.0.35",
-      "signature": "b5286910ef6426ea7b0d0c1755647921"
+      "signature": "548e517a6f219cdc2fee1ce16772ac2d"
+    },
+    "pearpass-lib-vault": {
+      "signature": "f054bb73ef5a6d230c196c657f9be157"
+    },
+    "pearpass-lib-vault-desktop": {
+      "signature": "0ad9545637d784e381b80dad885f0358"
     }
   }
 }
