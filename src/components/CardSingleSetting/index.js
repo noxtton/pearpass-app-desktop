@@ -8,13 +8,11 @@ import { Container, Content, Header, Title } from './styles'
  *  children: import('react').ReactNode
  * }} props
  */
-export const CardSingleSetting = ({ title, children }) => {
-  return html`
-    <${Container}>
-      <${Header}>
-        <${Title}>${title}<//>
-      <//>
-      <${Content}>${children}<//>
+export const CardSingleSetting = ({ title, children }) => html`
+  <${Container}>
+    <${Header}>
+      <${Title}>${title}<//>
     <//>
-  `
-}
+    <${Content}>${children}<//>
+  <//>
+`

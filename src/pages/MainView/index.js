@@ -40,9 +40,7 @@ export const MainView = () => {
   const [searchValue, setSearchValue] = useState('')
   const [sortType, setSortType] = useState('recent')
 
-  const sort = React.useMemo(() => {
-    return SORT_BY_TYPE[sortType]
-  }, [sortType])
+  const sort = React.useMemo(() => SORT_BY_TYPE[sortType], [sortType])
 
   const selectedFolder =
     routerData?.folder && !isFavorite(routerData.folder)

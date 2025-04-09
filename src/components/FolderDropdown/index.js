@@ -26,9 +26,9 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
 
   const customFolders = React.useMemo(
     () =>
-      Object.values(folders?.customFolders ?? {}).map((folder) => {
-        return { name: folder.name }
-      }),
+      Object.values(folders?.customFolders ?? {}).map((folder) => ({
+        name: folder.name
+      })),
     [folders]
   )
 

@@ -59,9 +59,10 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   const { data: vaultData } = useVault({ shouldSkip: true })
 
-  const vaults = useMemo(() => {
-    return vaultsData?.filter((vault) => vault.id !== vaultData?.id)
-  }, [vaultsData, vaultData])
+  const vaults = useMemo(
+    () => vaultsData?.filter((vault) => vault.id !== vaultData?.id),
+    [vaultsData, vaultData]
+  )
 
   const handleSettingsClick = () => {
     navigate('settings', {})
@@ -84,9 +85,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       return false
     }
 
-    return records.some((record) => {
-      return matchPatternToValue(searchValue, record?.data?.title ?? '')
-    })
+    return records.some((record) =>
+      matchPatternToValue(searchValue, record?.data?.title ?? '')
+    )
   }
 
   const folders = React.useMemo(() => {
@@ -100,40 +101,32 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         id: 'favorites',
         icon: StarIcon,
         children:
-          favorites?.records?.map((record) => {
-            return {
-              name: record?.data.title,
-              id: record?.id,
-              icon: RECORD_ICON_BY_TYPE[record?.type]
-            }
-          }) ?? []
+          favorites?.records?.map((record) => ({
+            name: record?.data.title,
+            id: record?.id,
+            icon: RECORD_ICON_BY_TYPE[record?.type]
+          })) ?? []
       },
       {
         name: i18n._('All Folders'),
         id: 'allFolders',
         children: [
-          ...otherFolders.map((folder) => {
-            return {
-              name: folder.name,
-              id: folder.name,
-              isActive: routerData?.folder === folder.name,
-              isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
-              children: folder.records?.map((record) => {
-                return {
-                  name: record?.data?.title,
-                  id: record?.id,
-                  icon: RECORD_ICON_BY_TYPE[record?.type]
-                }
-              })
-            }
-          }),
-          ...(noFolder?.records?.map((record) => {
-            return {
-              name: record?.data.title,
+          ...otherFolders.map((folder) => ({
+            name: folder.name,
+            id: folder.name,
+            isActive: routerData?.folder === folder.name,
+            isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
+            children: folder.records?.map((record) => ({
+              name: record?.data?.title,
               id: record?.id,
               icon: RECORD_ICON_BY_TYPE[record?.type]
-            }
-          }) ?? [])
+            }))
+          })),
+          ...(noFolder?.records?.map((record) => ({
+            name: record?.data.title,
+            id: record?.id,
+            icon: RECORD_ICON_BY_TYPE[record?.type]
+          })) ?? [])
         ]
       }
     ]

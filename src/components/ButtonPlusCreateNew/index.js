@@ -9,10 +9,8 @@ import { Button } from './styles'
  *  isOpen: boolean
  * }} props
  */
-export const ButtonPlusCreateNew = ({ isOpen }) => {
-  return html`
-    <${Button}>
-      <${isOpen ? XIcon : PlusIcon} color=${colors.black.mode1} />
-    <//>
-  `
-}
+export const ButtonPlusCreateNew = ({ isOpen }) => html`
+  <${Button}>
+    <${isOpen ? XIcon : PlusIcon} color=${colors.black.mode1} />
+  <//>
+`

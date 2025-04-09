@@ -8,9 +8,8 @@ import { Buttons, FormModalHeaderWrapperComponent, Main } from './styles'
  *  buttons: import('react').ReactNode
  * }} props
  */
-export const FormModalHeaderWrapper = ({ children, buttons }) => {
-  return html` <${FormModalHeaderWrapperComponent}>
+export const FormModalHeaderWrapper = ({ children, buttons }) =>
+  html` <${FormModalHeaderWrapperComponent}>
     <${Main}> ${children} <//>
     <${Buttons}> ${buttons} <//>
   <//>`
-}

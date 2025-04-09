@@ -21,13 +21,12 @@ describe('Overlay', () => {
     jest.clearAllMocks()
   })
 
-  const renderComponent = (props = {}) => {
-    return render(
+  const renderComponent = (props = {}) =>
+    render(
       <ThemeProvider>
         <Overlay isOpen={false} onClick={mockOnClick} {...props} />
       </ThemeProvider>
     )
-  }
 
   test('does not render when isRendered is false', () => {
     require('../../hooks/useAnimatedVisibility').useAnimatedVisibility.mockReturnValue(

@@ -95,9 +95,7 @@ export const CreateOrEditNoteModalContent = ({
       customFields: initialRecord?.data?.customFields ?? [],
       folder: selectedFolder ?? initialRecord?.folder
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const { value: list, addItem, registerItem } = registerArray('customFields')

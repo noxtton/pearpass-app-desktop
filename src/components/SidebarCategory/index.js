@@ -26,23 +26,21 @@ export const SidebarCategory = ({
   color,
   icon,
   onClick
-}) => {
-  return html`
-    <${CategoryButton}
-      size=${size}
-      color=${color}
-      isSelected=${isSelected}
-      onClick=${onClick}
-    >
-      <${CategoryDescription} size=${size}>
-        <${CategoryIconWrapper} isSelected=${isSelected} color=${color}>
-          <${icon} />
-        <//>
-
-        <span>${categoryName}</span>
+}) => html`
+  <${CategoryButton}
+    size=${size}
+    color=${color}
+    isSelected=${isSelected}
+    onClick=${onClick}
+  >
+    <${CategoryDescription} size=${size}>
+      <${CategoryIconWrapper} isSelected=${isSelected} color=${color}>
+        <${icon} />
       <//>
 
-      <${CategoryQuantity} size=${size}>${quantity}<//>
+      <span>${categoryName}</span>
     <//>
-  `
-}
+
+    <${CategoryQuantity} size=${size}>${quantity}<//>
+  <//>
+`
