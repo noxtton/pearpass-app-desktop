@@ -1,6 +1,8 @@
+import { createElement } from 'react'
+
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
-import { html } from 'htm/react'
+import htm from 'htm'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import {
   closeAllInstances,
@@ -36,6 +38,8 @@ setPearpassVaultClient(
     debugMode: true
   })
 )
+
+const html = htm.bind(createElement)
 
 root.render(html`
   <${LoadingProvider}>
