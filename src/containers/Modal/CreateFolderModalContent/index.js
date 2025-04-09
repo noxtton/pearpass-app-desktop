@@ -59,9 +59,7 @@ export const CreateFolderModalContent = ({ onCreate }) => {
     initialValues: {
       title: ''
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const onSubmit = (values) => {

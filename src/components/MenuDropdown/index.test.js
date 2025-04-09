@@ -38,8 +38,8 @@ describe('MenuDropdown', () => {
     mockOnItemSelect.mockClear()
   })
 
-  const renderComponent = (props = {}) => {
-    return render(
+  const renderComponent = (props = {}) =>
+    render(
       <ThemeProvider>
         <MenuDropdown
           items={mockItems}
@@ -48,7 +48,6 @@ describe('MenuDropdown', () => {
         />
       </ThemeProvider>
     )
-  }
 
   test('renders both dropdown labels', () => {
     const { container } = renderComponent()

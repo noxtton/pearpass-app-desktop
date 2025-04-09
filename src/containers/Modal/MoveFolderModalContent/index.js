@@ -73,8 +73,8 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
         `}
       >
         <${FolderList}>
-          ${filteredFolders.map((folder) => {
-            return html`
+          ${filteredFolders.map(
+            (folder) => html`
               <${ButtonFolder}
                 key=${folder.name}
                 onClick=${() => handleMove(folder.name)}
@@ -82,7 +82,7 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
                 ${folder.name}
               <//>
             `
-          })}
+          )}
         <//>
 
         <${ButtonSingleInput}

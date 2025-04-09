@@ -3,6 +3,4 @@
  * @returns {boolean}
  */
 
-export const isDesktopSmall = (windowWidth) => {
-  return windowWidth >= 1280
-}
+export const isDesktopSmall = (windowWidth) => windowWidth >= 1280

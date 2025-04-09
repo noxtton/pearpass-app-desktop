@@ -28,9 +28,7 @@ export const LoadingProvider = ({ children }) => {
  *  setIsLoading: (isLoading: boolean) => void
  * }}
  */
-export const useLoadingContext = () => {
-  return useContext(LoadingContext)
-}
+export const useLoadingContext = () => useContext(LoadingContext)
 
 /**
  * @param {{

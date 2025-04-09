@@ -29,9 +29,7 @@ export const SwapVaultModalContent = ({ vault }) => {
     initialValues: {
       password: ''
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const { refetch } = useVault({ shouldSkip: true })

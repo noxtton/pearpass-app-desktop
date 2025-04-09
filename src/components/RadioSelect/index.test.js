@@ -39,8 +39,8 @@ describe('RadioSelect', () => {
     mockOnChange.mockClear()
   })
 
-  const renderComponent = (props = {}) => {
-    return render(
+  const renderComponent = (props = {}) =>
+    render(
       <ThemeProvider>
         <RadioSelect
           title={mockTitle}
@@ -51,7 +51,6 @@ describe('RadioSelect', () => {
         />
       </ThemeProvider>
     )
-  }
 
   test('renders the component with title and options', () => {
     const { container } = renderComponent()

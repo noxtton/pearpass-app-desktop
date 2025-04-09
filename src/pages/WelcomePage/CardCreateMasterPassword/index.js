@@ -33,9 +33,7 @@ export const CardCreateMasterPassword = () => {
       password: '',
       passwordConfirm: ''
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const onSubmit = async (values) => {

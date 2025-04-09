@@ -10,13 +10,12 @@ describe('FileDropArea component', () => {
   const mockOnFileDrop = jest.fn()
   const testLabel = 'Drop files here'
 
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <ThemeProvider>
         <FileDropArea label={testLabel} onFileDrop={mockOnFileDrop} />
       </ThemeProvider>
     )
-  }
 
   beforeEach(() => {
     jest.clearAllMocks()

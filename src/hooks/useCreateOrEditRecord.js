@@ -18,15 +18,13 @@ export const useCreateOrEditRecord = () => {
     recordType,
     initialRecord,
     selectedFolder
-  }) => {
-    return html`
-      <${CreateOrEditCategoryWrapper}
-        recordType=${recordType}
-        initialRecord=${initialRecord}
-        selectedFolder=${selectedFolder}
-      />
-    `
-  }
+  }) => html`
+    <${CreateOrEditCategoryWrapper}
+      recordType=${recordType}
+      initialRecord=${initialRecord}
+      selectedFolder=${selectedFolder}
+    />
+  `
 
   const getSideDrawerContentByRecordType = ({ recordType, setValue }) => {
     if (recordType === 'password') {
