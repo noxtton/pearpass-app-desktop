@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 
 import { Overlay } from './index'
@@ -21,13 +21,12 @@ describe('Overlay', () => {
     jest.clearAllMocks()
   })
 
-  const renderComponent = (props = {}) => {
-    return render(
+  const renderComponent = (props = {}) =>
+    render(
       <ThemeProvider>
         <Overlay isOpen={false} onClick={mockOnClick} {...props} />
       </ThemeProvider>
     )
-  }
 
   test('does not render when isRendered is false', () => {
     require('../../hooks/useAnimatedVisibility').useAnimatedVisibility.mockReturnValue(

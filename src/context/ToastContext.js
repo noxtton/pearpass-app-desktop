@@ -35,6 +35,4 @@ export const ToastProvider = ({ children }) => {
  *  setToast: (data: { message: string, icon: import('react').ReactNode }) => void
  * }}
  */
-export const useToast = () => {
-  return useContext(ToastContext)
-}
+export const useToast = () => useContext(ToastContext)

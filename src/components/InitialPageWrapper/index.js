@@ -18,28 +18,26 @@ import { SpotlightRight } from '../../svgs/SpotlightRight'
  *  children: import('react').ReactNode
  * }} props
  */
-export const InitialPageWrapper = ({ children }) => {
-  return html`
-    <${Background}>
-      <${LeftSpotlightWrapper}>
-        <${SpotLightLeft} />
-      <//>
-
-      <${MiddleSmallSpotlightWrapper}>
-        <${SpotlightMiddle} width="500" />
-      <//>
-
-      <${RightSpotlightWrapper}>
-        <${SpotlightRight} />
-      <//>
-
-      <${PageContent}>
-        <${LogoContainer}>
-          <${LogoLock} />
-        <//>
-
-        ${children}
-      <//>
+export const InitialPageWrapper = ({ children }) => html`
+  <${Background}>
+    <${LeftSpotlightWrapper}>
+      <${SpotLightLeft} />
     <//>
-  `
-}
+
+    <${MiddleSmallSpotlightWrapper}>
+      <${SpotlightMiddle} width="500" />
+    <//>
+
+    <${RightSpotlightWrapper}>
+      <${SpotlightRight} />
+    <//>
+
+    <${PageContent}>
+      <${LogoContainer}>
+        <${LogoLock} />
+      <//>
+
+      ${children}
+    <//>
+  <//>
+`

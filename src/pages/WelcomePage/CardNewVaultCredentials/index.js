@@ -39,9 +39,7 @@ export const CardNewVaultCredentials = () => {
     initialValues: {
       name: ''
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const onSubmit = (values) => {

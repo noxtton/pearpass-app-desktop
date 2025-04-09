@@ -9,17 +9,12 @@ import { DropDownItem, FolderIconWrapper } from '../styles'
  *    item: {name: string, icon?: import('react').ReactNode}
  *  }} props
  */
-export const MenuDropdownItem = ({ item, onClick }) => {
-  return html`
-    <${DropDownItem} onClick=${() => onClick?.()}>
-      <${FolderIconWrapper}>
-        <${item.icon ?? FolderIcon}
-          size="14"
-          color=${item.color ?? undefined}
-        />
-      <//>
-
-      ${item.name}
+export const MenuDropdownItem = ({ item, onClick }) => html`
+  <${DropDownItem} onClick=${() => onClick?.()}>
+    <${FolderIconWrapper}>
+      <${item.icon ?? FolderIcon} size="14" color=${item.color ?? undefined} />
     <//>
-  `
-}
+
+    ${item.name}
+  <//>
+`

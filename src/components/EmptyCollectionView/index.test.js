@@ -28,13 +28,12 @@ jest.mock('@lingui/react', () => ({
 }))
 
 describe('EmptyCollectionView component', () => {
-  const renderComponent = () => {
-    return render(
+  const renderComponent = () =>
+    render(
       <ThemeProvider>
         <EmptyCollectionView />
       </ThemeProvider>
     )
-  }
 
   test('renders empty collection message', () => {
     const { container, getByText } = renderComponent()

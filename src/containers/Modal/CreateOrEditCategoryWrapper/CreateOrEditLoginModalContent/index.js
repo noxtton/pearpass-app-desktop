@@ -124,9 +124,7 @@ export const CreateOrEditLoginModalContent = ({
       customFields: initialRecord?.data.customFields ?? [],
       folder: selectedFolder ?? initialRecord?.folder
     },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const {
@@ -154,9 +152,7 @@ export const CreateOrEditLoginModalContent = ({
         note: values.note,
         websites: values.websites
           .filter((website) => !!website?.website?.trim().length)
-          .map((website) => {
-            return addHttps(website.website)
-          }),
+          .map((website) => addHttps(website.website)),
         customFields: values.customFields
       }
     }
@@ -241,8 +237,8 @@ export const CreateOrEditLoginModalContent = ({
         <//>
 
         <${CompoundField}>
-          ${websitesList.map((website, index) => {
-            return html`
+          ${websitesList.map(
+            (website, index) => html`
               <${React.Fragment} key=${website.id}>
                 <${InputField}
                   label=${i18n._('Website')}
@@ -269,7 +265,7 @@ export const CreateOrEditLoginModalContent = ({
                 />
               <//>
             `
-          })}
+          )}
         <//>
 
         <${FormGroup}>

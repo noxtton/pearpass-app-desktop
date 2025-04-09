@@ -22,22 +22,20 @@ export const CustomFields = ({
   register,
   areInputsDisabled,
   onClick
-}) => {
-  return html`
-    <${React.Fragment}>
-      ${customFields?.map((customField, index) => {
-        if (customField.type === 'note') {
-          return html`
-            <${FormGroup} key=${customField.id}>
-              <${InputFieldNote}
-                onClick=${onClick}
-                isDisabled=${areInputsDisabled}
-                ...${register('note', index)}
-              />
-            <//>
-          `
-        }
-      })}
-    <//>
-  `
-}
+}) => html`
+  <${React.Fragment}>
+    ${customFields?.map((customField, index) => {
+      if (customField.type === 'note') {
+        return html`
+          <${FormGroup} key=${customField.id}>
+            <${InputFieldNote}
+              onClick=${onClick}
+              isDisabled=${areInputsDisabled}
+              ...${register('note', index)}
+            />
+          <//>
+        `
+      }
+    })}
+  <//>
+`

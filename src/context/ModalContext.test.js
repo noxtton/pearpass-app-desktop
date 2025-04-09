@@ -6,33 +6,27 @@ import { ModalProvider, useModal } from './ModalContext'
 import { BASE_TRANSITION_DURATION } from '../constants/transitions'
 import '@testing-library/jest-dom'
 
-jest.mock('../components/Overlay', () => {
-  return {
-    Overlay: ({ onClick, type, isOpen }) => (
-      <div data-testid="overlay" onClick={onClick}>
-        Overlay: {type}, isOpen: {isOpen.toString()}
-      </div>
-    )
-  }
-})
+jest.mock('../components/Overlay', () => ({
+  Overlay: ({ onClick, type, isOpen }) => (
+    <div data-testid="overlay" onClick={onClick}>
+      Overlay: {type}, isOpen: {isOpen.toString()}
+    </div>
+  )
+}))
 
-jest.mock('../containers/Modal', () => {
-  return {
-    ModalWrapper: ({ children }) => (
-      <div data-testid="modal-wrapper">{children}</div>
-    )
-  }
-})
+jest.mock('../containers/Modal', () => ({
+  ModalWrapper: ({ children }) => (
+    <div data-testid="modal-wrapper">{children}</div>
+  )
+}))
 
-jest.mock('../containers/Modal/SideDrawer', () => {
-  return {
-    SideDrawer: ({ children, isOpen }) => (
-      <div data-testid="side-drawer" data-open={isOpen.toString()}>
-        {children}
-      </div>
-    )
-  }
-})
+jest.mock('../containers/Modal/SideDrawer', () => ({
+  SideDrawer: ({ children, isOpen }) => (
+    <div data-testid="side-drawer" data-open={isOpen.toString()}>
+      {children}
+    </div>
+  )
+}))
 
 const TestComponent = () => {
   const { setModal, closeModal, isOpen } = useModal()

@@ -127,8 +127,8 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
       ${!!values?.websites?.length &&
       html`
         <${CompoundField}>
-          ${websitesList.map((website, index) => {
-            return html`
+          ${websitesList.map(
+            (website, index) => html`
               <${React.Fragment} key=${website.id}>
                 <${InputField}
                   label=${i18n._('Website')}
@@ -141,7 +141,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
                 />
               <//>
             `
-          })}
+          )}
         <//>
       `}
 

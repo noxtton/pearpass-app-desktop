@@ -30,9 +30,7 @@ describe('SidebarCategory Component', () => {
       </ThemeProvider>
     )
     expect(
-      getByText((content) => {
-        return content.includes('Test Category')
-      })
+      getByText((content) => content.includes('Test Category'))
     ).toBeInTheDocument()
     expect(getByText('5')).toBeInTheDocument()
     expect(getByTestId('mock-icon')).toBeInTheDocument()

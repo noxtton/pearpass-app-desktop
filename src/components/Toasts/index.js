@@ -11,18 +11,16 @@ import { ToastContainer, ToastStack } from './styles'
  *  }>
  * }} props
  */
-export const Toasts = ({ toasts }) => {
-  return html`
-    <${ToastStack}>
-      ${toasts?.map((toast) => {
-        const Icon = toast.icon
-        return html`
-          <${ToastContainer}>
-            ${Icon && html`<${Icon} color=${colors.black.mode1} />`}
-            ${toast.message}
-          <//>
-        `
-      })}
-    <//>
-  `
-}
+export const Toasts = ({ toasts }) => html`
+  <${ToastStack}>
+    ${toasts?.map((toast) => {
+      const Icon = toast.icon
+      return html`
+        <${ToastContainer}>
+          ${Icon && html`<${Icon} color=${colors.black.mode1} />`}
+          ${toast.message}
+        <//>
+      `
+    })}
+  <//>
+`

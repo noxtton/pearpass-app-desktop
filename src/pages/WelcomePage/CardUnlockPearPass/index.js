@@ -36,9 +36,7 @@ export const CardUnlockPearPass = () => {
 
   const { register, handleSubmit, setErrors } = useForm({
     initialValues: { password: '' },
-    validate: (values) => {
-      return schema.validate(values)
-    }
+    validate: (values) => schema.validate(values)
   })
 
   const onSubmit = async (values) => {

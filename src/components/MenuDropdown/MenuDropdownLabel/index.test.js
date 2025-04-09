@@ -30,8 +30,8 @@ describe('MenuDropdownLabel', () => {
     mockSetIsOpen.mockClear()
   })
 
-  const renderComponent = (props) => {
-    return render(
+  const renderComponent = (props) =>
+    render(
       <ThemeProvider>
         <MenuDropdownLabel
           isHidden={false}
@@ -41,7 +41,6 @@ describe('MenuDropdownLabel', () => {
         />
       </ThemeProvider>
     )
-  }
 
   test('renders ArrowDownIcon when closed', () => {
     const { container } = renderComponent({ isOpen: false })
