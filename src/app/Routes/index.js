@@ -1,13 +1,13 @@
 import { html } from 'htm/react'
 import { useUserData } from 'pearpass-lib-vault'
 
-import { InitialLoadPage } from '../../containers/InitialPage/index.js'
-import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar/index.js'
-import { RecordDetails } from '../../containers/RecordDetails/index.js'
-import { SettingsView } from '../../containers/SettingsView/index.js'
+import { InitialLoadPage } from '../../containers/InitialPage'
+import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar'
+import { RecordDetails } from '../../containers/RecordDetails'
 import { useRouter } from '../../context/RouterContext.js'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading.js'
-import { MainView } from '../../pages/MainView/index.js'
+import { MainView } from '../../pages/MainView'
+import { SettingsView } from '../../pages/SettingsView'
 import { WelcomePage } from '../../pages/WelcomePage'
 
 export const Routes = () => {

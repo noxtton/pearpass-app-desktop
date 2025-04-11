@@ -6,7 +6,7 @@ exports[`SettingsTab Component renders correctly 1`] = `
     data-testid="card-single-setting"
     data-title="Report a problem"
   >
-    <div
+    <form
       class="sc-blHHSb bGLDjz"
     >
       <textarea
@@ -25,7 +25,7 @@ exports[`SettingsTab Component renders correctly 1`] = `
            
         </button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 `;

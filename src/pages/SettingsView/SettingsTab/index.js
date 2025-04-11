@@ -8,10 +8,10 @@ import {
 } from 'pear-apps-lib-feedback'
 import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
-import { CardSingleSetting } from '../CardSingleSetting'
 import { ButtonWrapper, Form } from './styles'
-import { useGlobalLoading } from '../../context/LoadingContext'
-import { useToast } from '../../context/ToastContext'
+import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import { useGlobalLoading } from '../../../context/LoadingContext'
+import { useToast } from '../../../context/ToastContext'
 
 export const SettingsTab = () => {
   const { i18n } = useLingui()
