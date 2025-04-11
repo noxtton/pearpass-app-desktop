@@ -1,9 +1,11 @@
 import { renderHook } from '@testing-library/react'
-import { useDeleteRecord, useUpdateRecord } from 'pearpass-lib-vault'
 
 import { useRecordActionItems } from './useRecordActionItems'
 import { useModal } from '../context/ModalContext'
 import { useRouter } from '../context/RouterContext'
+
+const mockDeleteRecord = jest.fn()
+const mockUpdateFavoriteState = jest.fn()
 
 jest.mock('../context/ModalContext', () => ({
   useModal: jest.fn()
@@ -14,8 +16,10 @@ jest.mock('../context/RouterContext', () => ({
 }))
 
 jest.mock('pearpass-lib-vault', () => ({
-  useDeleteRecord: jest.fn(),
-  useUpdateRecord: jest.fn()
+  useRecords: () => ({
+    deleteRecords: mockDeleteRecord,
+    updateFavoriteState: mockUpdateFavoriteState
+  })
 }))
 
 jest.mock('@lingui/react', () => ({
@@ -33,8 +37,6 @@ describe('useRecordActionItems', () => {
 
   const mockSetModal = jest.fn()
   const mockCloseModal = jest.fn()
-  const mockDeleteRecord = jest.fn()
-  const mockUpdateFavoriteState = jest.fn()
   const mockNavigate = jest.fn()
 
   beforeEach(() => {
@@ -49,14 +51,6 @@ describe('useRecordActionItems', () => {
       data: {},
       navigate: mockNavigate,
       currentPage: 'somePage'
-    })
-
-    useDeleteRecord.mockReturnValue({
-      deleteRecord: mockDeleteRecord
-    })
-
-    useUpdateRecord.mockReturnValue({
-      updateFavoriteState: mockUpdateFavoriteState
     })
   })
 
@@ -115,7 +109,7 @@ describe('useRecordActionItems', () => {
     )
 
     result.current.actions[1].click()
-    expect(mockUpdateFavoriteState).toHaveBeenCalledWith(mockRecord.id, true)
+    expect(mockUpdateFavoriteState).toHaveBeenCalledWith([mockRecord.id], true)
     expect(mockOnClose).toHaveBeenCalled()
   })
 
@@ -172,7 +166,7 @@ describe('useRecordActionItems', () => {
     expect(mockNavigate).toHaveBeenCalledWith('somePage', {
       recordId: undefined
     })
-    expect(mockDeleteRecord).toHaveBeenCalledWith('123')
+    expect(mockDeleteRecord).toHaveBeenCalledWith(['123'])
     expect(mockCloseModal).toHaveBeenCalled()
   })
 })

@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useDeleteRecord, useUpdateRecord } from 'pearpass-lib-vault'
+import { useRecords } from 'pearpass-lib-vault'
 
 import { ConfirmationModalContent } from '../containers/Modal/ConfirmationModalContent'
 import { MoveFolderModalContent } from '../containers/Modal/MoveFolderModalContent'
@@ -33,15 +33,14 @@ export const useRecordActionItems = ({
   const { setModal, closeModal } = useModal()
   const { data: routerData, navigate, currentPage } = useRouter()
 
-  const { deleteRecord } = useDeleteRecord()
-  const { updateFavoriteState } = useUpdateRecord()
+  const { deleteRecords, updateFavoriteState } = useRecords()
 
   const handleDeleteConfirm = () => {
     if (routerData?.recordId === record?.id) {
       navigate(currentPage, { ...routerData, recordId: undefined })
     }
 
-    deleteRecord(record?.id)
+    deleteRecords([record?.id])
 
     closeModal?.()
   }
@@ -62,7 +61,7 @@ export const useRecordActionItems = ({
   }
 
   const handleFavoriteToggle = () => {
-    updateFavoriteState(record?.id, !record?.isFavorite)
+    updateFavoriteState([record?.id], !record?.isFavorite)
 
     onClose?.()
   }

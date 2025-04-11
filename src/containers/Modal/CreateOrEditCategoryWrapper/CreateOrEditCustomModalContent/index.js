@@ -7,11 +7,7 @@ import {
   ButtonLittle,
   SaveIcon
 } from 'pearpass-lib-ui-react-components'
-import {
-  RECORD_TYPES,
-  useCreateRecord,
-  useUpdateRecord
-} from 'pearpass-lib-vault'
+import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../../components/FolderDropdown'
@@ -62,7 +58,7 @@ export const CreateOrEditCustomModalContent = ({
     }
   })
 
-  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+  const { updateRecords, isLoading: isUpdateLoading } = useRecords({
     onCompleted: () => {
       closeModal()
 
@@ -109,10 +105,12 @@ export const CreateOrEditCustomModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({
-        ...initialRecord,
-        ...data
-      })
+      updateRecords([
+        {
+          ...initialRecord,
+          ...data
+        }
+      ])
     } else {
       createRecord(data)
     }

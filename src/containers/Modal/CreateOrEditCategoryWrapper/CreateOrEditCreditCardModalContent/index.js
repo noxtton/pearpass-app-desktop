@@ -12,11 +12,7 @@ import {
   NineDotsIcon,
   PasswordField
 } from 'pearpass-lib-ui-react-components'
-import {
-  useCreateRecord,
-  useUpdateRecord,
-  RECORD_TYPES
-} from 'pearpass-lib-vault'
+import { useCreateRecord, useRecords, RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../../components/FolderDropdown'
@@ -73,7 +69,7 @@ export const CreateOrEditCreditCardModalContent = ({
     }
   })
 
-  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+  const { updateRecords, isLoading: isUpdateLoading } = useRecords({
     onCompleted: () => {
       closeModal()
 
@@ -140,7 +136,7 @@ export const CreateOrEditCreditCardModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({ ...initialRecord, ...data })
+      updateRecords([{ ...initialRecord, ...data }])
     } else {
       createRecord(data)
     }

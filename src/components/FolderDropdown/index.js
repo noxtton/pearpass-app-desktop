@@ -24,13 +24,19 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
 
   const { i18n } = useLingui()
 
-  const customFolders = React.useMemo(
-    () =>
-      Object.values(folders?.customFolders ?? {}).map((folder) => ({
-        name: folder.name
-      })),
-    [folders]
-  )
+  const customFolders = React.useMemo(() => {
+    const mappedFolders = Object.values(folders?.customFolders ?? {}).map(
+      (folder) => {
+        return { name: folder.name }
+      }
+    )
+
+    if (selectedFolder) {
+      mappedFolders.unshift({ name: 'No Folder' })
+    }
+
+    return mappedFolders
+  }, [folders])
 
   const isFavorite = selectedFolder === 'favorites'
   const name = isFavorite ? i18n._('Favorite') : selectedFolder
