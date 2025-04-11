@@ -135,7 +135,7 @@ export const CreateOrEditNoteModalContent = ({
           <${DropdownsWrapper}>
             <${FolderDropdown}
               selectedFolder=${values?.folder}
-              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+              onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
 
             ${!initialRecord &&

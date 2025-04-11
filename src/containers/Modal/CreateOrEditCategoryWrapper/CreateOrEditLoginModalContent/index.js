@@ -184,11 +184,7 @@ export const CreateOrEditLoginModalContent = ({
           <${DropdownsWrapper}>
             <${FolderDropdown}
               selectedFolder=${values?.folder}
-              onFolderSelect=${(folder) =>
-                setValue(
-                  'folder',
-                  folder.name === 'No Folder' ? '' : folder.name
-                )}
+              onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
             html` <${RecordTypeMenu}

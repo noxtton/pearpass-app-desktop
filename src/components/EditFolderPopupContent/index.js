@@ -10,6 +10,13 @@ import { ConfirmationModalContent } from '../../containers/Modal/ConfirmationMod
 import { CreateFolderModalContent } from '../../containers/Modal/CreateFolderModalContent'
 import { useModal } from '../../context/ModalContext'
 
+/**
+ *
+ * @param {{
+ *  name: string
+ * }} props
+ * @returns
+ */
 export const EditFolderPopupContent = ({ name }) => {
   const { i18n } = useLingui()
   const { deleteFolder } = useFolders()

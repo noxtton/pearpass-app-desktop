@@ -7,6 +7,8 @@ import { useFolders } from 'pearpass-lib-vault'
 
 import { MenuDropdown } from '../MenuDropdown'
 
+const NO_FOLDER = 'no-folder'
+
 /**
  * @param {{
  *  selectedFolder?: {
@@ -26,13 +28,11 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
 
   const customFolders = React.useMemo(() => {
     const mappedFolders = Object.values(folders?.customFolders ?? {}).map(
-      (folder) => {
-        return { name: folder.name }
-      }
+      (folder) => ({ name: folder.name })
     )
 
     if (selectedFolder) {
-      mappedFolders.unshift({ name: 'No Folder' })
+      mappedFolders.unshift({ name: i18n._('No Folder'), type: NO_FOLDER })
     }
 
     return mappedFolders
@@ -42,10 +42,14 @@ export const FolderDropdown = ({ selectedFolder, onFolderSelect }) => {
   const name = isFavorite ? i18n._('Favorite') : selectedFolder
   const icon = isFavorite ? StarIcon : undefined
 
+  const handleFolderSelect = (folder) => {
+    onFolderSelect(folder.type === NO_FOLDER ? undefined : folder)
+  }
+
   return html`
     <${MenuDropdown}
       selectedItem=${{ name, icon }}
-      onItemSelect=${onFolderSelect}
+      onItemSelect=${handleFolderSelect}
       items=${customFolders}
     />
   `

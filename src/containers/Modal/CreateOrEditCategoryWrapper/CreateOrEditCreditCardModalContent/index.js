@@ -175,7 +175,7 @@ export const CreateOrEditCreditCardModalContent = ({
           <${DropdownsWrapper}>
             <${FolderDropdown}
               selectedFolder=${values?.folder}
-              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+              onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
             html` <${RecordTypeMenu}

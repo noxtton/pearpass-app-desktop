@@ -49,6 +49,9 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
     if (isRoot) {
       return navigate('vault', { recordType: 'all' })
     }
+
+    setIsOpen(!isOpen)
+
     navigate('vault', { recordType: 'all', folder: item.id })
   }
 
