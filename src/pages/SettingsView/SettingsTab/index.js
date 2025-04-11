@@ -10,6 +10,11 @@ import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
 import { ButtonWrapper, Form } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import {
+  GOOGLE_FORM_KEY,
+  GOOGLE_FORM_MAPPING,
+  SLACK_WEBHOOK_URL_PATH
+} from '../../../constants/feedback'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
 
@@ -40,21 +45,13 @@ export const SettingsTab = () => {
       }
 
       await sendSlackFeedback({
-        webhookUrPath: '/T1RUJ063F/B08LLRLBY9M/KTKA3MIJfmjX4izWfgnjbRIM',
+        webhookUrPath: SLACK_WEBHOOK_URL_PATH,
         ...payload
       })
 
       await sendGoogleFormFeedback({
-        formKey: '1FAIpQLScLltvRe64VzMDRzOVjGtHWZ3KafLC2zzvkEoJfTzJkFd67OA',
-        mapping: {
-          timestamp: 'entry.34343954',
-          topic: 'entry.302384538',
-          app: 'entry.536199007',
-          operatingSystem: 'entry.1717180794',
-          deviceModel: 'entry.536951034',
-          message: 'entry.9561956',
-          appVersion: 'entry.156031897'
-        },
+        formKey: GOOGLE_FORM_KEY,
+        mapping: GOOGLE_FORM_MAPPING,
         ...payload
       })
 
