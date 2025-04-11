@@ -11,7 +11,11 @@
       "minHeight": "720",
       "height": "1024",
       "width": "1440"
-    }
+    },
+    "links": [ 
+      "https://hooks.slack.com/services/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",
+      "https://docs.google.com/forms/d/e/1FAIpQLScLltvRe64VzMDRzOVjGtHWZ3KafLC2zzvkEoJfTzJkFd67OA/*"
+    ]
   },
   "type": "module",
   "license": "Apache-2.0",
@@ -44,6 +48,7 @@
     "autopass": "1.0.2",
     "corestore": "6.18.4",
     "htm": "3.1.1",
+    "pear-apps-lib-feedback": "github:noxtton/pear-apps-lib-feedback#v0.0.3",
     "pear-apps-lib-ui-react-hooks": "github:noxtton/pear-apps-lib-ui-react-hooks#v0.0.5",
     "pear-apps-utils-avatar-initials": "github:noxtton/pear-apps-utils-avatar-initials#v0.0.3",
     "pear-apps-utils-date": "github:noxtton/pear-apps-utils-date#v0.0.2",

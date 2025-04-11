@@ -30,6 +30,14 @@ export const CardCreateOrLoadVault = () => {
     setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
   }
 
+  const handleCreateVault = async () => {
+    if (isLoading) {
+      return
+    }
+
+    await createVault()
+  }
+
   return html` <${CardContainer}>
     <${ActionCardTitle}>
       ${i18n._('Start with')}
@@ -38,7 +46,7 @@ export const CardCreateOrLoadVault = () => {
     <//>
 
     <${Actions}>
-      <${ButtonPrimary} size="md" onClick=${createVault}>
+      <${ButtonPrimary} size="md" onClick=${handleCreateVault}>
         ${i18n._('Create a new vault')}
       <//>
 

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -12,10 +12,15 @@ import {
 import { useVault, useVaults } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 
 export const CardUnlockVault = () => {
   const { i18n } = useLingui()
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  useGlobalLoading({ isLoading })
 
   const { navigate, currentPage, data: routerData } = useRouter()
 
@@ -37,18 +42,24 @@ export const CardUnlockVault = () => {
   })
 
   const onSubmit = async (values) => {
-    if (!routerData.vaultId) {
+    if (!routerData.vaultId || isLoading) {
       return
     }
 
     try {
+      setIsLoading(true)
+
       await refetch(routerData.vaultId, values.password)
+
+      setIsLoading(false)
 
       navigate('vault', { recordType: 'all' })
     } catch (error) {
       setErrors({
         password: i18n._('Invalid password')
       })
+
+      setIsLoading(false)
 
       console.error(error)
     }

@@ -44,5 +44,9 @@ export const useGlobalLoading = ({ isLoading }) => {
     }
 
     setIsLoading(isLoading)
+
+    return () => {
+      setIsLoading(false)
+    }
   }, [isLoading])
 }

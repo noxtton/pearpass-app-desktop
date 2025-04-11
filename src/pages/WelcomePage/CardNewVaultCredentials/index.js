@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
@@ -12,16 +14,21 @@ import { useCreateVault } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
-  CardContainer,
   CardTitle,
+  Form,
   InputsContainer,
   Title
 } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 
 export const CardNewVaultCredentials = () => {
   const { i18n } = useLingui()
   const { navigate, currentPage } = useRouter()
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  useGlobalLoading({ isLoading })
 
   const schema = Validator.object({
     name: Validator.string().required(i18n._('Name is required')),
@@ -42,7 +49,11 @@ export const CardNewVaultCredentials = () => {
     validate: (values) => schema.validate(values)
   })
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
+    if (isLoading) {
+      return
+    }
+
     if (values.password !== values.passwordConfirm) {
       setErrors({
         passwordConfirm: i18n._('Passwords do not match')
@@ -51,45 +62,53 @@ export const CardNewVaultCredentials = () => {
       return
     }
 
-    createVault({ name: values.name, password: values.password })
+    try {
+      setIsLoading(true)
+
+      await createVault({ name: values.name, password: values.password })
+
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+
+      console.error(error)
+    }
   }
 
   return html`
-    <${CardContainer}>
-      <${CardContainer}>
-        <${CardTitle}>
-          <${Title}> ${i18n._('Enter Name and Password for new Vault')} <//>
+    <${Form} onSubmit=${handleSubmit(onSubmit)}>
+      <${CardTitle}>
+        <${Title}> ${i18n._('Enter Name and Password for new Vault')} <//>
+      <//>
+
+      <${InputsContainer}>
+        <${PearPassInputField}
+          placeholder=${i18n._('Enter Name')}
+          ...${register('name')}
+        />
+
+        <${PearPassPasswordField}
+          placeholder=${i18n._('Enter Password')}
+          ...${register('password')}
+        />
+
+        <${PearPassPasswordField}
+          placeholder=${i18n._('Confirm Password')}
+          ...${register('passwordConfirm')}
+        />
+      <//>
+
+      <${ButtonWrapper}>
+        <${ButtonPrimary} size="md" type="submit">
+          ${i18n._('Create a new vault')}
         <//>
 
-        <${InputsContainer}>
-          <${PearPassInputField}
-            placeholder=${i18n._('Enter Name')}
-            ...${register('name')}
-          />
-
-          <${PearPassPasswordField}
-            placeholder=${i18n._('Enter Password')}
-            ...${register('password')}
-          />
-
-          <${PearPassPasswordField}
-            placeholder=${i18n._('Confirm Password')}
-            ...${register('passwordConfirm')}
-          />
-        <//>
-
-        <${ButtonWrapper}>
-          <${ButtonPrimary} size="md" onClick=${handleSubmit(onSubmit)}>
-            ${i18n._('Create a new vault')}
-          <//>
-
-          <${ButtonSecondary}
-            size="md"
-            onClick=${() => navigate(currentPage, { state: 'vaults' })}
-            type="button"
-          >
-            ${i18n._('Go back')}
-          <//>
+        <${ButtonSecondary}
+          size="md"
+          onClick=${() => navigate(currentPage, { state: 'vaults' })}
+          type="button"
+        >
+          ${i18n._('Go back')}
         <//>
       <//>
     <//>

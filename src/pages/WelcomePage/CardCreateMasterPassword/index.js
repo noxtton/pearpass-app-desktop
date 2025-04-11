@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
@@ -15,11 +17,16 @@ import {
   Description,
   Title
 } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 
 export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  useGlobalLoading({ isLoading })
 
   const { createMasterPassword } = useUserData()
 
@@ -37,6 +44,19 @@ export const CardCreateMasterPassword = () => {
   })
 
   const onSubmit = async (values) => {
+    if (isLoading) {
+      return
+    }
+
+    if (!values.password || !values.passwordConfirm) {
+      setErrors({
+        password: i18n._('Password is required'),
+        passwordConfirm: i18n._('Password is required')
+      })
+
+      return
+    }
+
     if (values.password !== values.passwordConfirm) {
       setErrors({
         passwordConfirm: i18n._('Passwords do not match')
@@ -45,9 +65,23 @@ export const CardCreateMasterPassword = () => {
       return
     }
 
-    await createMasterPassword(values.password)
+    try {
+      setIsLoading(true)
 
-    navigate(currentPage, { state: 'masterPassword' })
+      await createMasterPassword(values.password)
+
+      navigate(currentPage, { state: 'masterPassword' })
+
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+
+      setErrors({
+        password: i18n._('Error creating master password')
+      })
+
+      console.error('Error creating master password:', error)
+    }
   }
 
   return html`
