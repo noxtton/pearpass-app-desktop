@@ -3,4 +3,5 @@ node_modules
 src/locales/en/*
 
 .yalc
+yalc.lock
 pass
