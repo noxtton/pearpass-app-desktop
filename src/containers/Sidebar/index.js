@@ -158,7 +158,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   useEffect(() => {
     refetch()
-  }, [vaultData])
+  }, [])
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>

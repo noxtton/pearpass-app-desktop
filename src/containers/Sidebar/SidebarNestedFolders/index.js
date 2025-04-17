@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { PlusIcon } from 'pearpass-lib-ui-react-components'
@@ -42,7 +40,7 @@ export const SidebarNestedFolders = ({
   const isRoot = item.id === 'allFolders'
   const IsFavorites = item.id === 'favorites'
 
-  const [isOpen, setIsOpen] = useState(item.isOpenInitially)
+  const isOpen = item.isOpenInitially
 
   const isFolder = 'children' in item
 
@@ -70,10 +68,6 @@ export const SidebarNestedFolders = ({
       />
     `
   }
-
-  useEffect(() => {
-    setIsOpen(item.isOpenInitially)
-  }, [item.isOpenInitially, isRoot])
 
   if (!item.children.length && !isRoot) {
     return html``
