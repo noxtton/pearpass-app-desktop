@@ -133,7 +133,8 @@ export const CreateOrEditLoginModalContent = ({
   const {
     value: customFieldsList,
     addItem: addCustomField,
-    registerItem: registerCustomFieldItem
+    registerItem: registerCustomFieldItem,
+    removeItem: removeCustomFieldItem
   } = registerArray('customFields')
 
   const onSubmit = (values) => {
@@ -273,6 +274,7 @@ export const CreateOrEditLoginModalContent = ({
         <${CustomFields}
           customFields=${customFieldsList}
           register=${registerCustomFieldItem}
+          removeItem=${removeCustomFieldItem}
         />
 
         <${FormGroup}>

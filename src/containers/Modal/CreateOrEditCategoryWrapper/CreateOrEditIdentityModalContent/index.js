@@ -121,7 +121,12 @@ export const CreateOrEditIdentityModalContent = ({
     validate: (values) => schema.validate(values)
   })
 
-  const { value: list, addItem, registerItem } = registerArray('customFields')
+  const {
+    value: list,
+    addItem,
+    registerItem,
+    removeItem
+  } = registerArray('customFields')
 
   const onSubmit = (values) => {
     const data = {
@@ -258,7 +263,11 @@ export const CreateOrEditIdentityModalContent = ({
           <${InputFieldNote} ...${register('note')} />
         <//>
 
-        <${CustomFields} customFields=${list} register=${registerItem} />
+        <${CustomFields}
+          customFields=${list}
+          register=${registerItem}
+          removeItem=${removeItem}
+        />
 
         <${FormGroup}>
           <${CreateCustomField}
