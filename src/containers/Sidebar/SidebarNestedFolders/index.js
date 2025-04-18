@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { PlusIcon } from 'pearpass-lib-ui-react-components'
@@ -27,9 +25,14 @@ import { SidebarNestedFile } from '../SidebarNestedFile'
  *     }[]
  *   },
  *  level: number
+ *  onFolderExpandToggle: (id) => void
  * }} props
  */
-export const SidebarNestedFolders = ({ item, level = 0 }) => {
+export const SidebarNestedFolders = ({
+  item,
+  level = 0,
+  onFolderExpandToggle
+}) => {
   const { i18n } = useLingui()
   const { setModal } = useModal()
   const { navigate } = useRouter()
@@ -37,7 +40,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
   const isRoot = item.id === 'allFolders'
   const IsFavorites = item.id === 'favorites'
 
-  const [isOpen, setIsOpen] = useState(isRoot)
+  const isOpen = item.isOpenInitially
 
   const isFolder = 'children' in item
 
@@ -50,7 +53,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
       return navigate('vault', { recordType: 'all' })
     }
 
-    setIsOpen(!isOpen)
+    onFolderExpandToggle(item.id)
 
     navigate('vault', { recordType: 'all', folder: item.id })
   }
@@ -66,12 +69,6 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
     `
   }
 
-  useEffect(() => {
-    if (!isRoot) {
-      setIsOpen(item.isOpenInitially)
-    }
-  }, [item.isOpenInitially, isRoot])
-
   if (!item.children.length && !isRoot) {
     return html``
   }
@@ -82,7 +79,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
         onAddClick=${handleAddClick}
         isOpen=${isOpen}
         onClick=${handleFolderClick}
-        onDropDown=${() => setIsOpen(!isOpen)}
+        onDropDown=${() => onFolderExpandToggle(item.id)}
         isRoot=${isRoot}
         isActive=${item.isActive}
         name=${item.name}
@@ -97,6 +94,7 @@ export const SidebarNestedFolders = ({ item, level = 0 }) => {
             ? html`
                 <${SidebarNestedFolders}
                   key=${childItem.name + childItem.id + level}
+                  onFolderExpandToggle=${onFolderExpandToggle}
                   item=${childItem}
                   level=${level + 1}
                 />
