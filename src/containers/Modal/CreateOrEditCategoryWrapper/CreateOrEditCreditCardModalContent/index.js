@@ -116,7 +116,12 @@ export const CreateOrEditCreditCardModalContent = ({
     validate: (values) => schema.validate(values)
   })
 
-  const { value: list, addItem, registerItem } = registerArray('customFields')
+  const {
+    value: list,
+    addItem,
+    registerItem,
+    removeItem
+  } = registerArray('customFields')
 
   const onSubmit = (values) => {
     const data = {
@@ -215,7 +220,7 @@ export const CreateOrEditCreditCardModalContent = ({
 
           <${InputField}
             label=${i18n._('Date of expire')}
-            placeholder="MM/AA"
+            placeholder="MM/YY"
             variant="outline"
             icon=${CalendarIcon}
             value=${values.expireDate}
@@ -243,7 +248,11 @@ export const CreateOrEditCreditCardModalContent = ({
           <${InputFieldNote} ...${register('note')} />
         <//>
 
-        <${CustomFields} customFields=${list} register=${registerItem} />
+        <${CustomFields}
+          customFields=${list}
+          register=${registerItem}
+          removeItem=${removeItem}
+        />
 
         <${FormGroup}>
           <${CreateCustomField}

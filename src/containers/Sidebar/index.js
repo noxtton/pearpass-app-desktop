@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -49,13 +49,15 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   const [searchValue, setSearchValue] = useState('')
 
+  const [expandedFolders, setExpandednFolders] = useState(['allFolders'])
+
   const { setIsLoading } = useLoadingContext()
 
   const { data, isLoading } = useFolders({
     variables: { searchPattern: searchValue }
   })
 
-  const { data: vaultsData, resetState } = useVaults()
+  const { data: vaultsData, resetState, refetch } = useVaults()
 
   const { data: vaultData } = useVault({ shouldSkip: true })
 
@@ -100,6 +102,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         name: i18n._('Favorite'),
         id: 'favorites',
         icon: StarIcon,
+        isOpenInitially: expandedFolders.includes('favorites'),
         children:
           favorites?.records?.map((record) => ({
             name: record?.data.title,
@@ -110,12 +113,15 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       {
         name: i18n._('All Folders'),
         id: 'allFolders',
+        isOpenInitially: expandedFolders.includes('allFolders'),
         children: [
           ...otherFolders.map((folder) => ({
             name: folder.name,
             id: folder.name,
             isActive: routerData?.folder === folder.name,
-            isOpenInitially: matchesSearch(folder.records ?? [], searchValue),
+            isOpenInitially:
+              matchesSearch(folder.records ?? [], searchValue) ||
+              expandedFolders.includes(folder.name),
             children: folder.records?.map((record) => ({
               name: record?.data?.title,
               id: record?.id,
@@ -130,13 +136,29 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         ]
       }
     ]
-  }, [data, i18n, routerData])
+  }, [data, i18n, routerData, expandedFolders])
 
   const { setModal } = useModal()
 
   const handleAddDevice = () => {
     setModal(html`<${AddDeviceModalContent} />`)
   }
+
+  const handleFolderExpandToggle = (id) => {
+    setExpandednFolders((prev) => {
+      const isFolderExpandend = prev.includes(id)
+
+      if (isFolderExpandend) {
+        return prev.filter((folderId) => folderId !== id)
+      }
+
+      return [...prev, id]
+    })
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [])
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
@@ -159,6 +181,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
                 (folder) =>
                   html`<${SidebarNestedFolders}
                     item=${folder}
+                    onFolderExpandToggle=${handleFolderExpandToggle}
                     key="rootFolder"
                   />`
               )}
