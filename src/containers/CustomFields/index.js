@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { html } from 'htm/react'
+import { ButtonLittle, DeleteIcon } from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../components/FormGroup'
 import { InputFieldNote } from '../../components/InputFieldNote'
@@ -15,12 +16,14 @@ import { InputFieldNote } from '../../components/InputFieldNote'
  *  }[]
  *  onClick?: () => void
  *  areInputsDisabled: boolean
+ *  removeItem?: () => void
  * }} props
  */
 export const CustomFields = ({
   customFields,
   register,
   areInputsDisabled,
+  removeItem,
   onClick
 }) => html`
   <${React.Fragment}>
@@ -31,6 +34,14 @@ export const CustomFields = ({
             <${InputFieldNote}
               onClick=${onClick}
               isDisabled=${areInputsDisabled}
+              additionalItems=${!areInputsDisabled &&
+              html`
+                <${ButtonLittle}
+                  variant="secondary"
+                  startIcon=${DeleteIcon}
+                  onClick=${() => removeItem?.(index)}
+                />
+              `}
               ...${register('note', index)}
             />
           <//>
