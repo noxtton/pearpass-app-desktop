@@ -9,6 +9,7 @@ import {
 import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
 import { ButtonWrapper, Form } from './styles'
+import { version } from '../../../../package.json'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   GOOGLE_FORM_KEY,
@@ -41,7 +42,7 @@ export const SettingsTab = () => {
         app: 'DESKTOP',
         operatingSystem: navigator?.userAgentData?.platform,
         deviceModel: navigator?.platform,
-        appVersion: '0.0.1'
+        appVersion: version
       }
 
       await sendSlackFeedback({
