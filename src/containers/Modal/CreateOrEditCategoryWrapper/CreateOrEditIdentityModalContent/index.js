@@ -10,11 +10,7 @@ import {
   SaveIcon,
   UserIcon
 } from 'pearpass-lib-ui-react-components'
-import {
-  RECORD_TYPES,
-  useCreateRecord,
-  useUpdateRecord
-} from 'pearpass-lib-vault'
+import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../../components/FolderDropdown'
@@ -74,7 +70,7 @@ export const CreateOrEditIdentityModalContent = ({
     }
   })
 
-  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+  const { updateRecords, isLoading: isUpdateLoading } = useRecords({
     onCompleted: () => {
       closeModal()
 
@@ -125,7 +121,12 @@ export const CreateOrEditIdentityModalContent = ({
     validate: (values) => schema.validate(values)
   })
 
-  const { value: list, addItem, registerItem } = registerArray('customFields')
+  const {
+    value: list,
+    addItem,
+    registerItem,
+    removeItem
+  } = registerArray('customFields')
 
   const onSubmit = (values) => {
     const data = {
@@ -148,10 +149,12 @@ export const CreateOrEditIdentityModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({
-        ...initialRecord,
-        ...data
-      })
+      updateRecords([
+        {
+          ...initialRecord,
+          ...data
+        }
+      ])
     } else {
       createRecord(data)
     }
@@ -172,7 +175,7 @@ export const CreateOrEditIdentityModalContent = ({
           <${DropdownsWrapper}>
             <${FolderDropdown}
               selectedFolder=${values?.folder}
-              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+              onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
             html` <${RecordTypeMenu}
@@ -260,7 +263,11 @@ export const CreateOrEditIdentityModalContent = ({
           <${InputFieldNote} ...${register('note')} />
         <//>
 
-        <${CustomFields} customFields=${list} register=${registerItem} />
+        <${CustomFields}
+          customFields=${list}
+          register=${registerItem}
+          removeItem=${removeItem}
+        />
 
         <${FormGroup}>
           <${CreateCustomField}

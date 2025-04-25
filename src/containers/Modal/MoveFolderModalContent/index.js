@@ -7,7 +7,7 @@ import {
   ButtonSingleInput,
   NewFolderIcon
 } from 'pearpass-lib-ui-react-components'
-import { useUpdateRecord, useFolders } from 'pearpass-lib-vault'
+import { useRecords, useFolders } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
@@ -28,7 +28,7 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
   const { i18n } = useLingui()
   const { closeModal, setModal } = useModal()
 
-  const { updateFolder, isLoading: isUpdating } = useUpdateRecord({
+  const { updateFolder, isLoading: isUpdating } = useRecords({
     onCompleted: closeModal
   })
   const { data: folders, isLoading: isLoadingFolders } = useFolders()
@@ -47,9 +47,8 @@ export const MoveFolderModalContent = ({ records, onCompleted }) => {
   }, [folders, records])
 
   const handleMove = async (folderName) => {
-    await Promise.all(
-      records.map((record) => updateFolder(record?.id, folderName))
-    )
+    const recordIds = records.map((record) => record.id)
+    await updateFolder(recordIds, folderName)
 
     onCompleted?.()
   }

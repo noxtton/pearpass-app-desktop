@@ -3,38 +3,37 @@
 exports[`SidebarFolder Component renders correctly with default props 1`] = `
 <div>
   <div
-    class="sc-jSSkKI lfbslN"
+    class="sc-jtQUzJ kWABCk"
   >
     <div
-      class="sc-iqyJx cRXIgu"
+      class="sc-cEzcPc ljOJZs"
     >
       <div>
-        <svg
-          fill="none"
-          height="14"
-          viewBox="0 0 15 15"
-          width="14"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M13.7642 10.4092L7.61416 4.25918C7.56927 4.21135 7.51505 4.17323 7.45486 4.14717C7.39466 4.12111 7.32976 4.10766 7.26416 4.10766C7.19856 4.10766 7.13366 4.12111 7.07347 4.14717C7.01327 4.17323 6.95905 4.21135 6.91416 4.25918L0.76416 10.4092"
-            stroke="#F6F6F6"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <div
+          data-testid="mock-arrowUp-icon"
+        />
       </div>
       <div
-        class="sc-eDHQDy buKncP"
+        class="sc-ovuCP OABfI"
       >
         <div
           data-testid="mock-icon"
         >
           Icon
         </div>
-        <span>
+        <span
+          class="sc-eauhAA gnvTZn"
+        >
           Test Folder
         </span>
+         
+        <div
+          data-testid="card-single-setting"
+        >
+          <div
+            data-testid="mock-kebab-icon"
+          />
+        </div>
       </div>
     </div>
   </div>

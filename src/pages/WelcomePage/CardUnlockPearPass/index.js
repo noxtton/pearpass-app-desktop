@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
@@ -15,11 +17,16 @@ import {
   Description,
   Title
 } from './styles'
+import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 
 export const CardUnlockPearPass = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  useGlobalLoading({ isLoading })
 
   const schema = Validator.object({
     password: Validator.string().required(i18n._('Password is required'))
@@ -30,6 +37,8 @@ export const CardUnlockPearPass = () => {
   const { initVaults } = useVaults({
     shouldSkip: true,
     onInitialize: () => {
+      setIsLoading(false)
+
       navigate(currentPage, { state: 'vaults' })
     }
   })
@@ -40,14 +49,34 @@ export const CardUnlockPearPass = () => {
   })
 
   const onSubmit = async (values) => {
+    if (isLoading) {
+      return
+    }
+
+    if (!values.password) {
+      setErrors({
+        password: i18n._('Password is required')
+      })
+
+      return
+    }
+
     try {
+      setIsLoading(true)
+
       await logIn({ password: values.password })
 
       await initVaults({ password: values.password })
+
+      setIsLoading(false)
     } catch (error) {
+      setIsLoading(false)
+
       setErrors({
-        password: typeof error === 'string' ? error : i18n._('Invalid password')
+        password: i18n._('Invalid password')
       })
+
+      console.error('Error unlocking PearPass:', error)
     }
   }
 

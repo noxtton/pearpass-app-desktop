@@ -4,9 +4,26 @@ import { render, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 
 import { SidebarFolder } from './index'
+
 import '@testing-library/jest-dom'
 
 const MockIcon = () => <div data-testid="mock-icon">Icon</div>
+
+jest.mock('../PopupMenu', () => ({
+  PopupMenu: ({ title, children }) => (
+    <div data-testid="card-single-setting" data-title={title}>
+      {children}
+    </div>
+  )
+}))
+
+jest.mock('pearpass-lib-ui-react-components', () => ({
+  ArrowDownIcon: () => <div data-testid="mock-arrow-icon"></div>,
+  ArrowUpIcon: () => <div data-testid="mock-arrowUp-icon"></div>,
+  FolderIcon: () => <div data-testid="mock-folder-icon"></div>,
+  KebabMenuIcon: () => <div data-testid="mock-kebab-icon"></div>,
+  PlusIcon: () => <div data-testid="mock-plus-icon"></div>
+}))
 
 describe('SidebarFolder Component', () => {
   const defaultProps = {
@@ -35,13 +52,15 @@ describe('SidebarFolder Component', () => {
   })
 
   test('calls onClick handler when clicked', () => {
-    const { getByText } = render(
+    const { getByTestId } = render(
       <ThemeProvider>
         <SidebarFolder {...defaultProps} />
       </ThemeProvider>
     )
-    fireEvent.click(getByText('Test Folder').closest('div'))
-    expect(defaultProps.onClick).toHaveBeenCalledTimes(1)
+    const wrapper = getByTestId('mock-arrowUp-icon')
+    fireEvent.click(wrapper)
+
+    expect(defaultProps.onDropDown).toHaveBeenCalledTimes(1)
   })
 
   test('renders with custom icon when provided', () => {

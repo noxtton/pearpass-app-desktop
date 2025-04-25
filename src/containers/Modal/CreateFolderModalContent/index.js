@@ -19,11 +19,13 @@ import { useGlobalLoading } from '../../../context/LoadingContext'
 /**
  * @param {{
  *  onCreate: (folderName: string) => void
+ *  initialValues: {title: string}
  * }} props
  */
-export const CreateFolderModalContent = ({ onCreate }) => {
+export const CreateFolderModalContent = ({ onCreate, initialValues }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+  const { renameFolder } = useFolders()
 
   const { isLoading, createFolder } = useCreateFolder({
     onCompleted: (folderName) => {
@@ -57,13 +59,18 @@ export const CreateFolderModalContent = ({ onCreate }) => {
 
   const { register, handleSubmit } = useForm({
     initialValues: {
-      title: ''
+      title: initialValues?.title ?? ''
     },
     validate: (values) => schema.validate(values)
   })
 
-  const onSubmit = (values) => {
-    createFolder(values.title)
+  const onSubmit = async (values) => {
+    if (initialValues) {
+      await renameFolder(initialValues.title, values.title)
+      closeModal()
+    } else {
+      createFolder(values.title)
+    }
   }
 
   return html`
@@ -74,7 +81,7 @@ export const CreateFolderModalContent = ({ onCreate }) => {
         headerChildren=${html`
           <${HeaderWrapper}>
             <${ButtonLittle} startIcon=${FolderIcon} type="submit">
-              ${i18n._('Create folder')}
+              ${!!initialValues ? i18n._('Save') : i18n._('Create folder')}
             <//>
           <//>
         `}

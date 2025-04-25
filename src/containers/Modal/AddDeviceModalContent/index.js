@@ -96,7 +96,7 @@ export const AddDeviceModalContent = () => {
         <${BackgroundSection} onClick=${() => copyToClipboard(data?.publicKey)}>
           <${QRCodeCopyWrapper}>
             <${QRCodeCopy}>
-              <${QRCodeText}> ${i18n._('Copy accont link')} <//>
+              <${QRCodeText}> ${i18n._('Copy account link')} <//>
               <${IconWrapper}>
                 <${CopyIcon} color=${colors.primary400.mode1} />
               <//>

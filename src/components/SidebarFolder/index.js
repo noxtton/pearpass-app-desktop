@@ -1,16 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { html } from 'htm/react'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
-  PlusIcon,
-  FolderIcon
+  FolderIcon,
+  KebabMenuIcon,
+  PlusIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
+import { EditFolderPopupContent } from '../EditFolderPopupContent'
+import { PopupMenu } from '../PopupMenu'
 import {
   AddIconWrapper,
+  FolderName,
   NestedFolder,
   NestedFoldersContainer,
   NestedItem
@@ -37,6 +41,8 @@ export const SidebarFolder = ({
   icon: Icon,
   isActive
 }) => {
+  const [isNewPopupMenuOpen, setIsNewPopupMenuOpen] = useState(false)
+
   const handleDropDownClick = (e) => {
     e.stopPropagation()
     onDropDown()
@@ -45,7 +51,7 @@ export const SidebarFolder = ({
   return html`
     <${React.Fragment}>
       <${NestedFoldersContainer}>
-        <${NestedItem} onClick=${onClick}>
+        <${NestedItem}>
           <div onClick=${handleDropDownClick}>
             <${isOpen ? ArrowDownIcon : ArrowUpIcon}
               ArrowUpIcon="14"
@@ -62,7 +68,18 @@ export const SidebarFolder = ({
               />
             `}
 
-            <span>${name}</span>
+            <${FolderName} onClick=${onClick}>${name}<//>
+
+            ${!isRoot &&
+            html` <${PopupMenu}
+              side="right"
+              align="right"
+              isOpen=${isNewPopupMenuOpen}
+              setIsOpen=${setIsNewPopupMenuOpen}
+              content=${html` <${EditFolderPopupContent} name=${name} /> `}
+            >
+              <${KebabMenuIcon} />
+            <//>`}
           <//>
         <//>
 

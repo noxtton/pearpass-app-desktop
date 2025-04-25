@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
@@ -11,7 +11,11 @@
       "minHeight": "720",
       "height": "1024",
       "width": "1440"
-    }
+    },
+    "links": [
+      "https://hooks.slack.com/services/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",
+      "https://docs.google.com/forms/d/e/1FAIpQLScLltvRe64VzMDRzOVjGtHWZ3KafLC2zzvkEoJfTzJkFd67OA/*"
+    ]
   },
   "type": "module",
   "license": "Apache-2.0",
@@ -41,9 +45,10 @@
     "@lingui/macro": "5.1.2",
     "@lingui/react": "5.1.2",
     "@reduxjs/toolkit": "2.5.0",
-    "autopass": "1.0.2",
-    "corestore": "6.18.4",
+    "autopass": "2.1.0",
+    "corestore": "7.4.0",
     "htm": "3.1.1",
+    "pear-apps-lib-feedback": "github:tetherto/pear-apps-lib-feedback#v0.0.3",
     "pear-apps-lib-ui-react-hooks": "github:tetherto/pear-apps-lib-ui-react-hooks#v0.0.5",
     "pear-apps-utils-avatar-initials": "github:tetherto/pear-apps-utils-avatar-initials#v0.0.3",
     "pear-apps-utils-date": "github:tetherto/pear-apps-utils-date#v0.0.2",
@@ -52,8 +57,8 @@
     "pear-apps-utils-validator": "github:tetherto/pear-apps-utils-validator#v0.0.4",
     "pearpass-lib-ui-react-components": "github:tetherto/pearpass-lib-ui-react-components#v0.0.57",
     "pearpass-lib-ui-theme-provider": "github:tetherto/pearpass-lib-ui-theme-provider#v0.0.8",
-    "pearpass-lib-vault": "github:tetherto/pearpass-lib-vault#v0.0.36",
-    "pearpass-lib-vault-desktop": "github:tetherto/pearpass-lib-vault-desktop#v0.0.18",
+    "pearpass-lib-vault": "github:tetherto/pearpass-lib-vault#v0.0.39",
+    "pearpass-lib-vault-desktop": "github:tetherto/pearpass-lib-vault-desktop#v0.0.22",
     "pearpass-utils-password-check": "github:tetherto/pearpass-utils-password-check#v0.0.8",
     "pearpass-utils-password-generator": "github:tetherto/pearpass-utils-password-generator#v0.0.7",
     "react": "18.3.1",

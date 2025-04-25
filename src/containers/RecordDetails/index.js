@@ -12,7 +12,7 @@ import {
   StarIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useRecordById, useUpdateRecord } from 'pearpass-lib-vault'
+import { useRecordById, useRecords } from 'pearpass-lib-vault'
 
 import { RecordDetailsContent } from './RecordDetailsContent/index.js'
 import {
@@ -45,7 +45,7 @@ export const RecordDetails = () => {
   })
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
-  const { updateFavoriteState } = useUpdateRecord()
+  const { updateFavoriteState } = useRecords()
 
   const { actions } = useRecordActionItems({
     excludeTypes: ['select', 'pin'],
@@ -103,7 +103,7 @@ export const RecordDetails = () => {
           <${FavoriteButtonWrapper}
             favorite=${record?.isFavorite}
             onClick=${() =>
-              updateFavoriteState(record?.id, !record?.isFavorite)}
+              updateFavoriteState([record?.id], !record?.isFavorite)}
           >
             <${StarIcon} size="21" color=${colors.primary400.mode1} />
           <//>

@@ -13,12 +13,14 @@ export const NestedItem = styled.div`
   align-items: center;
   gap: 16px;
   cursor: pointer;
+  flex: 1;
 `
 
 export const NestedFolder = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isActive'].includes(prop)
 })`
   display: flex;
+  flex: 1;
   color: ${({ theme, isActive }) =>
     isActive ? theme.colors.primary400.mode1 : undefined};
   align-items: center;
@@ -26,5 +28,10 @@ export const NestedFolder = styled.div.withConfig({
 `
 
 export const AddIconWrapper = styled.div`
+  cursor: pointer;
+`
+
+export const FolderName = styled.span`
+  flex: 1;
   cursor: pointer;
 `

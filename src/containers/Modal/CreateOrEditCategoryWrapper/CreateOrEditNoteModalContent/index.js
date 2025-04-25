@@ -8,11 +8,7 @@ import {
   SaveIcon,
   TextArea
 } from 'pearpass-lib-ui-react-components'
-import {
-  useCreateRecord,
-  useUpdateRecord,
-  RECORD_TYPES
-} from 'pearpass-lib-vault'
+import { useCreateRecord, useRecords, RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../../components/FolderDropdown'
@@ -63,7 +59,7 @@ export const CreateOrEditNoteModalContent = ({
     }
   })
 
-  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+  const { updateRecords, isLoading: isUpdateLoading } = useRecords({
     onCompleted: () => {
       closeModal()
 
@@ -98,7 +94,12 @@ export const CreateOrEditNoteModalContent = ({
     validate: (values) => schema.validate(values)
   })
 
-  const { value: list, addItem, registerItem } = registerArray('customFields')
+  const {
+    value: list,
+    addItem,
+    registerItem,
+    removeItem
+  } = registerArray('customFields')
 
   const onSubmit = (values) => {
     const data = {
@@ -113,10 +114,12 @@ export const CreateOrEditNoteModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({
-        ...initialRecord,
-        ...data
-      })
+      updateRecords([
+        {
+          ...initialRecord,
+          ...data
+        }
+      ])
     } else {
       createRecord(data)
     }
@@ -137,7 +140,7 @@ export const CreateOrEditNoteModalContent = ({
           <${DropdownsWrapper}>
             <${FolderDropdown}
               selectedFolder=${values?.folder}
-              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+              onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
 
             ${!initialRecord &&
@@ -166,7 +169,11 @@ export const CreateOrEditNoteModalContent = ({
           />
         <//>
 
-        <${CustomFields} customFields=${list} register=${registerItem} />
+        <${CustomFields}
+          customFields=${list}
+          register=${registerItem}
+          removeItem=${removeItem}
+        />
 
         <${FormGroup}>
           <${CreateCustomField}

@@ -12,11 +12,7 @@ import {
   NineDotsIcon,
   PasswordField
 } from 'pearpass-lib-ui-react-components'
-import {
-  useCreateRecord,
-  useUpdateRecord,
-  RECORD_TYPES
-} from 'pearpass-lib-vault'
+import { useCreateRecord, useRecords, RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../../components/FolderDropdown'
@@ -73,7 +69,7 @@ export const CreateOrEditCreditCardModalContent = ({
     }
   })
 
-  const { updateRecord, isLoading: isUpdateLoading } = useUpdateRecord({
+  const { updateRecords, isLoading: isUpdateLoading } = useRecords({
     onCompleted: () => {
       closeModal()
 
@@ -120,7 +116,12 @@ export const CreateOrEditCreditCardModalContent = ({
     validate: (values) => schema.validate(values)
   })
 
-  const { value: list, addItem, registerItem } = registerArray('customFields')
+  const {
+    value: list,
+    addItem,
+    registerItem,
+    removeItem
+  } = registerArray('customFields')
 
   const onSubmit = (values) => {
     const data = {
@@ -140,7 +141,7 @@ export const CreateOrEditCreditCardModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecord({ ...initialRecord, ...data })
+      updateRecords([{ ...initialRecord, ...data }])
     } else {
       createRecord(data)
     }
@@ -179,7 +180,7 @@ export const CreateOrEditCreditCardModalContent = ({
           <${DropdownsWrapper}>
             <${FolderDropdown}
               selectedFolder=${values?.folder}
-              onFolderSelect=${(folder) => setValue('folder', folder.name)}
+              onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
             html` <${RecordTypeMenu}
@@ -219,7 +220,7 @@ export const CreateOrEditCreditCardModalContent = ({
 
           <${InputField}
             label=${i18n._('Date of expire')}
-            placeholder="MM/AA"
+            placeholder="MM/YY"
             variant="outline"
             icon=${CalendarIcon}
             value=${values.expireDate}
@@ -247,7 +248,11 @@ export const CreateOrEditCreditCardModalContent = ({
           <${InputFieldNote} ...${register('note')} />
         <//>
 
-        <${CustomFields} customFields=${list} register=${registerItem} />
+        <${CustomFields}
+          customFields=${list}
+          register=${registerItem}
+          removeItem=${removeItem}
+        />
 
         <${FormGroup}>
           <${CreateCustomField}

@@ -13,7 +13,7 @@ import {
   TimeIcon,
   XIcon
 } from 'pearpass-lib-ui-react-components'
-import { useDeleteRecord } from 'pearpass-lib-vault'
+import { useRecords } from 'pearpass-lib-vault'
 
 import {
   ActionsSection,
@@ -62,7 +62,7 @@ export const RecordListView = ({
   const { currentPage, navigate, data: routeData } = useRouter()
   const { setModal, closeModal } = useModal()
 
-  const { deleteRecord } = useDeleteRecord()
+  const { deleteRecords } = useRecords()
 
   const [isSortPopupOpen, setIsSortPopupOpen] = useState(false)
   const [isMultiSelect, setIsMultiSelect] = useState(false)
@@ -121,7 +121,7 @@ export const RecordListView = ({
   }
 
   const handleDeleteConfirm = async () => {
-    await Promise.all(selectedRecords.map((record) => deleteRecord(record?.id)))
+    await deleteRecords(selectedRecords.map((record) => record?.id))
 
     onClearSelection()
 

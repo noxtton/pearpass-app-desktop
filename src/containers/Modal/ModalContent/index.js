@@ -17,10 +17,16 @@ export const ModalContent = ({
   headerChildren,
   children
 }) => html`
-    <${Wrapper}>
-      <${ModalHeader} onClose=${onClose} onSubmit=${onSubmit}>
-        ${headerChildren}
-      </${ModalHeader}>
-      ${children}
-    </${Wrapper}>
-  `
+  <${Wrapper}>
+    <${onSubmit ? 'form' : 'div'}
+      onSubmit=${(e) => {
+        e.preventDefault()
+        onSubmit()
+      }}
+    >
+      <${ModalHeader} onClose=${onClose}> ${headerChildren} <//>
+
+      <div>${children}</div>
+    <//>
+  <//>
+`
