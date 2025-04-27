@@ -9,7 +9,7 @@ import {
   setPearpassVaultClient,
   VaultProvider
 } from 'pearpass-lib-vault'
-import { createPearpassVaultClient } from 'pearpass-lib-vault-desktop'
+import { startServer, vaultClientSingleton } from 'pearpass-lib-vault-desktop'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/app/App'
@@ -33,11 +33,11 @@ setFontsAndResetCSS()
 i18n.load('en', messages)
 i18n.activate('en')
 
-setPearpassVaultClient(
-  createPearpassVaultClient(Pear.config.storage, {
-    debugMode: true
-  })
-)
+const storage = Pear.config.storage
+const client = vaultClientSingleton(storage, { debugMode: true })
+
+setPearpassVaultClient(client)
+startServer(storage, { debugMode: true, port: 12345 })
 
 const html = htm.bind(createElement)
 
