@@ -1,6 +1,6 @@
 node_modules
 
-src/locales/en/*
+src/locales
 
 .yalc
 yalc.lock
