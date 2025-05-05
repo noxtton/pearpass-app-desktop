@@ -9,13 +9,13 @@ import {
 import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
 import { ButtonWrapper, Form } from './styles'
-import { version } from '../../../../package.json'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   GOOGLE_FORM_KEY,
   GOOGLE_FORM_MAPPING,
   SLACK_WEBHOOK_URL_PATH
 } from '../../../constants/feedback'
+import { version } from '../../../constants/version'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
 
