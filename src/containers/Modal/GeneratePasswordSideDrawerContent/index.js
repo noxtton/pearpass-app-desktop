@@ -99,14 +99,8 @@ export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
       <//>
 
       ${selectedOption === 'passphrase'
-        ? html` <${PassphraseChecker}
-            pass=${pass}
-            rules=${selectedRules.passphrase}
-          />`
-        : html` <${PasswordChecker}
-            pass=${pass}
-            rules=${selectedRules.password}
-          />`}
+        ? html` <${PassphraseChecker} pass=${pass} />`
+        : html` <${PasswordChecker} pass=${pass} />`}
 
       <${RadioWrapper}>
         <${RadioSelect}
