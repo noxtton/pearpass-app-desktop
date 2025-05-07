@@ -6,7 +6,7 @@ import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
 
 import { SettingsTab } from './SettingsTab'
 import { ContentContainer, NavBar, Tabs, TabTitle, Wrapper } from './styles'
-import { VaultsTab } from '../../components/VaultsTab'
+import { VaultsTab } from './VaultsTab'
 import { useRouter } from '../../context/RouterContext'
 
 export const SettingsView = () => {
