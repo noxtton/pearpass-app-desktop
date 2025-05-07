@@ -16,6 +16,13 @@ import { ModalContent } from '../ModalContent'
 import { Description, Header, Title, UnlockVaultContainer } from './styles'
 import { useLoadingContext } from '../../../context/LoadingContext'
 
+/**
+ *
+ * @param {Object} props
+ * @param {Object} props.vault
+ * @param {string} props.vault.id
+ * @param {string} [props.vault.name]
+ */
 export const SwapVaultModalContent = ({ vault }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
