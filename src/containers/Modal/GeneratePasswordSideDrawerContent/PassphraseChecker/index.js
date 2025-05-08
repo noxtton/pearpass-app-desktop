@@ -16,10 +16,15 @@ import { PasswordWrapper } from '../styles'
  *  }
  * }} props
  */
-export const PassphraseChecker = ({ pass }) => {
+export const PassphraseChecker = ({ pass, rules }) => {
   const { i18n } = useLingui()
 
-  const result = isPassphraseSafe(pass)
+  const result = isPassphraseSafe(pass, {
+    capitalLetters: rules.capitalLetters,
+    numbers: rules.numbers,
+    symbols: rules.symbols,
+    words: rules.words
+  })
 
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass && pass.join('-')} />

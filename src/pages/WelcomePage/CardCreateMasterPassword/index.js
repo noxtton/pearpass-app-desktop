@@ -9,7 +9,6 @@ import {
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
 import { useUserData } from 'pearpass-lib-vault'
-import { isPasswordSafe } from 'pearpass-utils-password-check'
 
 import {
   ButtonWrapper,
@@ -25,14 +24,6 @@ export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
 
-  const errors = {
-    minLength: i18n._(`Password must be at least 8 characters long`),
-    hasLowerCase: i18n._('Password must contain at least one lowercase letter'),
-    hasUpperCase: i18n._('Password must contain at least one uppercase letter'),
-    hasNumbers: i18n._('Password must contain at least one number'),
-    hasSymbols: i18n._('Password must contain at least one special character')
-  }
-
   const [isLoading, setIsLoading] = useState(false)
 
   useGlobalLoading({ isLoading })
@@ -44,7 +35,7 @@ export const CardCreateMasterPassword = () => {
     passwordConfirm: Validator.string().required(i18n._('Password is required'))
   })
 
-  const { register, handleSubmit, setErrors, setValue } = useForm({
+  const { register, handleSubmit, setErrors } = useForm({
     initialValues: {
       password: '',
       passwordConfirm: ''
@@ -57,14 +48,12 @@ export const CardCreateMasterPassword = () => {
       return
     }
 
-    const result = isPasswordSafe(values.newPassword, { errors: errors })
-
-    if (!result.isSafe && result.errors.length > 0) {
+    if (!values.password || !values.passwordConfirm) {
       setErrors({
-        newPassword: result.errors.join(', ')
+        password: i18n._('Password is required'),
+        passwordConfirm: i18n._('Password is required')
       })
 
-      setValue('passwordConfirm', '')
       return
     }
 
