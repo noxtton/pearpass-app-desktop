@@ -2,8 +2,8 @@ import React from 'react'
 
 import { render } from '@testing-library/react'
 
+import { SettingsSettingsVaultsTab } from './index'
 import '@testing-library/jest-dom'
-import { VaultsTab } from './index'
 
 jest.mock('@lingui/react', () => ({
   useLingui: () => ({
@@ -42,20 +42,20 @@ jest.mock('./styles', () => ({
   )
 }))
 
-describe('VaultsTab Component', () => {
-  test('renders VaultsTab component correctly and matches snapshot', () => {
-    const { asFragment } = render(<VaultsTab />)
+describe('SettingsVaultsTab Component', () => {
+  test('renders SettingsVaultsTab component correctly and matches snapshot', () => {
+    const { asFragment } = render(<SettingsVaultsTab />)
     expect(asFragment()).toMatchSnapshot()
   })
 
   test('renders the correct title for CardSingleSetting', () => {
-    const { getByTestId } = render(<VaultsTab />)
+    const { getByTestId } = render(<SettingsVaultsTab />)
     const cardElement = getByTestId('card-single-setting')
     expect(cardElement).toHaveAttribute('title', 'Manage Vaults')
   })
 
   test('renders a Vault component for each vault in the data', () => {
-    const { getByTestId } = render(<VaultsTab />)
+    const { getByTestId } = render(<SettingsVaultsTab />)
 
     const vault1Element = getByTestId('vault-vault-1')
     const vault2Element = getByTestId('vault-vault-2')
@@ -71,7 +71,7 @@ describe('VaultsTab Component', () => {
   })
 
   test('renders content container', () => {
-    const { getByTestId } = render(<VaultsTab />)
+    const { getByTestId } = render(<SettingsVaultsTab />)
     const contentContainer = getByTestId('content-container')
     expect(contentContainer).toBeInTheDocument()
   })
@@ -83,7 +83,7 @@ describe('VaultsTab Component', () => {
         data: undefined
       }))
 
-    const { queryByTestId } = render(<VaultsTab />)
+    const { queryByTestId } = render(<SettingsVaultsTab />)
     expect(queryByTestId('vault-vault-1')).not.toBeInTheDocument()
     expect(queryByTestId('vault-vault-2')).not.toBeInTheDocument()
   })

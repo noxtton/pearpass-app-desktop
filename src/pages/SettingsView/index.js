@@ -5,8 +5,8 @@ import { html } from 'htm/react'
 import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
 
 import { SettingsTab } from './SettingsTab'
+import { SettingsVaultsTab } from './SettingsVaultsTab'
 import { ContentContainer, NavBar, Tabs, TabTitle, Wrapper } from './styles'
-import { VaultsTab } from './VaultsTab'
 import { useRouter } from '../../context/RouterContext'
 
 export const SettingsView = () => {
@@ -52,7 +52,7 @@ export const SettingsView = () => {
         <//>
         ${activeTab === 'general'
           ? html`<${SettingsTab} />`
-          : html`<${VaultsTab} />`}
+          : html`<${SettingsVaultsTab} />`}
       <//>
     <//>
   `
