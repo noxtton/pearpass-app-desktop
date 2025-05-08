@@ -47,7 +47,7 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
   const { register, handleSubmit, setErrors } = useForm({
     initialValues: {
       name: vaultName,
-      oldPassword: '',
+      currentPassword: '',
       newPassword: '',
       repeatPassword: ''
     },
@@ -67,14 +67,14 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
       await updateVault(vaultId, {
         name: values.name,
         password: values.newPassword,
-        oldPassword: isProtected ? values.oldPassword : undefined
+        currentPassword: isProtected ? values.currentPassword : undefined
       })
       refetch()
       closeModal()
     } catch (error) {
       console.error('Error updating vault:', error)
       setErrors({
-        oldPassword: i18n._('Invalid password')
+        currentPassword: i18n._('Invalid password')
       })
     }
   }
@@ -92,7 +92,7 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
       html`
         <${InputWrapper}>
           <${InputLabel}> ${i18n._('Insert old password')} <//>
-          <${PearPassPasswordField} ...${register('oldPassword')} />
+          <${PearPassPasswordField} ...${register('currentPassword')} />
         <//>
       `}
 

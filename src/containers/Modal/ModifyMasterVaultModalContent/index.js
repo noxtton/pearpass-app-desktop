@@ -35,13 +35,13 @@ export const ModifyMasterVaultModalContent = () => {
   }
 
   const schema = Validator.object({
-    oldPassword: Validator.string().required(i18n._('Invalid password')),
+    currentPassword: Validator.string().required(i18n._('Invalid password')),
     newPassword: Validator.string().required(i18n._('Password is required')),
     repeatPassword: Validator.string().required(i18n._('Password is required'))
   })
 
   const { register, handleSubmit, setErrors, setValue } = useForm({
-    initialValues: { oldPassword: '', newPassword: '', repeatPassword: '' },
+    initialValues: { currentPassword: '', newPassword: '', repeatPassword: '' },
     validate: (values) => schema.validate(values)
   })
 
@@ -66,12 +66,15 @@ export const ModifyMasterVaultModalContent = () => {
     }
 
     try {
-      await updateMasterPassword(values.newPassword)
+      await updateMasterPassword({
+        newPassword: values.newPassword,
+        currentPassword: values.currentPassword
+      })
       closeModal()
     } catch (error) {
       console.error('Error updating master password:', error)
       setErrors({
-        oldPassword: i18n._('asdf password')
+        currentPassword: i18n._('asdf password')
       })
     }
   }
@@ -86,7 +89,7 @@ export const ModifyMasterVaultModalContent = () => {
       <${Content}>
         <${InputWrapper}>
           <${InputLabel}> ${i18n._('Insert old password')} <//>
-          <${PearPassPasswordField} ...${register('oldPassword')} />
+          <${PearPassPasswordField} ...${register('currentPassword')} />
         <//>
         <${InputWrapper}>
           <${InputLabel}> ${i18n._('Create new password')} <//>

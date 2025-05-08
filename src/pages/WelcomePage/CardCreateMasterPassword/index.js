@@ -57,7 +57,7 @@ export const CardCreateMasterPassword = () => {
       return
     }
 
-    const result = isPasswordSafe(values.newPassword, { errors: errors })
+    const result = isPasswordSafe(values.password, { errors: errors })
 
     if (!result.isSafe && result.errors.length > 0) {
       setErrors({
