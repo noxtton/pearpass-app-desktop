@@ -57,7 +57,7 @@
     "pear-apps-utils-validator": "github:noxtton/pear-apps-utils-validator#v0.0.4",
     "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.57",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.8",
-    "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.40",
+    "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.41",
     "pearpass-lib-vault-desktop": "github:noxtton/pearpass-lib-vault-desktop#v0.0.23",
     "pearpass-utils-password-check": "github:noxtton/pearpass-utils-password-check#v0.0.8",
     "pearpass-utils-password-generator": "github:noxtton/pearpass-utils-password-generator#v0.0.7",
