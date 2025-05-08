@@ -8,6 +8,12 @@ import {
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 
 import { SettingsTab } from './index'
+import {
+  GOOGLE_FORM_KEY,
+  GOOGLE_FORM_MAPPING,
+  SLACK_WEBHOOK_URL_PATH
+} from '../../../constants/feedback'
+import { VERSION } from '../../../constants/version'
 import { useToast } from '../../../context/ToastContext'
 
 import '@testing-library/jest-dom'
@@ -65,7 +71,7 @@ describe('SettingsTab Component', () => {
       </ThemeProvider>
     )
 
-    expect(screen.getByTestId('card-single-setting')).toBeInTheDocument()
+    expect(screen.getAllByTestId('card-single-setting')[0]).toBeInTheDocument()
     expect(screen.getByTestId('text-area')).toBeInTheDocument()
     expect(screen.getByTestId('button-secondary')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
@@ -78,10 +84,13 @@ describe('SettingsTab Component', () => {
       </ThemeProvider>
     )
 
-    expect(screen.getByTestId('card-single-setting')).toHaveAttribute(
-      'data-title',
-      'Report a problem'
-    )
+    const cardSingleSetting = screen
+      .getAllByTestId('card-single-setting')
+      .find(
+        (element) => element.getAttribute('data-title') === 'Report a problem'
+      )
+
+    expect(cardSingleSetting).toHaveAttribute('data-title', 'Report a problem')
   })
 
   test('renders TextArea with correct props', () => {
@@ -113,7 +122,8 @@ describe('SettingsTab Component', () => {
       </ThemeProvider>
     )
 
-    const { childNodes } = screen.getByTestId('card-single-setting')
+    const cardSingleSettings = screen.getAllByTestId('card-single-setting')
+    const { childNodes } = cardSingleSettings[0]
     expect(childNodes.length).toBeGreaterThan(0)
   })
 
@@ -143,7 +153,6 @@ describe('SettingsTab Component', () => {
 
     const message = 'Test feedback message'
 
-    // Since we mocked the TextArea, we need to simulate state update manually
     React.useState = jest
       .fn()
       .mockReturnValueOnce([message, jest.fn()])
@@ -161,9 +170,12 @@ describe('SettingsTab Component', () => {
     expect(sendSlackFeedback).toHaveBeenCalledWith(
       expect.objectContaining({
         message,
+        appVersion: VERSION,
         topic: 'BUG_REPORT',
+        operatingSystem: navigator?.userAgentData?.platform,
+        deviceModel: navigator?.platform,
         app: 'DESKTOP',
-        webhookUrPath: '/T1RUJ063F/B08LLRLBY9M/KTKA3MIJfmjX4izWfgnjbRIM'
+        webhookUrPath: SLACK_WEBHOOK_URL_PATH
       })
     )
 
@@ -172,7 +184,8 @@ describe('SettingsTab Component', () => {
         message,
         topic: 'BUG_REPORT',
         app: 'DESKTOP',
-        formKey: '1FAIpQLScLltvRe64VzMDRzOVjGtHWZ3KafLC2zzvkEoJfTzJkFd67OA'
+        formKey: GOOGLE_FORM_KEY,
+        mapping: GOOGLE_FORM_MAPPING
       })
     )
   })

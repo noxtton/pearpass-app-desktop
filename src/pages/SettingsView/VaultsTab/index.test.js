@@ -22,7 +22,7 @@ jest.mock('pearpass-lib-vault', () => ({
   })
 }))
 
-jest.mock('../CardSingleSetting', () => ({
+jest.mock('../../../components/CardSingleSetting', () => ({
   CardSingleSetting: ({ title, children }) => (
     <div data-testid="card-single-setting" title={title}>
       {children}
@@ -30,7 +30,7 @@ jest.mock('../CardSingleSetting', () => ({
   )
 }))
 
-jest.mock('../Vault', () => ({
+jest.mock('../../../components/Vault', () => ({
   Vault: ({ vault }) => (
     <div data-testid={`vault-${vault.id}`} data-vault={JSON.stringify(vault)} />
   )

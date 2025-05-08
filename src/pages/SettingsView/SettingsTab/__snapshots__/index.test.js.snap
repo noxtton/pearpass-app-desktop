@@ -3,29 +3,45 @@
 exports[`SettingsTab Component renders correctly 1`] = `
 <div>
   <div
-    data-testid="card-single-setting"
-    data-title="Report a problem"
+    class="sc-egkSDF EfhNa"
   >
-    <form
-      class="sc-blHHSb bGLDjz"
+    <div
+      data-testid="card-single-setting"
+      data-title="Report a problem"
     >
-      <textarea
-        data-testid="text-area"
-        data-variant="report"
-        placeholder="Write your issue..."
-      />
-      <div
-        class="sc-gtLWhw iLmiEo"
+      <form
+        class="sc-blHHSb bGLDjz"
       >
-        <button
-          data-testid="button-secondary"
+        <textarea
+          data-testid="text-area"
+          data-variant="report"
+          placeholder="Write your issue..."
+        />
+        <div
+          class="sc-gtLWhw iLmiEo"
         >
-           
-          send
-           
-        </button>
+          <button
+            data-testid="button-secondary"
+          >
+             
+            send
+             
+          </button>
+        </div>
+      </form>
+    </div>
+    <div
+      data-testid="card-single-setting"
+      data-title="Version"
+    >
+      <div
+        class="sc-fAUdSK bSuksj"
+      >
+         
+        0.0.8
+         
       </div>
-    </form>
+    </div>
   </div>
 </div>
 `;
