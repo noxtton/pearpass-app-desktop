@@ -2,7 +2,7 @@ import React from 'react'
 
 import { render } from '@testing-library/react'
 
-import { SettingsSettingsVaultsTab } from './index'
+import { SettingsVaultsTab } from './index'
 import '@testing-library/jest-dom'
 
 jest.mock('@lingui/react', () => ({

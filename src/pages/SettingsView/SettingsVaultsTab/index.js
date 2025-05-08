@@ -6,7 +6,7 @@ import { content } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { Vault } from '../../../components/Vault'
 
-export const SettingsSettingsVaultsTab = () => {
+export const SettingsVaultsTab = () => {
   const { i18n } = useLingui()
   const { data } = useVaults()
 
