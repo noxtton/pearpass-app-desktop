@@ -15,6 +15,7 @@ import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { Description, Header, Title, UnlockVaultContainer } from './styles'
 import { useLoadingContext } from '../../../context/LoadingContext'
+import { logger } from '../../../utils/logger'
 
 /**
  *
@@ -55,7 +56,7 @@ export const SwapVaultModalContent = ({ vault }) => {
 
       closeModal()
     } catch (error) {
-      console.error(error)
+      logger.error(error)
 
       setIsLoading(false)
 

@@ -20,6 +20,7 @@ import {
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { logger } from '../../../utils/logger'
 
 export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
@@ -91,7 +92,7 @@ export const CardCreateMasterPassword = () => {
         password: i18n._('Error creating master password')
       })
 
-      console.error('Error creating master password:', error)
+      logger.error('Error creating master password:', error)
     }
   }
 

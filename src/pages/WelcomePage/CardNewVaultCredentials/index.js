@@ -21,6 +21,7 @@ import {
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { logger } from '../../../utils/logger'
 
 export const CardNewVaultCredentials = () => {
   const { i18n } = useLingui()
@@ -71,7 +72,7 @@ export const CardNewVaultCredentials = () => {
     } catch (error) {
       setIsLoading(false)
 
-      console.error(error)
+      logger.error(error)
     }
   }
 

@@ -19,6 +19,7 @@ import {
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { logger } from '../../../utils/logger'
 
 export const CardUnlockPearPass = () => {
   const { i18n } = useLingui()
@@ -76,7 +77,7 @@ export const CardUnlockPearPass = () => {
         password: i18n._('Invalid password')
       })
 
-      console.error('Error unlocking PearPass:', error)
+      logger.error('Error unlocking PearPass:', error)
     }
   }
 

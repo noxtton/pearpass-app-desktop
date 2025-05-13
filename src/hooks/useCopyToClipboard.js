@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react'
 
+import { logger } from '../utils/logger'
+
 /**
  * @param {{
  *  onCopy?: () => void
@@ -15,7 +17,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
 
   const copyToClipboard = React.useCallback((text) => {
     if (!navigator.clipboard) {
-      console.error('Clipboard API is not available')
+      logger.error('Clipboard API is not available')
       return false
     }
 
@@ -32,7 +34,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
         timeoutRef.current = setTimeout(() => setIsCopied(false), 2000)
       },
       (err) => {
-        console.error('Failed to copy text to clipboard', err)
+        logger.error('Failed to copy text to clipboard', err)
       }
     )
 

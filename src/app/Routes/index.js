@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { html } from 'htm/react'
 import { useUserData } from 'pearpass-lib-vault'
 
@@ -14,15 +16,7 @@ export const Routes = () => {
   const { currentPage, data, navigate } = useRouter()
   const isSimulatedLoading = useSimulatedLoading()
 
-  const { isLoading: isUserDataLoading } = useUserData({
-    onCompleted: (payload) => {
-      navigate('welcome', {
-        state: payload?.hasPasswordSet
-          ? 'masterPassword'
-          : 'createMasterPassword'
-      })
-    }
-  })
+  const { isLoading: isUserDataLoading, refetch: refetchUser } = useUserData()
 
   const isLoading = isUserDataLoading || isSimulatedLoading
 
@@ -33,6 +27,20 @@ export const Routes = () => {
       return html`<${SettingsView} /> `
     }
   }
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userData = await refetchUser()
+
+      navigate('welcome', {
+        state: userData?.hasPasswordSet
+          ? 'masterPassword'
+          : 'createMasterPassword'
+      })
+    }
+
+    fetchUserData()
+  }, [])
 
   const getSideView = () => {
     if (currentPage === 'vault' && data?.recordId) {

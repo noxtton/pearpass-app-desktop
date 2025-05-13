@@ -8,16 +8,17 @@ import {
 } from 'pear-apps-lib-feedback'
 import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
-import { ButtonWrapper, Form } from './styles'
+import { ButtonWrapper, ContentContainer, Form, VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   GOOGLE_FORM_KEY,
   GOOGLE_FORM_MAPPING,
   SLACK_WEBHOOK_URL_PATH
 } from '../../../constants/feedback'
-import { version } from '../../../constants/version'
+import { VERSION } from '../../../constants/version'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
+import { logger } from '../../../utils/logger'
 
 export const SettingsTab = () => {
   const { i18n } = useLingui()
@@ -42,7 +43,7 @@ export const SettingsTab = () => {
         app: 'DESKTOP',
         operatingSystem: navigator?.userAgentData?.platform,
         deviceModel: navigator?.platform,
-        appVersion: version
+        appVersion: VERSION
       }
 
       await sendSlackFeedback({
@@ -70,28 +71,34 @@ export const SettingsTab = () => {
         message: i18n._('Something went wrong, please try again')
       })
 
-      console.error('Error sending feedback:', error)
+      logger.error('Error sending feedback:', error)
     }
   }
 
   return html`
-    <${CardSingleSetting} title=${i18n._('Report a problem')}>
-      <${Form}
-        onSubmit=${(e) => {
-          e.preventDefault()
-          handleReportProblem()
-        }}
-      >
-        <${TextArea}
-          value=${message}
-          onChange=${(value) => setMessage(value)}
-          variant="report"
-          placeholder=${i18n._('Write your issue...')}
-        />
+    <${ContentContainer}>
+      <${CardSingleSetting} title=${i18n._('Report a problem')}>
+        <${Form}
+          onSubmit=${(e) => {
+            e.preventDefault()
+            handleReportProblem()
+          }}
+        >
+          <${TextArea}
+            value=${message}
+            onChange=${(value) => setMessage(value)}
+            variant="report"
+            placeholder=${i18n._('Write your issue...')}
+          />
 
-        <${ButtonWrapper}>
-          <${ButtonSecondary} type="submit"> ${i18n._('send')} <//>
+          <${ButtonWrapper}>
+            <${ButtonSecondary} type="submit"> ${i18n._('send')} <//>
+          <//>
         <//>
+      <//>
+
+      <${CardSingleSetting} title=${i18n._('Version')}>
+        <${VersionWrapper}> ${VERSION} <//>
       <//>
     <//>
   `
