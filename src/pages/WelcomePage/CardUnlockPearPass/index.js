@@ -35,14 +35,7 @@ export const CardUnlockPearPass = () => {
 
   const { logIn } = useUserData()
 
-  const { initVaults } = useVaults({
-    shouldSkip: true,
-    onInitialize: () => {
-      setIsLoading(false)
-
-      navigate(currentPage, { state: 'vaults' })
-    }
-  })
+  const { initVaults } = useVaults()
 
   const { register, handleSubmit, setErrors } = useForm({
     initialValues: { password: '' },
@@ -70,6 +63,8 @@ export const CardUnlockPearPass = () => {
       await initVaults({ password: values.password })
 
       setIsLoading(false)
+
+      navigate(currentPage, { state: 'vaults' })
     } catch (error) {
       setIsLoading(false)
 

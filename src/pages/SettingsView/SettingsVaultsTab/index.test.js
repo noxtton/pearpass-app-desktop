@@ -1,90 +1,104 @@
 import React from 'react'
 
-import { render } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
+import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
+import { useVaults } from 'pearpass-lib-vault'
 
 import { SettingsVaultsTab } from './index'
+import { useModal } from '../../../context/ModalContext'
 import '@testing-library/jest-dom'
 
 jest.mock('@lingui/react', () => ({
   useLingui: () => ({
     i18n: {
-      _: (key) => key
+      _: (str) => str
     }
-  })
+  }),
+  I18nProvider: ({ children }) => children
 }))
 
 jest.mock('pearpass-lib-vault', () => ({
-  useVaults: () => ({
-    data: [
-      { id: 'vault-1', name: 'Vault 1', createdAt: 1630000000000 },
-      { id: 'vault-2', name: 'Vault 2', createdAt: 1630000000001 }
-    ]
-  })
+  useVaults: jest.fn()
+}))
+
+jest.mock('../../../context/ModalContext', () => ({
+  useModal: jest.fn()
 }))
 
 jest.mock('../../../components/CardSingleSetting', () => ({
   CardSingleSetting: ({ title, children }) => (
-    <div data-testid="card-single-setting" title={title}>
+    <div>
+      <h1>{title}</h1>
       {children}
     </div>
   )
 }))
 
 jest.mock('../../../components/Vault', () => ({
-  Vault: ({ vault }) => (
-    <div data-testid={`vault-${vault.id}`} data-vault={JSON.stringify(vault)} />
+  Vault: ({ vault, onEditClick }) => (
+    <div>
+      <p>{vault.name}</p>
+      <button onClick={onEditClick}>Edit</button>
+    </div>
   )
 }))
 
-jest.mock('./styles', () => ({
-  content: ({ children }) => (
-    <div data-testid="content-container">{children}</div>
-  )
-}))
+describe('VaultsTab', () => {
+  const setModalMock = jest.fn()
 
-describe('SettingsVaultsTab Component', () => {
-  test('renders SettingsVaultsTab component correctly and matches snapshot', () => {
-    const { asFragment } = render(<SettingsVaultsTab />)
-    expect(asFragment()).toMatchSnapshot()
+  const renderWithProviders = (component) =>
+    render(<ThemeProvider>{component}</ThemeProvider>)
+
+  beforeEach(() => {
+    useVaults.mockReturnValue({
+      data: [
+        { id: '1', name: 'Vault 1' },
+        { id: '2', name: 'Vault 2' }
+      ]
+    })
+
+    useModal.mockReturnValue({
+      setModal: setModalMock
+    })
   })
 
-  test('renders the correct title for CardSingleSetting', () => {
-    const { getByTestId } = render(<SettingsVaultsTab />)
-    const cardElement = getByTestId('card-single-setting')
-    expect(cardElement).toHaveAttribute('title', 'Manage Vaults')
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
-  test('renders a Vault component for each vault in the data', () => {
-    const { getByTestId } = render(<SettingsVaultsTab />)
+  it('renders Master Vault section', () => {
+    const { container } = renderWithProviders(<SettingsVaultsTab />)
 
-    const vault1Element = getByTestId('vault-vault-1')
-    const vault2Element = getByTestId('vault-vault-2')
-
-    expect(vault1Element).toBeInTheDocument()
-    expect(vault2Element).toBeInTheDocument()
-
-    const vault1Data = JSON.parse(vault1Element.dataset.vault)
-    const vault2Data = JSON.parse(vault2Element.dataset.vault)
-
-    expect(vault1Data.name).toBe('Vault 1')
-    expect(vault2Data.name).toBe('Vault 2')
+    expect(screen.getAllByText('Master Vault')[0]).toBeInTheDocument()
+    expect(
+      screen.getByText('Here you can modify the your Master password')
+    ).toBeInTheDocument()
+    expect(container).toMatchSnapshot()
   })
 
-  test('renders content container', () => {
-    const { getByTestId } = render(<SettingsVaultsTab />)
-    const contentContainer = getByTestId('content-container')
-    expect(contentContainer).toBeInTheDocument()
+  it('renders Manage Vaults section with vaults', () => {
+    renderWithProviders(<SettingsVaultsTab />)
+
+    expect(screen.getByText('Manage Vaults')).toBeInTheDocument()
+    expect(screen.getByText('Vault 1')).toBeInTheDocument()
+    expect(screen.getByText('Vault 2')).toBeInTheDocument()
   })
 
-  test('handles case when data is undefined', () => {
-    jest
-      .spyOn(require('pearpass-lib-vault'), 'useVaults')
-      .mockImplementation(() => ({
-        data: undefined
-      }))
+  it('opens ModifyMasterVaultModalContent when editing Master Vault', () => {
+    renderWithProviders(<SettingsVaultsTab />)
 
-    const { queryByTestId } = render(<SettingsVaultsTab />)
-    expect(queryByTestId('vault-vault-1')).not.toBeInTheDocument()
-    expect(queryByTestId('vault-vault-2')).not.toBeInTheDocument()
+    const masterVaultEditButton = screen.getAllByText('Edit')[0]
+    fireEvent.click(masterVaultEditButton)
+
+    expect(setModalMock).toHaveBeenCalledWith(expect.anything())
+  })
+
+  it('opens ModifyVaultModalContent when editing a specific vault', () => {
+    renderWithProviders(<SettingsVaultsTab />)
+
+    const editButtons = screen.getAllByText('Edit')
+    fireEvent.click(editButtons[1])
+
+    expect(setModalMock).toHaveBeenCalledWith(expect.anything())
   })
 })

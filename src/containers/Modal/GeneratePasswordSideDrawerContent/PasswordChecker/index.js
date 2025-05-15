@@ -13,16 +13,10 @@ import { PasswordWrapper } from '../styles'
  *  }
  * }} props
  */
-export const PasswordChecker = ({ pass, rules }) => {
+export const PasswordChecker = ({ pass }) => {
   const { i18n } = useLingui()
 
-  const result = isPasswordSafe(pass, {
-    includeSpecialChars: rules.specialCharacters,
-    length: rules.characters,
-    upperCase: false,
-    upperCase: false,
-    numbers: true
-  })
+  const result = isPasswordSafe(pass)
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass} />
     ${!result.isSafe

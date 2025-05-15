@@ -6,15 +6,17 @@ import {
   sendGoogleFormFeedback,
   sendSlackFeedback
 } from 'pear-apps-lib-feedback'
-import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
-import { ButtonWrapper, ContentContainer, Form, VersionWrapper } from './styles'
+import { SettingsLanguageSection } from './SettingsLanguageSection'
+import { SettingsReportSection } from './SettingsReportSection'
+import { VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   GOOGLE_FORM_KEY,
   GOOGLE_FORM_MAPPING,
   SLACK_WEBHOOK_URL_PATH
 } from '../../../constants/feedback'
+import { LANGUAGES } from '../../../constants/languages'
 import { VERSION } from '../../../constants/version'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
@@ -26,8 +28,14 @@ export const SettingsTab = () => {
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [language, setLanguage] = useState(i18n.locale)
 
   useGlobalLoading({ isLoading })
+
+  const handleLanguageChange = (selected) => {
+    setLanguage(selected.value)
+    i18n.activate(selected.value)
+  }
 
   const handleReportProblem = async () => {
     if (!message?.length || isLoading) {
@@ -75,31 +83,27 @@ export const SettingsTab = () => {
     }
   }
 
+  const selectedLangItem = LANGUAGES.find((l) => l.value === language)
+
   return html`
-    <${ContentContainer}>
-      <${CardSingleSetting} title=${i18n._('Report a problem')}>
-        <${Form}
-          onSubmit=${(e) => {
-            e.preventDefault()
-            handleReportProblem()
-          }}
-        >
-          <${TextArea}
-            value=${message}
-            onChange=${(value) => setMessage(value)}
-            variant="report"
-            placeholder=${i18n._('Write your issue...')}
-          />
+    <${SettingsLanguageSection}
+      selectedItem=${selectedLangItem}
+      onItemSelect=${handleLanguageChange}
+      placeholder=${i18n._('Select')}
+      title=${i18n._('Language')}
+    />
 
-          <${ButtonWrapper}>
-            <${ButtonSecondary} type="submit"> ${i18n._('send')} <//>
-          <//>
-        <//>
-      <//>
+    <${SettingsReportSection}
+      onSubmitReport=${handleReportProblem}
+      message=${message}
+      title=${i18n._('Report a problem')}
+      buttonText=${i18n._('send')}
+      textAreaPlaceholder=${i18n._('Write your issue...')}
+      textAreaOnChange=${setMessage}
+    />
 
-      <${CardSingleSetting} title=${i18n._('Version')}>
-        <${VersionWrapper}> ${VERSION} <//>
-      <//>
+    <${CardSingleSetting} title=${i18n._('Version')}>
+      <${VersionWrapper}> ${VERSION} <//>
     <//>
   `
 }
