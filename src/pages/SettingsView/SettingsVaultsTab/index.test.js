@@ -4,7 +4,7 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { useVaults } from 'pearpass-lib-vault'
 
-import { VaultsTab } from './index'
+import { SettingsVaultsTab } from './index'
 import { useModal } from '../../../context/ModalContext'
 import '@testing-library/jest-dom'
 
@@ -67,7 +67,7 @@ describe('VaultsTab', () => {
   })
 
   it('renders Master Vault section', () => {
-    const { container } = renderWithProviders(<VaultsTab />)
+    const { container } = renderWithProviders(<SettingsVaultsTab />)
 
     expect(screen.getAllByText('Master Vault')[0]).toBeInTheDocument()
     expect(
@@ -77,7 +77,7 @@ describe('VaultsTab', () => {
   })
 
   it('renders Manage Vaults section with vaults', () => {
-    renderWithProviders(<VaultsTab />)
+    renderWithProviders(<SettingsVaultsTab />)
 
     expect(screen.getByText('Manage Vaults')).toBeInTheDocument()
     expect(screen.getByText('Vault 1')).toBeInTheDocument()
@@ -85,7 +85,7 @@ describe('VaultsTab', () => {
   })
 
   it('opens ModifyMasterVaultModalContent when editing Master Vault', () => {
-    renderWithProviders(<VaultsTab />)
+    renderWithProviders(<SettingsVaultsTab />)
 
     const masterVaultEditButton = screen.getAllByText('Edit')[0]
     fireEvent.click(masterVaultEditButton)
@@ -94,7 +94,7 @@ describe('VaultsTab', () => {
   })
 
   it('opens ModifyVaultModalContent when editing a specific vault', () => {
-    renderWithProviders(<VaultsTab />)
+    renderWithProviders(<SettingsVaultsTab />)
 
     const editButtons = screen.getAllByText('Edit')
     fireEvent.click(editButtons[1])

@@ -35,7 +35,8 @@ export const Vault = ({
           <${VaultName}>${vault.name}<//>
           <${VaultDate}>
             ${i18n._('Created')} ${' '}
-            ${formatDate(vault.createdAt, 'dd-mm-yyyy', '/')}
+            ${!!vault?.createdAt &&
+            formatDate(vault.createdAt, 'dd-mm-yyyy', '/')}
           <//>
         <//>
       <//>
