@@ -10,7 +10,7 @@ import {
   PearPassInputField,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVault, useVaults } from 'pearpass-lib-vault'
+import { useVault } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
@@ -21,27 +21,22 @@ import {
   ModalActions,
   ModalTitle
 } from './styles'
+import { useLoadingContext } from '../../../context/LoadingContext'
+import { logger } from '../../../utils/logger'
 
 export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
+
   const { isVaultProtected, updateVault } = useVault()
-  const { refetch } = useVaults()
 
   const [isProtected, setIsProtected] = useState(false)
-
-  useEffect(() => {
-    const checkProtection = async () => {
-      const result = await isVaultProtected(vaultId)
-      setIsProtected(result)
-    }
-    checkProtection()
-  }, [vaultId, isVaultProtected])
+  const { setIsLoading } = useLoadingContext()
 
   const schema = Validator.object({
     name: Validator.string().required(i18n._('Name is required')),
-    newPassword: Validator.string().required(i18n._('Password is required')),
-    repeatPassword: Validator.string().required(i18n._('Password is required'))
+    newPassword: Validator.string(),
+    repeatPassword: Validator.string()
   })
 
   const { register, handleSubmit, setErrors } = useForm({
@@ -63,21 +58,42 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
       return
     }
 
+    if (isProtected && !values.currentPassword?.length) {
+      setErrors({
+        currentPassword: i18n._('Current password is required')
+      })
+
+      return
+    }
+
     try {
+      setIsLoading(true)
+
       await updateVault(vaultId, {
         name: values.name,
         password: values.newPassword,
         currentPassword: isProtected ? values.currentPassword : undefined
       })
-      refetch()
+
+      setIsLoading(false)
+
       closeModal()
     } catch (error) {
-      console.error('Error updating vault:', error)
+      setIsLoading(false)
+      logger.error('Error updating vault:', error)
       setErrors({
         currentPassword: i18n._('Invalid password')
       })
     }
   }
+
+  useEffect(() => {
+    const checkProtection = async () => {
+      const result = await isVaultProtected(vaultId)
+      setIsProtected(result)
+    }
+    checkProtection()
+  }, [vaultId])
 
   return html` <${ModalContent}
     onClose=${closeModal}

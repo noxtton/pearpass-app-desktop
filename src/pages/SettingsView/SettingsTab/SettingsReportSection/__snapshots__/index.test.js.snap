@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsReportSection matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-eDHQDy cktZrb"
+  >
+    <div
+      class="sc-giBObj ijhOsJ"
+    >
+      <span
+        class="sc-UblHX eVnBLp"
+      >
+        Report Issue
+      </span>
+    </div>
+    <div
+      class="sc-fufdwm fiJJsu"
+    >
+      <form
+        class="sc-jSSkKI fCbDsP"
+      >
+        <textarea
+          class="sc-geXuza gRFIKJ"
+          placeholder="Describe the issue"
+        />
+        <div
+          class="sc-iqyJx hQYkfE"
+        >
+          <button
+            class="sc-fAUdSK uKlbq"
+            type="submit"
+          >
+             
+             
+            Submit
+             
+             
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

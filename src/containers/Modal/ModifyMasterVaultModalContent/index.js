@@ -19,12 +19,16 @@ import {
   ModalActions,
   ModalTitle
 } from './styles'
+import { useLoadingContext } from '../../../context/LoadingContext'
+import { logger } from '../../../utils/logger'
 
 export const ModifyMasterVaultModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
   const { updateMasterPassword } = useUserData()
+
+  const { setIsLoading } = useLoadingContext()
 
   const errors = {
     minLength: i18n._(`Password must be at least 8 characters long`),
@@ -57,7 +61,7 @@ export const ModifyMasterVaultModalContent = () => {
       return
     }
 
-    if (values.password !== values.passwordConfirm) {
+    if (values.newPassword !== values.repeatPassword) {
       setErrors({
         repeatPassword: i18n._('Passwords do not match')
       })
@@ -66,15 +70,20 @@ export const ModifyMasterVaultModalContent = () => {
     }
 
     try {
+      setIsLoading(true)
+
       await updateMasterPassword({
         newPassword: values.newPassword,
         currentPassword: values.currentPassword
       })
+
+      setIsLoading(false)
       closeModal()
     } catch (error) {
-      console.error('Error updating master password:', error)
+      setIsLoading(false)
+      logger.error('Error updating master password:', error)
       setErrors({
-        currentPassword: i18n._('asdf password')
+        currentPassword: i18n._('Invalid password')
       })
     }
   }
