@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`VaultsTab Component renders VaultsTab component correctly and matches snapshot 1`] = `
+exports[`SettingsVaultsTab Component renders SettingsVaultsTab component correctly and matches snapshot 1`] = `
 <DocumentFragment>
   <div
     data-testid="card-single-setting"

@@ -11,7 +11,7 @@ import { ModifyMasterVaultModalContent } from '../../../containers/Modal/ModifyM
 import { ModifyVaultModalContent } from '../../../containers/Modal/ModifyVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
 
-export const VaultsTab = () => {
+export const SettingsVaultsTab = () => {
   const { i18n } = useLingui()
   const { data } = useVaults()
   const { setModal } = useModal()
@@ -24,8 +24,7 @@ export const VaultsTab = () => {
         >
         <${Vault}
           vault=${{
-            name: i18n._('Master Vault'),
-            createdAt: '2025-05-05T00:00:00Z'
+            name: i18n._('Master Vault')
           }}
           onEditClick=${() =>
             setModal(html`<${ModifyMasterVaultModalContent} />`)}
