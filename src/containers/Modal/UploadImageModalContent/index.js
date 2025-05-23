@@ -17,6 +17,7 @@ import { FileDropArea } from '../../../components/FileDropArea'
  * @component
  * @param {Object} props
  * @param {'file'|'image'} props.type
+ * @param {string} props.accepts
  * @returns {JSX.Element}
  */
 
@@ -59,6 +60,7 @@ export const UploadFilesModalContent = ({ accepts, type, onFilesSelected }) => {
       <${ContentWrapper}>
         <${FileDropArea}
           onFileDrop=${handleFileChange}
+          accepts=${accepts}
           label=${isTypeImage
             ? i18n._('Drop picture here...')
             : i18n._('Drop file here...')}

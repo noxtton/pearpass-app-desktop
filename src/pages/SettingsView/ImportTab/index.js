@@ -3,6 +3,7 @@ import { html } from 'htm/react'
 import { LockIcon } from 'pearpass-lib-ui-react-components'
 import { useCreateRecord } from 'pearpass-lib-vault'
 
+import { parse1PasswordData } from './parsers/1password'
 import { parseBitwardenData } from './parsers/bitwarden'
 import { parseLastPass } from './parsers/lastPass'
 import { parsePearPass } from './parsers/pearPass'
@@ -65,18 +66,14 @@ export const ImportTab = () => {
 
     try {
       switch (type) {
-        // case '1password':
-        //   if (fileType !== 'csv') {
-        //     console.error('Invalid file type. Please upload a CSV file.')
-        //     return
-        //   }
-        //   try {
-        //     result = await import1Password(file)
-        //   } catch (error) {
-        //     console.error('Error parsing 1Password file:', error)
-        //     return
-        //   }
-        //   break
+        case '1password':
+          if (fileType !== 'csv') {
+            console.error('Invalid file type. Please upload a CSV file.')
+            return
+          }
+          result = await parse1PasswordData(fileContent, fileType)
+
+          break
         case 'bitwarden':
           if (!['csv', 'json'].includes(fileType)) {
             throw new Error(
