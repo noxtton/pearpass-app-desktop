@@ -4,6 +4,8 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
 
+import { ExportTab } from './ExportTab'
+import { ImportTab } from './ImportTab'
 import { SettingsTab } from './SettingsTab'
 import { SettingsVaultsTab } from './SettingsVaultsTab'
 import { ContentContainer, NavBar, Tabs, TabTitle, Wrapper } from './styles'
@@ -49,10 +51,28 @@ export const SettingsView = () => {
           >
             ${i18n._('Vaults')}
           <//>
+          <${TabTitle}
+            onClick=${() => handleActiveTabChange('import')}
+            isActive=${activeTab === 'import'}
+          >
+            ${i18n._('Import')}
+          <//>
+          <${TabTitle}
+            onClick=${() => handleActiveTabChange('export')}
+            isActive=${activeTab === 'export'}
+          >
+            ${i18n._('Export')}
+          <//>
         <//>
         ${activeTab === 'general'
           ? html`<${SettingsTab} />`
-          : html`<${SettingsVaultsTab} />`}
+          : activeTab === 'vaults'
+            ? html`<${SettingsVaultsTab} />`
+            : activeTab === 'import'
+              ? html`<${ImportTab} />`
+              : activeTab === 'export'
+                ? html`<${ExportTab} />`
+                : null}
       <//>
     <//>
   `

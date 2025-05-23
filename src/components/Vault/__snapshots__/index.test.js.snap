@@ -3,7 +3,7 @@
 exports[`Vault Component matches snapshot when action icons are clicked: after action icons clicked 1`] = `
 <DocumentFragment>
   <div
-    class="sc-blHHSb kJtQgs"
+    class="sc-blHHSb gKQSBW"
   >
     <div
       class="sc-gtLWhw bBbqdy"
@@ -12,7 +12,7 @@ exports[`Vault Component matches snapshot when action icons are clicked: after a
         data-testid="lock-icon"
       />
       <div
-        class="sc-egkSDF gHPxFP"
+        class="sc-egkSDF jkBTJR"
       >
         <span
           class="sc-fAUdSK hLsNmL"
@@ -53,7 +53,7 @@ exports[`Vault Component matches snapshot when action icons are clicked: after a
 exports[`Vault Component matches snapshot when action icons are clicked: initial state 1`] = `
 <DocumentFragment>
   <div
-    class="sc-blHHSb kJtQgs"
+    class="sc-blHHSb gKQSBW"
   >
     <div
       class="sc-gtLWhw bBbqdy"
@@ -62,7 +62,7 @@ exports[`Vault Component matches snapshot when action icons are clicked: initial
         data-testid="lock-icon"
       />
       <div
-        class="sc-egkSDF gHPxFP"
+        class="sc-egkSDF jkBTJR"
       >
         <span
           class="sc-fAUdSK hLsNmL"
@@ -103,7 +103,7 @@ exports[`Vault Component matches snapshot when action icons are clicked: initial
 exports[`Vault Component renders Vault component correctly and matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-blHHSb kJtQgs"
+    class="sc-blHHSb gKQSBW"
   >
     <div
       class="sc-gtLWhw bBbqdy"
@@ -112,7 +112,7 @@ exports[`Vault Component renders Vault component correctly and matches snapshot 
         data-testid="lock-icon"
       />
       <div
-        class="sc-egkSDF gHPxFP"
+        class="sc-egkSDF jkBTJR"
       >
         <span
           class="sc-fAUdSK hLsNmL"

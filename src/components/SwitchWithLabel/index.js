@@ -9,15 +9,28 @@ import { Label, Wrapper } from './styles'
  *  onChange?: (isOn: boolean) => void
  *  label?: string,
  *  isLabelBold?: boolean
+ *  isSwitchFirst?: boolean
+ *  stretch?: boolean
  * }} props
  */
-export const SwitchWithLabel = ({ isOn, onChange, label, isLabelBold }) => {
+export const SwitchWithLabel = ({
+  isOn,
+  onChange,
+  label,
+  isLabelBold,
+  isSwitchFirst = false,
+  stretch = true
+}) => {
   const toggleSwitch = () => {
     onChange?.(!isOn)
   }
 
   return html`
-    <${Wrapper} onClick=${toggleSwitch}>
+    <${Wrapper}
+      isSwitchFirst=${isSwitchFirst}
+      stretch=${stretch}
+      onClick=${toggleSwitch}
+    >
       <${Label} isBold=${isLabelBold}> ${label} <//>
 
       <${Switch} isOn=${isOn} />

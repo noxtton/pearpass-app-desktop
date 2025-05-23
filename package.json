@@ -48,6 +48,7 @@
     "autopass": "2.1.0",
     "corestore": "7.4.0",
     "htm": "3.1.1",
+    "jszip": "^3.10.1",
     "pear-apps-lib-feedback": "github:noxtton/pear-apps-lib-feedback#v0.0.3",
     "pear-apps-lib-ui-react-hooks": "github:noxtton/pear-apps-lib-ui-react-hooks#v0.0.5",
     "pear-apps-utils-avatar-initials": "github:noxtton/pear-apps-utils-avatar-initials#v0.0.3",

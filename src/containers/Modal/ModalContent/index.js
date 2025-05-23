@@ -21,7 +21,7 @@ export const ModalContent = ({
     <${onSubmit ? 'form' : 'div'}
       onSubmit=${(e) => {
         e.preventDefault()
-        onSubmit()
+        onSubmit?.()
       }}
     >
       <${ModalHeader} onClose=${onClose}> ${headerChildren} <//>

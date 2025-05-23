@@ -202,7 +202,7 @@ export const CreateOrEditIdentityModalContent = ({
             placeholder=${i18n._('Full name')}
             variant="outline"
             icon=${UserIcon}
-            ...${register('fullname')}
+            ...${register('fullName')}
           />
 
           <${InputField}
