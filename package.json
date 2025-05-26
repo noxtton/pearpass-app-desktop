@@ -46,7 +46,7 @@
     "@lingui/react": "5.1.2",
     "@reduxjs/toolkit": "2.5.0",
     "autopass": "2.2.0",
-    "corestore": "7.4.0",
+    "corestore": "7.4.3",
     "htm": "3.1.1",
     "pear-apps-lib-feedback": "github:noxtton/pear-apps-lib-feedback#v0.0.3",
     "pear-apps-lib-ui-react-hooks": "github:noxtton/pear-apps-lib-ui-react-hooks#v0.0.5",
