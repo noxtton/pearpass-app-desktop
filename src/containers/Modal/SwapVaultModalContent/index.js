@@ -52,9 +52,10 @@ export const SwapVaultModalContent = ({ vault, onSubmit }) => {
 
       if (onSubmit) {
         await onSubmit(values.password)
-      } else {
-        await refetch(vault.id, { password: values.password })
+        return
       }
+
+      await refetch(vault.id, { password: values.password })
 
       setIsLoading(false)
 

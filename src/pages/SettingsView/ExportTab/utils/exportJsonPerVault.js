@@ -1,25 +1,9 @@
 import { downloadFile } from './downloadFile'
 import { downloadZip } from './downloadZip'
+import { parseDataToJson } from '../../../../../.yalc/tmp-pearpass-lib-data-export'
 
 export const handleExportJsonPerVaultTest = async (data) => {
-  const vaultsToExport = data.map((vault) => {
-    const records = vault.records.map((record) => ({
-      ...record,
-      vaultName: vault.name
-    }))
-
-    const json = JSON.stringify(records, null, 2)
-
-    const timestamp = new Date().toISOString().replace(/[:.-]/g, '_')
-    const safeVaultName = vault.name.replace(/[^a-z0-9]/gi, '_')
-
-    const filename = `PearPass_${safeVaultName}_${timestamp}.json`
-
-    return {
-      filename,
-      data: json
-    }
-  })
+  const vaultsToExport = await parseDataToJson(data)
 
   if (vaultsToExport.length === 1) {
     downloadFile(

@@ -3,15 +3,18 @@ import { html } from 'htm/react'
 import { LockIcon } from 'pearpass-lib-ui-react-components'
 import { useCreateRecord } from 'pearpass-lib-vault'
 
-import { parse1PasswordData } from './parsers/1password'
-import { parseBitwardenData } from './parsers/bitwarden'
-import { parseLastPass } from './parsers/lastPass'
-import { parsePearPass } from './parsers/pearPass'
-import { parseProtonPass } from './parsers/protonPass'
 import { ContentContainer, Description, ImportOptionsContainer } from './styles'
 import { readFileContent } from './utils/readFileContent'
+import {
+  parse1PasswordData,
+  parseBitwardenData,
+  parseLastPassData,
+  parsePearPassData,
+  parseProtonPassData
+} from '../../../../.yalc/tmp-pearpass-lib-data-import'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ImportDataOption } from '../../../components/ImportDataOption'
+import { logger } from '../../../utils/logger'
 
 const importOptions = [
   {
@@ -53,6 +56,8 @@ const importOptions = [
 ]
 
 export const ImportTab = () => {
+  const { i18n } = useLingui()
+
   const { createRecord } = useCreateRecord()
 
   const handleFileChange = async (files, type) => {
@@ -68,8 +73,7 @@ export const ImportTab = () => {
       switch (type) {
         case '1password':
           if (fileType !== 'csv') {
-            console.error('Invalid file type. Please upload a CSV file.')
-            return
+            throw new Error('Invalid file type. Please upload a CSV file.')
           }
           result = await parse1PasswordData(fileContent, fileType)
 
@@ -86,7 +90,7 @@ export const ImportTab = () => {
           if (fileType !== 'csv') {
             throw new Error('Invalid file type. Please upload a CSV file.')
           }
-          result = await parseLastPass(fileContent, fileType)
+          result = await parseLastPassData(fileContent, fileType)
           break
         case 'protonpass':
           if (!['csv', 'json'].includes(fileType)) {
@@ -94,7 +98,7 @@ export const ImportTab = () => {
               'Invalid file type. Please upload a CSV or JSON file.'
             )
           }
-          result = await parseProtonPass(fileContent, fileType)
+          result = await parseProtonPassData(fileContent, fileType)
           break
         case 'unencrypted':
           if (!['csv', 'json'].includes(fileType)) {
@@ -102,7 +106,7 @@ export const ImportTab = () => {
               'Invalid file type. Please upload a CSV or JSON file.'
             )
           }
-          result = await parsePearPass(fileContent, fileType)
+          result = await parsePearPassData(fileContent, fileType)
           break
         default:
           throw new Error(
@@ -112,11 +116,9 @@ export const ImportTab = () => {
 
       await Promise.all(result.map((record) => createRecord(record)))
     } catch (error) {
-      console.error('Error reading file:', error.message || error)
+      logger.error('Error reading file:', error.message || error)
     }
   }
-
-  const { i18n } = useLingui()
 
   return html` <${CardSingleSetting} title=${i18n._('Export')}>
     <${ContentContainer}>

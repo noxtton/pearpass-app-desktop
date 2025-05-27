@@ -76,11 +76,9 @@ export const ExportTab = () => {
     const isProtected = await isVaultProtected(vault.id)
 
     if (isProtected) {
-      if (selectedProtectedVault?.id === vault.id) {
-        setSelectedProtectedVault(null)
-      } else {
-        setSelectedProtectedVault(vault)
-      }
+      setSelectedProtectedVault(
+        selectedProtectedVault?.id === vault.id ? null : vault
+      )
       setSelectedVaults([])
       return
     }

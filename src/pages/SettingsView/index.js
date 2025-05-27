@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -24,6 +24,21 @@ export const SettingsView = () => {
   const handleActiveTabChange = (tab) => {
     setActiveTab(tab)
   }
+  const ActiveTabComponent = useMemo(() => {
+    switch (activeTab) {
+      case 'general':
+        return html`<${SettingsTab} />`
+      case 'vaults':
+        return html`<${SettingsVaultsTab} />`
+      case 'import':
+        return html`<${ImportTab} />`
+      case 'export':
+        return html`<${ExportTab} />`
+      default:
+        return null
+    }
+  }, [activeTab])
+
   return html`
     <${Wrapper}>
       <${NavBar}>
@@ -64,15 +79,7 @@ export const SettingsView = () => {
             ${i18n._('Export')}
           <//>
         <//>
-        ${activeTab === 'general'
-          ? html`<${SettingsTab} />`
-          : activeTab === 'vaults'
-            ? html`<${SettingsVaultsTab} />`
-            : activeTab === 'import'
-              ? html`<${ImportTab} />`
-              : activeTab === 'export'
-                ? html`<${ExportTab} />`
-                : null}
+        ${ActiveTabComponent}
       <//>
     <//>
   `
