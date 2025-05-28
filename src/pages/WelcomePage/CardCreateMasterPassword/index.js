@@ -62,7 +62,7 @@ export const CardCreateMasterPassword = () => {
 
     if (!result.isSafe && result.errors.length > 0) {
       setErrors({
-        newPassword: result.errors.join(', ')
+        password: result.errors[0]
       })
 
       setValue('passwordConfirm', '')

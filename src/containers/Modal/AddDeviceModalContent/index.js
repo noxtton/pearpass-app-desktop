@@ -11,7 +11,7 @@ import {
   YellowErrorIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useCreateInvite } from 'pearpass-lib-vault'
+import { useInvite } from 'pearpass-lib-vault'
 
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
@@ -38,7 +38,7 @@ export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const [qrSvg, setQrSvg] = useState('')
-  const { createInvite, data } = useCreateInvite()
+  const { createInvite, deleteInvite, data } = useInvite()
 
   const expireTime = useCountDown({
     initialSeconds: 120,
@@ -49,6 +49,10 @@ export const AddDeviceModalContent = () => {
 
   useEffect(() => {
     createInvite()
+
+    return () => {
+      deleteInvite();
+    };
   }, [])
 
   useEffect(() => {
