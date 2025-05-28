@@ -7,6 +7,8 @@ export const VaultContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
+  background-color: ${({ isSelected }) =>
+    isSelected ? 'rgba(134, 170, 172, 0.2)' : 'transparent'};
   border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   cursor: pointer;
 
@@ -21,7 +23,11 @@ export const VaultInfo = styled.div`
 `
 
 export const VaultDescription = styled.div`
-  gap: -2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
 `
 export const VaultName = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
@@ -42,4 +48,17 @@ export const VaultActions = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
+`
+
+export const SelectedVaultIconContainer = styled.div`
+  display: flex;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: ${({ theme }) => theme.colors.primary400.mode1};
 `

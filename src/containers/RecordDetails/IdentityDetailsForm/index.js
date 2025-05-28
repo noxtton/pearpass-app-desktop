@@ -92,7 +92,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
   return html`
     <${FormWrapper}>
       <${FormGroup} title=${i18n._('Personal information')} isCollapse>
-        ${!!values?.fullname?.length &&
+        ${!!values?.fullName?.length &&
         html`
           <${InputField}
             label=${i18n._('Full name')}
@@ -101,7 +101,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
             icon=${UserIcon}
             onClick=${handleCopy}
             isDisabled
-            ...${register('fullname')}
+            ...${register('fullName')}
           />
         `}
         ${!!values?.email?.length &&

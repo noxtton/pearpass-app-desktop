@@ -50,7 +50,7 @@ export const CardUnlockVault = () => {
     try {
       setIsLoading(true)
 
-      await refetch(routerData.vaultId, values.password)
+      await refetch(routerData.vaultId, { password: values.password })
 
       setIsLoading(false)
 
