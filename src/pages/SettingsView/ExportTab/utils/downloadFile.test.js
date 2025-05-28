@@ -1,7 +1,5 @@
 import { downloadFile } from './downloadFile'
 
-// src/pages/SettingsView/ExportTab/utils/downloadFile.test.js
-
 describe('downloadFile', () => {
   let createElementSpy
   let createObjectURLSpy

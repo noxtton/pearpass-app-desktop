@@ -38,7 +38,6 @@ describe('downloadZip', () => {
     createObjectURLSpy = global.URL.createObjectURL
     revokeObjectURLSpy = global.URL.revokeObjectURL
 
-    // Mock JSZip instance and methods
     JSZip.mockClear()
     JSZip.mockImplementation(() => ({
       file: jest.fn(),
@@ -58,15 +57,11 @@ describe('downloadZip', () => {
     ]
     await downloadZip(files)
 
-    // JSZip should be instantiated
     expect(JSZip).toHaveBeenCalledTimes(1)
-    // Each file should be added to the zip
     const zipInstance = JSZip.mock.results[0].value
     expect(zipInstance.file).toHaveBeenCalledWith('file1.txt', 'data1')
     expect(zipInstance.file).toHaveBeenCalledWith('file2.txt', 'data2')
-    // generateAsync should be called with correct options
     expect(zipInstance.generateAsync).toHaveBeenCalledWith({ type: 'blob' })
-    // Download link should be created and clicked
     expect(createElementSpy).toHaveBeenCalledWith('a')
     expect(createObjectURLSpy).toHaveBeenCalledWith('mock-blob')
     expect(clickMock).toHaveBeenCalled()

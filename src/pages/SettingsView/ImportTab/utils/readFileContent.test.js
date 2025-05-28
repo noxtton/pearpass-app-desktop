@@ -1,7 +1,5 @@
 import { readFileContent } from './readFileContent'
 
-// src/pages/SettingsView/ImportTab/utils/readFileContent.test.js
-
 describe('readFileContent', () => {
   let fileMock
   let fileReaderMock
@@ -30,7 +28,6 @@ describe('readFileContent', () => {
 
   it('should resolve with file content on successful read', async () => {
     const promise = readFileContent(fileMock)
-    // Simulate successful read
     fileReaderMock.onload({ target: { result: 'test content' } })
     await expect(promise).resolves.toBe('test content')
     expect(fileReaderMock.readAsText).toHaveBeenCalledWith(fileMock)

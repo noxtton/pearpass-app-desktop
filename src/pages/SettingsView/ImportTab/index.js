@@ -2,16 +2,16 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { LockIcon } from 'pearpass-lib-ui-react-components'
 import { useCreateRecord } from 'pearpass-lib-vault'
-
-import { ContentContainer, Description, ImportOptionsContainer } from './styles'
-import { readFileContent } from './utils/readFileContent'
 import {
   parse1PasswordData,
   parseBitwardenData,
   parseLastPassData,
   parsePearPassData,
   parseProtonPassData
-} from '../../../../.yalc/tmp-pearpass-lib-data-import'
+} from 'tmp-pearpass-lib-data-import'
+
+import { ContentContainer, Description, ImportOptionsContainer } from './styles'
+import { readFileContent } from './utils/readFileContent'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ImportDataOption } from '../../../components/ImportDataOption'
 import { logger } from '../../../utils/logger'

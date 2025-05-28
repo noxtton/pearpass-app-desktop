@@ -1,6 +1,7 @@
+import { parseDataToJson } from 'tmp-pearpass-lib-data-export'
+
 import { downloadFile } from './downloadFile'
 import { downloadZip } from './downloadZip'
-import { parseDataToJson } from '../../../../../.yalc/tmp-pearpass-lib-data-export'
 
 export const handleExportJsonPerVaultTest = async (data) => {
   const vaultsToExport = await parseDataToJson(data)
