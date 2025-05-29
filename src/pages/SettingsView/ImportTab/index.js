@@ -41,12 +41,13 @@ const importOptions = [
     accepts: ['.csv', '.json'],
     imgSrc: '/assets/images/ProtonPass.png'
   },
-  {
-    title: 'Encrypted file',
-    type: 'encrypted',
-    accepts: ['.json'],
-    icon: LockIcon
-  },
+  // Not supported yet
+  // {
+  //   title: 'Encrypted file',
+  //   type: 'encrypted',
+  //   accepts: ['.json'],
+  //   icon: LockIcon
+  // },
   {
     title: 'Unencrypted file',
     type: 'unencrypted',
@@ -55,12 +56,20 @@ const importOptions = [
   }
 ]
 
+const isAllowedType = (fileType, accepts) =>
+  accepts.some((accept) => {
+    if (accept.startsWith('.')) {
+      return fileType === accept.slice(1)
+    }
+    return fileType === accept
+  })
+
 export const ImportTab = () => {
   const { i18n } = useLingui()
 
   const { createRecord } = useCreateRecord()
 
-  const handleFileChange = async (files, type) => {
+  const handleFileChange = async ({ files, type, accepts }) => {
     const file = files[0]
     if (!file) return
 
@@ -69,48 +78,30 @@ export const ImportTab = () => {
 
     const fileContent = await readFileContent(file)
 
+    if (!isAllowedType(fileType, accepts)) {
+      throw new Error('Invalid file type')
+    }
+
     try {
       switch (type) {
         case '1password':
-          if (fileType !== 'csv') {
-            throw new Error('Invalid file type. Please upload a CSV file.')
-          }
           result = await parse1PasswordData(fileContent, fileType)
-
           break
         case 'bitwarden':
-          if (!['csv', 'json'].includes(fileType)) {
-            throw new Error(
-              'Invalid file type. Please upload a JSON or CSV file.'
-            )
-          }
           result = await parseBitwardenData(fileContent, fileType)
           break
         case 'lastpass':
-          if (fileType !== 'csv') {
-            throw new Error('Invalid file type. Please upload a CSV file.')
-          }
           result = await parseLastPassData(fileContent, fileType)
           break
         case 'protonpass':
-          if (!['csv', 'json'].includes(fileType)) {
-            throw new Error(
-              'Invalid file type. Please upload a CSV or JSON file.'
-            )
-          }
           result = await parseProtonPassData(fileContent, fileType)
           break
         case 'unencrypted':
-          if (!['csv', 'json'].includes(fileType)) {
-            throw new Error(
-              'Invalid file type. Please upload a CSV or JSON file.'
-            )
-          }
           result = await parsePearPassData(fileContent, fileType)
           break
         default:
           throw new Error(
-            'Unsupported file type. Please select a valid import option.'
+            'Unsupported template type. Please select a valid import option.'
           )
       }
 
@@ -120,13 +111,14 @@ export const ImportTab = () => {
     }
   }
 
-  return html` <${CardSingleSetting} title=${i18n._('Export')}>
+  return html` <${CardSingleSetting} title=${i18n._('Import')}>
     <${ContentContainer}>
       <${Description}>
         ${i18n._(
           'Here you can import different file, export your data and then upload it here'
         )}
       <//>
+
       <${ImportOptionsContainer}>
         ${importOptions.map(
           ({ title, accepts, type, imgSrc, icon }) =>
@@ -136,7 +128,9 @@ export const ImportTab = () => {
               accepts=${accepts}
               imgSrc=${imgSrc}
               icon=${icon}
-              onFilesSelected=${(files) => handleFileChange(files, type)}
+              onFilesSelected=${(files) => {
+                handleFileChange({ files, type, accepts })
+              }}
             />`
         )}
       <//>

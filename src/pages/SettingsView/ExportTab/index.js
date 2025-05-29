@@ -132,14 +132,16 @@ export const ExportTab = () => {
             vault.id === selectedProtectedVault?.id}
           />`
       )}
-      <${SwitchWithLabel}
+
+      <!-- not supported yet -->
+      <!-- <${SwitchWithLabel}
         isSwitchFirst
         stretch=${false}
         label=${'Encrypted file'}
         isOn=${shouldExportEncrypted}
         onChange=${() => setShouldExportEncrypted((prev) => !prev)}
         isLabelBold
-      />
+      /> -->
 
       <${RadioSelect}
         title=${i18n._('Type')}
@@ -151,7 +153,12 @@ export const ExportTab = () => {
       />
 
       <${ActionsContainer}>
-        <${ButtonSecondary} onClick=${handleExport}> ${i18n._('Export')} <//>
+        <${ButtonSecondary}
+          onClick=${handleExport}
+          disabled=${!selectedVaults.length && !selectedProtectedVault}
+        >
+          ${i18n._('Export')}
+        <//>
       <//>
     <//>
   <//>`
