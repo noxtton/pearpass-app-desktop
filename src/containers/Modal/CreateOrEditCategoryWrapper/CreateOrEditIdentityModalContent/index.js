@@ -331,7 +331,7 @@ export const CreateOrEditIdentityModalContent = ({
           />
         <//>
 
-        <${FormGroup} title=${i18n._('Passport form')} isCollapse>
+        <${FormGroup} title=${i18n._('Passport')} isCollapse>
           <${InputField}
             label=${i18n._('Full name')}
             placeholder="John Smith"
@@ -397,7 +397,7 @@ export const CreateOrEditIdentityModalContent = ({
           />
         <//>
 
-        <${FormGroup} title=${i18n._('Identity card data')} isCollapse>
+        <${FormGroup} title=${i18n._('Identity card')} isCollapse>
           <${InputField}
             label=${i18n._('ID number')}
             placeholder="123456789"
@@ -431,7 +431,7 @@ export const CreateOrEditIdentityModalContent = ({
           />
         <//>
 
-        <${FormGroup} title=${i18n._('Driving license data')} isCollapse>
+        <${FormGroup} title=${i18n._('Driving license')} isCollapse>
           <${InputField}
             label=${i18n._('ID number')}
             placeholder="123456789"

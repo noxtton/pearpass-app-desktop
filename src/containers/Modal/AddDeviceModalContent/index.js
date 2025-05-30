@@ -51,8 +51,8 @@ export const AddDeviceModalContent = () => {
     createInvite()
 
     return () => {
-      deleteInvite();
-    };
+      deleteInvite()
+    }
   }, [])
 
   useEffect(() => {

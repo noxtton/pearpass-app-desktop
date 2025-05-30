@@ -1,14 +1,14 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { LockIcon } from 'pearpass-lib-ui-react-components'
-import { useCreateRecord } from 'pearpass-lib-vault'
 import {
   parse1PasswordData,
   parseBitwardenData,
   parseLastPassData,
   parsePearPassData,
   parseProtonPassData
-} from 'tmp-pearpass-lib-data-import'
+} from 'pearpass-lib-data-import'
+import { LockIcon } from 'pearpass-lib-ui-react-components'
+import { useCreateRecord } from 'pearpass-lib-vault'
 
 import { ContentContainer, Description, ImportOptionsContainer } from './styles'
 import { readFileContent } from './utils/readFileContent'

@@ -1,4 +1,4 @@
-import { parseDataToJson } from 'tmp-pearpass-lib-data-export'
+import { parseDataToJson } from 'pearpass-lib-data-export'
 
 import { downloadFile } from './downloadFile'
 import { downloadZip } from './downloadZip'
