@@ -4,6 +4,7 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 import {
+  authoriseCurrentProtectedVault,
   getVaultById,
   getVaultEncryption,
   listRecords,
@@ -55,14 +56,22 @@ export const ExportTab = () => {
     currentVaultId,
     currentEncryption
   ) => {
+    if (
+      selectedProtectedVault?.id &&
+      currentVaultId === selectedProtectedVault.id
+    ) {
+      await authoriseCurrentProtectedVault(password)
+    }
+
     const vault = await getVaultById(selectedProtectedVault.id, {
       password: password
     })
+
     const records = (await listRecords()) ?? []
 
     handleSubmitExport([{ ...vault, records }])
 
-    refetch(currentVaultId, currentEncryption)
+    await refetch(currentVaultId, currentEncryption)
   }
 
   const fetchUnprotectedVault = async (vaultId) => {
