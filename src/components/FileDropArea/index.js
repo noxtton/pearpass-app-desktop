@@ -7,10 +7,11 @@ import { DropAreaWrapper, HiddenInput, Label } from './styles'
 /**
  * @param {{
  *  label: import('react').ReactNode,
- *  onFileDrop: (files: File[]) => void
+ *  onFileDrop: (files: File[]) => void,
+ *  accepts: string,
  * }} props
  */
-export const FileDropArea = ({ label, onFileDrop }) => {
+export const FileDropArea = ({ label, onFileDrop, accepts }) => {
   const fileInputRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
 
@@ -53,6 +54,7 @@ export const FileDropArea = ({ label, onFileDrop }) => {
     <${HiddenInput}
       ref=${fileInputRef}
       type="file"
+      accepts=${accepts}
       onChange=${handleFileChange}
     />
   <//>`

@@ -51,6 +51,7 @@ export const Fields = styled.div`
   flex-direction: column;
   gap: 15px;
   margin-top: 15px;
+  padding-bottom: 24px;
 `
 
 export const RecordActions = styled.div`

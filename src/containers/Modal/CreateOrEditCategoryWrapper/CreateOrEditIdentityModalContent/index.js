@@ -4,8 +4,12 @@ import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import {
   ButtonLittle,
+  CalendarIcon,
   EmailIcon,
+  GenderIcon,
+  GroupIcon,
   InputField,
+  NationalityIcon,
   PhoneIcon,
   SaveIcon,
   UserIcon
@@ -30,25 +34,42 @@ import { DropdownsWrapper } from '../../styles'
 /**
  * @param {{
  *   initialRecord: {
- *    data: {
- *     title: string
- *     fullName: string
- *     email: string
- *     phoneNumber: string
- *     address: string
- *     zip: string
- *     city: string
- *     region: string
- *     country: string
- *     note: string
- *     customFields: {
+ *     data: {
+ *       title: string
+ *       fullName: string
+ *       email: string
+ *       phoneNumber: string
+ *       address: string
+ *       zip: string
+ *       city: string
+ *       region: string
+ *       country: string
  *       note: string
- *       type: string
- *     }[]
+ *       customFields: {
+ *         note: string
+ *         type: string
+ *       }[]
+ *       passportFullName: string
+ *       passportNumber: string
+ *       passportIssuingCountry: string
+ *       passportDateOfIssue: string
+ *       passportExpiryDate: string
+ *       passportNationality: string
+ *       passportDob: string
+ *       passportGender: string
+ *       idCardNumber: string
+ *       idCardDateOfIssue: string
+ *       idCardExpiryDate: string
+ *       idCardIssuingCountry: string
+ *       drivingLicenseNumber: string
+ *       drivingLicenseDateOfIssue: string
+ *       drivingLicenseExpiryDate: string
+ *       drivingLicenseIssuingCountry: string
+ *     }
+ *     folder?: string
  *   }
- *  }
- *  selectedFolder?: string
- *  onTypeChange: (type: string) => void
+ *   selectedFolder?: string
+ *   onTypeChange: (type: string) => void
  * }} props
  */
 export const CreateOrEditIdentityModalContent = ({
@@ -100,7 +121,23 @@ export const CreateOrEditIdentityModalContent = ({
         note: Validator.string().required(i18n._('Note is required'))
       })
     ),
-    folder: Validator.string()
+    folder: Validator.string(),
+    passportFullName: Validator.string(),
+    passportNumber: Validator.string(),
+    passportIssuingCountry: Validator.string(),
+    passportDateOfIssue: Validator.string(),
+    passportExpiryDate: Validator.string(),
+    passportNationality: Validator.string(),
+    passportDob: Validator.string(),
+    passportGender: Validator.string(),
+    idCardNumber: Validator.string(),
+    idCardDateOfIssue: Validator.string(),
+    idCardExpiryDate: Validator.string(),
+    idCardIssuingCountry: Validator.string(),
+    drivingLicenseNumber: Validator.string(),
+    drivingLicenseDateOfIssue: Validator.string(),
+    drivingLicenseExpiryDate: Validator.string(),
+    drivingLicenseIssuingCountry: Validator.string()
   })
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
@@ -116,7 +153,26 @@ export const CreateOrEditIdentityModalContent = ({
       country: initialRecord?.data?.country ?? '',
       note: initialRecord?.data?.note ?? '',
       customFields: initialRecord?.data?.customFields || [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      passportFullName: initialRecord?.data?.passportFullName ?? '',
+      passportNumber: initialRecord?.data?.passportNumber ?? '',
+      passportIssuingCountry: initialRecord?.data?.passportIssuingCountry ?? '',
+      passportDateOfIssue: initialRecord?.data?.passportDateOfIssue ?? '',
+      passportExpiryDate: initialRecord?.data?.passportExpiryDate ?? '',
+      passportNationality: initialRecord?.data?.passportNationality ?? '',
+      passportDob: initialRecord?.data?.passportDob ?? '',
+      passportGender: initialRecord?.data?.passportGender ?? '',
+      idCardNumber: initialRecord?.data?.idCardNumber ?? '',
+      idCardDateOfIssue: initialRecord?.data?.idCardDateOfIssue ?? '',
+      idCardExpiryDate: initialRecord?.data?.idCardExpiryDate ?? '',
+      idCardIssuingCountry: initialRecord?.data?.idCardIssuingCountry ?? '',
+      drivingLicenseNumber: initialRecord?.data?.drivingLicenseNumber ?? '',
+      drivingLicenseDateOfIssue:
+        initialRecord?.data?.drivingLicenseDateOfIssue ?? '',
+      drivingLicenseExpiryDate:
+        initialRecord?.data?.drivingLicenseExpiryDate ?? '',
+      drivingLicenseIssuingCountry:
+        initialRecord?.data?.drivingLicenseIssuingCountry ?? ''
     },
     validate: (values) => schema.validate(values)
   })
@@ -144,7 +200,23 @@ export const CreateOrEditIdentityModalContent = ({
         region: values.region,
         country: values.country,
         note: values.note,
-        customFields: values.customFields
+        customFields: values.customFields,
+        passportFullName: values.passportFullName,
+        passportNumber: values.passportNumber,
+        passportIssuingCountry: values.passportIssuingCountry,
+        passportDateOfIssue: values.passportDateOfIssue,
+        passportExpiryDate: values.passportExpiryDate,
+        passportNationality: values.passportNationality,
+        passportDob: values.passportDob,
+        passportGender: values.passportGender,
+        idCardNumber: values.idCardNumber,
+        idCardDateOfIssue: values.idCardDateOfIssue,
+        idCardExpiryDate: values.idCardExpiryDate,
+        idCardIssuingCountry: values.idCardIssuingCountry,
+        drivingLicenseNumber: values.drivingLicenseNumber,
+        drivingLicenseDateOfIssue: values.drivingLicenseDateOfIssue,
+        drivingLicenseExpiryDate: values.drivingLicenseExpiryDate,
+        drivingLicenseIssuingCountry: values.drivingLicenseIssuingCountry
       }
     }
 
@@ -202,7 +274,7 @@ export const CreateOrEditIdentityModalContent = ({
             placeholder=${i18n._('Full name')}
             variant="outline"
             icon=${UserIcon}
-            ...${register('fullname')}
+            ...${register('fullName')}
           />
 
           <${InputField}
@@ -256,6 +328,140 @@ export const CreateOrEditIdentityModalContent = ({
             placeholder=${i18n._('Country')}
             variant="outline"
             ...${register('country')}
+          />
+        <//>
+
+        <${FormGroup} title=${i18n._('Passport')} isCollapse>
+          <${InputField}
+            label=${i18n._('Full name')}
+            placeholder="John Smith"
+            variant="outline"
+            icon=${UserIcon}
+            ...${register('passportFullName')}
+          />
+
+          <${InputField}
+            label=${i18n._('Passport number')}
+            placeholder=${i18n._('Insert numbers')}
+            variant="outline"
+            icon=${GroupIcon}
+            ...${register('passportNumber')}
+          />
+
+          <${InputField}
+            label=${i18n._('Issuing country')}
+            placeholder=${i18n._('Insert country')}
+            variant="outline"
+            icon=${NationalityIcon}
+            ...${register('passportIssuingCountry')}
+          />
+
+          <${InputField}
+            label=${i18n._('Date of issue')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('passportDateOfIssue')}
+          />
+
+          <${InputField}
+            label=${i18n._('Expiry Date')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('passportExpiryDate')}
+          />
+
+          <${InputField}
+            label=${i18n._('Nationality')}
+            placeholder=${i18n._('Insert your nationality')}
+            variant="outline"
+            icon=${NationalityIcon}
+            ...${register('passportNationality')}
+          />
+
+          <${InputField}
+            label=${i18n._('Date of birth')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('passportDob')}
+          />
+
+          <${InputField}
+            label=${i18n._('Gender')}
+            placeholder=${i18n._('M/F')}
+            variant="outline"
+            icon=${GenderIcon}
+            ...${register('passportGender')}
+          />
+        <//>
+
+        <${FormGroup} title=${i18n._('Identity card')} isCollapse>
+          <${InputField}
+            label=${i18n._('ID number')}
+            placeholder="123456789"
+            variant="outline"
+            icon=${GroupIcon}
+            ...${register('idCardNumber')}
+          />
+
+          <${InputField}
+            label=${i18n._('Creation date')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('idCardDateOfIssue')}
+          />
+
+          <${InputField}
+            label=${i18n._('Expiry date')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('idCardExpiryDate')}
+          />
+
+          <${InputField}
+            label=${i18n._('Issue country')}
+            placeholder=${i18n._('Insert country')}
+            variant="outline"
+            icon=${NationalityIcon}
+            ...${register('idCardIssuingCountry')}
+          />
+        <//>
+
+        <${FormGroup} title=${i18n._('Driving license')} isCollapse>
+          <${InputField}
+            label=${i18n._('ID number')}
+            placeholder="123456789"
+            variant="outline"
+            icon=${GroupIcon}
+            ...${register('drivingLicenseNumber')}
+          />
+
+          <${InputField}
+            label=${i18n._('Creation date')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('drivingLicenseDateOfIssue')}
+          />
+
+          <${InputField}
+            label=${i18n._('Expiry date')}
+            placeholder="DD.MM.YYYY"
+            variant="outline"
+            icon=${CalendarIcon}
+            ...${register('drivingLicenseExpiryDate')}
+          />
+
+          <${InputField}
+            label=${i18n._('Issue country')}
+            placeholder=${i18n._('Insert country')}
+            variant="outline"
+            icon=${NationalityIcon}
+            ...${register('drivingLicenseIssuingCountry')}
           />
         <//>
 

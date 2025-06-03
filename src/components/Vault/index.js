@@ -3,12 +3,15 @@ import { html } from 'htm/react'
 import { formatDate } from 'pear-apps-utils-date'
 import {
   BrushIcon,
+  CheckIcon,
   DeleteIcon,
   LockCircleIcon,
   ShareIcon
 } from 'pearpass-lib-ui-react-components'
+import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
+  SelectedVaultIconContainer,
   VaultActions,
   VaultContainer,
   VaultDate,
@@ -22,14 +25,25 @@ export const Vault = ({
   onClick,
   onShareClick,
   onEditClick,
-  onDeleteClick
+  onDeleteClick,
+  isSelected
 }) => {
   const { i18n } = useLingui()
 
+  const handleClick = () => {
+    if (onClick) {
+      onClick(vault)
+    }
+  }
+
   return html`
-    <${VaultContainer} onClick=${onClick}>
+    <${VaultContainer} isSelected=${isSelected} onClick=${handleClick}>
       <${VaultInfo}>
-        <${LockCircleIcon} size="21" />
+        ${isSelected
+          ? html` <${SelectedVaultIconContainer}>
+              <${CheckIcon} size="21" color=${colors.black.mode1} />
+            <//>`
+          : html`<${LockCircleIcon} size="21" />`}
 
         <${VaultDescription}>
           <${VaultName}>${vault.name}<//>

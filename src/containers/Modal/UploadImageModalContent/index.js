@@ -2,15 +2,29 @@ import { useRef } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonSecondary, ImageIcon } from 'pearpass-lib-ui-react-components'
+import {
+  ButtonSecondary,
+  CommonFileIcon,
+  ImageIcon
+} from 'pearpass-lib-ui-react-components'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { ContentWrapper, HeaderWrapper, HiddenInput } from './styles'
 import { FileDropArea } from '../../../components/FileDropArea'
 
-export const UploadImageModalContent = () => {
+/**
+ * @component
+ * @param {Object} props
+ * @param {'file'|'image'} props.type
+ * @param {string} props.accepts
+ * @returns {JSX.Element}
+ */
+
+export const UploadFilesModalContent = ({ accepts, type, onFilesSelected }) => {
   const fileInputRef = useRef(null)
+
+  const isTypeImage = type === 'image'
 
   const { i18n } = useLingui()
   const { closeModal } = useModal()
@@ -19,8 +33,11 @@ export const UploadImageModalContent = () => {
     fileInputRef.current?.click()
   }
 
-  const handleFileChange = () => {
-    // const files = event.target.files
+  const handleFileChange = (files) => {
+    if (files && files.length > 0) {
+      onFilesSelected?.(files)
+    }
+    closeModal()
   }
 
   return html`
@@ -28,14 +45,26 @@ export const UploadImageModalContent = () => {
       onClose=${closeModal}
       headerChildren=${html`
         <${HeaderWrapper}>
-          <${ImageIcon} size="21" />
-
-          ${i18n._('Upload picture')}
-        <//>
+          ${
+            isTypeImage
+              ? html` <${isTypeImage ? ImageIcon : CommonFileIcon} size="21" />
+                  ${i18n._('Upload picture')}`
+              : html`
+                  <${CommonFileIcon} size="21" />
+                  ${i18n._('Upload file')}
+                `
+          }
+        </${HeaderWrapper}>
       `}
     >
       <${ContentWrapper}>
-        <${FileDropArea} label=${i18n._('Drop picture here...')} />
+        <${FileDropArea}
+          onFileDrop=${handleFileChange}
+          accepts=${accepts}
+          label=${isTypeImage
+            ? i18n._('Drop picture here...')
+            : i18n._('Drop file here...')}
+        />
       <//>
 
       <${ButtonSecondary} onClick=${handleBrowseClick}>
@@ -45,7 +74,8 @@ export const UploadImageModalContent = () => {
       <${HiddenInput}
         ref=${fileInputRef}
         type="file"
-        onChange=${handleFileChange}
+        accept=${accepts}
+        onChange=${(event) => handleFileChange(event?.target?.files)}
       />
     <//>
   `
