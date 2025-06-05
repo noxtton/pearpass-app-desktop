@@ -1,9 +1,9 @@
 import { renderHook, act } from '@testing-library/react'
+import { generateUniqueId } from 'pear-apps-utils-generate-unique-id'
 
 import { useCustomFields } from './useCustomFields'
-import { generateUniqueId } from '../utils/generateUniqueId'
 
-jest.mock('../utils/generateUniqueId', () => ({
+jest.mock('pear-apps-utils-generate-unique-id', () => ({
   generateUniqueId: jest.fn()
 }))
 
