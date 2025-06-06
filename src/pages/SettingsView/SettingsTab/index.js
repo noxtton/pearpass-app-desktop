@@ -11,7 +11,6 @@ import {
   GOOGLE_FORM_MAPPING,
   SLACK_WEBHOOK_URL_PATH
 } from 'pearpass-lib-constants'
-import { LANGUAGES } from 'pearpass-lib-constants'
 
 import { SettingsLanguageSection } from './SettingsLanguageSection'
 import { SettingsReportSection } from './SettingsReportSection'
@@ -20,6 +19,7 @@ import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { VERSION } from '../../../constants/version'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
+import { useLanguageOptions } from '../../../hooks/useLanguageOptions'
 import { logger } from '../../../utils/logger'
 
 export const SettingsTab = () => {
@@ -29,6 +29,8 @@ export const SettingsTab = () => {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState(i18n.locale)
+
+  const { languageOptions } = useLanguageOptions()
 
   useGlobalLoading({ isLoading })
 
@@ -83,7 +85,7 @@ export const SettingsTab = () => {
     }
   }
 
-  const selectedLangItem = LANGUAGES.find((l) => l.value === language)
+  const selectedLangItem = languageOptions.find((l) => l.value === language)
 
   return html`
     <${SettingsLanguageSection}
@@ -91,6 +93,7 @@ export const SettingsTab = () => {
       onItemSelect=${handleLanguageChange}
       placeholder=${i18n._('Select')}
       title=${i18n._('Language')}
+      languageOptions=${languageOptions}
     />
 
     <${SettingsReportSection}
