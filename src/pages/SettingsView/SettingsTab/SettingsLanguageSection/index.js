@@ -1,8 +1,8 @@
 import { html } from 'htm/react'
+import { LANGUAGES } from 'pearpass-lib-constants'
 
 import { CardSingleSetting } from '../../../../components/CardSingleSetting'
 import { Select } from '../../../../components/Select'
-import { LANGUAGES } from '../../../../constants/languages'
 
 /**
  * @param {{
