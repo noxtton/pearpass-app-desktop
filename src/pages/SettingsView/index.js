@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -6,6 +6,7 @@ import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'
+import { SettingsPrivacyTab } from './SettingsPrivacyTab'
 import { SettingsTab } from './SettingsTab'
 import { SettingsVaultsTab } from './SettingsVaultsTab'
 import { ContentContainer, NavBar, Tabs, TabTitle, Wrapper } from './styles'
@@ -24,20 +25,6 @@ export const SettingsView = () => {
   const handleActiveTabChange = (tab) => {
     setActiveTab(tab)
   }
-  const ActiveTabComponent = useMemo(() => {
-    switch (activeTab) {
-      case 'general':
-        return html`<${SettingsTab} />`
-      case 'vaults':
-        return html`<${SettingsVaultsTab} />`
-      case 'import':
-        return html`<${ImportTab} />`
-      case 'export':
-        return html`<${ExportTab} />`
-      default:
-        return null
-    }
-  }, [activeTab])
 
   return html`
     <${Wrapper}>
@@ -66,21 +53,51 @@ export const SettingsView = () => {
           >
             ${i18n._('Vaults')}
           <//>
+
           <${TabTitle}
             onClick=${() => handleActiveTabChange('import')}
             isActive=${activeTab === 'import'}
           >
             ${i18n._('Import')}
           <//>
+
           <${TabTitle}
             onClick=${() => handleActiveTabChange('export')}
             isActive=${activeTab === 'export'}
           >
             ${i18n._('Export')}
           <//>
+
+          <${TabTitle}
+            onClick=${() => handleActiveTabChange('privacy')}
+            isActive=${activeTab === 'privacy'}
+          >
+            ${i18n._('Privacy')}
+          <//>
         <//>
-        ${ActiveTabComponent}
+
+        ${renderActiveTab(activeTab)}
       <//>
     <//>
   `
+}
+
+/**
+ * @param {string} activeTab
+ */
+const renderActiveTab = (activeTab) => {
+  switch (activeTab) {
+    case 'general':
+      return html`<${SettingsTab} />`
+    case 'vaults':
+      return html`<${SettingsVaultsTab} />`
+    case 'import':
+      return html`<${ImportTab} />`
+    case 'export':
+      return html`<${ExportTab} />`
+    case 'privacy':
+      return html`<${SettingsPrivacyTab} />`
+    default:
+      return null
+  }
 }
