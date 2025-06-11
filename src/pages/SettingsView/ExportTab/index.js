@@ -135,7 +135,7 @@ export const ExportTab = () => {
         (vault) =>
           html`<${ListItem}
             key=${vault.name}
-            vault=${vault}
+            item=${vault}
             onClick=${handleVaultClick}
             isSelected=${selectedVaults.includes(vault.id) ||
             vault.id === selectedProtectedVault?.id}

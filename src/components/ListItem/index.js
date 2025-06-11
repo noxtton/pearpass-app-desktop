@@ -11,17 +11,17 @@ import {
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
-  SelectedVaultIconContainer,
-  VaultActions,
-  VaultContainer,
-  VaultDate,
-  VaultDescription,
-  VaultInfo,
-  VaultName
+  SelectedListItemIconContainer,
+  ListItemActions,
+  ListItemContainer,
+  ListItemDate,
+  ListItemDescription,
+  ListItemInfo,
+  ListItemName
 } from './styles'
 
 export const ListItem = ({
-  vault,
+  item,
   onClick,
   onShareClick,
   onEditClick,
@@ -32,30 +32,30 @@ export const ListItem = ({
 
   const handleClick = () => {
     if (onClick) {
-      onClick(vault)
+      onClick(item)
     }
   }
 
   return html`
-    <${VaultContainer} isSelected=${isSelected} onClick=${handleClick}>
-      <${VaultInfo}>
+    <${ListItemContainer} isSelected=${isSelected} onClick=${handleClick}>
+      <${ListItemInfo}>
         ${isSelected
-          ? html` <${SelectedVaultIconContainer}>
+          ? html` <${SelectedListItemIconContainer}>
               <${CheckIcon} size="21" color=${colors.black.mode1} />
             <//>`
           : html`<${LockCircleIcon} size="21" />`}
 
-        <${VaultDescription}>
-          <${VaultName}>${vault.name}<//>
-          <${VaultDate}>
+        <${ListItemDescription}>
+          <${ListItemName}>${item.name}<//>
+          <${ListItemDate}>
             ${i18n._('Created')} ${' '}
-            ${!!vault?.createdAt &&
-            formatDate(vault.createdAt, 'dd-mm-yyyy', '/')}
+            ${!!item?.createdAt &&
+            formatDate(item.createdAt, 'dd-mm-yyyy', '/')}
           <//>
         <//>
       <//>
 
-      <${VaultActions}>
+      <${ListItemActions}>
         ${onShareClick &&
         html`
           <span onClick=${onShareClick}>

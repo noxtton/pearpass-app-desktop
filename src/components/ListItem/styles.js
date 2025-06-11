@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const VaultContainer = styled.div`
+export const ListItemContainer = styled.div`
   display: flex;
   width: 100%;
   padding: 5px 10px;
@@ -16,27 +16,27 @@ export const VaultContainer = styled.div`
     border-color: ${({ theme }) => theme.colors.primary400.mode1};
   }
 `
-export const VaultInfo = styled.div`
+export const ListItemInfo = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
 `
 
-export const VaultDescription = styled.div`
+export const ListItemDescription = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
   gap: 4px;
 `
-export const VaultName = styled.span`
+export const ListItemName = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
 `
-export const VaultDate = styled.p`
+export const ListItemDate = styled.p`
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
   font-size: 10px;
@@ -44,13 +44,13 @@ export const VaultDate = styled.p`
   font-weight: 300;
 `
 
-export const VaultActions = styled.div`
+export const ListItemActions = styled.div`
   display: flex;
   gap: 12px;
   align-items: center;
 `
 
-export const SelectedVaultIconContainer = styled.div`
+export const SelectedListItemIconContainer = styled.div`
   display: flex;
   width: 30px;
   height: 30px;

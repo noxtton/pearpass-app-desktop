@@ -35,7 +35,7 @@ describe('Vault Component', () => {
     const { asFragment } = render(
       <ThemeProvider>
         <ListItem
-          vault={dummyVault}
+          item={dummyVault}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={() => {}}
@@ -51,7 +51,7 @@ describe('Vault Component', () => {
     const { container } = render(
       <ThemeProvider>
         <ListItem
-          vault={dummyVault}
+          item={dummyVault}
           onClick={onClick}
           onShareClick={() => {}}
           onEditClick={() => {}}
@@ -69,7 +69,7 @@ describe('Vault Component', () => {
     const { container } = render(
       <ThemeProvider>
         <ListItem
-          vault={dummyVault}
+          item={dummyVault}
           onClick={() => {}}
           onShareClick={onShareClick}
           onEditClick={() => {}}
@@ -89,7 +89,7 @@ describe('Vault Component', () => {
     const { container } = render(
       <ThemeProvider>
         <ListItem
-          vault={dummyVault}
+          item={dummyVault}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={onEditClick}
@@ -107,7 +107,7 @@ describe('Vault Component', () => {
     const { asFragment, container } = render(
       <ThemeProvider>
         <ListItem
-          vault={dummyVault}
+          item={dummyVault}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={() => {}}

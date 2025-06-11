@@ -64,7 +64,7 @@ export const CardVaultSelect = () => {
           (vault) =>
             html`<${ListItem}
               onClick=${() => handleSelectVault(vault.id)}
-              vault=${vault}
+              item=${vault}
             />`
         )}
       <//>

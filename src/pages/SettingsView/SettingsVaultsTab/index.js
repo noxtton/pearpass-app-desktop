@@ -23,7 +23,7 @@ export const SettingsVaultsTab = () => {
           >${i18n._('Here you can modify the your Master password')}<//
         >
         <${ListItem}
-          vault=${{
+          item=${{
             name: i18n._('Master Vault')
           }}
           onEditClick=${() =>
@@ -37,7 +37,7 @@ export const SettingsVaultsTab = () => {
           (vault) =>
             html`<${ListItem}
               key=${vault.name}
-              vault=${vault}
+              item=${vault}
               onEditClick=${() =>
                 setModal(
                   html`<${ModifyVaultModalContent}
