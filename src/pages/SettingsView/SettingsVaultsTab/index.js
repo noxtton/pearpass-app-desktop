@@ -6,7 +6,7 @@ import { useVaults } from 'pearpass-lib-vault'
 
 import { content, Description } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
-import { Vault } from '../../../components/Vault'
+import { ListItem } from '../../../components/ListItem'
 import { ModifyMasterVaultModalContent } from '../../../containers/Modal/ModifyMasterVaultModalContent'
 import { ModifyVaultModalContent } from '../../../containers/Modal/ModifyVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
@@ -22,7 +22,7 @@ export const SettingsVaultsTab = () => {
         <${Description}
           >${i18n._('Here you can modify the your Master password')}<//
         >
-        <${Vault}
+        <${ListItem}
           vault=${{
             name: i18n._('Master Vault')
           }}
@@ -35,7 +35,7 @@ export const SettingsVaultsTab = () => {
       <${content}>
         ${data?.map(
           (vault) =>
-            html`<${Vault}
+            html`<${ListItem}
               key=${vault.name}
               vault=${vault}
               onEditClick=${() =>

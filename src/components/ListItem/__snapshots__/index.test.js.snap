@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Vault Component matches snapshot when action icons are clicked: after action icons clicked 1`] = `
+exports[`ListItem Component matches snapshot when action icons are clicked: after action icons clicked 1`] = `
 <DocumentFragment>
   <div
     class="sc-blHHSb gKQSBW"
@@ -50,7 +50,7 @@ exports[`Vault Component matches snapshot when action icons are clicked: after a
 </DocumentFragment>
 `;
 
-exports[`Vault Component matches snapshot when action icons are clicked: initial state 1`] = `
+exports[`ListItem Component matches snapshot when action icons are clicked: initial state 1`] = `
 <DocumentFragment>
   <div
     class="sc-blHHSb gKQSBW"
@@ -100,7 +100,7 @@ exports[`Vault Component matches snapshot when action icons are clicked: initial
 </DocumentFragment>
 `;
 
-exports[`Vault Component renders Vault component correctly and matches snapshot 1`] = `
+exports[`ListItem Component renders ListItem component correctly and matches snapshot 1`] = `
 <DocumentFragment>
   <div
     class="sc-blHHSb gKQSBW"

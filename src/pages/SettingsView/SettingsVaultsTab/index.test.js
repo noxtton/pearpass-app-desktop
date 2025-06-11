@@ -34,7 +34,7 @@ jest.mock('../../../components/CardSingleSetting', () => ({
   )
 }))
 
-jest.mock('../../../components/Vault', () => ({
+jest.mock('../../../components/ListItem', () => ({
   Vault: ({ vault, onEditClick }) => (
     <div>
       <p>{vault.name}</p>

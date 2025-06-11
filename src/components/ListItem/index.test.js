@@ -3,7 +3,7 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 
-import { Vault } from './index'
+import { ListItem } from './index'
 import '@testing-library/jest-dom'
 
 jest.mock('@lingui/react', () => ({
@@ -34,7 +34,7 @@ describe('Vault Component', () => {
   test('renders Vault component correctly and matches snapshot', () => {
     const { asFragment } = render(
       <ThemeProvider>
-        <Vault
+        <ListItem
           vault={dummyVault}
           onClick={() => {}}
           onShareClick={() => {}}
@@ -50,7 +50,7 @@ describe('Vault Component', () => {
     const onClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
-        <Vault
+        <ListItem
           vault={dummyVault}
           onClick={onClick}
           onShareClick={() => {}}
@@ -68,7 +68,7 @@ describe('Vault Component', () => {
     const onShareClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
-        <Vault
+        <ListItem
           vault={dummyVault}
           onClick={() => {}}
           onShareClick={onShareClick}
@@ -88,7 +88,7 @@ describe('Vault Component', () => {
     const onEditClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
-        <Vault
+        <ListItem
           vault={dummyVault}
           onClick={() => {}}
           onShareClick={() => {}}
@@ -106,7 +106,7 @@ describe('Vault Component', () => {
   test('matches snapshot when action icons are clicked', () => {
     const { asFragment, container } = render(
       <ThemeProvider>
-        <Vault
+        <ListItem
           vault={dummyVault}
           onClick={() => {}}
           onShareClick={() => {}}

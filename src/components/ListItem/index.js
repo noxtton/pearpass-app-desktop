@@ -20,7 +20,7 @@ import {
   VaultName
 } from './styles'
 
-export const Vault = ({
+export const ListItem = ({
   vault,
   onClick,
   onShareClick,
