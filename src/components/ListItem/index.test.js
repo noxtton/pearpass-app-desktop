@@ -6,18 +6,6 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { ListItem } from './index'
 import '@testing-library/jest-dom'
 
-jest.mock('@lingui/react', () => ({
-  useLingui: () => ({
-    i18n: {
-      _: (key) => key
-    }
-  })
-}))
-
-jest.mock('pear-apps-utils-date', () => ({
-  formatDate: () => 'formatted-date'
-}))
-
 jest.mock('pearpass-lib-ui-react-components', () => ({
   BrushIcon: () => <svg data-testid="brush-icon" />,
   DeleteIcon: () => <svg data-testid="delete-icon" />,
@@ -25,17 +13,18 @@ jest.mock('pearpass-lib-ui-react-components', () => ({
   ShareIcon: () => <svg data-testid="share-icon" />
 }))
 
-describe('Vault Component', () => {
-  const dummyVault = {
+describe('Item Component', () => {
+  const dummyItem = {
     name: 'vault-123',
-    createdAt: 1630000000000
+    createdAt: 'Created 13/06/2025'
   }
 
-  test('renders Vault component correctly and matches snapshot', () => {
+  test('renders Item component correctly and matches snapshot', () => {
     const { asFragment } = render(
       <ThemeProvider>
         <ListItem
-          item={dummyVault}
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={() => {}}
@@ -46,12 +35,13 @@ describe('Vault Component', () => {
     expect(asFragment()).toMatchSnapshot()
   })
 
-  test('calls onClick when Vault container is clicked', () => {
+  test('calls onClick when Item container is clicked', () => {
     const onClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
         <ListItem
-          item={dummyVault}
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={onClick}
           onShareClick={() => {}}
           onEditClick={() => {}}
@@ -69,7 +59,8 @@ describe('Vault Component', () => {
     const { container } = render(
       <ThemeProvider>
         <ListItem
-          item={dummyVault}
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={onShareClick}
           onEditClick={() => {}}
@@ -89,7 +80,8 @@ describe('Vault Component', () => {
     const { container } = render(
       <ThemeProvider>
         <ListItem
-          item={dummyVault}
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={onEditClick}
@@ -107,7 +99,8 @@ describe('Vault Component', () => {
     const { asFragment, container } = render(
       <ThemeProvider>
         <ListItem
-          item={dummyVault}
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={() => {}}
