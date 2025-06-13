@@ -18,7 +18,7 @@ export const LoadVaultModalContent = () => {
 
   const { setToast } = useToast()
 
-  const { isLoading, refetch } = useVault({
+  const { isLoading, refetch, addDevice } = useVault({
     shouldSkip: true,
     onCompleted: (data) => {
       if (data) {
@@ -31,26 +31,25 @@ export const LoadVaultModalContent = () => {
     }
   })
 
-  const { pair } = usePair({
-    onCompleted: (vaultId) => {
-      if (vaultId) {
-        refetch(vaultId)
-      }
-    },
-    onError: () => {
-      closeModal()
-      setToast({
-        message: i18n._('Something went wrong, please check invite code')
-      })
-    }
-  })
+  const { pair } = usePair()
 
   const handleChange = (e) => {
     setInviteCodeId(e.target.value)
   }
 
   const handleLoadVault = async () => {
-    await pair(inviteCode)
+    try {
+      const vaultId = await pair(inviteCode)
+      if (vaultId) {
+        await refetch(vaultId)
+        await addDevice(vaultId, { name: 'IOS' })
+      }
+    } catch {
+      closeModal()
+      setToast({
+        message: i18n._('Something went wrong, please check invite code')
+      })
+    }
   }
 
   return html` <${LoadVaultCard} isLoading=${isLoading}>
