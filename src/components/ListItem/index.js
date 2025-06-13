@@ -1,6 +1,4 @@
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { formatDate } from 'pear-apps-utils-date'
 import {
   BrushIcon,
   CheckIcon,
@@ -22,14 +20,14 @@ import {
 
 export const ListItem = ({
   item,
+  itemName,
+  itemDateText,
   onClick,
   onShareClick,
   onEditClick,
   onDeleteClick,
   isSelected
 }) => {
-  const { i18n } = useLingui()
-
   const handleClick = () => {
     if (onClick) {
       onClick(item)
@@ -46,12 +44,8 @@ export const ListItem = ({
           : html`<${LockCircleIcon} size="21" />`}
 
         <${ListItemDescription}>
-          <${ListItemName}>${item.name}<//>
-          <${ListItemDate}>
-            ${i18n._('Created')} ${' '}
-            ${!!item?.createdAt &&
-            formatDate(item.createdAt, 'dd-mm-yyyy', '/')}
-          <//>
+          <${ListItemName}>${itemName}<//>
+          <${ListItemDate}> ${itemDateText} <//>
         <//>
       <//>
 

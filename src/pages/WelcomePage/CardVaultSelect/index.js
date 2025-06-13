@@ -17,6 +17,7 @@ import { ListItem } from '../../../components/ListItem'
 import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const CardVaultSelect = () => {
   const { i18n } = useLingui()
@@ -65,6 +66,8 @@ export const CardVaultSelect = () => {
             html`<${ListItem}
               onClick=${() => handleSelectVault(vault.id)}
               item=${vault}
+              itemName="${vault.name}"
+              itemDateText=${vaultCreatedFormat(vault.createdAt)}
             />`
         )}
       <//>

@@ -21,6 +21,7 @@ import { RadioSelect } from '../../../components/RadioSelect'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { SwapVaultModalContent } from '../../../containers/Modal/SwapVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const ExportTab = () => {
   const { setModal } = useModal()
@@ -136,6 +137,8 @@ export const ExportTab = () => {
           html`<${ListItem}
             key=${vault.name}
             item=${vault}
+            itemName=${vault.name}
+            itemDateText=${vaultCreatedFormat(vault.createdAt)}
             onClick=${handleVaultClick}
             isSelected=${selectedVaults.includes(vault.id) ||
             vault.id === selectedProtectedVault?.id}

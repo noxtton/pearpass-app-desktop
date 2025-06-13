@@ -10,6 +10,7 @@ import { ListItem } from '../../../components/ListItem'
 import { ModifyMasterVaultModalContent } from '../../../containers/Modal/ModifyMasterVaultModalContent'
 import { ModifyVaultModalContent } from '../../../containers/Modal/ModifyVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const SettingsVaultsTab = () => {
   const { i18n } = useLingui()
@@ -23,9 +24,7 @@ export const SettingsVaultsTab = () => {
           >${i18n._('Here you can modify the your Master password')}<//
         >
         <${ListItem}
-          item=${{
-            name: i18n._('Master Vault')
-          }}
+          itemName=${i18n._('Master Vault')}
           onEditClick=${() =>
             setModal(html`<${ModifyMasterVaultModalContent} />`)}
         />
@@ -37,7 +36,8 @@ export const SettingsVaultsTab = () => {
           (vault) =>
             html`<${ListItem}
               key=${vault.name}
-              item=${vault}
+              itemName="${vault.name}"
+              itemDateText=${vaultCreatedFormat(vault.createdAt)}
               onEditClick=${() =>
                 setModal(
                   html`<${ModifyVaultModalContent}
