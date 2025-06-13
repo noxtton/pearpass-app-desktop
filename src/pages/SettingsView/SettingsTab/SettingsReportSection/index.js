@@ -35,7 +35,6 @@ export const SettingsReportSection = ({
         variant="report"
         placeholder=${textAreaPlaceholder}
       />
-
       <${ButtonWrapper}>
         <${ButtonSecondary} type="submit"> ${buttonText} <//>
       <//>

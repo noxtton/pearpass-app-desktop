@@ -25,6 +25,10 @@ jest.mock('../../../context/ModalContext', () => ({
   useModal: jest.fn()
 }))
 
+jest.mock('../../../utils/vaultCreated.js', () => ({
+  vaultCreatedFormat: jest.fn((date) => date + 'date')
+}))
+
 jest.mock('../../../components/CardSingleSetting', () => ({
   CardSingleSetting: ({ title, children }) => (
     <div>

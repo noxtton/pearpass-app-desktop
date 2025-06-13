@@ -10,9 +10,7 @@ export function vaultCreatedFormat(vaultCreatedDate) {
 
   if (vaultCreatedDate) {
     return (
-      i18n._('Created') +
-      ' ' +
-      formatDate(vaultCreatedFormat, 'dd-mm-yyyy', '/')
+      i18n._('Created') + ' ' + formatDate(vaultCreatedDate, 'dd-mm-yyyy', '/')
     )
   }
 
