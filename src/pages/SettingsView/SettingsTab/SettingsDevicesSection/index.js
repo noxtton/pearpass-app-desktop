@@ -14,8 +14,6 @@ export const SettingsDevicesSection = () => {
   const { i18n } = useLingui()
   const { data } = useVault()
 
-  console.log('data', data)
-
   return html`
     <${CardSingleSetting} title=${i18n._('Linked devices')}>
       <${content}>
