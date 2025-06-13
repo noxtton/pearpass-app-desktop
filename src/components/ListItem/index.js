@@ -19,7 +19,6 @@ import {
 } from './styles'
 
 export const ListItem = ({
-  item,
   itemName,
   itemDateText,
   onClick,
@@ -27,40 +26,32 @@ export const ListItem = ({
   onEditClick,
   onDeleteClick,
   isSelected
-}) => {
-  const handleClick = () => {
-    if (onClick) {
-      onClick(item)
-    }
-  }
+}) => html`
+  <${ListItemContainer} isSelected=${isSelected} onClick=${onClick}>
+    <${ListItemInfo}>
+      ${isSelected
+        ? html` <${SelectedListItemIconContainer}>
+            <${CheckIcon} size="21" color=${colors.black.mode1} />
+          <//>`
+        : html`<${LockCircleIcon} size="21" />`}
 
-  return html`
-    <${ListItemContainer} isSelected=${isSelected} onClick=${handleClick}>
-      <${ListItemInfo}>
-        ${isSelected
-          ? html` <${SelectedListItemIconContainer}>
-              <${CheckIcon} size="21" color=${colors.black.mode1} />
-            <//>`
-          : html`<${LockCircleIcon} size="21" />`}
-
-        <${ListItemDescription}>
-          <${ListItemName}>${itemName}<//>
-          <${ListItemDate}> ${itemDateText} <//>
-        <//>
-      <//>
-
-      <${ListItemActions}>
-        ${onShareClick &&
-        html`
-          <span onClick=${onShareClick}>
-            <${ShareIcon} />
-          </span>
-        `}
-        ${onEditClick &&
-        html`<span onClick=${onEditClick}> <${BrushIcon} /></span>`}
-        ${onDeleteClick &&
-        html`<span onClick=${onShareClick}><${DeleteIcon} /></span>`}
+      <${ListItemDescription}>
+        <${ListItemName}>${itemName}<//>
+        <${ListItemDate}> ${itemDateText}<//>
       <//>
     <//>
-  `
-}
+
+    <${ListItemActions}>
+      ${onShareClick &&
+      html`
+        <span onClick=${onShareClick}>
+          <${ShareIcon} />
+        </span>
+      `}
+      ${onEditClick &&
+      html`<span onClick=${onEditClick}> <${BrushIcon} /></span>`}
+      ${onDeleteClick &&
+      html`<span onClick=${onShareClick}><${DeleteIcon} /></span>`}
+    <//>
+  <//>
+`

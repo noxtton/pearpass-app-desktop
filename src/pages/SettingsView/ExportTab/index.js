@@ -136,10 +136,9 @@ export const ExportTab = () => {
         (vault) =>
           html`<${ListItem}
             key=${vault.name}
-            item=${vault}
             itemName=${vault.name}
             itemDateText=${vaultCreatedFormat(vault.createdAt)}
-            onClick=${handleVaultClick}
+            onClick=${() => handleVaultClick(vault)}
             isSelected=${selectedVaults.includes(vault.id) ||
             vault.id === selectedProtectedVault?.id}
           />`

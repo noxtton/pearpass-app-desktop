@@ -65,7 +65,6 @@ export const CardVaultSelect = () => {
           (vault) =>
             html`<${ListItem}
               onClick=${() => handleSelectVault(vault.id)}
-              item=${vault}
               itemName="${vault.name}"
               itemDateText=${vaultCreatedFormat(vault.createdAt)}
             />`
