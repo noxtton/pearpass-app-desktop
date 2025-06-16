@@ -27,8 +27,6 @@ export const WelcomePage = () => {
         return CardVaultSelect
       case 'vaultPassword':
         return CardUnlockVault
-      case 'createOrLoadVault':
-        return CardCreateOrLoadVault
       case 'newVaultCredentials':
         return CardNewVaultCredentials
       default:
