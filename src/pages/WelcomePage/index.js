@@ -4,7 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { CardCreateMasterPassword } from './CardCreateMasterPassword'
-import { CardCreateOrLoadVault } from './CardCreateOrLoadVault'
 import { CardNewVaultCredentials } from './CardNewVaultCredentials'
 import { CardUnlockPearPass } from './CardUnlockPearPass'
 import { CardUnlockVault } from './CardUnlockVault'
