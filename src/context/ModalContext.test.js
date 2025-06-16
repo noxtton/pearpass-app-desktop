@@ -6,6 +6,10 @@ import { ModalProvider, useModal } from './ModalContext'
 import { BASE_TRANSITION_DURATION } from '../constants/transitions'
 import '@testing-library/jest-dom'
 
+jest.mock('pear-apps-utils-generate-unique-id', () => ({
+  generateUniqueId: jest.fn(() => 'unique-id')
+}))
+
 jest.mock('../components/Overlay', () => ({
   Overlay: ({ onClick, type, isOpen }) => (
     <div data-testid="overlay" onClick={onClick}>
