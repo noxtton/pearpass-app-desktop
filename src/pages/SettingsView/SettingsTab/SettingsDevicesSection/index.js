@@ -23,12 +23,11 @@ export const SettingsDevicesSection = () => {
         ${data?.devices?.map(
           (device) =>
             html`<${ListItem}
-              key=${device.data}
-              itemName=${device.data}
+              key=${device.name}
+              itemName=${device.name}
               itemDateText=${i18n._('Added on') +
               ' ' +
               formatDate(device.createdAt, 'dd-mm-yyyy', '/')}
-              item=${{ ...device, name: device.data }}
             />`
         )}
       <//>

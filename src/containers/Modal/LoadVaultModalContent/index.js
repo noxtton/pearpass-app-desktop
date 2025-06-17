@@ -44,9 +44,10 @@ export const LoadVaultModalContent = () => {
       const vaultId = await pair(inviteCode)
       if (vaultId) {
         await refetch(vaultId)
-        await addDevice(vaultId, {
-          name: os.hostname() + ' ' + os.platform() + ' ' + os.release()
-        })
+        await addDevice(
+          vaultId,
+          os.hostname() + ' ' + os.platform() + ' ' + os.release()
+        )
       }
     } catch {
       closeModal()
