@@ -26,14 +26,14 @@ jest.mock('pearpass-lib-vault', () => ({
       devices: [
         {
           createdAt: 1749797724078,
-          data: 'IOS',
+          name: 'IOS',
           id: 'mbugdwviwysp6h3kjfs',
           updatedAt: 1749797724078,
           vaultId: 'mbugdbvzv8tflyftw3d'
         },
         {
           createdAt: 1749797443078,
-          data: 'Android',
+          name: 'Android',
           id: 'mbugdwviwysp6h3kjfs',
           updatedAt: 1749797443078,
           vaultId: 'mbugdbvzv8tflyftw3d'
