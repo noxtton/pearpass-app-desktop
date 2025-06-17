@@ -106,14 +106,7 @@ export const SettingsTab = () => {
       textAreaOnChange=${setMessage}
     />
 
-    <${SettingsDevicesSection}
-      onSubmitReport=${handleReportProblem}
-      message=${message}
-      title=${i18n._('Report a problem')}
-      buttonText=${i18n._('send')}
-      textAreaPlaceholder=${i18n._('Write your issue...')}
-      textAreaOnChange=${setMessage}
-    />
+    <${SettingsDevicesSection} />
 
     <${CardSingleSetting} title=${i18n._('Version')}>
       <${VersionWrapper}> ${VERSION} <//>
