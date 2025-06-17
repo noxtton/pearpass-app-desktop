@@ -66,14 +66,11 @@ export const CardNewVaultCredentials = () => {
     try {
       setIsLoading(true)
 
-      const vault = await createVault({
+      await createVault({
         name: values.name,
         password: values.password
       })
-      await addDevice(
-        vault?.id,
-        os.hostname() + ' ' + os.platform() + ' ' + os.release()
-      )
+      await addDevice(os.hostname() + ' ' + os.platform() + ' ' + os.release())
       navigate('vault', { recordType: 'all' })
 
       setIsLoading(false)

@@ -45,7 +45,6 @@ export const LoadVaultModalContent = () => {
       if (vaultId) {
         await refetch(vaultId)
         await addDevice(
-          vaultId,
           os.hostname() + ' ' + os.platform() + ' ' + os.release()
         )
       }
