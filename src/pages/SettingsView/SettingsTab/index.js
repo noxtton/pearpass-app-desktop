@@ -12,6 +12,7 @@ import {
   SLACK_WEBHOOK_URL_PATH
 } from 'pearpass-lib-constants'
 
+import { SettingsDevicesSection } from './SettingsDevicesSection'
 import { SettingsLanguageSection } from './SettingsLanguageSection'
 import { SettingsReportSection } from './SettingsReportSection'
 import { VersionWrapper } from './styles'
@@ -104,6 +105,8 @@ export const SettingsTab = () => {
       textAreaPlaceholder=${i18n._('Write your issue...')}
       textAreaOnChange=${setMessage}
     />
+
+    <${SettingsDevicesSection} />
 
     <${CardSingleSetting} title=${i18n._('Version')}>
       <${VersionWrapper}> ${VERSION} <//>

@@ -16,11 +16,12 @@ import { ActionsContainer, ContentContainer, Description } from './styles'
 import { handleExportCSVPerVault } from './utils/exportCsvPerVault'
 import { handleExportJsonPerVaultTest } from './utils/exportJsonPerVault'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import { ListItem } from '../../../components/ListItem'
 import { RadioSelect } from '../../../components/RadioSelect'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
-import { Vault } from '../../../components/Vault'
 import { SwapVaultModalContent } from '../../../containers/Modal/SwapVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const ExportTab = () => {
   const { setModal } = useModal()
@@ -133,10 +134,11 @@ export const ExportTab = () => {
       <//>
       ${data?.map(
         (vault) =>
-          html`<${Vault}
+          html`<${ListItem}
             key=${vault.name}
-            vault=${vault}
-            onClick=${handleVaultClick}
+            itemName=${vault.name}
+            itemDateText=${vaultCreatedFormat(vault.createdAt)}
+            onClick=${() => handleVaultClick(vault)}
             isSelected=${selectedVaults.includes(vault.id) ||
             vault.id === selectedProtectedVault?.id}
           />`

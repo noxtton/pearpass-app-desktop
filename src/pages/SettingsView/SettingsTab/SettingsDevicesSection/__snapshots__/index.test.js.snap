@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsDevicesSection matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-egkSDF bPmRoW"
+  >
+    <div
+      class="sc-fAUdSK itMbCU"
+    >
+      <span
+        class="sc-dntaoT gRhHDy"
+      >
+        Linked devices
+      </span>
+    </div>
+    <div
+      class="sc-ivxoEo bosgOL"
+    >
+      <div
+        class="sc-blHHSb bGLDjz"
+      >
+        <span
+          class="sc-gtLWhw xkruP"
+        >
+          Here you can find a list of the connected devices.
+        </span>
+        <div
+          class="sc-Rjrgp fAEbNY"
+        >
+          <div
+            class="sc-frniUE jITuQy"
+          >
+            <svg
+              fill="none"
+              height="21"
+              viewBox="0 0 14 15"
+              width="21"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 14C10.5899 14 13.5 11.0899 13.5 7.5C13.5 3.91015 10.5899 1 7 1C3.41015 1 0.5 3.91015 0.5 7.5C0.5 11.0899 3.41015 14 7 14Z"
+                stroke="#F6F6F6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 8C7.82843 8 8.5 7.32843 8.5 6.5C8.5 5.67157 7.82843 5 7 5C6.17157 5 5.5 5.67157 5.5 6.5C5.5 7.32843 6.17157 8 7 8Z"
+                stroke="#F6F6F6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 8V10"
+                stroke="#F6F6F6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <div
+              class="sc-huXwEz bKaBec"
+            >
+              <span
+                class="sc-FFETS bBjSkb"
+              >
+                IOS
+              </span>
+              <p
+                class="sc-hsfCcR hvwWPX"
+              >
+                 
+                Added on formatted-date
+              </p>
+            </div>
+          </div>
+          <div
+            class="sc-CNKsk hSMOHl"
+          />
+        </div>
+        <div
+          class="sc-Rjrgp fAEbNY"
+        >
+          <div
+            class="sc-frniUE jITuQy"
+          >
+            <svg
+              fill="none"
+              height="21"
+              viewBox="0 0 14 15"
+              width="21"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 14C10.5899 14 13.5 11.0899 13.5 7.5C13.5 3.91015 10.5899 1 7 1C3.41015 1 0.5 3.91015 0.5 7.5C0.5 11.0899 3.41015 14 7 14Z"
+                stroke="#F6F6F6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 8C7.82843 8 8.5 7.32843 8.5 6.5C8.5 5.67157 7.82843 5 7 5C6.17157 5 5.5 5.67157 5.5 6.5C5.5 7.32843 6.17157 8 7 8Z"
+                stroke="#F6F6F6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 8V10"
+                stroke="#F6F6F6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <div
+              class="sc-huXwEz bKaBec"
+            >
+              <span
+                class="sc-FFETS bBjSkb"
+              >
+                Android
+              </span>
+              <p
+                class="sc-hsfCcR hvwWPX"
+              >
+                 
+                Added on formatted-date
+              </p>
+            </div>
+          </div>
+          <div
+            class="sc-CNKsk hSMOHl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

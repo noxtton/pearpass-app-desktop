@@ -5,3 +5,6 @@ src/locales
 .yalc
 yalc.lock
 pass
+
+#ignore IntelliJ or other Jetbrains files
+.idea

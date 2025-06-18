@@ -3,20 +3,8 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 
-import { Vault } from './index'
+import { ListItem } from './index'
 import '@testing-library/jest-dom'
-
-jest.mock('@lingui/react', () => ({
-  useLingui: () => ({
-    i18n: {
-      _: (key) => key
-    }
-  })
-}))
-
-jest.mock('pear-apps-utils-date', () => ({
-  formatDate: () => 'formatted-date'
-}))
 
 jest.mock('pearpass-lib-ui-react-components', () => ({
   BrushIcon: () => <svg data-testid="brush-icon" />,
@@ -25,17 +13,18 @@ jest.mock('pearpass-lib-ui-react-components', () => ({
   ShareIcon: () => <svg data-testid="share-icon" />
 }))
 
-describe('Vault Component', () => {
-  const dummyVault = {
+describe('Item Component', () => {
+  const dummyItem = {
     name: 'vault-123',
-    createdAt: 1630000000000
+    createdAt: 'Created 13/06/2025'
   }
 
-  test('renders Vault component correctly and matches snapshot', () => {
+  test('renders Item component correctly and matches snapshot', () => {
     const { asFragment } = render(
       <ThemeProvider>
-        <Vault
-          vault={dummyVault}
+        <ListItem
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={() => {}}
@@ -46,12 +35,13 @@ describe('Vault Component', () => {
     expect(asFragment()).toMatchSnapshot()
   })
 
-  test('calls onClick when Vault container is clicked', () => {
+  test('calls onClick when Item container is clicked', () => {
     const onClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
-        <Vault
-          vault={dummyVault}
+        <ListItem
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={onClick}
           onShareClick={() => {}}
           onEditClick={() => {}}
@@ -68,8 +58,9 @@ describe('Vault Component', () => {
     const onShareClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
-        <Vault
-          vault={dummyVault}
+        <ListItem
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={onShareClick}
           onEditClick={() => {}}
@@ -88,8 +79,9 @@ describe('Vault Component', () => {
     const onEditClick = jest.fn()
     const { container } = render(
       <ThemeProvider>
-        <Vault
-          vault={dummyVault}
+        <ListItem
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={onEditClick}
@@ -106,8 +98,9 @@ describe('Vault Component', () => {
   test('matches snapshot when action icons are clicked', () => {
     const { asFragment, container } = render(
       <ThemeProvider>
-        <Vault
-          vault={dummyVault}
+        <ListItem
+          itemName={dummyItem.name}
+          itemDateText={dummyItem.createdAt}
           onClick={() => {}}
           onShareClick={() => {}}
           onEditClick={() => {}}

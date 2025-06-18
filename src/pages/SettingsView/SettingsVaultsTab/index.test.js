@@ -25,6 +25,10 @@ jest.mock('../../../context/ModalContext', () => ({
   useModal: jest.fn()
 }))
 
+jest.mock('../../../utils/vaultCreated.js', () => ({
+  vaultCreatedFormat: jest.fn((date) => date + 'date')
+}))
+
 jest.mock('../../../components/CardSingleSetting', () => ({
   CardSingleSetting: ({ title, children }) => (
     <div>
@@ -34,10 +38,10 @@ jest.mock('../../../components/CardSingleSetting', () => ({
   )
 }))
 
-jest.mock('../../../components/Vault', () => ({
-  Vault: ({ vault, onEditClick }) => (
+jest.mock('../../../components/ListItem', () => ({
+  ListItem: ({ itemName, onEditClick }) => (
     <div>
-      <p>{vault.name}</p>
+      <p>{itemName}</p>
       <button onClick={onEditClick}>Edit</button>
     </div>
   )
