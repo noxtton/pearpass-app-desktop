@@ -9,6 +9,7 @@ import {
   ButtonSingleInput,
   CompoundField,
   DeleteIcon,
+  ImageIcon,
   InputField,
   KeyIcon,
   PasswordField,
@@ -31,11 +32,15 @@ import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useCreateOrEditRecord } from '../../../../hooks/useCreateOrEditRecord'
+import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
 import { addHttps } from '../../../../utils/addHttps'
+import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { isFavorite } from '../../../../utils/isFavorite'
+import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
+import { UploadFilesModalContent } from '../../UploadImageModalContent'
 
 /**
  * @param {{
@@ -50,6 +55,7 @@ import { DropdownsWrapper } from '../../styles'
  *        type: string
  *        name: string
  *     }[]
+ *    attachments: { id: string, name: string}[]
  *    }
  *  }
  *  selectedFolder?: string
@@ -62,7 +68,7 @@ export const CreateOrEditLoginModalContent = ({
   onTypeChange
 }) => {
   const { i18n } = useLingui()
-  const { closeModal } = useModal()
+  const { closeModal, setModal } = useModal()
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
   const { setToast } = useToast()
 
@@ -105,7 +111,13 @@ export const CreateOrEditLoginModalContent = ({
         note: Validator.string().required(i18n._('Note is required'))
       })
     ),
-    folder: Validator.string()
+    folder: Validator.string(),
+    attachments: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required()
+      })
+    )
   })
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
@@ -118,7 +130,8 @@ export const CreateOrEditLoginModalContent = ({
         ? initialRecord?.data?.websites.map((website) => ({ website }))
         : [{ name: 'website' }],
       customFields: initialRecord?.data.customFields ?? [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     },
     validate: (values) => schema.validate(values)
   })
@@ -137,6 +150,12 @@ export const CreateOrEditLoginModalContent = ({
     removeItem: removeCustomFieldItem
   } = registerArray('customFields')
 
+  useGetMultipleFiles({
+    fieldNames: ['attachments'],
+    updateValues: setValue,
+    initialRecord
+  })
+
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.LOGIN,
@@ -150,7 +169,8 @@ export const CreateOrEditLoginModalContent = ({
         websites: values.websites
           .filter((website) => !!website?.website?.trim().length)
           .map((website) => addHttps(website.website)),
-        customFields: values.customFields
+        customFields: values.customFields,
+        attachments: values.attachments
       }
     }
 
@@ -170,6 +190,28 @@ export const CreateOrEditLoginModalContent = ({
     onTypeChange(type)
   }
 
+  const handleFileLoad = () => {
+    setModal(
+      html`<${UploadFilesModalContent}
+        type=${'file'}
+        onFilesSelected=${(files) =>
+          handleFileSelect({
+            files,
+            fieldName: 'attachments',
+            setValue,
+            values
+          })}
+      />`
+    )
+  }
+
+  const handleAttachmentRemove = (index) => {
+    const updatedAttachments = values.attachments.filter(
+      (_, idx) => idx !== index
+    )
+    setValue('attachments', updatedAttachments)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -177,6 +219,9 @@ export const CreateOrEditLoginModalContent = ({
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
+            <${ButtonLittle} startIcon=${ImageIcon} onClick=${handleFileLoad}>
+              ${i18n._('Load file')}
+            <//>
             <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
@@ -266,6 +311,27 @@ export const CreateOrEditLoginModalContent = ({
             `
           )}
         <//>
+
+        ${values.attachments.length > 0 &&
+        html`
+          <${FormGroup}>
+            ${values.attachments.map(
+              (attachment, index) =>
+                html`<${AttachmentField}
+                  attachment=${attachment}
+                  label=${i18n._('File')}
+                  additionalItems=${html`
+                    <${ButtonSingleInput}
+                      startIcon=${DeleteIcon}
+                      onClick=${() => handleAttachmentRemove(index)}
+                    >
+                      ${i18n._('Delete File')}
+                    <//>
+                  `}
+                />`
+            )}
+          <//>
+        `}
 
         <${FormGroup}>
           <${InputFieldNote} ...${register('note')} />

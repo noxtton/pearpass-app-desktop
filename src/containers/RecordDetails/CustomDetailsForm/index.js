@@ -5,9 +5,12 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { CopyIcon } from 'pearpass-lib-ui-react-components'
 
+import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -20,6 +23,7 @@ import { CustomFields } from '../../CustomFields'
  *          note: string
  *          type: string
  *     }[]
+ *    attachments: { id: string, name: string}[]
  *   }
  *  }
  *  selectedFolder?: string
@@ -43,14 +47,23 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
   const initialValues = React.useMemo(
     () => ({
       customFields: initialRecord?.data?.customFields || [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     }),
     [initialRecord, selectedFolder]
   )
 
-  const { registerArray, setValues } = useForm({ initialValues: initialValues })
+  const { registerArray, setValues, setValue, values } = useForm({
+    initialValues: initialValues
+  })
 
   const { value: list, registerItem } = registerArray('customFields')
+
+  useGetMultipleFiles({
+    fieldNames: ['attachments'],
+    updateValues: setValue,
+    initialRecord
+  })
 
   const handleCopy = (value) => {
     if (!value?.length) {
@@ -72,6 +85,20 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
         onClick=${handleCopy}
         register=${registerItem}
       />
+
+      ${values?.attachments?.length > 0 &&
+      html`
+        <${FormGroup}>
+          ${values.attachments.map(
+            (attachment) => html`
+              <${AttachmentField}
+                label=${i18n._('File')}
+                attachment=${attachment}
+              />
+            `
+          )}
+        <//>
+      `}
     <//>
   `
 }

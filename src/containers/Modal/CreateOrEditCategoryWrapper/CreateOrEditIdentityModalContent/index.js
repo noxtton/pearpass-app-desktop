@@ -4,10 +4,13 @@ import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import {
   ButtonLittle,
+  ButtonSingleInput,
   CalendarIcon,
+  DeleteIcon,
   EmailIcon,
   GenderIcon,
   GroupIcon,
+  ImageIcon,
   InputField,
   NationalityIcon,
   PhoneIcon,
@@ -26,10 +29,15 @@ import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
+import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { isFavorite } from '../../../../utils/isFavorite'
+import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
+import { ImagesField } from '../../../ImagesField'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
+import { UploadFilesModalContent } from '../../UploadImageModalContent'
 
 /**
  * @param {{
@@ -57,14 +65,18 @@ import { DropdownsWrapper } from '../../styles'
  *       passportNationality: string
  *       passportDob: string
  *       passportGender: string
+ *       passportPicture: { id: string, name: string}[]
  *       idCardNumber: string
  *       idCardDateOfIssue: string
  *       idCardExpiryDate: string
  *       idCardIssuingCountry: string
+ *       idCardPicture: { id: string, name: string}[]
  *       drivingLicenseNumber: string
  *       drivingLicenseDateOfIssue: string
  *       drivingLicenseExpiryDate: string
  *       drivingLicenseIssuingCountry: string
+ *       drivingLicensePicture: { id: string, name: string}[]
+ *       attachments: { id: string, name: string}[]
  *     }
  *     folder?: string
  *   }
@@ -78,7 +90,7 @@ export const CreateOrEditIdentityModalContent = ({
   onTypeChange
 }) => {
   const { i18n } = useLingui()
-  const { closeModal } = useModal()
+  const { closeModal, setModal } = useModal()
   const { setToast } = useToast()
 
   const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
@@ -130,14 +142,38 @@ export const CreateOrEditIdentityModalContent = ({
     passportNationality: Validator.string(),
     passportDob: Validator.string(),
     passportGender: Validator.string(),
+    passportPicture: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required()
+      })
+    ),
     idCardNumber: Validator.string(),
     idCardDateOfIssue: Validator.string(),
     idCardExpiryDate: Validator.string(),
     idCardIssuingCountry: Validator.string(),
+    idCardPicture: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required()
+      })
+    ),
     drivingLicenseNumber: Validator.string(),
     drivingLicenseDateOfIssue: Validator.string(),
     drivingLicenseExpiryDate: Validator.string(),
-    drivingLicenseIssuingCountry: Validator.string()
+    drivingLicenseIssuingCountry: Validator.string(),
+    drivingLicensePicture: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required()
+      })
+    ),
+    attachments: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required()
+      })
+    )
   })
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
@@ -162,17 +198,21 @@ export const CreateOrEditIdentityModalContent = ({
       passportNationality: initialRecord?.data?.passportNationality ?? '',
       passportDob: initialRecord?.data?.passportDob ?? '',
       passportGender: initialRecord?.data?.passportGender ?? '',
+      passportPicture: initialRecord?.data?.passportPicture || [],
       idCardNumber: initialRecord?.data?.idCardNumber ?? '',
       idCardDateOfIssue: initialRecord?.data?.idCardDateOfIssue ?? '',
       idCardExpiryDate: initialRecord?.data?.idCardExpiryDate ?? '',
       idCardIssuingCountry: initialRecord?.data?.idCardIssuingCountry ?? '',
+      idCardPicture: initialRecord?.data?.idCardPicture || [],
       drivingLicenseNumber: initialRecord?.data?.drivingLicenseNumber ?? '',
       drivingLicenseDateOfIssue:
         initialRecord?.data?.drivingLicenseDateOfIssue ?? '',
       drivingLicenseExpiryDate:
         initialRecord?.data?.drivingLicenseExpiryDate ?? '',
       drivingLicenseIssuingCountry:
-        initialRecord?.data?.drivingLicenseIssuingCountry ?? ''
+        initialRecord?.data?.drivingLicenseIssuingCountry ?? '',
+      drivingLicensePicture: initialRecord?.data?.drivingLicensePicture || [],
+      attachments: initialRecord?.attachments || []
     },
     validate: (values) => schema.validate(values)
   })
@@ -183,6 +223,17 @@ export const CreateOrEditIdentityModalContent = ({
     registerItem,
     removeItem
   } = registerArray('customFields')
+
+  useGetMultipleFiles({
+    fieldNames: [
+      'attachments',
+      'passportPicture',
+      'idCardPicture',
+      'drivingLicensePicture'
+    ],
+    updateValues: setValue,
+    initialRecord
+  })
 
   const onSubmit = (values) => {
     const data = {
@@ -209,14 +260,18 @@ export const CreateOrEditIdentityModalContent = ({
         passportNationality: values.passportNationality,
         passportDob: values.passportDob,
         passportGender: values.passportGender,
+        passportPicture: values.passportPicture,
         idCardNumber: values.idCardNumber,
         idCardDateOfIssue: values.idCardDateOfIssue,
         idCardExpiryDate: values.idCardExpiryDate,
         idCardIssuingCountry: values.idCardIssuingCountry,
+        idCardPicture: values.idCardPicture,
         drivingLicenseNumber: values.drivingLicenseNumber,
         drivingLicenseDateOfIssue: values.drivingLicenseDateOfIssue,
         drivingLicenseExpiryDate: values.drivingLicenseExpiryDate,
-        drivingLicenseIssuingCountry: values.drivingLicenseIssuingCountry
+        drivingLicenseIssuingCountry: values.drivingLicenseIssuingCountry,
+        drivingLicensePicture: values.drivingLicensePicture,
+        attachments: values.attachments
       }
     }
 
@@ -232,6 +287,28 @@ export const CreateOrEditIdentityModalContent = ({
     }
   }
 
+  const handleFileLoad = (fieldName) => {
+    setModal(
+      html`<${UploadFilesModalContent}
+        type=${'file'}
+        onFilesSelected=${(files) =>
+          handleFileSelect({
+            files,
+            fieldName,
+            setValue,
+            values
+          })}
+      />`
+    )
+  }
+
+  const handleAttachmentRemove = (fieldName, index) => {
+    const updatedAttachments = values[fieldName].filter(
+      (_, idx) => idx !== index
+    )
+    setValue(fieldName, updatedAttachments)
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -239,6 +316,12 @@ export const CreateOrEditIdentityModalContent = ({
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
+            <${ButtonLittle}
+              startIcon=${ImageIcon}
+              onClick=${() => handleFileLoad('attachments')}
+            >
+              ${i18n._('Load file')}
+            <//>
             <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
@@ -332,138 +415,187 @@ export const CreateOrEditIdentityModalContent = ({
         <//>
 
         <${FormGroup} title=${i18n._('Passport')} isCollapse>
-          <${InputField}
-            label=${i18n._('Full name')}
-            placeholder="John Smith"
-            variant="outline"
-            icon=${UserIcon}
-            ...${register('passportFullName')}
-          />
+          <div>
+            <${InputField}
+              label=${i18n._('Full name')}
+              placeholder="John Smith"
+              variant="outline"
+              icon=${UserIcon}
+              ...${register('passportFullName')}
+            />
 
-          <${InputField}
-            label=${i18n._('Passport number')}
-            placeholder=${i18n._('Insert numbers')}
-            variant="outline"
-            icon=${GroupIcon}
-            ...${register('passportNumber')}
-          />
+            <${InputField}
+              label=${i18n._('Passport number')}
+              placeholder=${i18n._('Insert numbers')}
+              variant="outline"
+              icon=${GroupIcon}
+              ...${register('passportNumber')}
+            />
 
-          <${InputField}
-            label=${i18n._('Issuing country')}
-            placeholder=${i18n._('Insert country')}
-            variant="outline"
-            icon=${NationalityIcon}
-            ...${register('passportIssuingCountry')}
-          />
+            <${InputField}
+              label=${i18n._('Issuing country')}
+              placeholder=${i18n._('Insert country')}
+              variant="outline"
+              icon=${NationalityIcon}
+              ...${register('passportIssuingCountry')}
+            />
 
-          <${InputField}
-            label=${i18n._('Date of issue')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('passportDateOfIssue')}
-          />
+            <${InputField}
+              label=${i18n._('Date of issue')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('passportDateOfIssue')}
+            />
 
-          <${InputField}
-            label=${i18n._('Expiry Date')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('passportExpiryDate')}
-          />
+            <${InputField}
+              label=${i18n._('Expiry Date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('passportExpiryDate')}
+            />
 
-          <${InputField}
-            label=${i18n._('Nationality')}
-            placeholder=${i18n._('Insert your nationality')}
-            variant="outline"
-            icon=${NationalityIcon}
-            ...${register('passportNationality')}
-          />
+            <${InputField}
+              label=${i18n._('Nationality')}
+              placeholder=${i18n._('Insert your nationality')}
+              variant="outline"
+              icon=${NationalityIcon}
+              ...${register('passportNationality')}
+            />
 
-          <${InputField}
-            label=${i18n._('Date of birth')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('passportDob')}
-          />
+            <${InputField}
+              label=${i18n._('Date of birth')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('passportDob')}
+            />
 
-          <${InputField}
-            label=${i18n._('Gender')}
-            placeholder=${i18n._('M/F')}
-            variant="outline"
-            icon=${GenderIcon}
-            ...${register('passportGender')}
+            <${InputField}
+              label=${i18n._('Gender')}
+              placeholder=${i18n._('M/F')}
+              variant="outline"
+              icon=${GenderIcon}
+              ...${register('passportGender')}
+            />
+          <//>
+          <${ImagesField}
+            title=${i18n._('Passport Images')}
+            onAdd=${() => handleFileLoad('passportPicture')}
+            pictures=${values.passportPicture}
+            onRemove=${(index) =>
+              handleAttachmentRemove('passportPicture', index)}
           />
         <//>
 
         <${FormGroup} title=${i18n._('Identity card')} isCollapse>
-          <${InputField}
-            label=${i18n._('ID number')}
-            placeholder="123456789"
-            variant="outline"
-            icon=${GroupIcon}
-            ...${register('idCardNumber')}
-          />
+          <div>
+            <${InputField}
+              label=${i18n._('ID number')}
+              placeholder="123456789"
+              variant="outline"
+              icon=${GroupIcon}
+              ...${register('idCardNumber')}
+            />
 
-          <${InputField}
-            label=${i18n._('Creation date')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('idCardDateOfIssue')}
-          />
+            <${InputField}
+              label=${i18n._('Creation date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('idCardDateOfIssue')}
+            />
 
-          <${InputField}
-            label=${i18n._('Expiry date')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('idCardExpiryDate')}
-          />
+            <${InputField}
+              label=${i18n._('Expiry date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('idCardExpiryDate')}
+            />
 
-          <${InputField}
-            label=${i18n._('Issue country')}
-            placeholder=${i18n._('Insert country')}
-            variant="outline"
-            icon=${NationalityIcon}
-            ...${register('idCardIssuingCountry')}
+            <${InputField}
+              label=${i18n._('Issue country')}
+              placeholder=${i18n._('Insert country')}
+              variant="outline"
+              icon=${NationalityIcon}
+              ...${register('idCardIssuingCountry')}
+            />
+          <//>
+          <${ImagesField}
+            title=${i18n._('Identity Card Images')}
+            onAdd=${() => handleFileLoad('idCardPicture')}
+            pictures=${values.idCardPicture}
+            onRemove=${(index) =>
+              handleAttachmentRemove('idCardPicture', index)}
           />
         <//>
 
         <${FormGroup} title=${i18n._('Driving license')} isCollapse>
-          <${InputField}
-            label=${i18n._('ID number')}
-            placeholder="123456789"
-            variant="outline"
-            icon=${GroupIcon}
-            ...${register('drivingLicenseNumber')}
-          />
+          <div>
+            <${InputField}
+              label=${i18n._('ID number')}
+              placeholder="123456789"
+              variant="outline"
+              icon=${GroupIcon}
+              ...${register('drivingLicenseNumber')}
+            />
 
-          <${InputField}
-            label=${i18n._('Creation date')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('drivingLicenseDateOfIssue')}
-          />
+            <${InputField}
+              label=${i18n._('Creation date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('drivingLicenseDateOfIssue')}
+            />
 
-          <${InputField}
-            label=${i18n._('Expiry date')}
-            placeholder="DD.MM.YYYY"
-            variant="outline"
-            icon=${CalendarIcon}
-            ...${register('drivingLicenseExpiryDate')}
-          />
+            <${InputField}
+              label=${i18n._('Expiry date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              icon=${CalendarIcon}
+              ...${register('drivingLicenseExpiryDate')}
+            />
 
-          <${InputField}
-            label=${i18n._('Issue country')}
-            placeholder=${i18n._('Insert country')}
-            variant="outline"
-            icon=${NationalityIcon}
-            ...${register('drivingLicenseIssuingCountry')}
+            <${InputField}
+              label=${i18n._('Issue country')}
+              placeholder=${i18n._('Insert country')}
+              variant="outline"
+              icon=${NationalityIcon}
+              ...${register('drivingLicenseIssuingCountry')}
+            />
+          <//>
+          <${ImagesField}
+            title=${i18n._('Driving License Images')}
+            onAdd=${() => handleFileLoad('drivingLicensePicture')}
+            pictures=${values.drivingLicensePicture}
+            onRemove=${(index) =>
+              handleAttachmentRemove('drivingLicensePicture', index)}
           />
         <//>
+
+        ${values.attachments.length > 0 &&
+        html`
+          <${FormGroup}>
+            ${values.attachments.map(
+              (attachment, index) =>
+                html`<${AttachmentField}
+                  attachment=${attachment}
+                  label=${i18n._('File')}
+                  additionalItems=${html`
+                    <${ButtonSingleInput}
+                      startIcon=${DeleteIcon}
+                      onClick=${() =>
+                        handleAttachmentRemove('attachments', index)}
+                    >
+                      ${i18n._('Delete File')}
+                    <//>
+                  `}
+                />`
+            )}
+          <//>
+        `}
 
         <${FormGroup}>
           <${InputFieldNote} ...${register('note')} />

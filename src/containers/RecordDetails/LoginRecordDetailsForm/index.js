@@ -18,6 +18,8 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -33,6 +35,7 @@ import { CustomFields } from '../../CustomFields'
  *        type: string
  *        name: string
  *     }[]
+ *    attachments: { id: string, name: string}[]
  *    }
  *  }
  *  selectedFolder?: string
@@ -61,12 +64,13 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
         ? initialRecord?.data?.websites.map((website) => ({ website }))
         : [{ name: 'website' }],
       customFields: initialRecord?.data.customFields ?? [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     }),
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues, values } = useForm({
+  const { register, registerArray, setValues, values, setValue } = useForm({
     initialValues: initialValues
   })
 
@@ -75,6 +79,11 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { value: customFieldsList, registerItem: registerCustomFieldItem } =
     registerArray('customFields')
 
+  useGetMultipleFiles({
+    fieldNames: ['attachments'],
+    updateValues: setValue,
+    initialRecord
+  })
   const handleWebsiteClick = (url) => {
     if (!url?.length) {
       return
@@ -140,6 +149,19 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
                     handleWebsiteClick(registerItem('website', index).value)}
                 />
               <//>
+            `
+          )}
+        <//>
+      `}
+      ${values?.attachments?.length > 0 &&
+      html`
+        <${FormGroup}>
+          ${values.attachments.map(
+            (attachment) => html`
+              <${AttachmentField}
+                label=${i18n._('File')}
+                attachment=${attachment}
+              />
             `
           )}
         <//>
