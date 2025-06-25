@@ -10,6 +10,16 @@ jest.mock('@lingui/react', () => ({
   useLingui: jest.fn()
 }))
 
+jest.mock('pearpass-lib-vault', () => ({
+  RECORD_TYPES: {
+    LOGIN: 'login',
+    IDENTITY: 'identity',
+    CREDIT_CARD: 'credit_card',
+    NOTE: 'note',
+    CUSTOM: 'custom'
+  }
+}))
+
 describe('useRecordMenuItems', () => {
   const mockI18n = {
     _: jest.fn((str) => str)
