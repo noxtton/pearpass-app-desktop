@@ -59,7 +59,7 @@
     "pear-apps-utils-validator": "github:noxtton/pear-apps-utils-validator#v0.0.5",
     "pearpass-lib-constants": "github:noxtton/pearpass-lib-constants#v0.0.1",
     "pearpass-lib-data-export": "github:noxtton/pearpass-lib-data-export#v0.0.5",
-    "pearpass-lib-data-import": "github:noxtton/pearpass-lib-data-import#v0.0.3",
+    "pearpass-lib-data-import": "github:noxtton/pearpass-lib-data-import#v0.0.5",
     "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.59",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.8",
     "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.54",
