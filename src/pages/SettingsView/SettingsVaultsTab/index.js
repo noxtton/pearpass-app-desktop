@@ -6,10 +6,11 @@ import { useVaults } from 'pearpass-lib-vault'
 
 import { content, Description } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
-import { Vault } from '../../../components/Vault'
+import { ListItem } from '../../../components/ListItem'
 import { ModifyMasterVaultModalContent } from '../../../containers/Modal/ModifyMasterVaultModalContent'
 import { ModifyVaultModalContent } from '../../../containers/Modal/ModifyVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const SettingsVaultsTab = () => {
   const { i18n } = useLingui()
@@ -22,10 +23,8 @@ export const SettingsVaultsTab = () => {
         <${Description}
           >${i18n._('Here you can modify the your Master password')}<//
         >
-        <${Vault}
-          vault=${{
-            name: i18n._('Master Vault')
-          }}
+        <${ListItem}
+          itemName=${i18n._('Master Vault')}
           onEditClick=${() =>
             setModal(html`<${ModifyMasterVaultModalContent} />`)}
         />
@@ -35,9 +34,10 @@ export const SettingsVaultsTab = () => {
       <${content}>
         ${data?.map(
           (vault) =>
-            html`<${Vault}
+            html`<${ListItem}
               key=${vault.name}
-              vault=${vault}
+              itemName="${vault.name}"
+              itemDateText=${vaultCreatedFormat(vault.createdAt)}
               onEditClick=${() =>
                 setModal(
                   html`<${ModifyVaultModalContent}

@@ -9,6 +9,7 @@ import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -21,6 +22,7 @@ import { CustomFields } from '../../CustomFields'
  *        type: string
  *        name: string
  *      }[]
+ *    attachments: { id: string, name: string}[]
  *     }
  *    }
  *  selectedFolder?: string
@@ -44,16 +46,23 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
     () => ({
       note: initialRecord?.data?.note ?? '',
       customFields: initialRecord?.data?.customFields ?? [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     }),
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues, values } = useForm({
+  const { register, registerArray, setValues, values, setValue } = useForm({
     initialValues: initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
+
+  useGetMultipleFiles({
+    fieldNames: ['attachments'],
+    updateValues: setValue,
+    initialRecord
+  })
 
   const handleCopy = (value) => {
     if (!value?.length) {

@@ -3,8 +3,11 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import {
-  InputField,
   ButtonLittle,
+  ButtonSingleInput,
+  DeleteIcon,
+  ImageIcon,
+  InputField,
   SaveIcon
 } from 'pearpass-lib-ui-react-components'
 import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
@@ -18,10 +21,14 @@ import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
+import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { isFavorite } from '../../../../utils/isFavorite'
+import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
+import { UploadFilesModalContent } from '../../UploadImageModalContent'
 
 /**
  * @param {{
@@ -32,6 +39,7 @@ import { DropdownsWrapper } from '../../styles'
  *          note: string
  *          type: string
  *     }[]
+ *    attachments: { id: string, name: string}[]
  *   }
  *  }
  *  selectedFolder?: string
@@ -45,7 +53,7 @@ export const CreateOrEditCustomModalContent = ({
   onTypeChange
 }) => {
   const { i18n } = useLingui()
-  const { closeModal } = useModal()
+  const { closeModal, setModal } = useModal()
   const { setToast } = useToast()
 
   const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
@@ -79,14 +87,21 @@ export const CreateOrEditCustomModalContent = ({
         note: Validator.string().required(i18n._('Note is required'))
       })
     ),
-    folder: Validator.string()
+    folder: Validator.string(),
+    attachments: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required()
+      })
+    )
   })
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
     initialValues: {
       title: initialRecord?.data?.title || '',
       customFields: initialRecord?.data?.customFields || [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     },
     validate: (values) => schema.validate(values)
   })
@@ -98,6 +113,12 @@ export const CreateOrEditCustomModalContent = ({
     removeItem
   } = registerArray('customFields')
 
+  useGetMultipleFiles({
+    fieldNames: ['attachments'],
+    updateValues: setValue,
+    initialRecord
+  })
+
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.CUSTOM,
@@ -105,7 +126,8 @@ export const CreateOrEditCustomModalContent = ({
       isFavorite: isFavorite(values.folder),
       data: {
         title: values.title,
-        customFields: values.customFields
+        customFields: values.customFields,
+        attachments: values.attachments
       }
     }
 
@@ -125,6 +147,28 @@ export const CreateOrEditCustomModalContent = ({
     onTypeChange(item)
   }
 
+  const handleFileLoad = () => {
+    setModal(
+      html`<${UploadFilesModalContent}
+        type=${'file'}
+        onFilesSelected=${(files) =>
+          handleFileSelect({
+            files,
+            fieldName: 'attachments',
+            setValue,
+            values
+          })}
+      />`
+    )
+  }
+
+  const handleAttachmentRemove = (index) => {
+    const updatedAttachments = values.attachments.filter(
+      (_, idx) => idx !== index
+    )
+    setValue('attachments', updatedAttachments)
+  }
+
   return html`
     <${ModalContent}
       onSubmit=${handleSubmit(onSubmit)}
@@ -132,6 +176,9 @@ export const CreateOrEditCustomModalContent = ({
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
+            <${ButtonLittle} startIcon=${ImageIcon} onClick=${handleFileLoad}>
+              ${i18n._('Load file')}
+            <//>
             <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
@@ -160,6 +207,27 @@ export const CreateOrEditCustomModalContent = ({
             ...${register('title')}
           />
         <//>
+
+        ${values.attachments.length > 0 &&
+        html`
+          <${FormGroup}>
+            ${values.attachments.map(
+              (attachment, index) =>
+                html`<${AttachmentField}
+                  attachment=${attachment}
+                  label=${i18n._('File')}
+                  additionalItems=${html`
+                    <${ButtonSingleInput}
+                      startIcon=${DeleteIcon}
+                      onClick=${() => handleAttachmentRemove(index)}
+                    >
+                      ${i18n._('Delete File')}
+                    <//>
+                  `}
+                />`
+            )}
+          <//>
+        `}
 
         <${CustomFields}
           customFields=${list}

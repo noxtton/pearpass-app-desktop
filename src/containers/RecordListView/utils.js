@@ -1,4 +1,4 @@
-import { MS_PER_WEEK } from '../../constants/time'
+import { MS_PER_WEEK } from 'pearpass-lib-constants'
 
 /**
  * @param {{

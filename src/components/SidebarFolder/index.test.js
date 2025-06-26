@@ -17,6 +17,14 @@ jest.mock('../PopupMenu', () => ({
   )
 }))
 
+jest.mock('../EditFolderPopupContent', () => ({
+  EditFolderPopupContent: ({ title, children }) => (
+    <div data-testid="edit-folder-popup-content" data-title={title}>
+      {children}
+    </div>
+  )
+}))
+
 jest.mock('pearpass-lib-ui-react-components', () => ({
   ArrowDownIcon: () => <div data-testid="mock-arrow-icon"></div>,
   ArrowUpIcon: () => <div data-testid="mock-arrowUp-icon"></div>,

@@ -8,6 +8,10 @@ jest.mock('../context/ModalContext', () => ({
   useModal: jest.fn()
 }))
 
+jest.mock('pear-apps-utils-generate-unique-id', () => ({
+  generateUniqueId: jest.fn(() => 'mocked-unique-id')
+}))
+
 describe('useCreateOrEditRecord', () => {
   const setModalMock = jest.fn()
 

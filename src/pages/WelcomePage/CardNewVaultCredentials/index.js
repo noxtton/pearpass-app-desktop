@@ -1,3 +1,5 @@
+import os from 'os'
+
 import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
@@ -10,7 +12,7 @@ import {
   PearPassInputField,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useCreateVault } from 'pearpass-lib-vault'
+import { useCreateVault, useVault } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
@@ -37,11 +39,9 @@ export const CardNewVaultCredentials = () => {
     passwordConfirm: Validator.string()
   })
 
-  const { createVault } = useCreateVault({
-    onCompleted: () => {
-      navigate('vault', { recordType: 'all' })
-    }
-  })
+  const { addDevice } = useVault()
+
+  const { createVault } = useCreateVault()
 
   const { register, handleSubmit, setErrors } = useForm({
     initialValues: {
@@ -66,7 +66,12 @@ export const CardNewVaultCredentials = () => {
     try {
       setIsLoading(true)
 
-      await createVault({ name: values.name, password: values.password })
+      await createVault({
+        name: values.name,
+        password: values.password
+      })
+      await addDevice(os.hostname() + ' ' + os.platform() + ' ' + os.release())
+      navigate('vault', { recordType: 'all' })
 
       setIsLoading(false)
     } catch (error) {

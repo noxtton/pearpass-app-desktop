@@ -16,7 +16,10 @@ import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
+import { ImagesField } from '../../ImagesField'
 
 /**
  * @param {{
@@ -36,6 +39,7 @@ import { CustomFields } from '../../CustomFields'
  *       note: string
  *       type: string
  *     }[]
+ *     attachments: { id: string, name: string}[]
  *   }
  *  }
  *  selectedFolder?: string
@@ -76,26 +80,41 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
       passportNationality: initialRecord?.data?.passportNationality ?? '',
       passportDob: initialRecord?.data?.passportDob ?? '',
       passportGender: initialRecord?.data?.passportGender ?? '',
+      passportPicture: initialRecord?.data?.passportPicture ?? [],
       idCardNumber: initialRecord?.data?.idCardNumber ?? '',
       idCardDateOfIssue: initialRecord?.data?.idCardDateOfIssue ?? '',
       idCardExpiryDate: initialRecord?.data?.idCardExpiryDate ?? '',
       idCardIssuingCountry: initialRecord?.data?.idCardIssuingCountry ?? '',
+      idCardPicture: initialRecord?.data?.idCardPicture ?? [],
       drivingLicenseNumber: initialRecord?.data?.drivingLicenseNumber ?? '',
       drivingLicenseDateOfIssue:
         initialRecord?.data?.drivingLicenseDateOfIssue ?? '',
       drivingLicenseExpiryDate:
         initialRecord?.data?.drivingLicenseExpiryDate ?? '',
       drivingLicenseIssuingCountry:
-        initialRecord?.data?.drivingLicenseIssuingCountry ?? ''
+        initialRecord?.data?.drivingLicenseIssuingCountry ?? '',
+      drivingLicensePicture: initialRecord?.data?.drivingLicensePicture ?? [],
+      attachments: initialRecord?.attachments ?? []
     }),
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues, values } = useForm({
+  const { register, registerArray, setValues, values, setValue } = useForm({
     initialValues: initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
+
+  useGetMultipleFiles({
+    fieldNames: [
+      'attachments',
+      'passportPicture',
+      'idCardPicture',
+      'drivingLicensePicture'
+    ],
+    updateValues: setValue,
+    initialRecord
+  })
 
   const handleCopy = (value) => {
     if (!value?.length) {
@@ -126,16 +145,19 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
   const hasPassportNationality = !!values?.passportNationality?.length
   const hasPassportDob = !!values?.passportDob?.length
   const hasPassportGender = !!values?.passportGender?.length
+  const hasPassportPicture = !!values?.passportPicture?.length
   const hasIdCardNumber = !!values?.idCardNumber?.length
   const hasIdCardDateOfIssue = !!values?.idCardDateOfIssue?.length
   const hasIdCardExpiryDate = !!values?.idCardExpiryDate?.length
   const hasIdCardIssuingCountry = !!values?.idCardIssuingCountry?.length
+  const hasIdCardPicture = !!values?.idCardPicture?.length
   const hasDrivingLicenseNumber = !!values?.drivingLicenseNumber?.length
   const hasDrivingLicenseDateOfIssue =
     !!values?.drivingLicenseDateOfIssue?.length
   const hasDrivingLicenseExpiryDate = !!values?.drivingLicenseExpiryDate?.length
   const hasDrivingLicenseIssuingCountry =
     !!values?.drivingLicenseIssuingCountry?.length
+  const hasDrivingLicensePicture = !!values?.drivingLicensePicture?.length
 
   const hasPassport =
     hasPassportFullName ||
@@ -145,19 +167,22 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
     hasPassportExpiryDate ||
     hasPassportNationality ||
     hasPassportDob ||
-    hasPassportGender
+    hasPassportGender ||
+    hasPassportPicture
 
   const hasIdCard =
     hasIdCardNumber ||
     hasIdCardDateOfIssue ||
     hasIdCardExpiryDate ||
-    hasIdCardIssuingCountry
+    hasIdCardIssuingCountry ||
+    hasIdCardPicture
 
   const hasDrivingLicense =
     hasDrivingLicenseNumber ||
     hasDrivingLicenseDateOfIssue ||
     hasDrivingLicenseExpiryDate ||
-    hasDrivingLicenseIssuingCountry
+    hasDrivingLicenseIssuingCountry ||
+    hasDrivingLicensePicture
 
   return html`
     <${FormWrapper}>
@@ -266,94 +291,101 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
         hasPassport &&
         html`
           <${FormGroup} title=${i18n._('Passport')} isCollapse>
-            ${hasPassportFullName &&
-            html`
-              <${InputField}
-                label=${i18n._('Full name')}
-                placeholder=${i18n._('John Smith')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportFullName')}
-              />
-            `}
-            ${hasPassportNumber &&
-            html`
-              <${InputField}
-                label=${i18n._('Passport number')}
-                placeholder=${i18n._('Insert numbers')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportNumber')}
-              />
-            `}
-            ${hasPassportIssuingCountry &&
-            html`
-              <${InputField}
-                label=${i18n._('Issuing country')}
-                placeholder=${i18n._('Insert country')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportIssuingCountry')}
-              />
-            `}
-            ${hasPassportDateOfIssue &&
-            html`
-              <${InputField}
-                label=${i18n._('Date of issue')}
-                placeholder="DD.MM.YYYY"
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportDateOfIssue')}
-              />
-            `}
-            ${hasPassportExpiryDate &&
-            html`
-              <${InputField}
-                label=${i18n._('Expiry date')}
-                placeholder="DD.MM.YYYY"
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportExpiryDate')}
-              />
-            `}
-            ${hasPassportNationality &&
-            html`
-              <${InputField}
-                label=${i18n._('Nationality')}
-                placeholder=${i18n._('Insert your nationality')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportNationality')}
-              />
-            `}
-            ${hasPassportDob &&
-            html`
-              <${InputField}
-                label=${i18n._('Date of birth')}
-                placeholder="DD.MM.YYYY"
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportDob')}
-              />
-            `}
-            ${hasPassportGender &&
-            html`
-              <${InputField}
-                label=${i18n._('Gender')}
-                placeholder=${i18n._('M/F')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('passportGender')}
-              />
-            `}
+            <div>
+              ${hasPassportFullName &&
+              html`
+                <${InputField}
+                  label=${i18n._('Full name')}
+                  placeholder=${i18n._('John Smith')}
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportFullName')}
+                />
+              `}
+              ${hasPassportNumber &&
+              html`
+                <${InputField}
+                  label=${i18n._('Passport number')}
+                  placeholder=${i18n._('Insert numbers')}
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportNumber')}
+                />
+              `}
+              ${hasPassportIssuingCountry &&
+              html`
+                <${InputField}
+                  label=${i18n._('Issuing country')}
+                  placeholder=${i18n._('Insert country')}
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportIssuingCountry')}
+                />
+              `}
+              ${hasPassportDateOfIssue &&
+              html`
+                <${InputField}
+                  label=${i18n._('Date of issue')}
+                  placeholder="DD.MM.YYYY"
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportDateOfIssue')}
+                />
+              `}
+              ${hasPassportExpiryDate &&
+              html`
+                <${InputField}
+                  label=${i18n._('Expiry date')}
+                  placeholder="DD.MM.YYYY"
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportExpiryDate')}
+                />
+              `}
+              ${hasPassportNationality &&
+              html`
+                <${InputField}
+                  label=${i18n._('Nationality')}
+                  placeholder=${i18n._('Insert your nationality')}
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportNationality')}
+                />
+              `}
+              ${hasPassportDob &&
+              html`
+                <${InputField}
+                  label=${i18n._('Date of birth')}
+                  placeholder="DD.MM.YYYY"
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportDob')}
+                />
+              `}
+              ${hasPassportGender &&
+              html`
+                <${InputField}
+                  label=${i18n._('Gender')}
+                  placeholder=${i18n._('M/F')}
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('passportGender')}
+                />
+              `}
+            <//>
+            ${hasPassportPicture &&
+            html` <${ImagesField}
+              title=${i18n._('Passport Images')}
+              pictures=${values.passportPicture}
+            />`}
           <//>
         `
       }
@@ -361,18 +393,76 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
         hasIdCard &&
         html`
           <${FormGroup} title=${i18n._('Identity Card')} isCollapse>
-            ${hasIdCardNumber &&
+            <div>
+              ${hasIdCardNumber &&
+              html`
+                <${InputField}
+                  label=${i18n._('ID card number')}
+                  placeholder="123456789"
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('idCardNumber')}
+                />
+              `}
+              ${hasIdCardDateOfIssue &&
+              html`
+                <${InputField}
+                  label=${i18n._('Creation date')}
+                  placeholder="DD.MM.YYYY"
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('idCardDateOfIssue')}
+                />
+              `}
+              ${hasIdCardExpiryDate &&
+              html`
+                <${InputField}
+                  label=${i18n._('Expiry date')}
+                  placeholder="DD.MM.YYYY"
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('idCardExpiryDate')}
+                />
+              `}
+              ${hasIdCardIssuingCountry &&
+              html`
+                <${InputField}
+                  label=${i18n._('Issuing country')}
+                  placeholder=${i18n._('Insert country')}
+                  variant="outline"
+                  onClick=${handleCopy}
+                  isDisabled
+                  ...${register('idCardIssuingCountry')}
+                />
+              `}
+            <//>
+            ${hasIdCardPicture &&
+            html` <${ImagesField}
+              title=${i18n._('Identity Card Images')}
+              pictures=${values.idCardPicture}
+            />`}
+          <//>
+        `
+      }
+      ${
+        hasDrivingLicense &&
+        html` <${FormGroup} title=${i18n._('Driving license')} isCollapse>
+          <div>
+            ${hasDrivingLicenseNumber &&
             html`
               <${InputField}
-                label=${i18n._('ID card number')}
+                label=${i18n._('Driving license number')}
                 placeholder="123456789"
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('idCardNumber')}
+                ...${register('drivingLicenseNumber')}
               />
             `}
-            ${hasIdCardDateOfIssue &&
+            ${hasDrivingLicenseDateOfIssue &&
             html`
               <${InputField}
                 label=${i18n._('Creation date')}
@@ -380,10 +470,10 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('idCardDateOfIssue')}
+                ...${register('drivingLicenseDateOfIssue')}
               />
             `}
-            ${hasIdCardExpiryDate &&
+            ${hasDrivingLicenseExpiryDate &&
             html`
               <${InputField}
                 label=${i18n._('Expiry date')}
@@ -391,10 +481,10 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('idCardExpiryDate')}
+                ...${register('drivingLicenseExpiryDate')}
               />
             `}
-            ${hasIdCardIssuingCountry &&
+            ${hasDrivingLicenseIssuingCountry &&
             html`
               <${InputField}
                 label=${i18n._('Issuing country')}
@@ -402,61 +492,34 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('idCardIssuingCountry')}
+                ...${register('drivingLicenseIssuingCountry')}
               />
             `}
           <//>
-        `
-      }
-      ${
-        hasDrivingLicense &&
-        html` <${FormGroup} title=${i18n._('Driving license')} isCollapse>
-          ${hasDrivingLicenseNumber &&
-          html`
-            <${InputField}
-              label=${i18n._('Driving license number')}
-              placeholder="123456789"
-              variant="outline"
-              onClick=${handleCopy}
-              isDisabled
-              ...${register('drivingLicenseNumber')}
-            />
-          `}
-          ${hasDrivingLicenseDateOfIssue &&
-          html`
-            <${InputField}
-              label=${i18n._('Creation date')}
-              placeholder="DD.MM.YYYY"
-              variant="outline"
-              onClick=${handleCopy}
-              isDisabled
-              ...${register('drivingLicenseDateOfIssue')}
-            />
-          `}
-          ${hasDrivingLicenseExpiryDate &&
-          html`
-            <${InputField}
-              label=${i18n._('Expiry date')}
-              placeholder="DD.MM.YYYY"
-              variant="outline"
-              onClick=${handleCopy}
-              isDisabled
-              ...${register('drivingLicenseExpiryDate')}
-            />
-          `}
-          ${hasDrivingLicenseIssuingCountry &&
-          html`
-            <${InputField}
-              label=${i18n._('Issuing country')}
-              placeholder=${i18n._('Insert country')}
-              variant="outline"
-              onClick=${handleCopy}
-              isDisabled
-              ...${register('drivingLicenseIssuingCountry')}
-            />
-          `}
+          ${hasDrivingLicensePicture &&
+          html` <${ImagesField}
+            title=${i18n._('Driving License Images')}
+            pictures=${values.drivingLicensePicture}
+          />`}
         <//>`
       }
+
+      ${
+        values?.attachments?.length > 0 &&
+        html`
+          <${FormGroup}>
+            ${values.attachments.map(
+              (attachment) => html`
+                <${AttachmentField}
+                  label=${i18n._('File')}
+                  attachment=${attachment}
+                />
+              `
+            )}
+          <//>
+        `
+      }
+      
       ${
         hasNote &&
         html`
