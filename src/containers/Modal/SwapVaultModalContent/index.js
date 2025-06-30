@@ -24,7 +24,11 @@ import { logger } from '../../../utils/logger'
  * @param {string} props.vault.id
  * @param {string} [props.vault.name]
  */
-export const SwapVaultModalContent = ({ vault, onSubmit }) => {
+export const SwapVaultModalContent = ({
+  vault,
+  onSubmit,
+  shouldCloseOnSubmit = true
+}) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const { setIsLoading } = useLoadingContext()
@@ -53,7 +57,9 @@ export const SwapVaultModalContent = ({ vault, onSubmit }) => {
       if (onSubmit) {
         await onSubmit(values.password)
         setIsLoading(false)
-        closeModal()
+        if (shouldCloseOnSubmit) {
+          closeModal()
+        }
         return
       }
 
