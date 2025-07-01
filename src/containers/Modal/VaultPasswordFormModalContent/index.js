@@ -47,9 +47,7 @@ export const VaultPasswordFormModalContent = ({ vault, onSubmit }) => {
     try {
       setIsLoading(true)
 
-      if (onSubmit) {
-        await onSubmit(values.password)
-      }
+      await onSubmit?.(values.password)
 
       setIsLoading(false)
     } catch (error) {
