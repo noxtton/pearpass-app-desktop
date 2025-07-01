@@ -16,8 +16,9 @@ import {
   DropdownItem,
   Wrapper
 } from './styles'
-import { SwapVaultModalContent } from '../../containers/Modal/SwapVaultModalContent'
+import { VaultPasswordFormModalContent } from '../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../context/ModalContext'
+import { logger } from '../../utils/logger'
 
 /**
  *
@@ -34,16 +35,37 @@ import { useModal } from '../../context/ModalContext'
  */
 export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const { setModal } = useModal()
+  const { closeModal, setModal } = useModal()
 
   const { isVaultProtected, refetch } = useVault({
     shouldSkip: true
   })
 
+  const handleVaultUnlock = async ({ vault, password }) => {
+    if (!vault.id) {
+      return
+    }
+
+    try {
+      await refetch(vault.id, { password })
+      closeModal()
+    } catch (error) {
+      logger.error(error)
+
+      throw error
+    }
+  }
+
   const onVaultSelect = async (vault) => {
     const isProtected = await isVaultProtected(vault?.id)
     if (isProtected) {
-      setModal(html`<${SwapVaultModalContent} vault=${vault} />`)
+      setModal(
+        html`<${VaultPasswordFormModalContent}
+          onSubmit=${async (password) =>
+            await handleVaultUnlock({ vault, password })}
+          vault=${vault}
+        />`
+      )
     } else {
       await refetch(vault?.id)
     }
