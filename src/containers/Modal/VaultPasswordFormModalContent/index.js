@@ -8,14 +8,13 @@ import {
   ButtonPrimary,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useVault } from 'pearpass-lib-vault'
 
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
+import { useLoadingContext } from '../../../context/LoadingContext'
 import { useModal } from '../../../context/ModalContext'
+import { logger } from '../../../utils/logger'
 import { ModalContent } from '../ModalContent'
 import { Description, Header, Title, UnlockVaultContainer } from './styles'
-import { useLoadingContext } from '../../../context/LoadingContext'
-import { logger } from '../../../utils/logger'
 
 /**
  *
@@ -24,11 +23,7 @@ import { logger } from '../../../utils/logger'
  * @param {string} props.vault.id
  * @param {string} [props.vault.name]
  */
-export const SwapVaultModalContent = ({
-  vault,
-  onSubmit,
-  shouldCloseOnSubmit = true
-}) => {
+export const VaultPasswordFormModalContent = ({ vault, onSubmit }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const { setIsLoading } = useLoadingContext()
@@ -44,8 +39,6 @@ export const SwapVaultModalContent = ({
     validate: (values) => schema.validate(values)
   })
 
-  const { refetch } = useVault({ shouldSkip: true })
-
   const submit = async (values) => {
     if (!vault.id) {
       return
@@ -56,16 +49,9 @@ export const SwapVaultModalContent = ({
 
       if (onSubmit) {
         await onSubmit(values.password)
-        setIsLoading(false)
-        if (shouldCloseOnSubmit) {
-          closeModal()
-        }
-        return
       }
 
-      await refetch(vault.id, { password: values.password })
       setIsLoading(false)
-      closeModal()
     } catch (error) {
       logger.error(error)
 

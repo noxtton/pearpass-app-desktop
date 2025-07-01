@@ -37,7 +37,7 @@ import {
   WarningSection,
   WarningText
 } from './styles'
-import { SwapVaultModalContent } from '../SwapVaultModalContent'
+import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
@@ -81,13 +81,12 @@ export const AddDeviceModalContent = () => {
   }, [vaultData])
 
   if (isProtected) {
-    return html`<${SwapVaultModalContent}
+    return html`<${VaultPasswordFormModalContent}
       onSubmit=${async (password) => {
         if (await authoriseCurrentProtectedVault(password)) {
           setIsProtected(false)
         }
       }}
-      shouldCloseOnSubmit=${false}
       vault=${vaultData}
     />`
   }
