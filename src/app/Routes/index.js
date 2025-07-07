@@ -1,52 +1,20 @@
-import { useEffect } from 'react'
-
 import { html } from 'htm/react'
-import { useUserData } from 'pearpass-lib-vault'
 
 import { InitialLoadPage } from '../../containers/InitialPage'
 import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar'
 import { RecordDetails } from '../../containers/RecordDetails'
 import { useRouter } from '../../context/RouterContext.js'
-import { useSimulatedLoading } from '../../hooks/useSimulatedLoading.js'
 import { MainView } from '../../pages/MainView'
 import { SettingsView } from '../../pages/SettingsView'
 import { WelcomePage } from '../../pages/WelcomePage'
 
-export const Routes = () => {
-  const { currentPage, data, navigate } = useRouter()
-  const isSimulatedLoading = useSimulatedLoading()
-
-  const { isLoading: isUserDataLoading, refetch: refetchUser } = useUserData()
-
-  const isLoading = isUserDataLoading || isSimulatedLoading
-
-  const getMainView = () => {
-    if (currentPage === 'vault') {
-      return html`<${MainView} /> `
-    } else if (currentPage === 'settings') {
-      return html`<${SettingsView} /> `
-    }
-  }
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userData = await refetchUser()
-
-      navigate('welcome', {
-        state: userData?.hasPasswordSet
-          ? 'masterPassword'
-          : 'createMasterPassword'
-      })
-    }
-
-    fetchUserData()
-  }, [])
-
-  const getSideView = () => {
-    if (currentPage === 'vault' && data?.recordId) {
-      return html` <${RecordDetails} /> `
-    }
-  }
+/**
+ * @param {Object} props
+ * @param {boolean} props.isLoading
+ * @returns {import('react').ReactNode}
+ */
+export const Routes = ({ isLoading }) => {
+  const { currentPage, data } = useRouter()
 
   if (isLoading || currentPage === 'loading') {
     return html` <${InitialLoadPage} /> `
@@ -59,9 +27,32 @@ export const Routes = () => {
   if (['vault', 'settings'].includes(currentPage)) {
     return html`
       <${LayoutWithSidebar}
-        mainView=${getMainView()}
-        sideView=${getSideView()}
+        mainView=${getMainView(currentPage)}
+        sideView=${getSideView(currentPage, data)}
       />
     `
+  }
+}
+
+/**
+ * @param {string} currentPage
+ * @returns {import('react').ReactNode}
+ */
+function getMainView(currentPage) {
+  if (currentPage === 'vault') {
+    return html`<${MainView} /> `
+  } else if (currentPage === 'settings') {
+    return html`<${SettingsView} /> `
+  }
+}
+
+/**
+ * @param {string} currentPage
+ * @param {import('../../context/RouterContext').RouterData} data
+ * @returns {import('react').ReactNode}
+ */
+function getSideView(currentPage, data) {
+  if (currentPage === 'vault' && data?.recordId) {
+    return html` <${RecordDetails} /> `
   }
 }

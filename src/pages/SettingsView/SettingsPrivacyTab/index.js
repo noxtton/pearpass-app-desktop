@@ -12,6 +12,9 @@ import {
   SwitchWrapper,
   Title
 } from './styles'
+import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import { useToast } from '../../../context/ToastContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import {
   autopassServerInstance,
   getLocalstoragePort,
@@ -19,10 +22,8 @@ import {
   setLocalstoragePort,
   startServer,
   stopServer
-} from '../../../autopassServer'
-import { CardSingleSetting } from '../../../components/CardSingleSetting'
-import { useToast } from '../../../context/ToastContext'
-import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+} from '../../../worker/autopassServer'
+import { createOrGetPearpassClient } from '../../../worker/createOrGetPearpassClient'
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
@@ -44,7 +45,8 @@ export const SettingsPrivacyTab = () => {
   })
 
   const handleStartServer = async () => {
-    const autopassServerInstance = await startServer()
+    const client = createOrGetPearpassClient()
+    const autopassServerInstance = await startServer(client)
 
     const port = autopassServerInstance?.getPort()
     const accessToken = await autopassServerInstance?.getAccessToken()
