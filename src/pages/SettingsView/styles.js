@@ -22,6 +22,7 @@ export const NavBar = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  flex: 0 0 auto;
 `
 
 export const ContentContainer = styled.div`
@@ -29,6 +30,7 @@ export const ContentContainer = styled.div`
   flex-direction: column;
   gap: 24px;
   max-width: 750px;
+  flex: 1 1 0;
 `
 
 export const Tabs = styled.div`
@@ -37,6 +39,7 @@ export const Tabs = styled.div`
   gap: 15px;
   padding: 10px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
+  flex: 0 0 auto;
 `
 
 export const TabTitle = styled.span`
@@ -47,4 +50,13 @@ export const TabTitle = styled.span`
   font-style: normal;
   font-weight: ${({ isActive }) => (isActive ? 700 : 500)};
   cursor: pointer;
+`
+
+export const TabContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1 1 0;
+  overflow: auto;
 `

@@ -9,7 +9,14 @@ import { ImportTab } from './ImportTab'
 import { SettingsPrivacyTab } from './SettingsPrivacyTab'
 import { SettingsTab } from './SettingsTab'
 import { SettingsVaultsTab } from './SettingsVaultsTab'
-import { ContentContainer, NavBar, Tabs, TabTitle, Wrapper } from './styles'
+import {
+  ContentContainer,
+  NavBar,
+  TabContainer,
+  Tabs,
+  TabTitle,
+  Wrapper
+} from './styles'
 import { useRouter } from '../../context/RouterContext'
 
 export const SettingsView = () => {
@@ -76,7 +83,7 @@ export const SettingsView = () => {
           <//>
         <//>
 
-        ${renderActiveTab(activeTab)}
+        <${TabContainer}> ${renderActiveTab(activeTab)} <//>
       <//>
     <//>
   `
