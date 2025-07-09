@@ -33,6 +33,7 @@ export const LoadVaultModalContent = () => {
   const handleLoadVault = async () => {
     try {
       const vaultId = await pair(inviteCode)
+
       if (!vaultId) {
         throw new Error('Vault ID is empty')
       }
