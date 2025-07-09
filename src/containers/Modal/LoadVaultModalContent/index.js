@@ -20,20 +20,11 @@ export const LoadVaultModalContent = () => {
 
   const { setToast } = useToast()
 
-  const { isLoading, refetch, addDevice } = useVault({
-    shouldSkip: true,
-    onCompleted: (data) => {
-      if (data) {
-        navigate('vault', {
-          recordType: 'all'
-        })
-
-        closeModal()
-      }
-    }
+  const { refetch, addDevice } = useVault({
+    shouldSkip: true
   })
 
-  const { pair } = usePair()
+  const { pair, isLoading: isPairing } = usePair()
 
   const handleChange = (e) => {
     setInviteCodeId(e.target.value)
@@ -42,21 +33,29 @@ export const LoadVaultModalContent = () => {
   const handleLoadVault = async () => {
     try {
       const vaultId = await pair(inviteCode)
-      if (vaultId) {
-        await refetch(vaultId)
-        await addDevice(
-          os.hostname() + ' ' + os.platform() + ' ' + os.release()
-        )
+      if (!vaultId) {
+        throw new Error('Vault ID is empty')
       }
+
+      await refetch(vaultId)
+
+      await addDevice(os.hostname() + ' ' + os.platform() + ' ' + os.release())
+
+      navigate('vault', {
+        recordType: 'all'
+      })
+
+      closeModal()
     } catch {
       closeModal()
+
       setToast({
         message: i18n._('Something went wrong, please check invite code')
       })
     }
   }
 
-  return html` <${LoadVaultCard} isLoading=${isLoading}>
+  return html` <${LoadVaultCard} isLoading=${isPairing}>
     <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
 
     <${LoadVaultInput}
@@ -65,7 +64,7 @@ export const LoadVaultModalContent = () => {
       value=${inviteCode}
       onChange=${handleChange}
       onKeyPress=${(e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && !isPairing) {
           handleLoadVault()
         }
       }}
