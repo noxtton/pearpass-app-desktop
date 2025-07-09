@@ -2,7 +2,7 @@ import { jest } from '@jest/globals'
 import { AutopassHttpServer } from 'pearpass-lib-vault-desktop'
 
 import { startServer, stopServer } from './autopassServer'
-import { logger } from './utils/logger'
+import { logger } from '../utils/logger'
 
 jest.mock('pearpass-lib-vault-desktop', () => ({
   AutopassHttpServer: jest.fn()

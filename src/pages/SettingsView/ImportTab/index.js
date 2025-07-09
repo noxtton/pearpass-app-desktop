@@ -4,6 +4,7 @@ import {
   parse1PasswordData,
   parseBitwardenData,
   parseLastPassData,
+  parseNordPassData,
   parsePearPassData,
   parseProtonPassData
 } from 'pearpass-lib-data-import'
@@ -34,6 +35,12 @@ const importOptions = [
     type: 'lastpass',
     accepts: ['.csv'],
     imgSrc: '/assets/images/LastPass.png'
+  },
+  {
+    title: 'NordPass',
+    type: 'nordpass',
+    accepts: ['.csv'],
+    imgSrc: '/assets/images/NordPass.png'
   },
   {
     title: 'Proton Pass',
@@ -92,6 +99,9 @@ export const ImportTab = () => {
           break
         case 'lastpass':
           result = await parseLastPassData(fileContent, fileType)
+          break
+        case 'nordpass':
+          result = await parseNordPassData(fileContent, fileType)
           break
         case 'protonpass':
           result = await parseProtonPassData(fileContent, fileType)

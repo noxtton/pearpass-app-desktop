@@ -87,4 +87,6 @@ npm test
 - [pearpass-lib-vault](https://github.com/tetherto/pearpass-lib-vault) - A library for managing password vaults
 - [pearpass-lib-vault-desktop](https://github.com/tetherto/pearpass-lib-vault-desktop) - A library for managing password vaults for Pearpass desktop app
 
+## License
 
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for details.

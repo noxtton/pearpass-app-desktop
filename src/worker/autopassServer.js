@@ -1,6 +1,6 @@
 import { AutopassHttpServer } from 'pearpass-lib-vault-desktop'
 
-import { logger } from './utils/logger'
+import { logger } from '../utils/logger'
 
 /**
  * @type {AutopassHttpServer}
@@ -8,11 +8,11 @@ import { logger } from './utils/logger'
 export let autopassServerInstance
 
 /**
- * @param {string} storagePath
- * @param {{ debugMode?: boolean, port?: number }} opts
+ * @param {import('pearpass-lib-vault-desktop').PearpassVaultClient} pearpassClient
+ * @param {number} port
  * @returns {Promise<AutopassHttpServer>}
  */
-export async function startServer(storagePath, port) {
+export async function startServer(pearpassClient, port) {
   if (autopassServerInstance?.isListening()) {
     logger.log(
       'Autopass HTTP server is already running. Please stop it before starting a new instance.'
@@ -20,9 +20,7 @@ export async function startServer(storagePath, port) {
     return
   }
 
-  autopassServerInstance = new AutopassHttpServer(storagePath, {
-    debugMode: true
-  })
+  autopassServerInstance = new AutopassHttpServer(pearpassClient)
 
   const addressData = await autopassServerInstance.listen(port)
 

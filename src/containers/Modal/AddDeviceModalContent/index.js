@@ -11,7 +11,11 @@ import {
   YellowErrorIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useInvite } from 'pearpass-lib-vault'
+import {
+  authoriseCurrentProtectedVault,
+  useInvite,
+  useVault
+} from 'pearpass-lib-vault'
 
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
@@ -33,11 +37,16 @@ import {
   WarningSection,
   WarningText
 } from './styles'
+import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const [qrSvg, setQrSvg] = useState('')
+  const [isProtected, setIsProtected] = useState(true)
+  const { data: vaultData, isVaultProtected } = useVault({
+    shouldSkip: true
+  })
   const { createInvite, deleteInvite, data } = useInvite()
 
   const expireTime = useCountDown({
@@ -62,6 +71,25 @@ export const AddDeviceModalContent = () => {
       )
     }
   }, [data])
+
+  useEffect(() => {
+    const checkProtection = async () => {
+      const result = await isVaultProtected(vaultData?.id)
+      setIsProtected(result)
+    }
+    checkProtection()
+  }, [vaultData])
+
+  if (isProtected) {
+    return html`<${VaultPasswordFormModalContent}
+      onSubmit=${async (password) => {
+        if (await authoriseCurrentProtectedVault(password)) {
+          setIsProtected(false)
+        }
+      }}
+      vault=${vaultData}
+    />`
+  }
 
   return html`
     <${ModalContent}

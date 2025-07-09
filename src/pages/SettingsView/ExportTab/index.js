@@ -19,12 +19,12 @@ import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ListItem } from '../../../components/ListItem'
 import { RadioSelect } from '../../../components/RadioSelect'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
-import { SwapVaultModalContent } from '../../../containers/Modal/SwapVaultModalContent'
+import { VaultPasswordFormModalContent } from '../../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../../context/ModalContext'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const ExportTab = () => {
-  const { setModal } = useModal()
+  const { closeModal, setModal } = useModal()
   const { i18n } = useLingui()
   const { data } = useVaults()
   const { isVaultProtected, refetch, data: currentVault } = useVault()
@@ -107,10 +107,16 @@ export const ExportTab = () => {
 
     if (selectedProtectedVault) {
       setModal(
-        html`<${SwapVaultModalContent}
+        html`<${VaultPasswordFormModalContent}
           vault=${selectedProtectedVault}
-          onSubmit=${(password) =>
-            fetchProtectedVault(password, currentVaultId, currentEncryption)}
+          onSubmit=${async (password) => {
+            await fetchProtectedVault(
+              password,
+              currentVaultId,
+              currentEncryption
+            )
+            closeModal()
+          }}
         />`
       )
     } else if (selectedVaults.length > 0) {
