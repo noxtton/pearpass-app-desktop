@@ -12,7 +12,10 @@ describe('createOrGetPipe', () => {
       },
       teardown: jest.fn((callback) => {
         teardownCallback = callback
-      })
+      }),
+      config: {
+        applink: 'https://example.com'
+      }
     }
   })
 
@@ -21,7 +24,7 @@ describe('createOrGetPipe', () => {
     const pipe = createOrGetPipe()
 
     expect(global.Pear.worker.run).toHaveBeenCalledWith(
-      'node_modules/pearpass-lib-vault-mobile/src/worklet/app.js'
+      'https://example.com/node_modules/pearpass-lib-vault-mobile/src/worklet/app.js'
     )
     expect(pipe).toBe(mockPipe)
   })
