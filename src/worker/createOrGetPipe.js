@@ -11,7 +11,8 @@ export const createOrGetPipe = () => {
   }
 
   pipe = Pear.worker.run(
-    'node_modules/pearpass-lib-vault-mobile/src/worklet/app.js'
+    Pear.config.applink +
+      '/node_modules/pearpass-lib-vault-mobile/src/worklet/app.js'
   )
 
   Pear.teardown(() => {
