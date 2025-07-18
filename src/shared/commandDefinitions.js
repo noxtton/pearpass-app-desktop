@@ -12,7 +12,7 @@ export const COMMAND_DEFINITIONS = [
   { id: 1002, name: 'encryptionGetStatus' },
   { id: 1003, name: 'encryptionGet' },
   { id: 1004, name: 'encryptionAdd' },
-  
+
   // Vaults commands
   { id: 1005, name: 'vaultsInit' },
   { id: 1006, name: 'vaultsGetStatus' },
@@ -20,7 +20,7 @@ export const COMMAND_DEFINITIONS = [
   { id: 1008, name: 'vaultsList' },
   { id: 1009, name: 'vaultsAdd' },
   { id: 1010, name: 'vaultsClose' },
-  
+
   // Active vault commands
   { id: 1011, name: 'activeVaultInit' },
   { id: 1012, name: 'activeVaultGetStatus' },
@@ -31,14 +31,14 @@ export const COMMAND_DEFINITIONS = [
   { id: 1017, name: 'activeVaultClose' },
   { id: 1018, name: 'activeVaultCreateInvite' },
   { id: 1019, name: 'activeVaultDeleteInvite' },
-  
+
   // Password and encryption key commands
   { id: 1020, name: 'hashPassword' },
   { id: 1021, name: 'encryptVaultKeyWithHashedPassword' },
   { id: 1022, name: 'encryptVaultWithKey' },
   { id: 1023, name: 'getDecryptionKey' },
   { id: 1024, name: 'decryptVaultKey' },
-  
+
   // Pairing and misc commands
   { id: 1025, name: 'pair' },
   { id: 1026, name: 'initListener' },
@@ -46,7 +46,7 @@ export const COMMAND_DEFINITIONS = [
 ]
 
 // Export just the method names array for simpler usage
-export const COMMAND_NAMES = COMMAND_DEFINITIONS.map(cmd => cmd.name)
+export const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
 
 // Export a map for quick lookup by name
 export const COMMAND_BY_NAME = COMMAND_DEFINITIONS.reduce((acc, cmd) => {

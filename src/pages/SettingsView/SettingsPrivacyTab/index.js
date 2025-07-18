@@ -1,29 +1,30 @@
+import path from 'path'
+
 import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { Switch, InputField, ButtonPrimary, ButtonSecondary } from 'pearpass-lib-ui-react-components'
+import {
+  Switch,
+  InputField,
+  ButtonSecondary
+} from 'pearpass-lib-ui-react-components'
 
-import {
-  InputWrapper,
-  SwitchList,
-  SwitchWrapper
-} from './styles'
-import { Description } from '../ExportTab/styles'
+import { InputWrapper, SwitchList, SwitchWrapper } from './styles'
+import { ButtonWrapper } from './styles.js'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
-import {
-  getNativeMessagingEnabled,
-  setNativeMessagingEnabled
-} from '../../../services/nativeMessagingPreferences.js'
+import { createOrGetPearpassClient } from '../../../services/createOrGetPearpassClient'
 import {
   isNativeMessagingIPCRunning,
   startNativeMessagingIPC,
   stopNativeMessagingIPC
 } from '../../../services/nativeMessagingIPCServer.js'
-import { createOrGetPearpassClient } from '../../../services/createOrGetPearpassClient'
+import {
+  getNativeMessagingEnabled,
+  setNativeMessagingEnabled
+} from '../../../services/nativeMessagingPreferences.js'
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
-import path from 'path'
-import { ButtonWrapper } from "./styles.js";
+import { Description } from '../ExportTab/styles'
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
@@ -52,7 +53,7 @@ export const SettingsPrivacyTab = () => {
         'scripts',
         'pearpass-native-host-executable'
       )
-      
+
       // Setup native messaging for the extension
       const result = await setupNativeMessaging(
         extensionId.trim(),
@@ -77,12 +78,6 @@ export const SettingsPrivacyTab = () => {
     }
   }
 
-  const handleStartNativeMessaging = async () => {
-    if (!isBrowserExtensionEnabled) {
-      setShowSetupForm(true)
-    }
-  }
-
   const handleStopNativeMessaging = async () => {
     await stopNativeMessagingIPC()
     setNativeMessagingEnabled(false)
@@ -104,7 +99,7 @@ export const SettingsPrivacyTab = () => {
   useEffect(() => {
     const enabled = getNativeMessagingEnabled()
     const isRunning = isNativeMessagingIPCRunning()
-    
+
     if (enabled && isRunning) {
       setIsBrowserExtensionEnabled(true)
     }
@@ -127,8 +122,9 @@ export const SettingsPrivacyTab = () => {
       </>
     </>
 
-    ${showSetupForm &&
-    html`
+    ${
+      showSetupForm &&
+      html`
       <${CardSingleSetting} title=${i18n._('Connect Browser Extension')}>
         <${Description}>
             ${i18n._('Enter the extension ID - You can find it in extension settings')}
@@ -153,16 +149,18 @@ export const SettingsPrivacyTab = () => {
           <//>
         </div>
 
-        ${setupMessage &&
-        html`
-          <div style=${{ marginTop: '8px' }}>
-            ${setupMessage}
-          </div>`}
+        ${
+          setupMessage &&
+          html` <div style=${{ marginTop: '8px' }}>${setupMessage}</div>`
+        }
       </${CardSingleSetting}>
-    `}
+    `
+    }
 
-    ${isBrowserExtensionEnabled && !showSetupForm &&
-    html`
+    ${
+      isBrowserExtensionEnabled &&
+      !showSetupForm &&
+      html`
       <${CardSingleSetting} title=${i18n._('Connection Status')}>
         <${Description}>
           ${i18n._('Browser extension is connected and can communicate with PearPass securely.')}
@@ -171,8 +169,8 @@ export const SettingsPrivacyTab = () => {
           <${ButtonWrapper}>
             <${ButtonSecondary}
                     onClick=${() => {
-                        setShowSetupForm(true)
-                        setSetupMessage('')
+                      setShowSetupForm(true)
+                      setSetupMessage('')
                     }}
             >
                 ${i18n._('Connect Different Extension')}
@@ -180,6 +178,7 @@ export const SettingsPrivacyTab = () => {
           <//>
         </div>
       </${CardSingleSetting}>
-    `}
+    `
+    }
   `
 }

@@ -10,7 +10,7 @@ export function log(component, level, message) {
     const timestamp = new Date().toISOString()
     const logMsg = `${timestamp} [${level}] [${component}] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
-  } catch (e) {
+  } catch {
     console.error(`[${component}] ${message}`)
   }
 }

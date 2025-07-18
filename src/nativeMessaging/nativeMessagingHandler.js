@@ -1,22 +1,30 @@
 import { EventEmitter } from 'events'
 import fs from 'fs'
 import path from 'path'
-import { wrapMessage, unwrapMessage, isWrappedMessage } from './nativeMessagingProtocol'
+
+import {
+  wrapMessage,
+  unwrapMessage,
+  isWrappedMessage
+} from './nativeMessagingProtocol'
 
 const log = (level, message) => {
   try {
-    const logFile = path.join(process.cwd(), 'logs', 'native-messaging-handler.log')
+    const logFile = path.join(
+      process.cwd(),
+      'logs',
+      'native-messaging-handler.log'
+    )
     const timestamp = new Date().toISOString()
     const logMsg = `${timestamp} [${level}] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
-  } catch (e) {
+  } catch {
     console.error(message)
   }
 }
 
 // Constants
 const MESSAGE_SIZE_LIMIT = 1024 * 1024 // 1MB
-const BUFFER_SIZE_LIMIT = 10000
 const HEADER_SIZE = 4
 
 /**
@@ -53,7 +61,7 @@ export class NativeMessagingHandler extends EventEmitter {
   handleIncomingChunk(chunk) {
     const buffer = this._ensureBuffer(chunk)
     this.inputBuffer = Buffer.concat([this.inputBuffer, buffer])
-    
+
     while (this.processNextMessage()) {
       // Continue processing while we have complete messages
     }
@@ -96,7 +104,7 @@ export class NativeMessagingHandler extends EventEmitter {
   _readMessageLength() {
     this.expectedMessageLength = this.inputBuffer.readUInt32LE(0)
     this.messageInProgress = true
-    
+
     if (this.expectedMessageLength > MESSAGE_SIZE_LIMIT) {
       log('ERROR', `Message too large: ${this.expectedMessageLength}`)
       this._resetBuffer()
@@ -148,45 +156,45 @@ export class NativeMessagingHandler extends EventEmitter {
     if (this.inputBuffer.length < 4) {
       return false
     }
-    
+
     // Skip Chrome's potentially incorrect length header
     const dataAfterHeader = this.inputBuffer.slice(4).toString('utf8')
     this.accumulatedString = dataAfterHeader
-    
+
     // Find complete JSON objects by parsing braces
     let foundMessage = false
     let startIndex = 0
-    
+
     while (startIndex < this.accumulatedString.length) {
       const openBrace = this.accumulatedString.indexOf('{', startIndex)
       if (openBrace === -1) {
         break
       }
-      
+
       // Parse JSON manually to find the end
       let braceCount = 0
       let inString = false
       let escapeNext = false
       let endIndex = -1
-      
+
       for (let i = openBrace; i < this.accumulatedString.length; i++) {
         const char = this.accumulatedString[i]
-        
+
         if (escapeNext) {
           escapeNext = false
           continue
         }
-        
+
         if (char === '\\') {
           escapeNext = true
           continue
         }
-        
+
         if (char === '"' && !escapeNext) {
           inString = !inString
           continue
         }
-        
+
         if (!inString) {
           if (char === '{') {
             braceCount++
@@ -199,17 +207,17 @@ export class NativeMessagingHandler extends EventEmitter {
           }
         }
       }
-      
+
       if (endIndex === -1) {
         // Incomplete JSON, wait for more data
         return false
       }
-      
+
       const jsonStr = this.accumulatedString.substring(openBrace, endIndex)
-      
+
       try {
         const message = JSON.parse(jsonStr)
-        
+
         if (isWrappedMessage(message)) {
           const unwrapped = unwrapMessage(message)
           if (unwrapped) {
@@ -220,11 +228,14 @@ export class NativeMessagingHandler extends EventEmitter {
         } else {
           this.emit('message', message)
         }
-        
+
         // Remove processed message from buffer
-        const bytesToRemove = 4 + Buffer.from(this.accumulatedString.substring(0, endIndex), 'utf8').length
+        const bytesToRemove =
+          4 +
+          Buffer.from(this.accumulatedString.substring(0, endIndex), 'utf8')
+            .length
         this.inputBuffer = this.inputBuffer.slice(bytesToRemove)
-        
+
         foundMessage = true
         break
       } catch (err) {
@@ -232,34 +243,34 @@ export class NativeMessagingHandler extends EventEmitter {
         startIndex = openBrace + 1
       }
     }
-    
+
     // Clear buffer if it gets too large without valid messages
     if (!foundMessage && this.inputBuffer.length > 10000) {
       log('ERROR', 'Buffer too large without valid message, clearing')
       this.inputBuffer = Buffer.alloc(0)
       this.accumulatedString = ''
     }
-    
+
     return foundMessage
   }
 
   send(message) {
     try {
       log('DEBUG', `Sending message: ${JSON.stringify(message)}`)
-      
+
       // Wrap the message with protocol
       const wrapped = wrapMessage(message)
       const jsonStr = JSON.stringify(wrapped)
       const jsonBuffer = Buffer.from(jsonStr)
-      
+
       // Create 4-byte length header
       const header = Buffer.allocUnsafe(4)
       header.writeUInt32LE(jsonBuffer.length, 0)
-      
+
       // Write header and message
       process.stdout.write(header)
       process.stdout.write(jsonBuffer)
-      
+
       log('DEBUG', 'Message sent successfully')
     } catch (err) {
       log('ERROR', `Failed to send message: ${err.message}`)

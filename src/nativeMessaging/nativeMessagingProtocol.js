@@ -1,9 +1,9 @@
 /**
  * Custom protocol wrapper for native messaging to work around Chrome bugs
- * 
+ *
  * Chrome's native messaging has a bug where it sometimes sends incorrect
  * length headers, especially for messages of certain sizes (e.g., 255 bytes).
- * 
+ *
  * This wrapper adds a custom length field inside the message for integrity validation
  */
 
@@ -14,16 +14,16 @@
  */
 export function wrapMessage(message) {
   // Convert message to JSON and calculate its length
-  const originalJson = JSON.stringify(message);
-  const originalLength = Buffer.from(originalJson).length;
-  
+  const originalJson = JSON.stringify(message)
+  const originalLength = Buffer.from(originalJson).length
+
   // Create wrapped message with length metadata
   const wrapped = {
-    _length: originalLength,
-    _message: message
-  };
-  
-  return wrapped;
+    length: originalLength,
+    message: message
+  }
+
+  return wrapped
 }
 
 /**
@@ -33,21 +33,31 @@ export function wrapMessage(message) {
  */
 export function unwrapMessage(wrapped) {
   // Validate structure
-  if (!wrapped || typeof wrapped !== 'object' || !wrapped._message || typeof wrapped._length !== 'number') {
-    console.error('[Protocol] Invalid message structure');
-    return null;
+  if (
+    !wrapped ||
+    typeof wrapped !== 'object' ||
+    !wrapped.message ||
+    typeof wrapped.length !== 'number'
+  ) {
+    console.error('[Protocol] Invalid message structure')
+    return null
   }
-  
+
   // Validate length strictly
-  const messageJson = JSON.stringify(wrapped._message);
-  const actualLength = Buffer.from(messageJson).length;
-  
-  if (actualLength !== wrapped._length) {
-    console.error('[Protocol] Length mismatch - expected:', wrapped._length, 'actual:', actualLength);
-    return null;
+  const messageJson = JSON.stringify(wrapped.message)
+  const actualLength = Buffer.from(messageJson).length
+
+  if (actualLength !== wrapped.length) {
+    console.error(
+      '[Protocol] Length mismatch - expected:',
+      wrapped.length,
+      'actual:',
+      actualLength
+    )
+    return null
   }
-  
-  return wrapped._message;
+
+  return wrapped.message
 }
 
 /**
@@ -56,8 +66,10 @@ export function unwrapMessage(wrapped) {
  * @returns {boolean} True if it's a wrapped message
  */
 export function isWrappedMessage(message) {
-  return message && 
-         typeof message === 'object' && 
-         '_length' in message &&
-         '_message' in message;
+  return (
+    message &&
+    typeof message === 'object' &&
+    'length' in message &&
+    'message' in message
+  )
 }

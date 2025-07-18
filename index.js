@@ -15,9 +15,9 @@ import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
 import { ToastProvider } from './src/context/ToastContext'
 import { messages } from './src/locales/en/messages.mjs'
-import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
 import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
 import { createOrGetPipe } from './src/services/createOrGetPipe'
+import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
 import { setFontsAndResetCSS } from './styles'
 
 const storage = Pear.config.storage
@@ -38,17 +38,18 @@ setPearpassVaultClient(client)
 
 // Check if native messaging is enabled and start IPC server
 // For testing, always start the IPC server
-startNativeMessagingIPC(client).catch(err => {
+startNativeMessagingIPC(client).catch((err) => {
   console.error('Failed to start IPC server:', err)
 })
 
 Pear.updates(async (update) => {
   // Check if the update is related to our IPC socket file or debug log
   if (update && update.diff) {
-    const hasNonIgnoredChanges = update.diff.some(({ key: file }) => {
-      return !file.includes('pearpass-native-messaging.sock') &&
-             !file.startsWith('/logs')
-    })
+    const hasNonIgnoredChanges = update.diff.some(
+      ({ key: file }) =>
+        !file.includes('pearpass-native-messaging.sock') &&
+        !file.startsWith('/logs')
+    )
 
     if (!hasNonIgnoredChanges) {
       return
