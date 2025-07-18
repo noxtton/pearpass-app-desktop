@@ -1,4 +1,5 @@
 import path from 'path'
+import os from 'os'
 
 import { useEffect, useState } from 'react'
 
@@ -45,13 +46,12 @@ export const SettingsPrivacyTab = () => {
     setSetupMessage('')
 
     try {
-      // For now, use the absolute path to the native host
-      // In production, this would be packaged differently
+      const executablePathExtension = os.platform() === 'win32' ? '.bat' : ''
       const executablePath = path.join(
         process.cwd(),
         'src',
         'scripts',
-        'pearpass-native-host-executable'
+        `pearpass-native-host-executable${executablePathExtension}`
       )
 
       // Setup native messaging for the extension

@@ -3,15 +3,15 @@ import { join } from 'path'
 
 import IPC from 'pear-ipc'
 
-import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions'
-import { log } from '../utils/nativeMessagingLogger'
+import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions.js'
+import { log } from '../utils/nativeMessagingLogger.js'
 
 /**
  * Returns cross-platform IPC path:
  *  Unix domain socket in os.tmpdir()
  *  Windows named pipe under \\?\pipe\
  */
-const getIpcPath = (socketName) => {
+export const getIpcPath = (socketName) => {
   if (platform() === 'win32') {
     return `\\\\?\\pipe\\${socketName}`
   }
