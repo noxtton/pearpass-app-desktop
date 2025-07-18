@@ -7,12 +7,12 @@ import { join } from 'path'
 
 import IPC from 'pear-ipc'
 
-import { NativeMessagingHandler } from '../nativeMessaging/nativeMessagingHandler'
+import { NativeMessagingHandler } from '../nativeMessaging/nativeMessagingHandler.js'
 import {
   COMMAND_DEFINITIONS,
   isValidCommand
-} from '../shared/commandDefinitions'
-import { log } from '../utils/nativeMessagingLogger'
+} from '../shared/commandDefinitions.js'
+import { log } from '../utils/nativeMessagingLogger.js'
 
 // Desktop app status constants
 const DESKTOP_APP_STATUS = Object.freeze({

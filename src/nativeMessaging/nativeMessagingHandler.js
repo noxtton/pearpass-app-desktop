@@ -6,7 +6,7 @@ import {
   wrapMessage,
   unwrapMessage,
   isWrappedMessage
-} from './nativeMessagingProtocol'
+} from './nativeMessagingProtocol.js'
 
 const log = (level, message) => {
   try {
