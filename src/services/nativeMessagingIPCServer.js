@@ -1,10 +1,22 @@
-import { tmpdir } from 'os'
+import { tmpdir, platform } from 'os'
 import { join } from 'path'
 
 import IPC from 'pear-ipc'
 
 import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions'
 import { log } from '../utils/nativeMessagingLogger'
+
+/**
+ * Returns cross-platform IPC path:
+ *  Unix domain socket in os.tmpdir()
+ *  Windows named pipe under \\?\pipe\
+ */
+const getIpcPath = (socketName) => {
+  if (platform() === 'win32') {
+    return `\\\\?\\pipe\\${socketName}`
+  }
+  return join(tmpdir(), `${socketName}.sock`)
+}
 
 /**
  * Native Messaging IPC Server
@@ -15,7 +27,7 @@ export class NativeMessagingIPCServer {
     this.client = pearpassClient
     this.server = null
     this.isRunning = false
-    this.socketPath = join(tmpdir(), 'pearpass-native-messaging.sock')
+    this.socketPath = getIpcPath('pearpass-native-messaging')
   }
 
   async start() {
@@ -279,5 +291,5 @@ export const isNativeMessagingIPCRunning = () =>
  * Get the socket path for the IPC server
  */
 export const getIPCSocketPath = () =>
-  ipcServerInstance?.socketPath ||
-  join(tmpdir(), 'pearpass-native-messaging.sock')
+  ipcServerInstance?.socketPath ??
+  getIpcPath('pearpass-native-messaging.sock')
