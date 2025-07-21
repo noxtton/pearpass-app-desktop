@@ -12,9 +12,9 @@ exports[`SelectLabel Component renders ArrowDownIcon when isOpen is false 1`] = 
     </span>
     <svg
       fill="none"
-      height="14"
+      height="24"
       viewBox="0 0 15 15"
-      width="14"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -40,9 +40,9 @@ exports[`SelectLabel Component renders ArrowUpIcon when isOpen is true 1`] = `
     </span>
     <svg
       fill="none"
-      height="14"
+      height="24"
       viewBox="0 0 15 15"
-      width="14"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -68,9 +68,9 @@ exports[`SelectLabel Component renders correctly with placeholder when no select
     </span>
     <svg
       fill="none"
-      height="14"
+      height="24"
       viewBox="0 0 15 15"
-      width="14"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
@@ -96,9 +96,9 @@ exports[`SelectLabel Component renders correctly with selected item 1`] = `
     </span>
     <svg
       fill="none"
-      height="14"
+      height="24"
       viewBox="0 0 15 15"
-      width="14"
+      width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

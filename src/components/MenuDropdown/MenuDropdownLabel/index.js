@@ -23,7 +23,7 @@ export const MenuDropdownLabel = ({
 
   return html`
     <${Label} isHidden=${isHidden} onClick=${() => setIsOpen?.(!isOpen)}>
-      <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="14" />
+      <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="24" />
 
       ${selectedItem?.name
         ? html` <${MenuDropdownItem} item=${selectedItem} /> `

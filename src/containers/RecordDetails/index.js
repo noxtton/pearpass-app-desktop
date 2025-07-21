@@ -6,6 +6,7 @@ import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
 import {
   BrushIcon,
   ButtonLittle,
+  ButtonRoundIcon,
   CollapseIcon,
   FolderIcon,
   KebabMenuIcon,
@@ -92,7 +93,7 @@ export const RecordDetails = () => {
             ${!!record?.folder &&
             html`
               <${FolderWrapper}>
-                <${FolderIcon} size="14" color=${colors.grey200.mode1} />
+                <${FolderIcon} size="24" color=${colors.grey200.mode1} />
                 ${record?.folder}
               <//>
             `}
@@ -105,7 +106,7 @@ export const RecordDetails = () => {
             onClick=${() =>
               updateFavoriteState([record?.id], !record?.isFavorite)}
           >
-            <${StarIcon} size="21" color=${colors.primary400.mode1} />
+            <${StarIcon} size="24" color=${colors.primary400.mode1} />
           <//>
 
           <${ButtonLittle} startIcon=${BrushIcon} onClick=${handleEdit}>
@@ -122,12 +123,11 @@ export const RecordDetails = () => {
                 <${RecordActionsPopupContent} menuItems=${actions} />
               `}
             >
-              <${ButtonLittle} variant="secondary" startIcon=${KebabMenuIcon} />
+              <${ButtonRoundIcon} startIcon=${KebabMenuIcon} />
             <//>
           <//>
 
-          <${ButtonLittle}
-            variant="secondary"
+          <${ButtonRoundIcon}
             startIcon=${CollapseIcon}
             onClick=${handleCollapseRecordDetails}
           />

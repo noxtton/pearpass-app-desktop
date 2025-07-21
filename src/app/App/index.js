@@ -20,11 +20,13 @@ export const App = () => {
     ;(async () => {
       const userData = await refetchUser()
 
-      navigate('welcome', {
-        state: userData?.hasPasswordSet
-          ? 'masterPassword'
-          : 'createMasterPassword'
-      })
+      if (userData?.hasPasswordSet) {
+        navigate('welcome', {
+          state: 'masterPassword'
+        })
+      } else {
+        navigate('intro')
+      }
     })()
   }, [])
 

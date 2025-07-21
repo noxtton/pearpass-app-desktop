@@ -6,10 +6,10 @@ exports[`SidebarCategory Component renders correctly with default props 1`] = `
     class="sc-blHHSb lmPVJw"
   >
     <div
-      class="sc-gtLWhw iIZoUX"
+      class="sc-gtLWhw dxZCHe"
     >
       <div
-        class="sc-egkSDF cjuxJo"
+        class="sc-egkSDF jvgGGj"
       >
         <div
           data-testid="mock-icon"

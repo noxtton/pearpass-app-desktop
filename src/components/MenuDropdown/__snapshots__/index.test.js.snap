@@ -12,7 +12,7 @@ exports[`MenuDropdown renders both dropdown labels 1`] = `
       Closed
     </div>
     <div
-      class="sc-egkSDF fshSYa"
+      class="sc-egkSDF kOtZpe"
     >
       <div
         data-testid="menu-dropdown-label"

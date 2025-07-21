@@ -27,6 +27,11 @@ export const ImagesField = ({ title, pictures = [], onAdd, onRemove }) => {
     setModal(html`<${DisplayPictureModalContent} url=${url} name=${name} />`)
   }
 
+  const handleRemove = (e, index) => {
+    e.stopPropagation()
+    onRemove?.(index)
+  }
+
   return html`
     <${Container}>
       <${Header}>
@@ -45,8 +50,8 @@ export const ImagesField = ({ title, pictures = [], onAdd, onRemove }) => {
 
               ${onRemove &&
               html`<${DeleteOverlay}>
-                <${DeleteIconWrapper} onClick=${() => onRemove(idx)}>
-                  <${DeleteIcon} size="14" color=${colors.black.mode1} />
+                <${DeleteIconWrapper} onClick=${(e) => handleRemove(e, idx)}>
+                  <${DeleteIcon} size="24" color=${colors.black.mode1} />
                 <//>
               <//>`}
             <//>

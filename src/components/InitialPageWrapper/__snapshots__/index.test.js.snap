@@ -6,152 +6,10 @@ exports[`InitialPageWrapper renders children correctly 1`] = `
     class="sc-blHHSb blkfke"
   >
     <div
-      class="sc-fAUdSK etLIUW"
-    >
-      <svg
-        fill="none"
-        height="100%"
-        viewBox="0 0 453 752"
-        width="100%"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g
-          filter="url(#filter0_f_7001_17048)"
-        >
-          <path
-            d="M67.3396 592.874C152.858 791.154 321.5 880.851 222.19 923.684C122.879 966.517 -26.9543 840.503 -112.473 642.223C-197.991 443.944 -186.81 248.483 -87.4998 205.65C11.8108 162.817 -18.1789 394.594 67.3396 592.874Z"
-            fill="#F2CB40"
-            fill-opacity="0.35"
-          />
-        </g>
-        <defs>
-          <filter
-            color-interpolation-filters="sRGB"
-            filterUnits="userSpaceOnUse"
-            height="1131.56"
-            id="filter0_f_7001_17048"
-            width="822.535"
-            x="-369.959"
-            y="0.483398"
-          >
-            <feflood
-              flood-opacity="0"
-              result="BackgroundImageFix"
-            />
-            <feblend
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              mode="normal"
-              result="shape"
-            />
-            <fegaussianblur
-              result="effect1_foregroundBlur_7001_17048"
-              stdDeviation="100"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </div>
+      class="sc-dntaoT fEWEwP"
+    />
     <div
-      class="sc-dntaoT gTwHgr"
-    >
-      <svg
-        fill="none"
-        height="100%"
-        viewBox="0 0 632 792"
-        width="500"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g
-          filter="url(#filter0_f_7001_17047)"
-        >
-          <circle
-            cx="396.349"
-            cy="396"
-            fill="#F2CB40"
-            fill-opacity="0.24"
-            r="195.83"
-          />
-        </g>
-        <defs>
-          <filter
-            color-interpolation-filters="sRGB"
-            filterUnits="userSpaceOnUse"
-            height="791.66"
-            id="filter0_f_7001_17047"
-            width="791.66"
-            x="0.519043"
-            y="0.169922"
-          >
-            <feflood
-              flood-opacity="0"
-              result="BackgroundImageFix"
-            />
-            <feblend
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              mode="normal"
-              result="shape"
-            />
-            <fegaussianblur
-              result="effect1_foregroundBlur_7001_17047"
-              stdDeviation="100"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </div>
-    <div
-      class="sc-ivxoEo dPrvBg"
-    >
-      <svg
-        fill="none"
-        height="100%"
-        viewBox="0 0 518 541"
-        width="100%"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g
-          filter="url(#filter0_f_7001_17046)"
-        >
-          <circle
-            cx="715.95"
-            cy="-175.581"
-            fill="#B0D944"
-            fill-opacity="0.3"
-            r="515.731"
-          />
-        </g>
-        <defs>
-          <filter
-            color-interpolation-filters="sRGB"
-            filterUnits="userSpaceOnUse"
-            height="1431.46"
-            id="filter0_f_7001_17046"
-            width="1431.46"
-            x="0.21875"
-            y="-891.312"
-          >
-            <feflood
-              flood-opacity="0"
-              result="BackgroundImageFix"
-            />
-            <feblend
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              mode="normal"
-              result="shape"
-            />
-            <fegaussianblur
-              result="effect1_foregroundBlur_7001_17046"
-              stdDeviation="100"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </div>
-    <div
-      class="sc-egkSDF hhMuZB"
+      class="sc-egkSDF jRiHMR"
     >
       <div
         class="sc-gtLWhw eiPIRD"
@@ -306,9 +164,15 @@ exports[`InitialPageWrapper renders children correctly 1`] = `
         </svg>
       </div>
       <div
-        data-testid="test-children"
+        class="sc-fAUdSK kSNweU"
       >
-        Test Children
+         
+        <div
+          data-testid="test-children"
+        >
+          Test Children
+        </div>
+         
       </div>
     </div>
   </div>
@@ -321,152 +185,10 @@ exports[`InitialPageWrapper renders without children 1`] = `
     class="sc-blHHSb blkfke"
   >
     <div
-      class="sc-fAUdSK etLIUW"
-    >
-      <svg
-        fill="none"
-        height="100%"
-        viewBox="0 0 453 752"
-        width="100%"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g
-          filter="url(#filter0_f_7001_17048)"
-        >
-          <path
-            d="M67.3396 592.874C152.858 791.154 321.5 880.851 222.19 923.684C122.879 966.517 -26.9543 840.503 -112.473 642.223C-197.991 443.944 -186.81 248.483 -87.4998 205.65C11.8108 162.817 -18.1789 394.594 67.3396 592.874Z"
-            fill="#F2CB40"
-            fill-opacity="0.35"
-          />
-        </g>
-        <defs>
-          <filter
-            color-interpolation-filters="sRGB"
-            filterUnits="userSpaceOnUse"
-            height="1131.56"
-            id="filter0_f_7001_17048"
-            width="822.535"
-            x="-369.959"
-            y="0.483398"
-          >
-            <feflood
-              flood-opacity="0"
-              result="BackgroundImageFix"
-            />
-            <feblend
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              mode="normal"
-              result="shape"
-            />
-            <fegaussianblur
-              result="effect1_foregroundBlur_7001_17048"
-              stdDeviation="100"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </div>
+      class="sc-dntaoT fEWEwP"
+    />
     <div
-      class="sc-dntaoT gTwHgr"
-    >
-      <svg
-        fill="none"
-        height="100%"
-        viewBox="0 0 632 792"
-        width="500"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g
-          filter="url(#filter0_f_7001_17047)"
-        >
-          <circle
-            cx="396.349"
-            cy="396"
-            fill="#F2CB40"
-            fill-opacity="0.24"
-            r="195.83"
-          />
-        </g>
-        <defs>
-          <filter
-            color-interpolation-filters="sRGB"
-            filterUnits="userSpaceOnUse"
-            height="791.66"
-            id="filter0_f_7001_17047"
-            width="791.66"
-            x="0.519043"
-            y="0.169922"
-          >
-            <feflood
-              flood-opacity="0"
-              result="BackgroundImageFix"
-            />
-            <feblend
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              mode="normal"
-              result="shape"
-            />
-            <fegaussianblur
-              result="effect1_foregroundBlur_7001_17047"
-              stdDeviation="100"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </div>
-    <div
-      class="sc-ivxoEo dPrvBg"
-    >
-      <svg
-        fill="none"
-        height="100%"
-        viewBox="0 0 518 541"
-        width="100%"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g
-          filter="url(#filter0_f_7001_17046)"
-        >
-          <circle
-            cx="715.95"
-            cy="-175.581"
-            fill="#B0D944"
-            fill-opacity="0.3"
-            r="515.731"
-          />
-        </g>
-        <defs>
-          <filter
-            color-interpolation-filters="sRGB"
-            filterUnits="userSpaceOnUse"
-            height="1431.46"
-            id="filter0_f_7001_17046"
-            width="1431.46"
-            x="0.21875"
-            y="-891.312"
-          >
-            <feflood
-              flood-opacity="0"
-              result="BackgroundImageFix"
-            />
-            <feblend
-              in="SourceGraphic"
-              in2="BackgroundImageFix"
-              mode="normal"
-              result="shape"
-            />
-            <fegaussianblur
-              result="effect1_foregroundBlur_7001_17046"
-              stdDeviation="100"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </div>
-    <div
-      class="sc-egkSDF hhMuZB"
+      class="sc-egkSDF jRiHMR"
     >
       <div
         class="sc-gtLWhw eiPIRD"
@@ -619,6 +341,12 @@ exports[`InitialPageWrapper renders without children 1`] = `
             fill="#F6F6F6"
           />
         </svg>
+      </div>
+      <div
+        class="sc-fAUdSK kSNweU"
+      >
+         
+         
       </div>
     </div>
   </div>

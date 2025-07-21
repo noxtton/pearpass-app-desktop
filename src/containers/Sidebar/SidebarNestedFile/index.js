@@ -70,13 +70,13 @@ export const SidebarNestedFile = ({
               `}
             >
               <${NestedFile} color=${color} onClick=${handleNewClick}>
-                <${icon} color=${colors.primary400.mode1} size="14" />
+                <${icon} color=${colors.primary400.mode1} size="24" />
                 ${name}
               <//>
             <//>
           `
         : html` <${NestedFile} color=${color} onClick=${handleFileClick}>
-            <${icon} size="14" />
+            <${icon} size="24" />
             ${name}
           <//>`}
     <//>

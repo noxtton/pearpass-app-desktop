@@ -31,9 +31,9 @@ export const ListItem = ({
     <${ListItemInfo}>
       ${isSelected
         ? html` <${SelectedListItemIconContainer}>
-            <${CheckIcon} size="21" color=${colors.black.mode1} />
+            <${CheckIcon} size="24" color=${colors.black.mode1} />
           <//>`
-        : html`<${LockCircleIcon} size="21" />`}
+        : html`<${LockCircleIcon} size="24" />`}
 
       <${ListItemDescription}>
         <${ListItemName}>${itemName}<//>

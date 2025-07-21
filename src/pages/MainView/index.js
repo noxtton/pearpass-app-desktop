@@ -10,6 +10,7 @@ import { EmptyCollectionView } from '../../components/EmptyCollectionView'
 import { InputSearch } from '../../components/InputSearch'
 import { PopupMenu } from '../../components/PopupMenu'
 import { RecordListView } from '../../containers/RecordListView'
+import { BannerProvider } from '../../context/BannerContext'
 import { useGlobalLoading } from '../../context/LoadingContext'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
@@ -77,42 +78,44 @@ export const MainView = () => {
   }
 
   return html`
-    <${Wrapper}>
-      <${SearchContainer}>
-        <${InputSearch}
-          value=${searchValue}
-          onChange=${(e) => setSearchValue(e.target.value)}
-          quantity=${records?.length}
-        />
+    <${BannerProvider}>
+      <${Wrapper}>
+        <${SearchContainer}>
+          <${InputSearch}
+            value=${searchValue}
+            onChange=${(e) => setSearchValue(e.target.value)}
+            quantity=${records?.length}
+          />
 
-        <${PopupMenu}
-          side="right"
-          align="right"
-          isOpen=${isOpen}
-          setIsOpen=${setIsOpen}
-          content=${html`
-            <${CreateNewCategoryPopupContent}
-              menuItems=${popupItems}
-              onClick=${handleMenuItemClick}
-            />
-          `}
-        >
-          <${ButtonPlusCreateNew} isOpen=${isOpen} />
+          <${PopupMenu}
+            side="right"
+            align="right"
+            isOpen=${isOpen}
+            setIsOpen=${setIsOpen}
+            content=${html`
+              <${CreateNewCategoryPopupContent}
+                menuItems=${popupItems}
+                onClick=${handleMenuItemClick}
+              />
+            `}
+          >
+            <${ButtonPlusCreateNew} isOpen=${isOpen} />
+          <//>
         <//>
-      <//>
 
-      ${!isLoading &&
-      (!records?.length
-        ? html` <${EmptyCollectionView} />`
-        : html` <${ContentWrapper}>
-            <${RecordListView}
-              records=${records}
-              selectedRecords=${selectedRecords}
-              setSelectedRecords=${setSelectedRecords}
-              sortType=${sortType}
-              setSortType=${setSortType}
-            />
-          <//>`)}
+        ${!isLoading &&
+        (!records?.length
+          ? html` <${EmptyCollectionView} />`
+          : html` <${ContentWrapper}>
+              <${RecordListView}
+                records=${records}
+                selectedRecords=${selectedRecords}
+                setSelectedRecords=${setSelectedRecords}
+                sortType=${sortType}
+                setSortType=${setSortType}
+              />
+            <//>`)}
+      <//>
     <//>
   `
 }

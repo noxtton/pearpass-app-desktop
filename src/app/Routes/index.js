@@ -4,6 +4,7 @@ import { InitialLoadPage } from '../../containers/InitialPage'
 import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar'
 import { RecordDetails } from '../../containers/RecordDetails'
 import { useRouter } from '../../context/RouterContext.js'
+import { Intro } from '../../pages/Intro/index.js'
 import { MainView } from '../../pages/MainView'
 import { SettingsView } from '../../pages/SettingsView'
 import { WelcomePage } from '../../pages/WelcomePage'
@@ -18,6 +19,10 @@ export const Routes = ({ isLoading }) => {
 
   if (isLoading || currentPage === 'loading') {
     return html` <${InitialLoadPage} /> `
+  }
+
+  if (currentPage === 'intro') {
+    return html` <${Intro} /> `
   }
 
   if (currentPage === 'welcome') {

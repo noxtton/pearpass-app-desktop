@@ -33,9 +33,9 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
           >
             <svg
               fill="none"
-              height="21"
+              height="24"
               viewBox="0 0 14 15"
-              width="21"
+              width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
@@ -85,9 +85,9 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
           >
             <svg
               fill="none"
-              height="21"
+              height="24"
               viewBox="0 0 14 15"
-              width="21"
+              width="24"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path

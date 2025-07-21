@@ -19,6 +19,6 @@ export const SelectLabel = ({
 }) => html`
   <${Label} onClick=${() => setIsOpen?.(!isOpen)}>
     <span> ${selectedItem?.name || placeholder} </span>
-    <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="14" />
+    <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="24" />
   <//>
 `

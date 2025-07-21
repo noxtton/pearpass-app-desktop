@@ -27,9 +27,9 @@ exports[`SettingsLanguageSection matches snapshot 1`] = `
           </span>
           <svg
             fill="none"
-            height="14"
+            height="24"
             viewBox="0 0 15 15"
-            width="14"
+            width="24"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path

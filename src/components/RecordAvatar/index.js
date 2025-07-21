@@ -41,7 +41,7 @@ export const RecordAvatar = ({
     ${avatar}
     ${isFavorite &&
     html` <${FavoriteIcon}>
-      <${StarIcon} width="9" height="9" color=${colors.primary400.mode1} />
+      <${StarIcon} size="10" color=${colors.primary400.mode1} />
     <//>`}
   <//>`
 }
