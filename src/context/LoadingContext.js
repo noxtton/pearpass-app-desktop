@@ -16,9 +16,8 @@ export const LoadingProvider = ({ children }) => {
 
   return html`
     <${LoadingContext.Provider} value=${{ isLoading, setIsLoading }}>
-        ${children}
-        ${isLoading && html`<${LoadingOverlay} />`}
-    </${LoadingContext.Provider}>
+      ${children} ${isLoading && html`<${LoadingOverlay} />`}
+    <//>
   `
 }
 

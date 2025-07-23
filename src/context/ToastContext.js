@@ -24,9 +24,9 @@ export const ToastProvider = ({ children }) => {
 
   return html`
     <${ToastContext.Provider} value=${{ setToast }}>
-        ${children}
-        <${Toasts} toasts=${stack} />
-    </${ToastContext.Provider}>
+      ${children}
+      <${Toasts} toasts=${stack} />
+    <//>
   `
 }
 
