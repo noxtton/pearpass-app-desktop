@@ -1,16 +1,16 @@
+import child_process from 'child_process'
 import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
-import child_process from 'child_process'
 
 const MANIFEST_NAME = 'com.pearpass.vault'
 
-const promisify = (fn) => {
-  return (...args) =>
+const promisify =
+  (fn) =>
+  (...args) =>
     new Promise((resolve, reject) => {
       fn(...args, (err, res) => (err ? reject(err) : resolve(res)))
-    });
-}
+    })
 const execAsync = promisify(child_process.exec)
 
 /**
@@ -39,26 +39,66 @@ export async function setupNativeMessaging(extensionId, executablePath) {
     switch (platform) {
       case 'darwin':
         manifestPaths = [
-        path.join(home, 'Library', 'Application Support', 'Google', 'Chrome', 'NativeMessagingHosts', manifestFile),
-        path.join(home, 'Library', 'Application Support', 'Microsoft Edge', 'NativeMessagingHosts', manifestFile)
+          path.join(
+            home,
+            'Library',
+            'Application Support',
+            'Google',
+            'Chrome',
+            'NativeMessagingHosts',
+            manifestFile
+          ),
+          path.join(
+            home,
+            'Library',
+            'Application Support',
+            'Microsoft Edge',
+            'NativeMessagingHosts',
+            manifestFile
+          )
         ]
         break
 
       case 'win32':
-        const localPath = path.join(home, 'AppData', 'Local', 'PearPass', 'NativeMessaging', manifestFile)
+        const localPath = path.join(
+          home,
+          'AppData',
+          'Local',
+          'PearPass',
+          'NativeMessaging',
+          manifestFile
+        )
         manifestPaths = [localPath]
         break
 
       case 'linux':
         manifestPaths = [
-        path.join(home, '.config', 'google-chrome', 'NativeMessagingHosts', manifestFile),
-        path.join(home, '.config', 'chromium', 'NativeMessagingHosts', manifestFile),
-        path.join(home, '.config', 'microsoft-edge', 'NativeMessagingHosts', manifestFile)
+          path.join(
+            home,
+            '.config',
+            'google-chrome',
+            'NativeMessagingHosts',
+            manifestFile
+          ),
+          path.join(
+            home,
+            '.config',
+            'chromium',
+            'NativeMessagingHosts',
+            manifestFile
+          ),
+          path.join(
+            home,
+            '.config',
+            'microsoft-edge',
+            'NativeMessagingHosts',
+            manifestFile
+          )
         ]
         break
 
       default:
-          throw new Error(`Unsupported platform: ${platform}`)
+        throw new Error(`Unsupported platform: ${platform}`)
     }
 
     // Write manifest to all relevant paths
@@ -72,7 +112,9 @@ export async function setupNativeMessaging(extensionId, executablePath) {
           await fs.chmod(executablePath, 0o755)
         }
       } catch (err) {
-        console.warn(`Failed to write manifest at ${manifestPath}: ${err.message}`)
+        console.warn(
+          `Failed to write manifest at ${manifestPath}: ${err.message}`
+        )
       }
     }
 
@@ -87,7 +129,9 @@ export async function setupNativeMessaging(extensionId, executablePath) {
         try {
           await execAsync(cmd)
         } catch (err) {
-          console.warn(`Failed to write registry key with command '${cmd}': ${err.message}`)
+          console.warn(
+            `Failed to write registry key with command '${cmd}': ${err.message}`
+          )
         }
       }
     }
