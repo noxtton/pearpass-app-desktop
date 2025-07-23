@@ -7,6 +7,8 @@
  * This wrapper adds a custom length field inside the message for integrity validation
  */
 
+import { logger } from '../utils/logger'
+
 /**
  * Wrap a message with our custom protocol
  * @param {Object} message - The original message
@@ -39,7 +41,7 @@ export function unwrapMessage(wrapped) {
     !wrapped.message ||
     typeof wrapped.length !== 'number'
   ) {
-    console.error('[Protocol] Invalid message structure')
+    logger.error('[Protocol] Invalid message structure')
     return null
   }
 
@@ -48,7 +50,7 @@ export function unwrapMessage(wrapped) {
   const actualLength = Buffer.from(messageJson).length
 
   if (actualLength !== wrapped.length) {
-    console.error(
+    logger.error(
       '[Protocol] Length mismatch - expected:',
       wrapped.length,
       'actual:',
@@ -67,9 +69,9 @@ export function unwrapMessage(wrapped) {
  */
 export function isWrappedMessage(message) {
   return (
-    message &&
+    !!message &&
     typeof message === 'object' &&
-    'length' in message &&
-    'message' in message
+    !!('length' in message) &&
+    !!('message' in message)
   )
 }

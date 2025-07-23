@@ -7,6 +7,7 @@ import {
   unwrapMessage,
   isWrappedMessage
 } from './nativeMessagingProtocol.js'
+import { logger } from '../utils/logger.js'
 
 const log = (level, message) => {
   try {
@@ -19,7 +20,7 @@ const log = (level, message) => {
     const logMsg = `${timestamp} [${level}] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
   } catch {
-    console.error(message)
+    logger.error(message)
   }
 }
 

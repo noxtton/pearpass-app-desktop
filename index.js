@@ -18,6 +18,7 @@ import { messages } from './src/locales/en/messages.mjs'
 import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
 import { createOrGetPipe } from './src/services/createOrGetPipe'
 import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
+import { logger } from './src/utils/logger'
 import { setFontsAndResetCSS } from './styles'
 
 const storage = Pear.config.storage
@@ -39,7 +40,7 @@ setPearpassVaultClient(client)
 // Check if native messaging is enabled and start IPC server
 // For testing, always start the IPC server
 startNativeMessagingIPC(client).catch((err) => {
-  console.error('Failed to start IPC server:', err)
+  logger.error('Failed to start IPC server:', err)
 })
 
 Pear.updates(async (update) => {
