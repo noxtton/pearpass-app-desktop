@@ -253,7 +253,7 @@ let ipcServerInstance = null
 
 /**
  * Start the native messaging IPC server
- * @param {import('pearpass-lib-vault-desktop').PearpassVaultClient} pearpassClient
+ * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} pearpassClient
  * @returns {Promise<NativeMessagingIPCServer>}
  */
 export async function startNativeMessagingIPC(pearpassClient) {
@@ -291,5 +291,4 @@ export const isNativeMessagingIPCRunning = () =>
  * Get the socket path for the IPC server
  */
 export const getIPCSocketPath = () =>
-  ipcServerInstance?.socketPath ??
-  getIpcPath('pearpass-native-messaging.sock')
+  ipcServerInstance?.socketPath ?? getIpcPath('pearpass-native-messaging.sock')
