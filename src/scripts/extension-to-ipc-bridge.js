@@ -5,12 +5,12 @@
 import IPC from 'pear-ipc'
 
 import { NativeMessagingHandler } from '../nativeMessaging/nativeMessagingHandler.js'
+import { getIpcPath } from '../services/nativeMessagingIPCServer.js'
 import {
   COMMAND_DEFINITIONS,
   isValidCommand
 } from '../shared/commandDefinitions.js'
 import { log } from '../utils/nativeMessagingLogger.js'
-import { getIpcPath } from '../services/nativeMessagingIPCServer.js'
 
 // Desktop app status constants
 const DESKTOP_APP_STATUS = Object.freeze({
