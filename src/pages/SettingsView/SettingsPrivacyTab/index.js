@@ -1,5 +1,5 @@
-import path from 'path'
 import os from 'os'
+import path from 'path'
 
 import { useEffect, useState } from 'react'
 
@@ -108,77 +108,78 @@ export const SettingsPrivacyTab = () => {
   return html`
     <${CardSingleSetting} title=${i18n._('Browser Extension')}>
       <${Description}>
-        ${i18n._('Connect your browser extension to enable secure communication with PearPass.')}
-      </>
-      
+        ${i18n._(
+          'Connect your browser extension to enable secure communication with PearPass.'
+        )}
+      <//>
+
       <${SwitchList}>
         <${SwitchWrapper}>
           <${Switch}
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
-          ></>
+          ><//>
           ${i18n._('Enable Browser Extension Integration')}
-        </>
-      </>
-    </>
+        <//>
+      <//>
+    <//>
 
-    ${
-      showSetupForm &&
-      html`
+    ${showSetupForm &&
+    html`
       <${CardSingleSetting} title=${i18n._('Connect Browser Extension')}>
         <${Description}>
-            ${i18n._('Enter the extension ID - You can find it in extension settings')}
-        </>
+          ${i18n._(
+            'Enter the extension ID - You can find it in extension settings'
+          )}
+        <//>
         <${InputWrapper}>
-            <${InputField}
-              placeholder=${i18n._('Extension ID...')}
-              value=${extensionId}
-              onChange=${(e) => setExtensionId(e)}
-              disabled=${isSettingUp}
-            />
+          <${InputField}
+            placeholder=${i18n._('Extension ID...')}
+            value=${extensionId}
+            onChange=${(e) => setExtensionId(e)}
+            disabled=${isSettingUp}
+          />
         <//>
 
         <div>
           <${ButtonWrapper}>
-              <${ButtonSecondary}
-                      onClick=${handleSetupExtension}
-                      disabled=${isSettingUp || !extensionId.trim()}
-              >
-                  ${isSettingUp ? i18n._('Setting up...') : i18n._('Connect Extension')}
-              </>
+            <${ButtonSecondary}
+              onClick=${handleSetupExtension}
+              disabled=${isSettingUp || !extensionId.trim()}
+            >
+              ${isSettingUp
+                ? i18n._('Setting up...')
+                : i18n._('Connect Extension')}
+            <//>
           <//>
         </div>
 
-        ${
-          setupMessage &&
-          html` <div style=${{ marginTop: '8px' }}>${setupMessage}</div>`
-        }
-      </${CardSingleSetting}>
-    `
-    }
-
-    ${
-      isBrowserExtensionEnabled &&
-      !showSetupForm &&
-      html`
+        ${setupMessage &&
+        html` <div style=${{ marginTop: '8px' }}>${setupMessage}</div>`}
+      <//>
+    `}
+    ${isBrowserExtensionEnabled &&
+    !showSetupForm &&
+    html`
       <${CardSingleSetting} title=${i18n._('Connection Status')}>
         <${Description}>
-          ${i18n._('Browser extension is connected and can communicate with PearPass securely.')}
-        </>
+          ${i18n._(
+            'Browser extension is connected and can communicate with PearPass securely.'
+          )}
+        <//>
         <div>
           <${ButtonWrapper}>
             <${ButtonSecondary}
-                    onClick=${() => {
-                      setShowSetupForm(true)
-                      setSetupMessage('')
-                    }}
+              onClick=${() => {
+                setShowSetupForm(true)
+                setSetupMessage('')
+              }}
             >
-                ${i18n._('Connect Different Extension')}
-            </>
+              ${i18n._('Connect Different Extension')}
+            <//>
           <//>
         </div>
-      </${CardSingleSetting}>
-    `
-    }
+      <//>
+    `}
   `
 }
