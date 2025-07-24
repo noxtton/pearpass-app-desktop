@@ -7,7 +7,7 @@
  * This wrapper adds a custom length field inside the message for integrity validation
  */
 
-import { logger } from '../utils/logger'
+import { logger } from '../utils/logger.js'
 
 /**
  * Wrap a message with our custom protocol
