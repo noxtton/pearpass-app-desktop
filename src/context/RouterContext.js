@@ -26,9 +26,7 @@ export const RouterProvider = ({ children }) => {
   }
 
   return html`
-    <${RouterContext.Provider} value=${{ ...state, navigate }}>
-        ${children}
-    </${RouterContext.Provider}>
+    <${RouterContext.Provider} value=${{ ...state, navigate }}> ${children} <//>
   `
 }
 

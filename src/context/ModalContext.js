@@ -74,7 +74,6 @@ export const ModalProvider = ({ children }) => {
   return html`
     <${ModalContext.Provider} value=${{ isOpen, setModal, closeModal }}>
       ${children}
-
       ${modalStack?.map(
         ({ content, id, isOpen, params }) => html`
           <${ModalWrapper} key=${id}>
@@ -90,7 +89,7 @@ export const ModalProvider = ({ children }) => {
           <//>
         `
       )}
-    </${ModalContext.Provider}>
+    <//>
   `
 }
 

@@ -186,305 +186,130 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
 
   return html`
     <${FormWrapper}>
-      ${
-        (hasFullName || hasEmail || hasPhoneNumber) &&
-        html` <${FormGroup} title=${i18n._('Personal information')} isCollapse>
-          ${!!values?.fullName?.length &&
-          html`
-            <${InputField}
-              label=${i18n._('Full name')}
-              placeholder=${i18n._('Full name')}
-              variant="outline"
-              icon=${UserIcon}
-              onClick=${handleCopy}
-              isDisabled
-              ...${register('fullName')}
-            />
-          `}
-          ${!!values?.email?.length &&
-          html` <${InputField}
-            label=${i18n._('Email')}
-            placeholder=${i18n._('Insert email')}
+      ${(hasFullName || hasEmail || hasPhoneNumber) &&
+      html` <${FormGroup} title=${i18n._('Personal information')} isCollapse>
+        ${!!values?.fullName?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Full name')}
+            placeholder=${i18n._('Full name')}
             variant="outline"
-            icon=${EmailIcon}
+            icon=${UserIcon}
             onClick=${handleCopy}
             isDisabled
-            ...${register('email')}
-          />`}
-          ${!!values?.phoneNumber?.length &&
+            ...${register('fullName')}
+          />
+        `}
+        ${!!values?.email?.length &&
+        html` <${InputField}
+          label=${i18n._('Email')}
+          placeholder=${i18n._('Insert email')}
+          variant="outline"
+          icon=${EmailIcon}
+          onClick=${handleCopy}
+          isDisabled
+          ...${register('email')}
+        />`}
+        ${!!values?.phoneNumber?.length &&
+        html`
+          <${InputField}
+            label=${i18n._('Phone number ')}
+            placeholder=${i18n._('Phone number ')}
+            variant="outline"
+            icon=${PhoneIcon}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('phoneNumber')}
+          />
+        `}
+      <//>`}
+      ${(hasAddress || hasZip || hasCity || hasRegion || hasCountry) &&
+      html`
+        <${FormGroup} title=${i18n._('Detail of address')} isCollapse>
+          ${!!values?.address?.length &&
           html`
             <${InputField}
-              label=${i18n._('Phone number ')}
-              placeholder=${i18n._('Phone number ')}
+              label=${i18n._('Address')}
+              placeholder=${i18n._('Address')}
               variant="outline"
-              icon=${PhoneIcon}
               onClick=${handleCopy}
               isDisabled
-              ...${register('phoneNumber')}
+              ...${register('address')}
             />
           `}
-        <//>`
-      }
-      ${
-        (hasAddress || hasZip || hasCity || hasRegion || hasCountry) &&
-        html`
-          <${FormGroup} title=${i18n._('Detail of address')} isCollapse>
-            ${!!values?.address?.length &&
-            html`
-              <${InputField}
-                label=${i18n._('Address')}
-                placeholder=${i18n._('Address')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('address')}
-              />
-            `}
-            ${!!values?.zip?.length &&
-            html`
-              <${InputField}
-                label=${i18n._('ZIP')}
-                placeholder=${i18n._('Insert zip')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('zip')}
-              />
-            `}
-            ${!!values?.city?.length &&
-            html`
-              <${InputField}
-                label=${i18n._('City')}
-                placeholder=${i18n._('City')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('city')}
-              />
-            `}
-            ${!!values?.region?.length &&
-            html`
-              <${InputField}
-                label=${i18n._('Region')}
-                placeholder=${i18n._('Region')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('region')}
-              />
-            `}
-            ${!!values?.country?.length &&
-            html`
-              <${InputField}
-                label=${i18n._('Country')}
-                placeholder=${i18n._('Country')}
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('country')}
-              />
-            `}
-          <//>
-        `
-      }
-      ${
-        hasPassport &&
-        html`
-          <${FormGroup} title=${i18n._('Passport')} isCollapse>
-            <div>
-              ${hasPassportFullName &&
-              html`
-                <${InputField}
-                  label=${i18n._('Full name')}
-                  placeholder=${i18n._('John Smith')}
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportFullName')}
-                />
-              `}
-              ${hasPassportNumber &&
-              html`
-                <${InputField}
-                  label=${i18n._('Passport number')}
-                  placeholder=${i18n._('Insert numbers')}
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportNumber')}
-                />
-              `}
-              ${hasPassportIssuingCountry &&
-              html`
-                <${InputField}
-                  label=${i18n._('Issuing country')}
-                  placeholder=${i18n._('Insert country')}
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportIssuingCountry')}
-                />
-              `}
-              ${hasPassportDateOfIssue &&
-              html`
-                <${InputField}
-                  label=${i18n._('Date of issue')}
-                  placeholder="DD.MM.YYYY"
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportDateOfIssue')}
-                />
-              `}
-              ${hasPassportExpiryDate &&
-              html`
-                <${InputField}
-                  label=${i18n._('Expiry date')}
-                  placeholder="DD.MM.YYYY"
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportExpiryDate')}
-                />
-              `}
-              ${hasPassportNationality &&
-              html`
-                <${InputField}
-                  label=${i18n._('Nationality')}
-                  placeholder=${i18n._('Insert your nationality')}
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportNationality')}
-                />
-              `}
-              ${hasPassportDob &&
-              html`
-                <${InputField}
-                  label=${i18n._('Date of birth')}
-                  placeholder="DD.MM.YYYY"
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportDob')}
-                />
-              `}
-              ${hasPassportGender &&
-              html`
-                <${InputField}
-                  label=${i18n._('Gender')}
-                  placeholder=${i18n._('M/F')}
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('passportGender')}
-                />
-              `}
-            <//>
-            ${hasPassportPicture &&
-            html` <${ImagesField}
-              title=${i18n._('Passport Images')}
-              pictures=${values.passportPicture}
-            />`}
-          <//>
-        `
-      }
-      ${
-        hasIdCard &&
-        html`
-          <${FormGroup} title=${i18n._('Identity Card')} isCollapse>
-            <div>
-              ${hasIdCardNumber &&
-              html`
-                <${InputField}
-                  label=${i18n._('ID card number')}
-                  placeholder="123456789"
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('idCardNumber')}
-                />
-              `}
-              ${hasIdCardDateOfIssue &&
-              html`
-                <${InputField}
-                  label=${i18n._('Creation date')}
-                  placeholder="DD.MM.YYYY"
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('idCardDateOfIssue')}
-                />
-              `}
-              ${hasIdCardExpiryDate &&
-              html`
-                <${InputField}
-                  label=${i18n._('Expiry date')}
-                  placeholder="DD.MM.YYYY"
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('idCardExpiryDate')}
-                />
-              `}
-              ${hasIdCardIssuingCountry &&
-              html`
-                <${InputField}
-                  label=${i18n._('Issuing country')}
-                  placeholder=${i18n._('Insert country')}
-                  variant="outline"
-                  onClick=${handleCopy}
-                  isDisabled
-                  ...${register('idCardIssuingCountry')}
-                />
-              `}
-            <//>
-            ${hasIdCardPicture &&
-            html` <${ImagesField}
-              title=${i18n._('Identity Card Images')}
-              pictures=${values.idCardPicture}
-            />`}
-          <//>
-        `
-      }
-      ${
-        hasDrivingLicense &&
-        html` <${FormGroup} title=${i18n._('Driving license')} isCollapse>
+          ${!!values?.zip?.length &&
+          html`
+            <${InputField}
+              label=${i18n._('ZIP')}
+              placeholder=${i18n._('Insert zip')}
+              variant="outline"
+              onClick=${handleCopy}
+              isDisabled
+              ...${register('zip')}
+            />
+          `}
+          ${!!values?.city?.length &&
+          html`
+            <${InputField}
+              label=${i18n._('City')}
+              placeholder=${i18n._('City')}
+              variant="outline"
+              onClick=${handleCopy}
+              isDisabled
+              ...${register('city')}
+            />
+          `}
+          ${!!values?.region?.length &&
+          html`
+            <${InputField}
+              label=${i18n._('Region')}
+              placeholder=${i18n._('Region')}
+              variant="outline"
+              onClick=${handleCopy}
+              isDisabled
+              ...${register('region')}
+            />
+          `}
+          ${!!values?.country?.length &&
+          html`
+            <${InputField}
+              label=${i18n._('Country')}
+              placeholder=${i18n._('Country')}
+              variant="outline"
+              onClick=${handleCopy}
+              isDisabled
+              ...${register('country')}
+            />
+          `}
+        <//>
+      `}
+      ${hasPassport &&
+      html`
+        <${FormGroup} title=${i18n._('Passport')} isCollapse>
           <div>
-            ${hasDrivingLicenseNumber &&
+            ${hasPassportFullName &&
             html`
               <${InputField}
-                label=${i18n._('Driving license number')}
-                placeholder="123456789"
+                label=${i18n._('Full name')}
+                placeholder=${i18n._('John Smith')}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('drivingLicenseNumber')}
+                ...${register('passportFullName')}
               />
             `}
-            ${hasDrivingLicenseDateOfIssue &&
+            ${hasPassportNumber &&
             html`
               <${InputField}
-                label=${i18n._('Creation date')}
-                placeholder="DD.MM.YYYY"
+                label=${i18n._('Passport number')}
+                placeholder=${i18n._('Insert numbers')}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('drivingLicenseDateOfIssue')}
+                ...${register('passportNumber')}
               />
             `}
-            ${hasDrivingLicenseExpiryDate &&
-            html`
-              <${InputField}
-                label=${i18n._('Expiry date')}
-                placeholder="DD.MM.YYYY"
-                variant="outline"
-                onClick=${handleCopy}
-                isDisabled
-                ...${register('drivingLicenseExpiryDate')}
-              />
-            `}
-            ${hasDrivingLicenseIssuingCountry &&
+            ${hasPassportIssuingCountry &&
             html`
               <${InputField}
                 label=${i18n._('Issuing country')}
@@ -492,59 +317,216 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
-                ...${register('drivingLicenseIssuingCountry')}
+                ...${register('passportIssuingCountry')}
+              />
+            `}
+            ${hasPassportDateOfIssue &&
+            html`
+              <${InputField}
+                label=${i18n._('Date of issue')}
+                placeholder="DD.MM.YYYY"
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('passportDateOfIssue')}
+              />
+            `}
+            ${hasPassportExpiryDate &&
+            html`
+              <${InputField}
+                label=${i18n._('Expiry date')}
+                placeholder="DD.MM.YYYY"
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('passportExpiryDate')}
+              />
+            `}
+            ${hasPassportNationality &&
+            html`
+              <${InputField}
+                label=${i18n._('Nationality')}
+                placeholder=${i18n._('Insert your nationality')}
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('passportNationality')}
+              />
+            `}
+            ${hasPassportDob &&
+            html`
+              <${InputField}
+                label=${i18n._('Date of birth')}
+                placeholder="DD.MM.YYYY"
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('passportDob')}
+              />
+            `}
+            ${hasPassportGender &&
+            html`
+              <${InputField}
+                label=${i18n._('Gender')}
+                placeholder=${i18n._('M/F')}
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('passportGender')}
               />
             `}
           <//>
-          ${hasDrivingLicensePicture &&
+          ${hasPassportPicture &&
           html` <${ImagesField}
-            title=${i18n._('Driving License Images')}
-            pictures=${values.drivingLicensePicture}
+            title=${i18n._('Passport Images')}
+            pictures=${values.passportPicture}
           />`}
-        <//>`
-      }
-
-      ${
-        values?.attachments?.length > 0 &&
-        html`
-          <${FormGroup}>
-            ${values.attachments.map(
-              (attachment) => html`
-                <${AttachmentField}
-                  label=${i18n._('File')}
-                  attachment=${attachment}
-                />
-              `
-            )}
+        <//>
+      `}
+      ${hasIdCard &&
+      html`
+        <${FormGroup} title=${i18n._('Identity Card')} isCollapse>
+          <div>
+            ${hasIdCardNumber &&
+            html`
+              <${InputField}
+                label=${i18n._('ID card number')}
+                placeholder="123456789"
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('idCardNumber')}
+              />
+            `}
+            ${hasIdCardDateOfIssue &&
+            html`
+              <${InputField}
+                label=${i18n._('Creation date')}
+                placeholder="DD.MM.YYYY"
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('idCardDateOfIssue')}
+              />
+            `}
+            ${hasIdCardExpiryDate &&
+            html`
+              <${InputField}
+                label=${i18n._('Expiry date')}
+                placeholder="DD.MM.YYYY"
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('idCardExpiryDate')}
+              />
+            `}
+            ${hasIdCardIssuingCountry &&
+            html`
+              <${InputField}
+                label=${i18n._('Issuing country')}
+                placeholder=${i18n._('Insert country')}
+                variant="outline"
+                onClick=${handleCopy}
+                isDisabled
+                ...${register('idCardIssuingCountry')}
+              />
+            `}
           <//>
-        `
-      }
-      
-      ${
-        hasNote &&
-        html`
-          <${FormGroup}>
-            <${InputFieldNote}
+          ${hasIdCardPicture &&
+          html` <${ImagesField}
+            title=${i18n._('Identity Card Images')}
+            pictures=${values.idCardPicture}
+          />`}
+        <//>
+      `}
+      ${hasDrivingLicense &&
+      html` <${FormGroup} title=${i18n._('Driving license')} isCollapse>
+        <div>
+          ${hasDrivingLicenseNumber &&
+          html`
+            <${InputField}
+              label=${i18n._('Driving license number')}
+              placeholder="123456789"
+              variant="outline"
               onClick=${handleCopy}
               isDisabled
-              ...${register('note')}
+              ...${register('drivingLicenseNumber')}
             />
-          <//>
-        `
-      }
-      ${
-        hasCustomFields &&
-        html`
-          <${FormGroup}>
-            <${CustomFields}
-              areInputsDisabled=${true}
-              customFields=${list}
+          `}
+          ${hasDrivingLicenseDateOfIssue &&
+          html`
+            <${InputField}
+              label=${i18n._('Creation date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
               onClick=${handleCopy}
-              register=${registerItem}
+              isDisabled
+              ...${register('drivingLicenseDateOfIssue')}
             />
-          <//>
-        `
-      }
-    </${FormWrapper}>
+          `}
+          ${hasDrivingLicenseExpiryDate &&
+          html`
+            <${InputField}
+              label=${i18n._('Expiry date')}
+              placeholder="DD.MM.YYYY"
+              variant="outline"
+              onClick=${handleCopy}
+              isDisabled
+              ...${register('drivingLicenseExpiryDate')}
+            />
+          `}
+          ${hasDrivingLicenseIssuingCountry &&
+          html`
+            <${InputField}
+              label=${i18n._('Issuing country')}
+              placeholder=${i18n._('Insert country')}
+              variant="outline"
+              onClick=${handleCopy}
+              isDisabled
+              ...${register('drivingLicenseIssuingCountry')}
+            />
+          `}
+        <//>
+        ${hasDrivingLicensePicture &&
+        html` <${ImagesField}
+          title=${i18n._('Driving License Images')}
+          pictures=${values.drivingLicensePicture}
+        />`}
+      <//>`}
+      ${values?.attachments?.length > 0 &&
+      html`
+        <${FormGroup}>
+          ${values.attachments.map(
+            (attachment) => html`
+              <${AttachmentField}
+                label=${i18n._('File')}
+                attachment=${attachment}
+              />
+            `
+          )}
+        <//>
+      `}
+      ${hasNote &&
+      html`
+        <${FormGroup}>
+          <${InputFieldNote}
+            onClick=${handleCopy}
+            isDisabled
+            ...${register('note')}
+          />
+        <//>
+      `}
+      ${hasCustomFields &&
+      html`
+        <${FormGroup}>
+          <${CustomFields}
+            areInputsDisabled=${true}
+            customFields=${list}
+            onClick=${handleCopy}
+            register=${registerItem}
+          />
+        <//>
+      `}
+    <//>
   `
 }
