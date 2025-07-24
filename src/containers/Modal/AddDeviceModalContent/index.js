@@ -78,7 +78,7 @@ export const AddDeviceModalContent = () => {
       setIsProtected(result)
     }
     checkProtection()
-  }, [vaultData])
+  }, [vaultData?.id])
 
   if (isProtected) {
     return html`<${VaultPasswordFormModalContent}
