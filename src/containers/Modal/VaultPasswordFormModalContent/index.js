@@ -88,7 +88,7 @@ export const VaultPasswordFormModalContent = ({ vault, onSubmit }) => {
     <${UnlockVaultContainer} onSubmit=${handleSubmit(submit)}>
       <${PearPassPasswordField} ...${register('password')} />
 
-      <${ButtonPrimary} type="submit"> ${i18n._('Unlock Vault')} </>
+      <${ButtonPrimary} type="submit"> ${i18n._('Unlock Vault')} <//>
     <//>
-<//>`
+  <//>`
 }

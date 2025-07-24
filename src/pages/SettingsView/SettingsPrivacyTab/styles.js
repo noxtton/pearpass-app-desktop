@@ -51,3 +51,15 @@ export const InfoCardText = styled.div`
   text-overflow: ellipsis;
   cursor: pointer;
 `
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  gap: 15px;
+`
+
+export const InputWrapper = styled.div`
+  margin-top: 10px;
+  width: 100%;
+`

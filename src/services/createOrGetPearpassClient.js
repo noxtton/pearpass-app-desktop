@@ -10,6 +10,11 @@ let pearpassClient = null
  */
 export function createOrGetPearpassClient(ipc, storagePath, opts = {}) {
   if (!pearpassClient) {
+    if (!ipc || !storagePath) {
+      throw new Error(
+        'createOrGetPearpassClient: ipc and storagePath are required for initial client creation'
+      )
+    }
     pearpassClient = new PearpassVaultClient(ipc, storagePath, opts)
   }
 
