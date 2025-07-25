@@ -3,16 +3,16 @@
 exports[`InitialPageWrapper renders children correctly 1`] = `
 <div>
   <div
-    class="sc-blHHSb blkfke"
+    class="sc-bRKDuR eWHLXn"
   >
     <div
-      class="sc-dntaoT fEWEwP"
+      class="sc-dTvVRJ jSytzd"
     />
     <div
-      class="sc-egkSDF jRiHMR"
+      class="sc-fhHczv iLwcTe"
     >
       <div
-        class="sc-gtLWhw eiPIRD"
+        class="sc-hvigdm bMHvP"
       >
         <svg
           fill="none"
@@ -164,7 +164,7 @@ exports[`InitialPageWrapper renders children correctly 1`] = `
         </svg>
       </div>
       <div
-        class="sc-fAUdSK kSNweU"
+        class="sc-ggWZvA csWuq"
       >
          
         <div
@@ -182,16 +182,16 @@ exports[`InitialPageWrapper renders children correctly 1`] = `
 exports[`InitialPageWrapper renders without children 1`] = `
 <div>
   <div
-    class="sc-blHHSb blkfke"
+    class="sc-bRKDuR eWHLXn"
   >
     <div
-      class="sc-dntaoT fEWEwP"
+      class="sc-dTvVRJ jSytzd"
     />
     <div
-      class="sc-egkSDF jRiHMR"
+      class="sc-fhHczv iLwcTe"
     >
       <div
-        class="sc-gtLWhw eiPIRD"
+        class="sc-hvigdm bMHvP"
       >
         <svg
           fill="none"
@@ -343,7 +343,7 @@ exports[`InitialPageWrapper renders without children 1`] = `
         </svg>
       </div>
       <div
-        class="sc-fAUdSK kSNweU"
+        class="sc-ggWZvA csWuq"
       >
          
          

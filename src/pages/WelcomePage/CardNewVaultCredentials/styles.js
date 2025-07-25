@@ -29,7 +29,23 @@ export const InputsContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 20px;
+`
+
+export const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 10px;
+  width: 100%;
+`
+
+export const Label = styled.label`
+  color: ${({ theme }) => theme.colors.white.mode1};
+  font-family: 'Inter';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 `
 
 export const ButtonWrapper = styled.div`

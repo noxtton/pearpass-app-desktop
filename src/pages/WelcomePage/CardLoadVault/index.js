@@ -4,7 +4,10 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
+import {
+  ArrowLeftIcon,
+  ButtonRoundIcon
+} from 'pearpass-lib-ui-react-components'
 import { usePair, useVault } from 'pearpass-lib-vault'
 
 import { Header, LoadVaultCard, LoadVaultInput, LoadVaultTitle } from './styles'
@@ -29,9 +32,9 @@ export const CardLoadVault = () => {
     setInviteCodeId(e.target.value)
   }
 
-  const handleLoadVault = async () => {
+  const handleLoadVault = async (code) => {
     try {
-      const vaultId = await pair(inviteCode)
+      const vaultId = await pair(code)
 
       if (!vaultId) {
         throw new Error('Vault ID is empty')
@@ -58,7 +61,7 @@ export const CardLoadVault = () => {
 
   return html` <${LoadVaultCard} isLoading=${isPairing}>
     <${Header}>
-      <${ButtonLittle}
+      <${ButtonRoundIcon}
         onClick=${handleGoBack}
         variant="secondary"
         startIcon=${ArrowLeftIcon}
@@ -71,14 +74,20 @@ export const CardLoadVault = () => {
       placeholder=${i18n._('Insert your code vault...')}
       value=${inviteCode}
       onChange=${handleChange}
-      onPaste=${() => {
-        setTimeout(() => {
-          if (!isPairing) handleLoadVault()
-        }, 0)
+      onPaste=${(e) => {
+        const pastedText = e.clipboardData?.getData('text')
+        if (pastedText) {
+          setInviteCodeId(pastedText)
+          setTimeout(() => {
+            if (!isPairing) {
+              handleLoadVault(pastedText)
+            }
+          }, 0)
+        }
       }}
       onKeyPress=${(e) => {
         if (e.key === 'Enter' && !isPairing) {
-          handleLoadVault()
+          handleLoadVault(inviteCode)
         }
       }}
     />

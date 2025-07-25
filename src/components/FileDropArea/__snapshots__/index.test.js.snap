@@ -4,17 +4,17 @@ exports[`FileDropArea component renders the label correctly 1`] = `
 <div>
    
   <div
-    class="sc-blHHSb jqJtQO"
+    class="sc-bRKDuR keAACD"
   >
     <div
-      class="sc-gtLWhw ftFGAv"
+      class="sc-hvigdm dFnAyz"
     >
        
       Drop files here
        
     </div>
     <input
-      class="sc-egkSDF iWqaxO"
+      class="sc-fhHczv yvQzB"
       type="file"
     />
   </div>

@@ -2,12 +2,7 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ArrowLeftIcon,
-  BackIcon,
-  ButtonLittle,
-  ButtonRoundIcon
-} from 'pearpass-lib-ui-react-components'
+import { BackIcon, ButtonRoundIcon } from 'pearpass-lib-ui-react-components'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'

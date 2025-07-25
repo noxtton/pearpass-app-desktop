@@ -3,7 +3,7 @@
 exports[`MenuDropdownLabel renders ArrowDownIcon when closed 1`] = `
 <div>
   <div
-    class="sc-blHHSb cQMECR"
+    class="sc-bRKDuR Xskjc"
   >
     <div
       data-testid="arrow-down-icon"

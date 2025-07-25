@@ -3,10 +3,10 @@
 exports[`CreateNewCategoryPopupContent renders menu items correctly 1`] = `
 <div>
   <div
-    class="sc-blHHSb juTXsB"
+    class="sc-bRKDuR cNurts"
   >
     <div
-      class="sc-gtLWhw mbFJJ"
+      class="sc-hvigdm gwoevN"
       color="#6E9700"
     >
       <svg
@@ -24,7 +24,7 @@ exports[`CreateNewCategoryPopupContent renders menu items correctly 1`] = `
       Note
     </div>
     <div
-      class="sc-gtLWhw kvnGpd"
+      class="sc-hvigdm ddfABV"
     >
       Email
     </div>

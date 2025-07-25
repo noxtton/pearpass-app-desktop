@@ -3,7 +3,7 @@
 exports[`SelectLabel Component renders ArrowDownIcon when isOpen is false 1`] = `
 <div>
   <div
-    class="sc-jSSkKI doMElq"
+    class="sc-bjMIFn czFuOH"
   >
     <span>
        
@@ -13,15 +13,13 @@ exports[`SelectLabel Component renders ArrowDownIcon when isOpen is false 1`] = 
     <svg
       fill="none"
       height="24"
-      viewBox="0 0 15 15"
+      viewBox="0 0 25 25"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M0.76416 4.10742L6.91416 10.2574C6.95905 10.3053 7.01327 10.3434 7.07347 10.3694C7.13366 10.3955 7.19856 10.4089 7.26416 10.4089C7.32976 10.4089 7.39466 10.3955 7.45485 10.3694C7.51505 10.3434 7.56927 10.3053 7.61416 10.2574L13.7642 4.10742"
-        stroke="#F6F6F6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        d="M3.19236 8.1636L4.25586 7.1001L12.5001 15.3443L20.7444 7.1001L21.8079 8.1636L12.5001 17.4713L3.19236 8.1636Z"
+        fill="#F6F6F6"
       />
     </svg>
   </div>
@@ -31,7 +29,7 @@ exports[`SelectLabel Component renders ArrowDownIcon when isOpen is false 1`] = 
 exports[`SelectLabel Component renders ArrowUpIcon when isOpen is true 1`] = `
 <div>
   <div
-    class="sc-jSSkKI doMElq"
+    class="sc-bjMIFn czFuOH"
   >
     <span>
        
@@ -41,15 +39,13 @@ exports[`SelectLabel Component renders ArrowUpIcon when isOpen is true 1`] = `
     <svg
       fill="none"
       height="24"
-      viewBox="0 0 15 15"
+      viewBox="0 0 25 25"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M13.7642 10.4092L7.61416 4.25918C7.56927 4.21135 7.51505 4.17323 7.45486 4.14717C7.39466 4.12111 7.32976 4.10766 7.26416 4.10766C7.19856 4.10766 7.13366 4.12111 7.07347 4.14717C7.01327 4.17323 6.95905 4.21135 6.91416 4.25918L0.76416 10.4092"
-        stroke="#F6F6F6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        d="M3.17234 16.3761L12.4801 7.06836L21.7878 16.3761L20.7243 17.4396L12.4801 9.19536L4.23584 17.4396L3.17234 16.3761Z"
+        fill="#F6F6F6"
       />
     </svg>
   </div>
@@ -59,7 +55,7 @@ exports[`SelectLabel Component renders ArrowUpIcon when isOpen is true 1`] = `
 exports[`SelectLabel Component renders correctly with placeholder when no selected item 1`] = `
 <div>
   <div
-    class="sc-jSSkKI doMElq"
+    class="sc-bjMIFn czFuOH"
   >
     <span>
        
@@ -69,15 +65,13 @@ exports[`SelectLabel Component renders correctly with placeholder when no select
     <svg
       fill="none"
       height="24"
-      viewBox="0 0 15 15"
+      viewBox="0 0 25 25"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M0.76416 4.10742L6.91416 10.2574C6.95905 10.3053 7.01327 10.3434 7.07347 10.3694C7.13366 10.3955 7.19856 10.4089 7.26416 10.4089C7.32976 10.4089 7.39466 10.3955 7.45485 10.3694C7.51505 10.3434 7.56927 10.3053 7.61416 10.2574L13.7642 4.10742"
-        stroke="#F6F6F6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        d="M3.19236 8.1636L4.25586 7.1001L12.5001 15.3443L20.7444 7.1001L21.8079 8.1636L12.5001 17.4713L3.19236 8.1636Z"
+        fill="#F6F6F6"
       />
     </svg>
   </div>
@@ -87,7 +81,7 @@ exports[`SelectLabel Component renders correctly with placeholder when no select
 exports[`SelectLabel Component renders correctly with selected item 1`] = `
 <div>
   <div
-    class="sc-jSSkKI doMElq"
+    class="sc-bjMIFn czFuOH"
   >
     <span>
        
@@ -97,15 +91,13 @@ exports[`SelectLabel Component renders correctly with selected item 1`] = `
     <svg
       fill="none"
       height="24"
-      viewBox="0 0 15 15"
+      viewBox="0 0 25 25"
       width="24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M0.76416 4.10742L6.91416 10.2574C6.95905 10.3053 7.01327 10.3434 7.07347 10.3694C7.13366 10.3955 7.19856 10.4089 7.26416 10.4089C7.32976 10.4089 7.39466 10.3955 7.45485 10.3694C7.51505 10.3434 7.56927 10.3053 7.61416 10.2574L13.7642 4.10742"
-        stroke="#F6F6F6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        d="M3.19236 8.1636L4.25586 7.1001L12.5001 15.3443L20.7444 7.1001L21.8079 8.1636L12.5001 17.4713L3.19236 8.1636Z"
+        fill="#F6F6F6"
       />
     </svg>
   </div>

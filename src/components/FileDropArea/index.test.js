@@ -28,8 +28,8 @@ describe('FileDropArea component', () => {
   })
 
   test('triggers file input click when area is clicked', () => {
-    const { container } = renderComponent()
-    const dropArea = container.querySelector('.sc-blHHSb')
+    const { getByText, container } = renderComponent()
+    const dropArea = getByText(testLabel)
     const fileInput = container.querySelector('input[type="file"]')
 
     const mockClick = jest.spyOn(fileInput, 'click')
@@ -54,8 +54,8 @@ describe('FileDropArea component', () => {
   })
 
   test('handles file drop correctly', () => {
-    const { container } = renderComponent()
-    const dropArea = container.querySelector('.sc-blHHSb')
+    const { getByText } = renderComponent()
+    const dropArea = getByText(testLabel)
 
     const testFiles = [
       new File(['test content'], 'test.txt', { type: 'text/plain' })
