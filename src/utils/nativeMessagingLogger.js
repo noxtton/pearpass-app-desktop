@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import { logger } from './logger'
+import { logger } from './logger.js'
 
 /**
  * Get the project root directory by looking for package.json
