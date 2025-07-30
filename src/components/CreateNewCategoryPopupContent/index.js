@@ -30,6 +30,7 @@ export const CreateNewCategoryPopupContent = ({ menuItems, onClick }) => {
           ${Icon &&
           html`<${Icon}
             size="24"
+            fill=${true}
             color=${RECORD_COLOR_BY_TYPE?.[item.type]}
           />`}
           ${item.name}

@@ -12,7 +12,6 @@ export const BlurredBackground = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  scale: 1.2;
   inset: 0;
   border-radius: 50%;
   opacity: 0.2;

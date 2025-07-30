@@ -18,7 +18,7 @@ export const InfoContainer = styled.div`
 export const Header = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Humble Nostalgia';
-  font-size: 64px;
+  font-size: 5.3vw;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -27,7 +27,7 @@ export const Header = styled.span`
 export const DescriptionText = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
-  font-size: 32px;
+  font-size: 2.6vw;
   font-style: normal;
   font-weight: 200;
   line-height: normal;
@@ -35,7 +35,7 @@ export const DescriptionText = styled.span`
 `
 
 export const ImageContainer = styled.div`
-  width: 100%;
+  width: 40vw;
   max-width: 500px;
   display: flex;
   justify-content: center;

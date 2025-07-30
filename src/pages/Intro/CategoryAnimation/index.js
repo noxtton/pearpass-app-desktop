@@ -6,11 +6,11 @@ import { html } from 'htm/react'
 
 RuntimeLoader.setWasmUrl('assets/rive/rive.wasm')
 
-export const PasswordFillAnimation = () => {
+export const CategoryAnimation = () => {
   const { RiveComponent, rive } = useRive({
-    src: 'assets/animations/pearpass_password.riv',
+    src: 'assets/animations/category_.riv',
     autoplay: false,
-    animations: ['Timeline 1', 'Timeline 2']
+    animations: ['Timeline 1']
   })
 
   useEffect(() => {

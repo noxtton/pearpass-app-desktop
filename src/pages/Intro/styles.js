@@ -8,11 +8,12 @@ export const BlackBackground = styled.div`
   gap: 20px;
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.colors.black.mode1};
+  background-color: ${({ theme, pageIndex }) =>
+    pageIndex === 0 || pageIndex === 5 ? '#010702' : theme.colors.black.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
   padding: 40px 50px;
-  background-image: ${({ hasImageBackground }) =>
-    hasImageBackground ? 'url(assets/images/pearBackground.png)' : 'none'};
+  /* background-image: ${({ hasImageBackground }) =>
+    hasImageBackground ? 'url(assets/images/pearBackground.png)' : 'none'}; */
 `
 
 export const GradientBackground = styled.div`
@@ -29,29 +30,44 @@ export const LogoContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 366px;
+  width: 20vw;
+  z-index: 1;
   scale: ${({ size }) => (size === 'md' ? 1 : 0.6)};
 `
 
 export const WelcomeText = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Humble Nostalgia';
-  font-size: 48px;
+  font-size: 4vw;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `
 
-export const ButtonContainer = styled.div`
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
+
+export const ButtonContainer = styled.div.attrs(({ className }) => ({
+  className
+}))`
   flex: 0 0 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  opacity: 0;
 
-  opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transition: opacity 0.8s ease-in;
+  &.fade-in {
+    animation: ${fadeIn} 2.5s forwards;
+    animation-delay: 2.5s;
+  }
 `
 
 export const ContentContainer = styled.div`
@@ -60,6 +76,7 @@ export const ContentContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 30%;
 `
 
 export const StrongText = styled.span`
@@ -97,6 +114,8 @@ export const LastPageDescription = styled.span`
 `
 
 export const Video = styled.video`
-  width: 40%;
+  width: 30vw;
+  max-width: 100%;
+  height: auto;
   object-fit: cover;
 `

@@ -106,7 +106,11 @@ export const RecordDetails = () => {
             onClick=${() =>
               updateFavoriteState([record?.id], !record?.isFavorite)}
           >
-            <${StarIcon} size="24" color=${colors.primary400.mode1} />
+            <${StarIcon}
+              size="24"
+              fill=${record?.isFavorite}
+              color=${colors.primary400.mode1}
+            />
           <//>
 
           <${ButtonLittle} startIcon=${BrushIcon} onClick=${handleEdit}>

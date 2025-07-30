@@ -5,6 +5,7 @@ import { html } from 'htm/react'
 import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 
 import { AddDevice } from './AddDevice'
+import { CategoryAnimation } from './CategoryAnimation'
 import { PasswordFillAnimation } from './PasswordFillAnimation'
 import {
   BlackBackground,
@@ -13,7 +14,6 @@ import {
   LastPageContentContainer,
   LastPageDescription,
   LogoContainer,
-  pear3dLockImage,
   StrongText,
   Video,
   WelcomeText
@@ -22,13 +22,6 @@ import { TutorialContainer } from './TutorialContainer'
 import { WelcomeToPearpass } from './WelcomeToPearpass'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
-
-const playClickSound = () => {
-  const audio = new Audio('assets/audio/Lock.mp3')
-  audio.play().catch((err) => {
-    console.warn('Click sound failed:', err)
-  })
-}
 
 export const Intro = () => {
   const { i18n } = useLingui()
@@ -41,14 +34,13 @@ export const Intro = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLockLocked(true)
-      playClickSound()
-    }, 1000)
+    }, 1500)
 
     return () => clearTimeout(timer)
   }, [])
 
   const handleNextPage = () => {
-    if (pageIndex >= 6) {
+    if (pageIndex >= 5) {
       navigate('welcome', {
         state: 'createMasterPassword'
       })
@@ -61,28 +53,28 @@ export const Intro = () => {
     switch (pageIndex) {
       case 0:
         return html` <${WelcomeToPearpass} isLockLocked=${isLockLocked} /> `
+      // case 1:
+      //   return html`
+      //     <${TutorialContainer}
+      //       header=${i18n._('Your passwords. Your rules.')}
+      //       description=${[
+      //         i18n._('PearPass is the first truly local,'),
+      //         html`<${StrongText}
+      //           >${i18n._('peer-to-peer password manager.')}<//
+      //         >`,
+      //         i18n._(' Your data'),
+      //         html`<${StrongText}>${i18n._('never touches a server')}<//>`,
+      //         i18n._('it lives with you, syncs between your devices, and'),
+      //         html`<${StrongText}
+      //           >${i18n._('stays entirely in your control.')}<//
+      //         >`
+      //       ]}
+      //       content=${html`<${pear3dLockImage}
+      //         src="assets/images/BigLock3d.png"
+      //       />`}
+      //     />
+      //   `
       case 1:
-        return html`
-          <${TutorialContainer}
-            header=${i18n._('Your passwords. Your rules.')}
-            description=${[
-              i18n._('PearPass is the first truly local,'),
-              html`<${StrongText}
-                >${i18n._('peer-to-peer password manager.')}<//
-              >`,
-              i18n._(' Your data'),
-              html`<${StrongText}>${i18n._('never touches a server')}<//>`,
-              i18n._('it lives with you, syncs between your devices, and'),
-              html`<${StrongText}
-                >${i18n._('stays entirely in your control.')}<//
-              >`
-            ]}
-            content=${html`<${pear3dLockImage}
-              src="assets/images/BigLock3d.png"
-            />`}
-          />
-        `
-      case 2:
         return html`
           <${TutorialContainer}
             header=${i18n._('You hold the keys')}
@@ -100,7 +92,7 @@ export const Intro = () => {
             content=${html`<${PasswordFillAnimation} />`}
           />
         `
-      case 3:
+      case 2:
         return html`
           <${TutorialContainer}
             header=${i18n._('Store more than passwords')}
@@ -115,10 +107,10 @@ export const Intro = () => {
                 >${i18n._('Grouped how you like. Accessible only to you.')}<//
               >`
             ]}
-            content=${html`<img src="assets/images/CreateNewCategory.png" />`}
+            content=${html`<${CategoryAnimation} />`}
           />
         `
-      case 4:
+      case 3:
         return html`
           <${TutorialContainer}
             header=${i18n._('All in one encrypted place.')}
@@ -130,7 +122,7 @@ export const Intro = () => {
           />
         `
 
-      case 5:
+      case 4:
         return html`
           <${TutorialContainer}
             header=${i18n._('Sync, without the Cloud')}
@@ -144,16 +136,10 @@ export const Intro = () => {
           />
         `
 
-      case 6:
+      case 5:
         return html`
           <${LastPageContentContainer}>
-            <${Video}
-              src="assets/video/LockClosing.mov"
-              autoPlay
-              muted
-              playsInline
-              loop
-            />
+            <${Video} src="assets/video/lock_close_3s.mp4" autoPlay />
             <${LastPageDescription}
               >${i18n._(
                 'Start protecting your passwords the peer-to-peer way.'
@@ -168,10 +154,10 @@ export const Intro = () => {
   }
 
   const isFirstPage = pageIndex === 0
-  const isLastPage = pageIndex === 6
+  const isLastPage = pageIndex === 5
 
   return html`
-    <${BlackBackground} hasImageBackground=${isLastPage}>
+    <${BlackBackground} pageIndex=${pageIndex} hasImageBackground=${isLastPage}>
       <${LogoContainer} size=${isFirstPage || isLastPage ? 'md' : 'sm'}>
         <${WelcomeText}>Welcome to<//>
         <${LogoLock} width="100%" height="100" />
@@ -179,8 +165,8 @@ export const Intro = () => {
 
       <${ContentContainer}> ${renderPageContent()} <//>
 
-      <${ButtonContainer} visible=${isLockLocked}>
-        <${ButtonSecondary} onClick=${handleNextPage}>
+      <${ButtonContainer} className=${isLockLocked ? 'fade-in' : ''}>
+        <${ButtonSecondary} disabled=${!isLockLocked} onClick=${handleNextPage}>
           ${isFirstPage ? i18n._('Get started') : i18n._('Continue')}
         <//>
       <//>
