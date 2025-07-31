@@ -53,27 +53,6 @@ export const Intro = () => {
     switch (pageIndex) {
       case 0:
         return html` <${WelcomeToPearpass} isLockLocked=${isLockLocked} /> `
-      // case 1:
-      //   return html`
-      //     <${TutorialContainer}
-      //       header=${i18n._('Your passwords. Your rules.')}
-      //       description=${[
-      //         i18n._('PearPass is the first truly local,'),
-      //         html`<${StrongText}
-      //           >${i18n._('peer-to-peer password manager.')}<//
-      //         >`,
-      //         i18n._(' Your data'),
-      //         html`<${StrongText}>${i18n._('never touches a server')}<//>`,
-      //         i18n._('it lives with you, syncs between your devices, and'),
-      //         html`<${StrongText}
-      //           >${i18n._('stays entirely in your control.')}<//
-      //         >`
-      //       ]}
-      //       content=${html`<${pear3dLockImage}
-      //         src="assets/images/BigLock3d.png"
-      //       />`}
-      //     />
-      //   `
       case 1:
         return html`
           <${TutorialContainer}
