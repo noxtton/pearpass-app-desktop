@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
@@ -61,8 +61,8 @@
     "pearpass-lib-data-import": "github:noxtton/pearpass-lib-data-import#v0.0.5",
     "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.62",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.10",
-    "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.60",
-    "pearpass-lib-vault-mobile": "github:noxtton/pearpass-lib-vault-mobile#v0.0.53",
+    "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.62",
+    "pearpass-lib-vault-mobile": "github:noxtton/pearpass-lib-vault-mobile#v0.0.54",
     "pearpass-utils-password-check": "github:noxtton/pearpass-utils-password-check#v0.0.9",
     "pearpass-utils-password-generator": "github:noxtton/pearpass-utils-password-generator#v0.0.7",
     "react": "19.1.0",

@@ -24,7 +24,7 @@ export const LoadVaultModalContent = () => {
     shouldSkip: true
   })
 
-  const { pair, isLoading: isPairing } = usePair()
+  const { pairActiveVault, isLoading: isPairing } = usePair()
 
   const handleChange = (e) => {
     setInviteCodeId(e.target.value)
@@ -32,7 +32,7 @@ export const LoadVaultModalContent = () => {
 
   const handleLoadVault = async () => {
     try {
-      const vaultId = await pair(inviteCode)
+      const vaultId = await pairActiveVault(inviteCode)
 
       if (!vaultId) {
         throw new Error('Vault ID is empty')
