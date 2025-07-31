@@ -1,18 +1,18 @@
-import { EventEmitter } from 'events'
-import fs from 'fs'
-import path from 'path'
+const { EventEmitter } = require('events')
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
 
-import {
+const {
   wrapMessage,
   unwrapMessage,
   isWrappedMessage
-} from './nativeMessagingProtocol.js'
-import { logger } from '../utils/logger.js'
+} = require('./nativeMessagingProtocol.js')
 
 const log = (level, message) => {
   try {
     const logFile = path.join(
-      process.cwd(),
+      os.tmpdir(),
       'logs',
       'native-messaging-handler.log'
     )
@@ -20,7 +20,7 @@ const log = (level, message) => {
     const logMsg = `${timestamp} [${level}] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
   } catch {
-    logger.error(message)
+    // Ignore logging errors
   }
 }
 
@@ -32,7 +32,7 @@ const HEADER_SIZE = 4
  * Native Messaging Handler - handles Chrome native messaging protocol
  * Includes robust parsing to handle Chrome's length header bugs
  */
-export class NativeMessagingHandler extends EventEmitter {
+class NativeMessagingHandler extends EventEmitter {
   constructor() {
     super()
     this.inputBuffer = Buffer.alloc(0)
@@ -286,3 +286,5 @@ export class NativeMessagingHandler extends EventEmitter {
     log('INFO', 'Native messaging handler stopped')
   }
 }
+
+module.exports = { NativeMessagingHandler }

@@ -2,15 +2,14 @@
 
 // Native messaging host - bridges browser extension to PearPass desktop app via IPC
 
-import IPC from 'pear-ipc'
+const IPC = require('pear-ipc')
 
-import { NativeMessagingHandler } from '../nativeMessaging/nativeMessagingHandler.js'
-import { getIpcPath } from '../services/nativeMessagingIPCServer.js'
-import {
+const { NativeMessagingHandler } = require('./nativeMessagingHandler.js')
+const { getIpcPath, log } = require('./utils.js')
+const {
   COMMAND_DEFINITIONS,
   isValidCommand
-} from '../shared/commandDefinitions.js'
-import { log } from '../utils/nativeMessagingLogger.js'
+} = require('./commandDefinitions.js')
 
 // Desktop app status constants
 const DESKTOP_APP_STATUS = Object.freeze({

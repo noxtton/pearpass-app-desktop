@@ -1,9 +1,9 @@
-import { EventEmitter } from 'events'
-import fs from 'fs'
+const { EventEmitter } = require('events')
+const fs = require('fs')
 
-import { NativeMessagingHandler } from './nativeMessagingHandler.js'
-import { wrapMessage } from './nativeMessagingProtocol.js'
-import { logger } from '../utils/logger.js'
+const { NativeMessagingHandler } = require('./nativeMessagingHandler.cjs')
+const { wrapMessage } = require('./nativeMessagingProtocol.js')
+const { logger } = require('../utils/logger.js')
 
 jest.mock('fs')
 jest.mock('../utils/logger.js', () => ({

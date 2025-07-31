@@ -1,0 +1,1089 @@
+{
+  "version": "1.0.0",
+  "files": [
+    {
+      "path": "commandDefinitions.js",
+      "size": 1563
+    },
+    {
+      "path": "index.js",
+      "size": 12679
+    },
+    {
+      "path": "nativeMessagingHandler.js",
+      "size": 7647
+    },
+    {
+      "path": "nativeMessagingProtocol.js",
+      "size": 958
+    },
+    {
+      "path": "node_modules/.package-lock.json",
+      "size": 9738
+    },
+    {
+      "path": "node_modules/b4a/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/b4a/README.md",
+      "size": 4247
+    },
+    {
+      "path": "node_modules/b4a/browser.js",
+      "size": 13773
+    },
+    {
+      "path": "node_modules/b4a/index.js",
+      "size": 4092
+    },
+    {
+      "path": "node_modules/b4a/lib/ascii.js",
+      "size": 532
+    },
+    {
+      "path": "node_modules/b4a/lib/base64.js",
+      "size": 1555
+    },
+    {
+      "path": "node_modules/b4a/lib/hex.js",
+      "size": 1129
+    },
+    {
+      "path": "node_modules/b4a/lib/utf16le.js",
+      "size": 732
+    },
+    {
+      "path": "node_modules/b4a/lib/utf8.js",
+      "size": 2919
+    },
+    {
+      "path": "node_modules/b4a/package.json",
+      "size": 701
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/README.md",
+      "size": 5194
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/index.d.ts",
+      "size": 2159
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/index.js",
+      "size": 10801
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/lib/errors.d.ts",
+      "size": 230
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/lib/errors.js",
+      "size": 642
+    },
+    {
+      "path": "node_modules/bare-addon-resolve/package.json",
+      "size": 1175
+    },
+    {
+      "path": "node_modules/bare-events/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-events/README.md",
+      "size": 280
+    },
+    {
+      "path": "node_modules/bare-events/index.d.ts",
+      "size": 2487
+    },
+    {
+      "path": "node_modules/bare-events/index.js",
+      "size": 7322
+    },
+    {
+      "path": "node_modules/bare-events/lib/errors.js",
+      "size": 711
+    },
+    {
+      "path": "node_modules/bare-events/package.json",
+      "size": 944
+    },
+    {
+      "path": "node_modules/bare-fs/CMakeLists.txt",
+      "size": 204
+    },
+    {
+      "path": "node_modules/bare-fs/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-fs/README.md",
+      "size": 1203
+    },
+    {
+      "path": "node_modules/bare-fs/binding.c",
+      "size": 60623
+    },
+    {
+      "path": "node_modules/bare-fs/binding.js",
+      "size": 33
+    },
+    {
+      "path": "node_modules/bare-fs/index.d.ts",
+      "size": 21820
+    },
+    {
+      "path": "node_modules/bare-fs/index.js",
+      "size": 59826
+    },
+    {
+      "path": "node_modules/bare-fs/lib/constants.d.ts",
+      "size": 880
+    },
+    {
+      "path": "node_modules/bare-fs/lib/constants.js",
+      "size": 1494
+    },
+    {
+      "path": "node_modules/bare-fs/package.json",
+      "size": 1451
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/android-arm/bare-fs.bare",
+      "size": 38228
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/android-arm64/bare-fs.bare",
+      "size": 46816
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/android-ia32/bare-fs.bare",
+      "size": 56080
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/android-x64/bare-fs.bare",
+      "size": 45360
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/darwin-arm64/bare-fs.bare",
+      "size": 73568
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/darwin-x64/bare-fs.bare",
+      "size": 48288
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/ios-arm64/bare-fs.bare",
+      "size": 89240
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/ios-arm64-simulator/bare-fs.bare",
+      "size": 73504
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/ios-x64-simulator/bare-fs.bare",
+      "size": 48224
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/linux-arm64/bare-fs.bare",
+      "size": 41840
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/linux-x64/bare-fs.bare",
+      "size": 42984
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/win32-arm64/bare-fs.bare",
+      "size": 134144
+    },
+    {
+      "path": "node_modules/bare-fs/prebuilds/win32-x64/bare-fs.bare",
+      "size": 142336
+    },
+    {
+      "path": "node_modules/bare-fs/promises.d.ts",
+      "size": 6584
+    },
+    {
+      "path": "node_modules/bare-fs/promises.js",
+      "size": 39
+    },
+    {
+      "path": "node_modules/bare-module-resolve/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-module-resolve/README.md",
+      "size": 17170
+    },
+    {
+      "path": "node_modules/bare-module-resolve/index.d.ts",
+      "size": 3484
+    },
+    {
+      "path": "node_modules/bare-module-resolve/index.js",
+      "size": 21131
+    },
+    {
+      "path": "node_modules/bare-module-resolve/lib/errors.d.ts",
+      "size": 435
+    },
+    {
+      "path": "node_modules/bare-module-resolve/lib/errors.js",
+      "size": 1195
+    },
+    {
+      "path": "node_modules/bare-module-resolve/package.json",
+      "size": 1143
+    },
+    {
+      "path": "node_modules/bare-os/CMakeLists.txt",
+      "size": 204
+    },
+    {
+      "path": "node_modules/bare-os/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-os/README.md",
+      "size": 101
+    },
+    {
+      "path": "node_modules/bare-os/binding.c",
+      "size": 23105
+    },
+    {
+      "path": "node_modules/bare-os/binding.js",
+      "size": 33
+    },
+    {
+      "path": "node_modules/bare-os/index.d.ts",
+      "size": 2213
+    },
+    {
+      "path": "node_modules/bare-os/index.js",
+      "size": 2433
+    },
+    {
+      "path": "node_modules/bare-os/lib/constants.js",
+      "size": 113
+    },
+    {
+      "path": "node_modules/bare-os/lib/errors.js",
+      "size": 479
+    },
+    {
+      "path": "node_modules/bare-os/package.json",
+      "size": 1023
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/android-arm/bare-os.bare",
+      "size": 28080
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/android-arm64/bare-os.bare",
+      "size": 33136
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/android-ia32/bare-os.bare",
+      "size": 36500
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/android-x64/bare-os.bare",
+      "size": 32192
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/darwin-arm64/bare-os.bare",
+      "size": 71872
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/darwin-x64/bare-os.bare",
+      "size": 34312
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/ios-arm64/bare-os.bare",
+      "size": 87552
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/ios-arm64-simulator/bare-os.bare",
+      "size": 71824
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/ios-x64-simulator/bare-os.bare",
+      "size": 34248
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/linux-arm64/bare-os.bare",
+      "size": 30864
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/linux-x64/bare-os.bare",
+      "size": 30864
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/win32-arm64/bare-os.bare",
+      "size": 123392
+    },
+    {
+      "path": "node_modules/bare-os/prebuilds/win32-x64/bare-os.bare",
+      "size": 129024
+    },
+    {
+      "path": "node_modules/bare-path/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-path/NOTICE",
+      "size": 1174
+    },
+    {
+      "path": "node_modules/bare-path/README.md",
+      "size": 225
+    },
+    {
+      "path": "node_modules/bare-path/index.js",
+      "size": 306
+    },
+    {
+      "path": "node_modules/bare-path/lib/constants.js",
+      "size": 247
+    },
+    {
+      "path": "node_modules/bare-path/lib/posix.js",
+      "size": 5991
+    },
+    {
+      "path": "node_modules/bare-path/lib/shared.js",
+      "size": 1888
+    },
+    {
+      "path": "node_modules/bare-path/lib/win32.js",
+      "size": 13427
+    },
+    {
+      "path": "node_modules/bare-path/package.json",
+      "size": 796
+    },
+    {
+      "path": "node_modules/bare-pipe/CMakeLists.txt",
+      "size": 210
+    },
+    {
+      "path": "node_modules/bare-pipe/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-pipe/README.md",
+      "size": 210
+    },
+    {
+      "path": "node_modules/bare-pipe/binding.c",
+      "size": 18902
+    },
+    {
+      "path": "node_modules/bare-pipe/binding.js",
+      "size": 33
+    },
+    {
+      "path": "node_modules/bare-pipe/index.d.ts",
+      "size": 3105
+    },
+    {
+      "path": "node_modules/bare-pipe/index.js",
+      "size": 10662
+    },
+    {
+      "path": "node_modules/bare-pipe/lib/constants.d.ts",
+      "size": 198
+    },
+    {
+      "path": "node_modules/bare-pipe/lib/constants.js",
+      "size": 188
+    },
+    {
+      "path": "node_modules/bare-pipe/lib/errors.d.ts",
+      "size": 226
+    },
+    {
+      "path": "node_modules/bare-pipe/lib/errors.js",
+      "size": 711
+    },
+    {
+      "path": "node_modules/bare-pipe/package.json",
+      "size": 1255
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/android-arm/bare-pipe.bare",
+      "size": 16880
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/android-arm64/bare-pipe.bare",
+      "size": 20368
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/android-ia32/bare-pipe.bare",
+      "size": 19588
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/android-x64/bare-pipe.bare",
+      "size": 19376
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/darwin-arm64/bare-pipe.bare",
+      "size": 54128
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/darwin-x64/bare-pipe.bare",
+      "size": 24888
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/ios-arm64/bare-pipe.bare",
+      "size": 69928
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/ios-arm64-simulator/bare-pipe.bare",
+      "size": 54064
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/ios-x64-simulator/bare-pipe.bare",
+      "size": 24816
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/linux-arm64/bare-pipe.bare",
+      "size": 19328
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/linux-x64/bare-pipe.bare",
+      "size": 18632
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/win32-arm64/bare-pipe.bare",
+      "size": 113664
+    },
+    {
+      "path": "node_modules/bare-pipe/prebuilds/win32-x64/bare-pipe.bare",
+      "size": 119296
+    },
+    {
+      "path": "node_modules/bare-semver/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-semver/README.md",
+      "size": 200
+    },
+    {
+      "path": "node_modules/bare-semver/index.js",
+      "size": 469
+    },
+    {
+      "path": "node_modules/bare-semver/lib/comparator.js",
+      "size": 705
+    },
+    {
+      "path": "node_modules/bare-semver/lib/constants.js",
+      "size": 67
+    },
+    {
+      "path": "node_modules/bare-semver/lib/errors.js",
+      "size": 529
+    },
+    {
+      "path": "node_modules/bare-semver/lib/range.js",
+      "size": 2429
+    },
+    {
+      "path": "node_modules/bare-semver/lib/version.js",
+      "size": 3824
+    },
+    {
+      "path": "node_modules/bare-semver/package.json",
+      "size": 868
+    },
+    {
+      "path": "node_modules/bare-stream/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-stream/README.md",
+      "size": 150
+    },
+    {
+      "path": "node_modules/bare-stream/global.js",
+      "size": 358
+    },
+    {
+      "path": "node_modules/bare-stream/index.d.ts",
+      "size": 5626
+    },
+    {
+      "path": "node_modules/bare-stream/index.js",
+      "size": 7649
+    },
+    {
+      "path": "node_modules/bare-stream/package.json",
+      "size": 1237
+    },
+    {
+      "path": "node_modules/bare-stream/promises.js",
+      "size": 77
+    },
+    {
+      "path": "node_modules/bare-stream/web.js",
+      "size": 4533
+    },
+    {
+      "path": "node_modules/bare-url/CMakeLists.txt",
+      "size": 469
+    },
+    {
+      "path": "node_modules/bare-url/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/bare-url/README.md",
+      "size": 211
+    },
+    {
+      "path": "node_modules/bare-url/binding.c",
+      "size": 3839
+    },
+    {
+      "path": "node_modules/bare-url/binding.js",
+      "size": 33
+    },
+    {
+      "path": "node_modules/bare-url/global.d.ts",
+      "size": 133
+    },
+    {
+      "path": "node_modules/bare-url/global.js",
+      "size": 26
+    },
+    {
+      "path": "node_modules/bare-url/index.d.ts",
+      "size": 751
+    },
+    {
+      "path": "node_modules/bare-url/index.js",
+      "size": 7928
+    },
+    {
+      "path": "node_modules/bare-url/lib/errors.d.ts",
+      "size": 267
+    },
+    {
+      "path": "node_modules/bare-url/lib/errors.js",
+      "size": 881
+    },
+    {
+      "path": "node_modules/bare-url/package.json",
+      "size": 1104
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/android-arm/bare-url.bare",
+      "size": 46704
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/android-arm64/bare-url.bare",
+      "size": 63104
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/android-ia32/bare-url.bare",
+      "size": 68416
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/android-x64/bare-url.bare",
+      "size": 67424
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/darwin-arm64/bare-url.bare",
+      "size": 103312
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/darwin-x64/bare-url.bare",
+      "size": 73704
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/ios-arm64/bare-url.bare",
+      "size": 118760
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/ios-arm64-simulator/bare-url.bare",
+      "size": 103312
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/ios-x64-simulator/bare-url.bare",
+      "size": 73704
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/linux-arm64/bare-url.bare",
+      "size": 61720
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/linux-x64/bare-url.bare",
+      "size": 66432
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/win32-arm64/bare-url.bare",
+      "size": 161792
+    },
+    {
+      "path": "node_modules/bare-url/prebuilds/win32-x64/bare-url.bare",
+      "size": 169984
+    },
+    {
+      "path": "node_modules/compact-encoding/.github/workflows/test-node.yml",
+      "size": 494
+    },
+    {
+      "path": "node_modules/compact-encoding/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/compact-encoding/NOTICE",
+      "size": 554
+    },
+    {
+      "path": "node_modules/compact-encoding/README.md",
+      "size": 7888
+    },
+    {
+      "path": "node_modules/compact-encoding/endian.js",
+      "size": 103
+    },
+    {
+      "path": "node_modules/compact-encoding/index.js",
+      "size": 19082
+    },
+    {
+      "path": "node_modules/compact-encoding/lexint.js",
+      "size": 2824
+    },
+    {
+      "path": "node_modules/compact-encoding/package.json",
+      "size": 713
+    },
+    {
+      "path": "node_modules/compact-encoding/raw.js",
+      "size": 4118
+    },
+    {
+      "path": "node_modules/compact-encoding/test.js",
+      "size": 24607
+    },
+    {
+      "path": "node_modules/fast-fifo/LICENSE",
+      "size": 1079
+    },
+    {
+      "path": "node_modules/fast-fifo/README.md",
+      "size": 1464
+    },
+    {
+      "path": "node_modules/fast-fifo/fixed-size.js",
+      "size": 875
+    },
+    {
+      "path": "node_modules/fast-fifo/index.js",
+      "size": 972
+    },
+    {
+      "path": "node_modules/fast-fifo/package.json",
+      "size": 682
+    },
+    {
+      "path": "node_modules/framed-stream/LICENSE",
+      "size": 1069
+    },
+    {
+      "path": "node_modules/framed-stream/README.md",
+      "size": 1530
+    },
+    {
+      "path": "node_modules/framed-stream/index.js",
+      "size": 3358
+    },
+    {
+      "path": "node_modules/framed-stream/package.json",
+      "size": 720
+    },
+    {
+      "path": "node_modules/framed-stream/test.js",
+      "size": 18475
+    },
+    {
+      "path": "node_modules/fs-native-extensions/CMakeLists.txt",
+      "size": 1183
+    },
+    {
+      "path": "node_modules/fs-native-extensions/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/fs-native-extensions/README.md",
+      "size": 4004
+    },
+    {
+      "path": "node_modules/fs-native-extensions/binding.c",
+      "size": 17500
+    },
+    {
+      "path": "node_modules/fs-native-extensions/binding.js",
+      "size": 90
+    },
+    {
+      "path": "node_modules/fs-native-extensions/include/fs-ext.h",
+      "size": 4057
+    },
+    {
+      "path": "node_modules/fs-native-extensions/index.js",
+      "size": 6339
+    },
+    {
+      "path": "node_modules/fs-native-extensions/macros.h",
+      "size": 8326
+    },
+    {
+      "path": "node_modules/fs-native-extensions/package.json",
+      "size": 1609
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-arm/fs-native-extensions.bare",
+      "size": 44336
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-arm/fs-native-extensions.node",
+      "size": 35596
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-arm64/fs-native-extensions.bare",
+      "size": 55328
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-arm64/fs-native-extensions.node",
+      "size": 42392
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-ia32/fs-native-extensions.bare",
+      "size": 56212
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-ia32/fs-native-extensions.node",
+      "size": 43568
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-x64/fs-native-extensions.bare",
+      "size": 50352
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/android-x64/fs-native-extensions.node",
+      "size": 39992
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/darwin-arm64/fs-native-extensions.bare",
+      "size": 90280
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/darwin-arm64/fs-native-extensions.node",
+      "size": 73208
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/darwin-x64/fs-native-extensions.bare",
+      "size": 52584
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/darwin-x64/fs-native-extensions.node",
+      "size": 39720
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/ios-arm64/fs-native-extensions.bare",
+      "size": 105832
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/ios-arm64-simulator/fs-native-extensions.bare",
+      "size": 90280
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/ios-x64-simulator/fs-native-extensions.bare",
+      "size": 52568
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/linux-arm64/fs-native-extensions.bare",
+      "size": 54504
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/linux-arm64/fs-native-extensions.node",
+      "size": 39312
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/linux-x64/fs-native-extensions.bare",
+      "size": 50624
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/linux-x64/fs-native-extensions.node",
+      "size": 39152
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/win32-arm64/fs-native-extensions.bare",
+      "size": 142336
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/win32-arm64/fs-native-extensions.node",
+      "size": 130560
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/win32-x64/fs-native-extensions.bare",
+      "size": 147456
+    },
+    {
+      "path": "node_modules/fs-native-extensions/prebuilds/win32-x64/fs-native-extensions.node",
+      "size": 136704
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/linux.c",
+      "size": 3219
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/mac.c",
+      "size": 4238
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/platform.h",
+      "size": 1175
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/posix.c",
+      "size": 775
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/shared.c",
+      "size": 7391
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/win/nt.h",
+      "size": 7723
+    },
+    {
+      "path": "node_modules/fs-native-extensions/src/win.c",
+      "size": 9375
+    },
+    {
+      "path": "node_modules/pear-ipc/LICENSE",
+      "size": 11360
+    },
+    {
+      "path": "node_modules/pear-ipc/README.md",
+      "size": 5013
+    },
+    {
+      "path": "node_modules/pear-ipc/api.js",
+      "size": 1527
+    },
+    {
+      "path": "node_modules/pear-ipc/client.js",
+      "size": 5035
+    },
+    {
+      "path": "node_modules/pear-ipc/constants.js",
+      "size": 721
+    },
+    {
+      "path": "node_modules/pear-ipc/index.js",
+      "size": 164
+    },
+    {
+      "path": "node_modules/pear-ipc/methods.js",
+      "size": 1625
+    },
+    {
+      "path": "node_modules/pear-ipc/package.json",
+      "size": 1300
+    },
+    {
+      "path": "node_modules/pear-ipc/server.js",
+      "size": 7600
+    },
+    {
+      "path": "node_modules/ready-resource/LICENSE",
+      "size": 1079
+    },
+    {
+      "path": "node_modules/ready-resource/README.md",
+      "size": 515
+    },
+    {
+      "path": "node_modules/ready-resource/index.js",
+      "size": 1091
+    },
+    {
+      "path": "node_modules/ready-resource/package.json",
+      "size": 769
+    },
+    {
+      "path": "node_modules/require-addon/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/require-addon/README.md",
+      "size": 230
+    },
+    {
+      "path": "node_modules/require-addon/index.js",
+      "size": 262
+    },
+    {
+      "path": "node_modules/require-addon/lib/runtime/bare.js",
+      "size": 45
+    },
+    {
+      "path": "node_modules/require-addon/lib/runtime/default.js",
+      "size": 260
+    },
+    {
+      "path": "node_modules/require-addon/lib/runtime/node.js",
+      "size": 1073
+    },
+    {
+      "path": "node_modules/require-addon/lib/runtime.js",
+      "size": 130
+    },
+    {
+      "path": "node_modules/require-addon/package.json",
+      "size": 1335
+    },
+    {
+      "path": "node_modules/safety-catch/LICENSE",
+      "size": 1079
+    },
+    {
+      "path": "node_modules/safety-catch/README.md",
+      "size": 551
+    },
+    {
+      "path": "node_modules/safety-catch/example.js",
+      "size": 90
+    },
+    {
+      "path": "node_modules/safety-catch/index.js",
+      "size": 506
+    },
+    {
+      "path": "node_modules/safety-catch/package.json",
+      "size": 547
+    },
+    {
+      "path": "node_modules/streamx/LICENSE",
+      "size": 1079
+    },
+    {
+      "path": "node_modules/streamx/README.md",
+      "size": 16179
+    },
+    {
+      "path": "node_modules/streamx/index.js",
+      "size": 33340
+    },
+    {
+      "path": "node_modules/streamx/package.json",
+      "size": 912
+    },
+    {
+      "path": "node_modules/text-decoder/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/text-decoder/README.md",
+      "size": 715
+    },
+    {
+      "path": "node_modules/text-decoder/index.js",
+      "size": 1378
+    },
+    {
+      "path": "node_modules/text-decoder/lib/browser-decoder.js",
+      "size": 342
+    },
+    {
+      "path": "node_modules/text-decoder/lib/pass-through-decoder.js",
+      "size": 273
+    },
+    {
+      "path": "node_modules/text-decoder/lib/utf8-decoder.js",
+      "size": 2529
+    },
+    {
+      "path": "node_modules/text-decoder/package.json",
+      "size": 987
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/.github/workflows/test-node.yml",
+      "size": 494
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/NOTICE",
+      "size": 554
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/README.md",
+      "size": 1583
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/any.js",
+      "size": 2475
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/index.js",
+      "size": 11956
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/messages.js",
+      "size": 2160
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/package.json",
+      "size": 713
+    },
+    {
+      "path": "node_modules/tiny-buffer-rpc/test.js",
+      "size": 9455
+    },
+    {
+      "path": "node_modules/which-runtime/LICENSE",
+      "size": 11357
+    },
+    {
+      "path": "node_modules/which-runtime/README.md",
+      "size": 407
+    },
+    {
+      "path": "node_modules/which-runtime/index.js",
+      "size": 1248
+    },
+    {
+      "path": "node_modules/which-runtime/package.json",
+      "size": 602
+    },
+    {
+      "path": "package-lock.json",
+      "size": 9946
+    },
+    {
+      "path": "package.json",
+      "size": 331
+    },
+    {
+      "path": "utils.js",
+      "size": 946
+    }
+  ]
+}

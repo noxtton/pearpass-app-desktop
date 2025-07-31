@@ -2,4 +2,4 @@
 ':' //; export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; exec node "$0" "$@"
 
 // Browser extension native messaging host launcher
-import './extension-to-ipc-bridge.js';
+import './extension-to-ipc-bridge.cjs';

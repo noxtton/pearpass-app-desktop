@@ -1,4 +1,5 @@
 import fs from 'fs'
+import os from 'os'
 import path from 'path'
 
 import { logger } from './logger'
@@ -6,6 +7,7 @@ import { log } from './nativeMessagingLogger'
 
 // Mock dependencies
 jest.mock('fs')
+jest.mock('os')
 jest.mock('path', () => ({
   join: jest.fn(),
   dirname: jest.fn()
@@ -20,35 +22,21 @@ jest.mock('./logger', () => ({
 const originalPath = jest.requireActual('path')
 
 describe('nativeMessagingLogger', () => {
-  const MOCK_PROJECT_ROOT = '/mock/project'
-  const MOCK_LOG_DIR = originalPath.join(MOCK_PROJECT_ROOT, 'logs')
+  const MOCK_TEMP_DIR = '/mock/tmp'
+  const MOCK_LOG_DIR = originalPath.join(MOCK_TEMP_DIR, 'logs')
   const MOCK_LOG_FILE = originalPath.join(MOCK_LOG_DIR, 'native-messaging.log')
 
   beforeEach(() => {
     // Reset mocks before each test
     jest.clearAllMocks()
 
-    // Mock process.cwd()
-    jest.spyOn(process, 'cwd').mockReturnValue(MOCK_PROJECT_ROOT)
+    // Mock os.tmpdir to return our mock temp directory
+    os.tmpdir.mockReturnValue(MOCK_TEMP_DIR)
 
     // Mock path module
     jest
       .spyOn(path, 'join')
       .mockImplementation((...args) => originalPath.join(...args))
-    jest.spyOn(path, 'dirname').mockImplementation((p) => {
-      if (p === MOCK_PROJECT_ROOT) {
-        return '/mock'
-      }
-      if (p === '/mock') {
-        return '/'
-      }
-      return '/'
-    })
-
-    // Default mock for fs.existsSync to find package.json
-    fs.existsSync.mockImplementation(
-      (p) => p === originalPath.join(MOCK_PROJECT_ROOT, 'package.json')
-    )
   })
 
   afterEach(() => {
@@ -58,9 +46,6 @@ describe('nativeMessagingLogger', () => {
   it('should create log directory if it does not exist and write a log message', () => {
     // Arrange
     fs.existsSync.mockImplementation((p) => {
-      if (p === originalPath.join(MOCK_PROJECT_ROOT, 'package.json')) {
-        return true // Found project root
-      }
       if (p === MOCK_LOG_DIR) {
         return false // Log directory does not exist
       }
@@ -83,12 +68,7 @@ describe('nativeMessagingLogger', () => {
 
   it('should not create log directory if it already exists', () => {
     // Arrange
-    fs.existsSync.mockImplementation(
-      (p) =>
-        // package.json and log dir both exist
-        p === originalPath.join(MOCK_PROJECT_ROOT, 'package.json') ||
-        p === MOCK_LOG_DIR
-    )
+    fs.existsSync.mockImplementation((p) => p === MOCK_LOG_DIR)
 
     // Act
     log('ExistingDir', 'DEBUG', 'Another test')
@@ -121,23 +101,25 @@ describe('nativeMessagingLogger', () => {
     expect(logger.error).toHaveBeenCalledWith(writeError)
   })
 
-  it('should fall back to process.cwd() if package.json is not found', () => {
+  it('should use the temp directory returned by os.tmpdir()', () => {
     // Arrange
-    // Can't find package.json anywhere
-    fs.existsSync.mockReturnValue(false)
-    const cwdLogDir = originalPath.join(process.cwd(), 'logs')
-    const cwdLogFile = originalPath.join(cwdLogDir, 'native-messaging.log')
+    const customTempDir = '/custom/temp/dir'
+    os.tmpdir.mockReturnValue(customTempDir)
+    const customLogDir = originalPath.join(customTempDir, 'logs')
+    const customLogFile = originalPath.join(customLogDir, 'native-messaging.log')
+    fs.existsSync.mockReturnValue(false) // Log directory doesn't exist
 
     // Act
-    log('Fallback', 'WARN', 'No root found')
+    log('CustomTemp', 'WARN', 'Using custom temp dir')
 
     // Assert
-    expect(fs.mkdirSync).toHaveBeenCalledWith(cwdLogDir, {
+    expect(os.tmpdir).toHaveBeenCalled()
+    expect(fs.mkdirSync).toHaveBeenCalledWith(customLogDir, {
       recursive: true
     })
     expect(fs.appendFileSync).toHaveBeenCalledWith(
-      cwdLogFile,
-      expect.stringContaining('[WARN] [Fallback] No root found\n')
+      customLogFile,
+      expect.stringContaining('[WARN] [CustomTemp] Using custom temp dir\n')
     )
   })
 })

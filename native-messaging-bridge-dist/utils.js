@@ -1,13 +1,21 @@
-import fs from 'fs'
-import os from 'os'
-import path from 'path'
-
-import { logger } from './logger.js'
+const os = require('os')
+const path = require('path')
+const fs = require('fs')
 
 /**
- * Simple unified logging for native messaging components
+ * Returns cross-platform IPC path
  */
-export const log = (component, level, message) => {
+function getIpcPath(socketName) {
+  if (os.platform() === 'win32') {
+    return `\\\\?\\pipe\\${socketName}`
+  }
+  return path.join(os.tmpdir(), `${socketName}.sock`)
+}
+
+/**
+ * Simple logger for native messaging
+ */
+function log(component, level, message) {
   try {
     const tempDir = os.tmpdir()
     const logDir = path.join(tempDir, 'logs')
@@ -22,9 +30,11 @@ export const log = (component, level, message) => {
     const logMsg = `${timestamp} [${level}] [${component}] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
   } catch (e) {
-    logger.error(
-      `[nativeMessagingLogger] Failed to write log entry - Component: ${component}, Level: ${level}, Message: ${message}'}`
-    )
-    logger.error(e)
+    console.error(`Failed to write log: ${e.message}`)
   }
+}
+
+module.exports = {
+  getIpcPath,
+  log
 }
