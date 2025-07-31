@@ -60,6 +60,30 @@ Pear.updates(async (update) => {
   Pear.reload()
 })
 
+let inactivityTimeout
+
+const resetInactivityTimer = () => {
+  clearTimeout(inactivityTimeout)
+
+  inactivityTimeout = setTimeout(() => {
+    window.dispatchEvent(new Event('user-inactive'))
+  }, 60 * 1000)
+}
+
+const activityEvents = [
+  'mousemove',
+  'mousedown',
+  'keydown',
+  'touchstart',
+  'scroll'
+]
+
+activityEvents.forEach((event) =>
+  window.addEventListener(event, resetInactivityTimer)
+)
+
+resetInactivityTimer()
+
 // Render the application
 const root = createRoot(document.querySelector('#root'))
 const html = htm.bind(createElement)

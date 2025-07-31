@@ -3,13 +3,13 @@
 exports[`SidebarCategory Component renders correctly with default props 1`] = `
 <div>
   <button
-    class="sc-blHHSb lmPVJw"
+    class="sc-bRKDuR bDBHR"
   >
     <div
-      class="sc-gtLWhw iIZoUX"
+      class="sc-hvigdm oRisu"
     >
       <div
-        class="sc-egkSDF cjuxJo"
+        class="sc-fhHczv hLXVSY"
       >
         <div
           data-testid="mock-icon"
@@ -22,7 +22,7 @@ exports[`SidebarCategory Component renders correctly with default props 1`] = `
       </span>
     </div>
     <span
-      class="sc-fAUdSK btZwvo"
+      class="sc-ggWZvA gSmtta"
     >
       5
     </span>

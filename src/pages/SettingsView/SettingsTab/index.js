@@ -14,6 +14,7 @@ import {
 
 import { SettingsDevicesSection } from './SettingsDevicesSection'
 import { SettingsLanguageSection } from './SettingsLanguageSection'
+import { SettingsPasswordsSection } from './SettingsPasswordsSection'
 import { SettingsReportSection } from './SettingsReportSection'
 import { VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
@@ -107,6 +108,8 @@ export const SettingsTab = () => {
     />
 
     <${SettingsDevicesSection} />
+
+    <${SettingsPasswordsSection} />
 
     <${CardSingleSetting} title=${i18n._('Version')}>
       <${VersionWrapper}> ${VERSION} <//>

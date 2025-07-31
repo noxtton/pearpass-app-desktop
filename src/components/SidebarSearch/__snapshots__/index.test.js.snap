@@ -3,10 +3,10 @@
 exports[`SidebarSearch Component renders correctly with default props 1`] = `
 <div>
   <div
-    class="sc-blHHSb YnzNX"
+    class="sc-bRKDuR jqBLZu"
   >
     <label
-      class="sc-gtLWhw fbWHTc"
+      class="sc-hvigdm keDqJw"
     >
       <div
         data-testid="search-icon"
@@ -15,7 +15,7 @@ exports[`SidebarSearch Component renders correctly with default props 1`] = `
       </div>
     </label>
     <input
-      class="sc-egkSDF kTSzEc"
+      class="sc-fhHczv iECxhv"
       placeholder="Search folder..."
       type="search"
       value=""

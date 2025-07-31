@@ -2,16 +2,12 @@ import { html } from 'htm/react'
 
 import {
   Background,
+  ContentWrapper,
   LeftSpotlightWrapper,
   LogoContainer,
-  MiddleSmallSpotlightWrapper,
-  PageContent,
-  RightSpotlightWrapper
+  PageContent
 } from './styles'
 import { LogoLock } from '../../svgs/LogoLock'
-import { SpotLightLeft } from '../../svgs/SpotlightLeft'
-import { SpotlightMiddle } from '../../svgs/SpotlightMiddle'
-import { SpotlightRight } from '../../svgs/SpotlightRight'
 
 /**
  * @param {{
@@ -20,24 +16,25 @@ import { SpotlightRight } from '../../svgs/SpotlightRight'
  */
 export const InitialPageWrapper = ({ children }) => html`
   <${Background}>
-    <${LeftSpotlightWrapper}>
-      <${SpotLightLeft} />
-    <//>
-
-    <${MiddleSmallSpotlightWrapper}>
-      <${SpotlightMiddle} width="500" />
-    <//>
-
-    <${RightSpotlightWrapper}>
-      <${SpotlightRight} />
-    <//>
+    <${LeftSpotlightWrapper} />
 
     <${PageContent}>
       <${LogoContainer}>
         <${LogoLock} />
       <//>
 
-      ${children}
+      <${ContentWrapper}> ${children} <//>
     <//>
   <//>
 `
+// <${LeftSpotlightWrapper}>
+//     <${SpotLightLeft} />
+//   <//>
+
+//   <${MiddleSmallSpotlightWrapper}>
+//     <${SpotlightMiddle} width="500" />
+//   <//>
+
+//   <${RightSpotlightWrapper}>
+//     <${SpotlightRight} />
+//   <//>

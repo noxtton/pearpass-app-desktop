@@ -33,6 +33,7 @@ export const QRCodeText = styled.div`
 
 export const QRCodeCopy = styled.div`
   display: flex;
+  align-items: center;
   gap: 10px;
 `
 export const QRCodeCopyWrapper = styled.div`
@@ -40,7 +41,7 @@ export const QRCodeCopyWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 `
 
 export const QRCode = styled.div`

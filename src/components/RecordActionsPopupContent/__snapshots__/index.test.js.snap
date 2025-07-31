@@ -3,11 +3,11 @@
 exports[`RecordActionsPopupContent Component renders correctly with compact variant 1`] = `
 <DocumentFragment>
   <div
-    class="sc-blHHSb iDfhNX"
+    class="sc-bRKDuR fmvGmW"
     variant="compact"
   >
     <div
-      class="sc-gtLWhw eVjNgn"
+      class="sc-hvigdm cYnssP"
       variant="compact"
     >
       <svg
@@ -18,7 +18,7 @@ exports[`RecordActionsPopupContent Component renders correctly with compact vari
       </p>
     </div>
     <div
-      class="sc-gtLWhw eVjNgn"
+      class="sc-hvigdm cYnssP"
       variant="compact"
     >
       <svg
@@ -35,11 +35,11 @@ exports[`RecordActionsPopupContent Component renders correctly with compact vari
 exports[`RecordActionsPopupContent Component renders correctly with default variant 1`] = `
 <DocumentFragment>
   <div
-    class="sc-blHHSb inKujX"
+    class="sc-bRKDuR fBQtQW"
     variant="default"
   >
     <div
-      class="sc-gtLWhw eVjNgn"
+      class="sc-hvigdm cYnssP"
       variant="default"
     >
       <svg
@@ -50,7 +50,7 @@ exports[`RecordActionsPopupContent Component renders correctly with default vari
       </p>
     </div>
     <div
-      class="sc-gtLWhw eVjNgn"
+      class="sc-hvigdm cYnssP"
       variant="default"
     >
       <svg

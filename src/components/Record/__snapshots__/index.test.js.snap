@@ -3,16 +3,16 @@
 exports[`Record Component renders Record component correctly when not selected 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fAUdSK kccQxl"
+    class="sc-ggWZvA dYaJKP"
   >
     <div
-      class="sc-dntaoT ZHXd"
+      class="sc-dTvVRJ icGHDn"
     >
       <div>
         RecordAvatar
       </div>
       <div
-        class="sc-ivxoEo fzeeLi"
+        class="sc-jwTyAe iDJCHC"
       >
         <span>
           Test Record Title
@@ -24,13 +24,13 @@ exports[`Record Component renders Record component correctly when not selected 1
     </div>
      
     <div
-      class="sc-ghWlax gdGawc"
+      class="sc-hjsuWn eMFYBK"
     >
       <div
-        class="sc-blHHSb crHmuI"
+        class="sc-bRKDuR jWGHch"
       >
         <div
-          class="sc-egkSDF hgjrFz"
+          class="sc-fhHczv MurJc"
         >
           <div>
             <svg
@@ -39,7 +39,7 @@ exports[`Record Component renders Record component correctly when not selected 1
           </div>
         </div>
         <div
-          class="sc-gtLWhw bXiYIN"
+          class="sc-hvigdm bHLWQJ"
         >
           <div
             data-testid="record-actions-popup-content"
@@ -56,16 +56,16 @@ exports[`Record Component renders Record component correctly when not selected 1
 exports[`Record Component renders Record component correctly when selected 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fAUdSK hCZyiE"
+    class="sc-ggWZvA hfeWdK"
   >
     <div
-      class="sc-dntaoT ZHXd"
+      class="sc-dTvVRJ icGHDn"
     >
       <div>
         RecordAvatar
       </div>
       <div
-        class="sc-ivxoEo fzeeLi"
+        class="sc-jwTyAe iDJCHC"
       >
         <span>
           Test Record Title
@@ -82,16 +82,16 @@ exports[`Record Component renders Record component correctly when selected 1`] =
 exports[`Record Component toggles action menu when kebab icon is clicked (snapshot test): after toggle 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fAUdSK kbrmco"
+    class="sc-ggWZvA jiFAaO"
   >
     <div
-      class="sc-dntaoT ZHXd"
+      class="sc-dTvVRJ icGHDn"
     >
       <div>
         RecordAvatar
       </div>
       <div
-        class="sc-ivxoEo fzeeLi"
+        class="sc-jwTyAe iDJCHC"
       >
         <span>
           Test Record Title
@@ -103,13 +103,13 @@ exports[`Record Component toggles action menu when kebab icon is clicked (snapsh
     </div>
      
     <div
-      class="sc-ghWlax gdGawc"
+      class="sc-hjsuWn eMFYBK"
     >
       <div
-        class="sc-blHHSb crHmuI"
+        class="sc-bRKDuR jWGHch"
       >
         <div
-          class="sc-egkSDF hgjrFz"
+          class="sc-fhHczv MurJc"
         >
           <div>
             <svg
@@ -118,7 +118,7 @@ exports[`Record Component toggles action menu when kebab icon is clicked (snapsh
           </div>
         </div>
         <div
-          class="sc-gtLWhw gaVliA"
+          class="sc-hvigdm kIjgdY"
         >
           <div
             data-testid="record-actions-popup-content"
@@ -135,16 +135,16 @@ exports[`Record Component toggles action menu when kebab icon is clicked (snapsh
 exports[`Record Component toggles action menu when kebab icon is clicked (snapshot test): initial state 1`] = `
 <DocumentFragment>
   <div
-    class="sc-fAUdSK kccQxl"
+    class="sc-ggWZvA dYaJKP"
   >
     <div
-      class="sc-dntaoT ZHXd"
+      class="sc-dTvVRJ icGHDn"
     >
       <div>
         RecordAvatar
       </div>
       <div
-        class="sc-ivxoEo fzeeLi"
+        class="sc-jwTyAe iDJCHC"
       >
         <span>
           Test Record Title
@@ -156,13 +156,13 @@ exports[`Record Component toggles action menu when kebab icon is clicked (snapsh
     </div>
      
     <div
-      class="sc-ghWlax gdGawc"
+      class="sc-hjsuWn eMFYBK"
     >
       <div
-        class="sc-blHHSb crHmuI"
+        class="sc-bRKDuR jWGHch"
       >
         <div
-          class="sc-egkSDF hgjrFz"
+          class="sc-fhHczv MurJc"
         >
           <div>
             <svg
@@ -171,7 +171,7 @@ exports[`Record Component toggles action menu when kebab icon is clicked (snapsh
           </div>
         </div>
         <div
-          class="sc-gtLWhw bXiYIN"
+          class="sc-hvigdm bHLWQJ"
         >
           <div
             data-testid="record-actions-popup-content"

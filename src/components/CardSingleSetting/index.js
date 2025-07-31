@@ -1,18 +1,20 @@
 import { html } from 'htm/react'
 
-import { Container, Content, Header, Title } from './styles'
+import { Container, Description, Header, Title } from './styles'
 
 /**
  * @param {{
  *  title: string
+ *  description?: string
  *  children: import('react').ReactNode
  * }} props
  */
-export const CardSingleSetting = ({ title, children }) => html`
+export const CardSingleSetting = ({ title, description, children }) => html`
   <${Container}>
     <${Header}>
       <${Title}>${title}<//>
     <//>
-    <${Content}>${children}<//>
+    ${description && html` <${Description}>${description}<//> `}
+    <div>${children}<//>
   <//>
 `

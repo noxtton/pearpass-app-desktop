@@ -14,11 +14,11 @@ export const HeaderChildrenWrapper = styled.div`
 export const CloseIconWrapper = styled.div`
   margin-left: auto;
   display: flex;
-  padding: 2.5px;
+  padding: 4px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.black.option2};
+  background: ${({ theme }) => theme.colors.black.dark};
   flex-shrink: 0;
 `

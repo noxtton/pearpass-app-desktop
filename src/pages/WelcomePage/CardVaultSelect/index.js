@@ -2,27 +2,28 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
   ButtonPrimary,
-  ButtonSecondary
+  ButtonSecondary,
+  CommonFileIcon
 } from 'pearpass-lib-ui-react-components'
+import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault, useVaults } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
   CardContainer,
   CardTitle,
+  ImportContainer,
+  ImportText,
   Title,
   VaultsContainer
 } from './styles'
 import { ListItem } from '../../../components/ListItem'
-import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
-import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
 
 export const CardVaultSelect = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
-  const { setModal } = useModal()
 
   const { data } = useVaults()
 
@@ -31,7 +32,7 @@ export const CardVaultSelect = () => {
   })
 
   const handleLoadVault = () => {
-    setModal(html` <${LoadVaultModalContent} /> `, { overlayType: 'blur' })
+    navigate(currentPage, { state: 'loadVault' })
   }
 
   const handleSelectVault = async (vaultId) => {
@@ -52,15 +53,24 @@ export const CardVaultSelect = () => {
     navigate(currentPage, { state: 'newVaultCredentials' })
   }
 
+  const handleUploadBackupFile = () => {
+    navigate(currentPage, { state: 'uploadBackupFile' })
+  }
+
+  const hasVaults = data && data.length > 0
+
   return html`
     <${CardContainer}>
       <${CardTitle}>
         <${Title}>
-          ${i18n._('Select a vault, create a new one or load another one')}
+          ${data.length > 0
+            ? i18n._('Select a vault, create a new one or load another one')
+            : i18n._('Start with creating a new vault or importing one')}
         <//>
       <//>
 
-      <${VaultsContainer}>
+      ${hasVaults &&
+      html` <${VaultsContainer}>
         ${data.map(
           (vault) =>
             html`<${ListItem}
@@ -69,7 +79,7 @@ export const CardVaultSelect = () => {
               itemDateText=${vaultCreatedFormat(vault.createdAt)}
             />`
         )}
-      <//>
+      <//>`}
 
       <${ButtonWrapper}>
         <${ButtonPrimary} onClick=${handleCreateNewVault}>
@@ -80,6 +90,17 @@ export const CardVaultSelect = () => {
           ${i18n._('Load a vault')}
         <//>
       <//>
+
+      ${!hasVaults &&
+      html`
+        <${ImportContainer}>
+          ${i18n._('Or')}
+          <${CommonFileIcon} size="21" color=${colors.primary400.mode1} />
+          <${ImportText} onClick=${handleUploadBackupFile}>
+            ${i18n._('import from a backup file')}
+          <//>
+        <//>
+      `}
     <//>
   `
 }

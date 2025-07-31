@@ -2,8 +2,7 @@ import styled from 'styled-components'
 
 export const NestedFileContainer = styled.div`
   position: relative;
-  padding-left: 34px;
-  margin-bottom: 5px;
+  padding-left: 31px;
 `
 
 export const NestedFile = styled.div`

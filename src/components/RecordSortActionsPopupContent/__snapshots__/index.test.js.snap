@@ -3,10 +3,10 @@
 exports[`RecordSortActionsPopupContent Component renders correctly with all menu items 1`] = `
 <div>
   <div
-    class="sc-blHHSb egOISt"
+    class="sc-bRKDuR gcfjVY"
   >
     <div
-      class="sc-gtLWhw eknCsk"
+      class="sc-hvigdm cYNyTs"
     >
       <div>
         <svg
@@ -16,7 +16,7 @@ exports[`RecordSortActionsPopupContent Component renders correctly with all menu
       </div>
     </div>
     <div
-      class="sc-gtLWhw eknCsk"
+      class="sc-hvigdm cYNyTs"
     >
       <div>
         <svg
@@ -26,7 +26,7 @@ exports[`RecordSortActionsPopupContent Component renders correctly with all menu
       </div>
     </div>
     <div
-      class="sc-gtLWhw eknCsk"
+      class="sc-hvigdm cYNyTs"
     >
       <div>
         <svg

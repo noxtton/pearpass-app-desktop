@@ -1,10 +1,11 @@
 import {
-  UserIcon,
-  FullBodyIcon,
   CreditCardIcon,
-  CommonFileIcon,
+  FullBodyIcon,
+  KeyIcon,
   LockIcon,
-  KeyIcon
+  NoteIcon,
+  PasswordIcon,
+  UserIcon
 } from 'pearpass-lib-ui-react-components'
 
 export const RECORD_ICON_BY_TYPE = {
@@ -12,7 +13,7 @@ export const RECORD_ICON_BY_TYPE = {
   login: UserIcon,
   identity: FullBodyIcon,
   creditCard: CreditCardIcon,
-  note: CommonFileIcon,
+  note: NoteIcon,
   custom: LockIcon,
-  password: KeyIcon
+  password: PasswordIcon
 }

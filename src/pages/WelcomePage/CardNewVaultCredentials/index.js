@@ -17,8 +17,10 @@ import { useCreateVault, useVault } from 'pearpass-lib-vault'
 import {
   ButtonWrapper,
   CardTitle,
+  FieldWrapper,
   Form,
   InputsContainer,
+  Label,
   Title
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
@@ -88,20 +90,28 @@ export const CardNewVaultCredentials = () => {
       <//>
 
       <${InputsContainer}>
-        <${PearPassInputField}
-          placeholder=${i18n._('Enter Name')}
-          ...${register('name')}
-        />
+        <${FieldWrapper}>
+          <${Label} for="name"> ${i18n._('Vault name')} <//>
+          <${PearPassInputField}
+            placeholder=${i18n._('Enter Name')}
+            ...${register('name')}
+          />
+        <//>
+        <${FieldWrapper}>
+          <${Label} for="name"> ${i18n._('Create password (optional)')} <//>
+          <${PearPassPasswordField}
+            placeholder=${i18n._('Enter Password')}
+            ...${register('password')}
+          />
+        <//>
 
-        <${PearPassPasswordField}
-          placeholder=${i18n._('Enter Password')}
-          ...${register('password')}
-        />
-
-        <${PearPassPasswordField}
-          placeholder=${i18n._('Confirm Password')}
-          ...${register('passwordConfirm')}
-        />
+        <${FieldWrapper}>
+          <${Label} for="name"> ${i18n._('Confirm Password')} <//>
+          <${PearPassPasswordField}
+            placeholder=${i18n._('Confirm Password')}
+            ...${register('passwordConfirm')}
+          />
+        <//>
       <//>
 
       <${ButtonWrapper}>

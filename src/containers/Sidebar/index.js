@@ -192,14 +192,14 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
       <${SidebarSettings}>
         <${SettingsContainer} onClick=${handleSettingsClick}>
-          <${SettingsIcon} size="14" />
+          <${SettingsIcon} size="24" />
           ${i18n._('Settings')}
         <//>
 
         <${SettingsSeparator} />
 
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
-          ${i18n._('Add Device')}
+          ${i18n._('Add a Device')}
         <//>
 
         <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>

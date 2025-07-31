@@ -3,17 +3,17 @@
 exports[`PopupMenu Component toggles open state when trigger is clicked (by opacity) 1`] = `
 <div>
   <div
-    class="sc-blHHSb crHmuI"
+    class="sc-bRKDuR jWGHch"
   >
     <div
-      class="sc-egkSDF hgjrFz"
+      class="sc-fhHczv MurJc"
     >
       <button>
         Toggle Menu
       </button>
     </div>
     <div
-      class="sc-gtLWhw foLlcZ"
+      class="sc-hvigdm dXrytZ"
     >
       <div>
         Menu Content

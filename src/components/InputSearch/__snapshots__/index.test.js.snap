@@ -3,10 +3,10 @@
 exports[`InputSearch renders with custom value 1`] = `
 <div>
   <div
-    class="sc-blHHSb jkzuhY"
+    class="sc-bRKDuR hyiOtx"
   >
     <label
-      class="sc-gtLWhw hBKjzg"
+      class="sc-hvigdm eIripI"
     >
       <div
         data-testid="lock-circle-icon"
@@ -15,12 +15,12 @@ exports[`InputSearch renders with custom value 1`] = `
       </div>
     </label>
     <input
-      class="sc-egkSDF diqCCu"
+      class="sc-fhHczv hcoggh"
       placeholder="Search..."
       value="Test search"
     />
     <div
-      class="sc-fAUdSK gtBNoE"
+      class="sc-ggWZvA leJRoq"
     />
   </div>
 </div>
@@ -29,10 +29,10 @@ exports[`InputSearch renders with custom value 1`] = `
 exports[`InputSearch renders with default props 1`] = `
 <div>
   <div
-    class="sc-blHHSb jkzuhY"
+    class="sc-bRKDuR hyiOtx"
   >
     <label
-      class="sc-gtLWhw hBKjzg"
+      class="sc-hvigdm eIripI"
     >
       <div
         data-testid="lock-circle-icon"
@@ -41,12 +41,12 @@ exports[`InputSearch renders with default props 1`] = `
       </div>
     </label>
     <input
-      class="sc-egkSDF diqCCu"
+      class="sc-fhHczv hcoggh"
       placeholder="Search..."
       value=""
     />
     <div
-      class="sc-fAUdSK gtBNoE"
+      class="sc-ggWZvA leJRoq"
     />
   </div>
 </div>

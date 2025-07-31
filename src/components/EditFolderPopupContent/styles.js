@@ -14,6 +14,7 @@ export const MenuItem = styled.div`
   display: flex;
   width: 100%;
   padding: 5px 9px;
+  align-items: center;
   gap: 12px;
   align-self: stretch;
   color: ${({ theme }) => theme.colors.white.mode1};

@@ -34,6 +34,12 @@ export const Description = styled.p`
   line-height: normal;
 `
 
+export const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`
+
 export const ButtonWrapper = styled.div`
   align-self: center;
 `

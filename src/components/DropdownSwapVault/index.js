@@ -80,13 +80,13 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   return html`
     <${Wrapper} isOpen=${isOpen}>
       <${Container} isOpen=${isOpen} onClick=${() => setIsOpen(!isOpen)}>
-        <${LockCircleIcon} size="14" color=${colors.primary400.mode1} />
+        <${LockCircleIcon} size="24" color=${colors.primary400.mode1} />
 
         ${selectedVault?.name}
 
         <${ArrowIconWrapper}>
           <${isOpen ? ArrowUpIcon : ArrowDownIcon}
-            size="14"
+            size="24"
             color=${colors.primary400.mode1}
           />
         <//>
@@ -96,7 +96,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
         ${vaults?.map(
           (vault) => html`
             <${DropdownItem} onClick=${() => onVaultSelect(vault)}>
-              <${LockCircleIcon} size="14" color=${colors.primary400.mode1} />
+              <${LockCircleIcon} size="24" color=${colors.primary400.mode1} />
               ${vault.name}
             <//>
           `
