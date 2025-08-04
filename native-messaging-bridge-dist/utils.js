@@ -4,12 +4,18 @@ const fs = require('fs')
 
 /**
  * Returns cross-platform IPC path
+ * Uses the script's parent directory (Pear storage) for the socket
  */
 function getIpcPath(socketName) {
   if (os.platform() === 'win32') {
     return `\\\\?\\pipe\\${socketName}`
   }
-  return path.join(os.tmpdir(), `${socketName}.sock`)
+  
+  // Get the parent directory of the scripts directory
+  // Scripts are in: {storage}/native-messaging/
+  // We want the socket in: {storage}/
+  const storageDir = path.dirname(__dirname)
+  return path.join(storageDir, `${socketName}.sock`)
 }
 
 /**
@@ -18,7 +24,7 @@ function getIpcPath(socketName) {
 function log(component, level, message) {
   try {
     const tempDir = os.tmpdir()
-    const logDir = path.join(tempDir, 'logs')
+    const logDir = path.join(tempDir, 'pearpass-logs')
     const logFile = path.join(logDir, 'native-messaging.log')
 
     // Create logs directory if it doesn't exist

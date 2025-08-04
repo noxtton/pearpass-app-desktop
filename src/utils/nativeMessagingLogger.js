@@ -10,7 +10,7 @@ import { logger } from './logger.js'
 export const log = (component, level, message) => {
   try {
     const tempDir = os.tmpdir()
-    const logDir = path.join(tempDir, 'logs')
+    const logDir = path.join(tempDir, 'pearpass-logs')
     const logFile = path.join(logDir, 'native-messaging.log')
 
     // Create logs directory if it doesn't exist

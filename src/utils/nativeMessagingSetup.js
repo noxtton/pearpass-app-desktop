@@ -28,8 +28,7 @@ export async function setupNativeMessaging(extensionId) {
     const wrapperFileName = 'pearpass-native-host-wrapper.js'
     
     // Destination paths
-    const tempDir = os.tmpdir()
-    const scriptsDir = path.join(tempDir, 'pearpass-scripts')
+    const scriptsDir = path.join(Pear.config.storage, 'native-messaging')
     const executablePath = path.join(scriptsDir, executableFileName)
     const bridgeFilePath = path.join(scriptsDir, bridgeFileName)
     const wrapperPath = path.join(scriptsDir, wrapperFileName)
