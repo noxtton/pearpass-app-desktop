@@ -1,5 +1,6 @@
-import { platform } from 'os'
+import { platform, tmpdir } from 'os'
 import { join } from 'path'
+import { unlink } from 'fs/promises'
 
 import IPC from 'pear-ipc'
 
@@ -7,29 +8,38 @@ import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions'
 import { log } from '../utils/nativeMessagingLogger'
 
 /**
- * Returns cross-platform IPC path:
- *  Unix domain socket in Pear storage
- *  Windows named pipe under \\?\pipe\
+ * Returns cross-platform IPC path
+ * @param {string} socketName
+ * @returns {string}
  */
 export const getIpcPath = (socketName) => {
   if (platform() === 'win32') {
     return `\\\\?\\pipe\\${socketName}`
   }
-  return join(Pear.config.storage, `${socketName}.sock`)
+  return join(tmpdir(), `${socketName}.sock`)
 }
 
 /**
- * Native Messaging IPC Server
- * This server runs in the main desktop app and handles requests from the native messaging bridge
+ * IPC server for native messaging bridge communication
  */
 export class NativeMessagingIPCServer {
+  /**
+   * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} pearpassClient
+   */
   constructor(pearpassClient) {
+    /** @type {import('pearpass-lib-vault-mobile').PearpassVaultClient} */
     this.client = pearpassClient
+    /** @type {import('pear-ipc').Server|null} */
     this.server = null
+    /** @type {boolean} */
     this.isRunning = false
+    /** @type {string} */
     this.socketPath = getIpcPath('pearpass-native-messaging')
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async start() {
     if (this.isRunning) {
       log('IPC-SERVER', 'INFO', 'IPC server is already running')
@@ -38,6 +48,19 @@ export class NativeMessagingIPCServer {
 
     try {
       log('IPC-SERVER', 'INFO', 'Starting native messaging IPC server...')
+      
+      // Clean up any existing socket file for Unix systems
+      if (platform() !== 'win32') {
+        try {
+          await unlink(this.socketPath)
+          log('IPC-SERVER', 'INFO', 'Cleaned up existing socket file')
+        } catch (err) {
+          // Socket file doesn't exist, which is fine
+          if (err.code !== 'ENOENT') {
+            log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
+          }
+        }
+      }
 
       // Use centralized command definitions
       const methods = COMMAND_DEFINITIONS
@@ -168,6 +191,8 @@ export class NativeMessagingIPCServer {
         }
       }
 
+      console.log('Creating IPC server... at', this.socketPath)
+
       // Create IPC server
       this.server = new IPC.Server({
         socketPath: this.socketPath,
@@ -232,6 +257,9 @@ export class NativeMessagingIPCServer {
     }
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async stop() {
     if (!this.isRunning) {
       return
@@ -244,15 +272,27 @@ export class NativeMessagingIPCServer {
       this.server = null
     }
 
+    // Clean up socket file on Unix systems
+    if (platform() !== 'win32') {
+      try {
+        await unlink(this.socketPath)
+        log('IPC-SERVER', 'INFO', 'Cleaned up socket file')
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
+        }
+      }
+    }
+
     this.isRunning = false
     log('IPC-SERVER', 'INFO', 'Native messaging IPC server stopped')
   }
 }
 
+/** @type {NativeMessagingIPCServer|null} */
 let ipcServerInstance = null
 
 /**
- * Start the native messaging IPC server
  * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} pearpassClient
  * @returns {Promise<NativeMessagingIPCServer>}
  */
@@ -269,7 +309,7 @@ export async function startNativeMessagingIPC(pearpassClient) {
 }
 
 /**
- * Stop the native messaging IPC server
+ * @returns {Promise<void>}
  */
 export async function stopNativeMessagingIPC() {
   if (!ipcServerInstance?.isRunning) {
@@ -282,13 +322,13 @@ export async function stopNativeMessagingIPC() {
 }
 
 /**
- * Check if native messaging IPC is running
+ * @returns {boolean}
  */
 export const isNativeMessagingIPCRunning = () =>
   ipcServerInstance?.isRunning || false
 
 /**
- * Get the socket path for the IPC server
+ * @returns {string}
  */
 export const getIPCSocketPath = () =>
   ipcServerInstance?.socketPath ?? getIpcPath('pearpass-native-messaging')

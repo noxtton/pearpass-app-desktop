@@ -4,22 +4,24 @@ const fs = require('fs')
 
 /**
  * Returns cross-platform IPC path
- * Uses the script's parent directory (Pear storage) for the socket
+ * Socket is stored in temp directory
+ * @param {string} socketName
+ * @returns {string}
  */
 function getIpcPath(socketName) {
   if (os.platform() === 'win32') {
     return `\\\\?\\pipe\\${socketName}`
   }
   
-  // Get the parent directory of the scripts directory
-  // Scripts are in: {storage}/native-messaging/
-  // We want the socket in: {storage}/
-  const storageDir = path.dirname(__dirname)
-  return path.join(storageDir, `${socketName}.sock`)
+  // Socket is in temp directory
+  return path.join(os.tmpdir(), `${socketName}.sock`)
 }
 
 /**
  * Simple logger for native messaging
+ * @param {string} component - Component name
+ * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
+ * @param {string} message - Log message
  */
 function log(component, level, message) {
   try {

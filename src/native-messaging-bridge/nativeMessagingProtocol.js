@@ -3,7 +3,15 @@
  */
 
 /**
+ * @typedef {Object} WrappedMessage
+ * @property {number} length - Original message length in bytes
+ * @property {Object} message - The actual message
+ */
+
+/**
  * Wrap a message with protocol metadata
+ * @param {Object} message - The message to wrap
+ * @returns {WrappedMessage}
  */
 function wrapMessage(message) {
   const originalJson = JSON.stringify(message)
@@ -17,6 +25,8 @@ function wrapMessage(message) {
 
 /**
  * Unwrap a message from protocol
+ * @param {WrappedMessage} wrapped - The wrapped message
+ * @returns {Object|null} The original message or null if invalid
  */
 function unwrapMessage(wrapped) {
   if (!wrapped || typeof wrapped !== 'object' || !wrapped.message || typeof wrapped.length !== 'number') {
@@ -35,6 +45,8 @@ function unwrapMessage(wrapped) {
 
 /**
  * Check if a message is wrapped
+ * @param {*} message - The message to check
+ * @returns {boolean}
  */
 function isWrappedMessage(message) {
   return !!message && typeof message === 'object' && 'length' in message && 'message' in message

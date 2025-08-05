@@ -42,7 +42,7 @@ export async function setupNativeMessaging(extensionId) {
       const currentModuleUrl = new URL(import.meta.url)
 
       // 1. Try to fetch the bridge module archive
-      const bridgeArchiveUrl = new URL('native-messaging-bridge-dist.tar.gz', currentModuleUrl.origin).href
+      const bridgeArchiveUrl = new URL('native-messaging-bridge.tar.gz', currentModuleUrl.origin).href
       console.log('Fetching bridge module archive from:', bridgeArchiveUrl)
       
       let useArchive = false
@@ -84,22 +84,15 @@ const localNodeModules = path.join(__dirname, 'node_modules')
 if (fs.existsSync(localNodeModules)) {
   // Use local node_modules if available (production with extracted dependencies)
   module.paths.unshift(localNodeModules)
-} else {
-  // Fallback to application's node_modules (development)
-  const appNodeModules = path.join(__dirname, '..', '..', '..', 'node_modules')
-  if (fs.existsSync(appNodeModules)) {
-    module.paths.unshift(appNodeModules)
-  }
 }
 
 // Run the actual bridge script
-// Check if we have the module extracted (production) or use fallback
 if (fs.existsSync(path.join(__dirname, 'index.js'))) {
   // Production: run the extracted module
   require('./index.js')
 } else {
-  // Development: run the bundled script
-  require('./extension-to-ipc-bridge.cjs')
+  console.error('Native messaging bridge module not found!')
+  process.exit(1)
 }
 `
       
@@ -109,9 +102,25 @@ if (fs.existsSync(path.join(__dirname, 'index.js'))) {
       // 3. Create platform-specific executable that runs the wrapper
       let executableContent
       if (platform === 'win32') {
+        // Windows batch file
         executableContent = `@echo off\nnode "%~dp0${wrapperFileName}" %*`
       } else {
-        executableContent = `#!/bin/bash\nnode "$(dirname "$0")/${wrapperFileName}" "$@"`
+        // Unix shell script with NVM support and polyglot shebang
+        // This allows the script to work as both a shell script and a Node.js script
+        executableContent = `#!/bin/sh
+':' //; export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; exec node "$0" "$@"
+
+// Browser extension native messaging host launcher
+// This is a polyglot script that works as both shell and JavaScript
+// The shell part above sources NVM if available and then executes this file with node
+
+// Get the directory where this script is located
+const path = require('path')
+const scriptDir = __dirname
+
+// Execute the wrapper script
+require(path.join(scriptDir, '${wrapperFileName}'))
+`
       }
       
       // Write executable with proper permissions

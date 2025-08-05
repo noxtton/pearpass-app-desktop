@@ -22,11 +22,11 @@ const DESKTOP_APP_STATUS = Object.freeze({
 
 // Timeout constants (in milliseconds)
 const TIMEOUTS = Object.freeze({
-  IPC_CONNECTION: 5000, // 3 seconds to establish IPC connection
-  IPC_CALL: 10000 // 3 seconds for IPC method calls
+  IPC_CONNECTION: 3000, // 3 seconds to establish IPC connection
+  IPC_CALL: 3000 // 3 seconds for IPC method calls
 })
 
-// User-friendly error messages for each status
+// Error messages for each status
 const STATUS_MESSAGES = Object.freeze({
   [DESKTOP_APP_STATUS.NOT_RUNNING]: 'PearPass desktop app is not running',
   [DESKTOP_APP_STATUS.INTEGRATION_DISABLED]:
@@ -35,16 +35,40 @@ const STATUS_MESSAGES = Object.freeze({
   [DESKTOP_APP_STATUS.UNKNOWN]: 'Unable to connect to PearPass desktop app'
 })
 
+/**
+ * @typedef {Object} Message
+ * @property {string} id - Unique message identifier
+ * @property {string} [method] - Method to call
+ * @property {string} [command] - Command to execute (alternative to method)
+ * @property {Object} [params] - Parameters for the method/command
+ */
+
+/**
+ * @typedef {Object} Response
+ * @property {string} id - Message identifier
+ * @property {boolean} success - Whether the operation succeeded
+ * @property {*} [result] - Operation result
+ * @property {string} [error] - Error message if failed
+ * @property {string} [errorCode] - Error code if failed
+ */
+
 class NativeMessagingHost {
   constructor() {
+    /** @type {NativeMessagingHandler} */
     this.handler = new NativeMessagingHandler()
+    /** @type {import('pear-ipc').Client|null} */
     this.ipcClient = null
+    /** @type {boolean} */
     this.isRunning = false
+    /** @type {string} */
     this.socketPath = getIpcPath('pearpass-native-messaging')
+    /** @type {string} */
     this.desktopAppStatus = DESKTOP_APP_STATUS.UNKNOWN
-    this.lastConnectionError = null
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async start() {
     if (this.isRunning) {
       return
@@ -76,13 +100,6 @@ class NativeMessagingHost {
         )
         if (error.stack) {
           log('IPC-BRIDGE', 'INFO', 'Error stack: ' + error.stack)
-        }
-        if (error.invalidMessage) {
-          log(
-            'IPC-BRIDGE',
-            'INFO',
-            'Invalid message data: ' + JSON.stringify(error.invalidMessage)
-          )
         }
         this.stop()
       })
@@ -117,8 +134,7 @@ class NativeMessagingHost {
   }
 
   /**
-   * Connect to the IPC server
-   * Update desktop app status based on success or failure
+   * @returns {Promise<void>}
    */
   async connectToIPC() {
     try {
@@ -178,8 +194,7 @@ class NativeMessagingHost {
   }
 
   /**
-   * Update desktop app status based on connection error
-   * @param {Error} error - Connection error
+   * @param {Error} error
    */
   updateDesktopAppStatus(error) {
     if (error.message.includes('ENOENT')) {
@@ -187,9 +202,12 @@ class NativeMessagingHost {
     } else {
       this.desktopAppStatus = DESKTOP_APP_STATUS.INTEGRATION_DISABLED
     }
-    this.lastConnectionError = error.message
   }
 
+  /**
+   * @param {Message} message
+   * @returns {Promise<void>}
+   */
   async handleMessage(message) {
     const { id, method, command, params } = message
     const methodName = method || command
@@ -375,6 +393,9 @@ class NativeMessagingHost {
     }
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async reconnectIPC() {
     try {
       // Close existing client if any

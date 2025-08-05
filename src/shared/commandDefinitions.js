@@ -4,8 +4,15 @@
  * Import this file wherever command definitions are needed.
  */
 
+/**
+ * @typedef {Object} CommandDefinition
+ * @property {number} id - Unique command ID
+ * @property {string} name - Command name
+ */
+
 // Define all available commands with their IDs
 // Using IDs starting from 1000 to avoid conflicts with internal pear-ipc methods
+/** @type {CommandDefinition[]} */
 export const COMMAND_DEFINITIONS = [
   // Encryption commands
   { id: 1001, name: 'encryptionInit' },
@@ -46,21 +53,25 @@ export const COMMAND_DEFINITIONS = [
 ]
 
 // Export just the method names array for simpler usage
+/** @type {string[]} */
 export const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
 
 // Export a map for quick lookup by name
+/** @type {Object.<string, CommandDefinition>} */
 export const COMMAND_BY_NAME = COMMAND_DEFINITIONS.reduce((acc, cmd) => {
   acc[cmd.name] = cmd
   return acc
 }, {})
 
 // Export a map for quick lookup by ID
+/** @type {Object.<number, CommandDefinition>} */
 export const COMMAND_BY_ID = COMMAND_DEFINITIONS.reduce((acc, cmd) => {
   acc[cmd.id] = cmd
   return acc
 }, {})
 
 // Special command mappings (currently none, but keeping structure for future use)
+/** @type {Object.<string, string>} */
 export const COMMAND_ALIASES = {}
 
 /**

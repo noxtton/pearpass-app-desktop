@@ -9,6 +9,10 @@ const {
   isWrappedMessage
 } = require('./nativeMessagingProtocol.js')
 
+/**
+ * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level
+ * @param {string} message
+ */
 const log = (level, message) => {
   try {
     const logFile = path.join(
@@ -31,14 +35,20 @@ const HEADER_SIZE = 4
 /**
  * Native Messaging Handler - handles Chrome native messaging protocol
  * Includes robust parsing to handle Chrome's length header bugs
+ * @extends EventEmitter
  */
 class NativeMessagingHandler extends EventEmitter {
   constructor() {
     super()
+    /** @type {Buffer} */
     this.inputBuffer = Buffer.alloc(0)
+    /** @type {boolean} */
     this.messageInProgress = false
+    /** @type {number} */
     this.expectedMessageLength = 0
+    /** @type {string} */
     this.accumulatedString = ''
+    /** @type {boolean} */
     this.useRobustParsing = true // Use robust parsing by default
   }
 
@@ -49,6 +59,9 @@ class NativeMessagingHandler extends EventEmitter {
     log('INFO', 'Native messaging handler started')
   }
 
+  /**
+   * @private
+   */
   _setupStdinListeners() {
     process.stdin.setEncoding(null)
     process.stdin.on('data', (chunk) => this.handleIncomingChunk(chunk))
@@ -59,6 +72,9 @@ class NativeMessagingHandler extends EventEmitter {
     })
   }
 
+  /**
+   * @param {Buffer|string} chunk
+   */
   handleIncomingChunk(chunk) {
     const buffer = this._ensureBuffer(chunk)
     this.inputBuffer = Buffer.concat([this.inputBuffer, buffer])
@@ -68,10 +84,18 @@ class NativeMessagingHandler extends EventEmitter {
     }
   }
 
+  /**
+   * @private
+   * @param {Buffer|string} chunk
+   * @returns {Buffer}
+   */
   _ensureBuffer(chunk) {
     return Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk, 'binary')
   }
 
+  /**
+   * @returns {boolean}
+   */
   processNextMessage() {
     if (this.useRobustParsing) {
       return this.processNextMessageRobust()
@@ -79,6 +103,10 @@ class NativeMessagingHandler extends EventEmitter {
     return this._processStandardMessage()
   }
 
+  /**
+   * @private
+   * @returns {boolean}
+   */
   _processStandardMessage() {
     if (this.inputBuffer.length < HEADER_SIZE) {
       return false
@@ -102,6 +130,10 @@ class NativeMessagingHandler extends EventEmitter {
     return this._parseAndEmitMessage(messageBuffer)
   }
 
+  /**
+   * @private
+   * @returns {boolean}
+   */
   _readMessageLength() {
     this.expectedMessageLength = this.inputBuffer.readUInt32LE(0)
     this.messageInProgress = true
@@ -114,16 +146,27 @@ class NativeMessagingHandler extends EventEmitter {
     return true
   }
 
+  /**
+   * @private
+   */
   _resetMessageState() {
     this.messageInProgress = false
     this.expectedMessageLength = 0
   }
 
+  /**
+   * @private
+   */
   _resetBuffer() {
     this.inputBuffer = Buffer.alloc(0)
     this._resetMessageState()
   }
 
+  /**
+   * @private
+   * @param {Buffer} messageBuffer
+   * @returns {boolean}
+   */
   _parseAndEmitMessage(messageBuffer) {
     try {
       const message = JSON.parse(messageBuffer.toString())
@@ -136,6 +179,10 @@ class NativeMessagingHandler extends EventEmitter {
     }
   }
 
+  /**
+   * @private
+   * @param {Object} message
+   */
   _handleParsedMessage(message) {
     if (isWrappedMessage(message)) {
       const unwrapped = unwrapMessage(message)
@@ -152,6 +199,7 @@ class NativeMessagingHandler extends EventEmitter {
   /**
    * Robust message processing that handles Chrome's length header bugs
    * Chrome sometimes sends incorrect length headers, especially around 255 bytes
+   * @returns {boolean}
    */
   processNextMessageRobust() {
     if (this.inputBuffer.length < 4) {
@@ -255,6 +303,9 @@ class NativeMessagingHandler extends EventEmitter {
     return foundMessage
   }
 
+  /**
+   * @param {Object} message
+   */
   send(message) {
     try {
       log('DEBUG', `Sending message: ${JSON.stringify(message)}`)

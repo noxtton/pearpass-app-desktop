@@ -2,6 +2,13 @@
  * Command definitions for the native messaging bridge
  */
 
+/**
+ * @typedef {Object} CommandDefinition
+ * @property {number} id - Unique command ID
+ * @property {string} name - Command name
+ */
+
+/** @type {CommandDefinition[]} */
 const COMMAND_DEFINITIONS = [
   // Encryption commands
   { id: 1001, name: 'encryptionInit' },
@@ -41,8 +48,14 @@ const COMMAND_DEFINITIONS = [
   { id: 1027, name: 'closeVault' }
 ]
 
+/** @type {string[]} */
 const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
 
+/**
+ * Check if a command name is valid
+ * @param {string} commandName - The command name to validate
+ * @returns {boolean}
+ */
 function isValidCommand(commandName) {
   return COMMAND_NAMES.includes(commandName)
 }
