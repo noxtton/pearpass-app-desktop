@@ -56,9 +56,7 @@ const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
  * @param {string} commandName - The command name to validate
  * @returns {boolean}
  */
-function isValidCommand(commandName) {
-  return COMMAND_NAMES.includes(commandName)
-}
+const isValidCommand = (commandName) => COMMAND_NAMES.includes(commandName)
 
 module.exports = {
   COMMAND_DEFINITIONS,

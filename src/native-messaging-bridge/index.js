@@ -4,12 +4,12 @@
 
 const IPC = require('pear-ipc')
 
-const { NativeMessagingHandler } = require('./nativeMessagingHandler.js')
-const { getIpcPath, log } = require('./utils.js')
 const {
   COMMAND_DEFINITIONS,
   isValidCommand
 } = require('./commandDefinitions.js')
+const { NativeMessagingHandler } = require('./nativeMessagingHandler.js')
+const { getIpcPath, log } = require('./utils.js')
 
 // Desktop app status constants
 const DESKTOP_APP_STATUS = Object.freeze({

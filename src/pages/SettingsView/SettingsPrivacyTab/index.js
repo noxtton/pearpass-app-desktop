@@ -141,7 +141,9 @@ export const SettingsPrivacyTab = () => {
         </div>
 
         ${setupMessage &&
-        html`<${Description} style=${{ display: 'block', marginTop: '8px' }}>${setupMessage}<//>`}
+        html`<${Description} style=${{ display: 'block', marginTop: '8px' }}
+          >${setupMessage}<//
+        >`}
       <//>
     `}
     ${isBrowserExtensionEnabled &&

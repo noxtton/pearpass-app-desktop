@@ -1,7 +1,5 @@
 /**
- * Centralized command definitions for the Pearpass native messaging system.
- * This file serves as the single source of truth for all command names and IDs.
- * Import this file wherever command definitions are needed.
+ * Command definitions for the native messaging bridge
  */
 
 /**
@@ -10,10 +8,8 @@
  * @property {string} name - Command name
  */
 
-// Define all available commands with their IDs
-// Using IDs starting from 1000 to avoid conflicts with internal pear-ipc methods
 /** @type {CommandDefinition[]} */
-export const COMMAND_DEFINITIONS = [
+const COMMAND_DEFINITIONS = [
   // Encryption commands
   { id: 1001, name: 'encryptionInit' },
   { id: 1002, name: 'encryptionGetStatus' },
@@ -52,43 +48,17 @@ export const COMMAND_DEFINITIONS = [
   { id: 1027, name: 'closeVault' }
 ]
 
-// Export just the method names array for simpler usage
 /** @type {string[]} */
-export const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
-
-// Export a map for quick lookup by name
-/** @type {Object.<string, CommandDefinition>} */
-export const COMMAND_BY_NAME = COMMAND_DEFINITIONS.reduce((acc, cmd) => {
-  acc[cmd.name] = cmd
-  return acc
-}, {})
-
-// Export a map for quick lookup by ID
-/** @type {Object.<number, CommandDefinition>} */
-export const COMMAND_BY_ID = COMMAND_DEFINITIONS.reduce((acc, cmd) => {
-  acc[cmd.id] = cmd
-  return acc
-}, {})
-
-// Special command mappings (currently none, but keeping structure for future use)
-/** @type {Object.<string, string>} */
-export const COMMAND_ALIASES = {}
+const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
 
 /**
- * Get the normalized command name, handling aliases
- * @param {string} commandName - The command name to normalize
- * @returns {string} The normalized command name
+ * Check if a command name is valid
+ * @param {string} commandName - The command name to validate
+ * @returns {boolean}
  */
-export function normalizeCommandName(commandName) {
-  return COMMAND_ALIASES[commandName] || commandName
-}
+const isValidCommand = (commandName) => COMMAND_NAMES.includes(commandName)
 
-/**
- * Check if a command is valid
- * @param {string} commandName - The command name to check
- * @returns {boolean} True if the command is valid
- */
-export function isValidCommand(commandName) {
-  const normalized = normalizeCommandName(commandName)
-  return COMMAND_NAMES.includes(normalized)
+module.exports = {
+  COMMAND_DEFINITIONS,
+  isValidCommand
 }

@@ -14,7 +14,7 @@ import { logger } from '../utils/logger.js'
  * @param {Object} message - The original message
  * @returns {Object} The wrapped message
  */
-export function wrapMessage(message) {
+export const wrapMessage = (message) => {
   // Convert message to JSON and calculate its length
   const originalJson = JSON.stringify(message)
   const originalLength = Buffer.from(originalJson).length
@@ -33,7 +33,7 @@ export function wrapMessage(message) {
  * @param {Object} wrapped - The wrapped message
  * @returns {Object|null} The original message or null if invalid
  */
-export function unwrapMessage(wrapped) {
+export const unwrapMessage = (wrapped) => {
   // Validate structure
   if (
     !wrapped ||
@@ -67,11 +67,8 @@ export function unwrapMessage(wrapped) {
  * @param {Object} message - The message to check
  * @returns {boolean} True if it's a wrapped message
  */
-export function isWrappedMessage(message) {
-  return (
-    !!message &&
-    typeof message === 'object' &&
-    !!('length' in message) &&
-    !!('message' in message)
-  )
-}
+export const isWrappedMessage = (message) =>
+  !!message &&
+  typeof message === 'object' &&
+  !!('length' in message) &&
+  !!('message' in message)

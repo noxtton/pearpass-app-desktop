@@ -1,6 +1,6 @@
+const fs = require('fs')
 const os = require('os')
 const path = require('path')
-const fs = require('fs')
 
 const DEBUG_MODE = false
 
@@ -10,11 +10,11 @@ const DEBUG_MODE = false
  * @param {string} socketName
  * @returns {string}
  */
-function getIpcPath(socketName) {
+const getIpcPath = (socketName) => {
   if (os.platform() === 'win32') {
     return `\\\\?\\pipe\\${socketName}`
   }
-  
+
   // Socket is in temp directory
   return path.join(os.tmpdir(), `${socketName}.sock`)
 }
@@ -26,7 +26,7 @@ function getIpcPath(socketName) {
  * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
  * @param {string} message - Log message
  */
-function log(component, level, message) {
+const log = (component, level, message) => {
   if (!DEBUG_MODE) return
 
   try {

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 import { execSync } from 'child_process'
-import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const SOURCE_DIR = join(__dirname, '..', 'native-messaging-bridge')
+const moduleDirname = dirname(fileURLToPath(import.meta.url))
+const SOURCE_DIR = join(moduleDirname, '..', 'native-messaging-bridge')
 const ARCHIVE_NAME = 'native-messaging-bridge.tar.gz'
 
 console.log('Building native messaging bridge package...')

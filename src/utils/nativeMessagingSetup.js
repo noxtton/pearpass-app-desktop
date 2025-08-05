@@ -18,7 +18,7 @@ const execAsync = promisify(child_process.exec)
  * @param {string} extensionId
  * @returns {Promise<{success: boolean, message: string, extensionId?: string, manifestPath?: string}>}
  */
-export async function setupNativeMessaging(extensionId) {
+export const setupNativeMessaging = async (extensionId) => {
   try {
     // Create executable path based on platform
     const platform = os.platform()
@@ -26,26 +26,26 @@ export async function setupNativeMessaging(extensionId) {
     const executableFileName = `pearpass-native-host-executable${executablePathExtension}`
     const bridgeFileName = 'extension-to-ipc-bridge.cjs'
     const wrapperFileName = 'pearpass-native-host-wrapper.js'
-    
+
     // Destination paths
     const scriptsDir = path.join(Pear.config.storage, 'native-messaging')
     const executablePath = path.join(scriptsDir, executableFileName)
-    const bridgeFilePath = path.join(scriptsDir, bridgeFileName)
+    path.join(scriptsDir, bridgeFileName)
     const wrapperPath = path.join(scriptsDir, wrapperFileName)
-    const nodeModulesDir = path.join(scriptsDir, 'node_modules')
-    
+    path.join(scriptsDir, 'node_modules')
     // Ensure the destination directory exists
     await fs.mkdir(path.dirname(executablePath), { recursive: true })
-    
+
     // Read and extract the bridge module to temp directory
     try {
       const currentModuleUrl = new URL(import.meta.url)
 
       // 1. Try to fetch the bridge module archive
-      const bridgeArchiveUrl = new URL('native-messaging-bridge.tar.gz', currentModuleUrl.origin).href
+      const bridgeArchiveUrl = new URL(
+        'native-messaging-bridge.tar.gz',
+        currentModuleUrl.origin
+      ).href
       console.log('Fetching bridge module archive from:', bridgeArchiveUrl)
-      
-      let useArchive = false
       try {
         const archiveResponse = await fetch(bridgeArchiveUrl)
         if (archiveResponse.ok) {
@@ -53,21 +53,22 @@ export async function setupNativeMessaging(extensionId) {
           const archiveBuffer = await archiveResponse.arrayBuffer()
           const tarPath = path.join(scriptsDir, 'bridge.tar.gz')
           await fs.writeFile(tarPath, Buffer.from(archiveBuffer))
-          
+
           // Extract the archive
-          await execAsync(`cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`)
-          useArchive = true
+          await execAsync(
+            `cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`
+          )
           console.log('Bridge module extracted successfully')
         }
-      } catch (archiveErr) {
+      } catch {
         console.log('Bridge module archive not found, continuing without it')
       }
-      
+
       // 2. Copy pear-ipc and its dependencies to temp directory
       // In production, we'll need to include these as part of the bundle
       // For now, we'll create a wrapper that adds the node_modules path
       console.log('Creating wrapper script...')
-      
+
       // Create wrapper script that sets up module paths
       const wrapperScriptContent = `#!/usr/bin/env node
 // Native messaging host wrapper
@@ -95,9 +96,8 @@ if (fs.existsSync(path.join(__dirname, 'index.js'))) {
   process.exit(1)
 }
 `
-      
+
       await fs.writeFile(wrapperPath, wrapperScriptContent, { mode: 0o755 })
-      
 
       // 3. Create platform-specific executable that runs the wrapper
       let executableContent
@@ -122,14 +122,15 @@ const scriptDir = __dirname
 require(path.join(scriptDir, '${wrapperFileName}'))
 `
       }
-      
+
       // Write executable with proper permissions
       await fs.writeFile(executablePath, executableContent, { mode: 0o755 })
-
     } catch (err) {
-      throw new Error(`Failed to create script files in temp directory: ${err.message}`)
+      throw new Error(
+        `Failed to create script files in temp directory: ${err.message}`
+      )
     }
-    
+
     // Create native messaging manifest
     const manifest = {
       name: MANIFEST_NAME,

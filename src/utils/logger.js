@@ -12,7 +12,7 @@ export class Logger {
   log(component, level, message) {
     const timestamp = new Date().toISOString()
     const formattedMessage = `${timestamp} [${level}] [${component}] ${message}`
-    
+
     switch (level) {
       case 'ERROR':
         console.error(formattedMessage)

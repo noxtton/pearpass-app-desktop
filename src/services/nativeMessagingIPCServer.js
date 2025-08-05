@@ -1,6 +1,6 @@
+import { unlink } from 'fs/promises'
 import { platform, tmpdir } from 'os'
 import { join } from 'path'
-import { unlink } from 'fs/promises'
 
 import IPC from 'pear-ipc'
 
@@ -47,8 +47,12 @@ export class NativeMessagingIPCServer {
     }
 
     try {
-      logger.log('IPC-SERVER', 'INFO', 'Starting native messaging IPC server...')
-      
+      logger.log(
+        'IPC-SERVER',
+        'INFO',
+        'Starting native messaging IPC server...'
+      )
+
       // Clean up any existing socket file for Unix systems
       if (platform() !== 'win32') {
         try {
@@ -57,7 +61,11 @@ export class NativeMessagingIPCServer {
         } catch (err) {
           // Socket file doesn't exist, which is fine
           if (err.code !== 'ENOENT') {
-            logger.log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
+            logger.log(
+              'IPC-SERVER',
+              'WARN',
+              `Could not clean up socket file: ${err.message}`
+            )
           }
         }
       }
@@ -202,14 +210,18 @@ export class NativeMessagingIPCServer {
 
       // Handle new client connections
       this.server.on('client', (client) => {
-        logger.log('IPC-SERVER', 'INFO', `New IPC client connected: ${client.id}`)
+        logger.log(
+          'IPC-SERVER',
+          'INFO',
+          `New IPC client connected: ${client.id}`
+        )
 
         // Track client request count
         let requestCount = 0
 
         // Listen for method calls
         const originalEmit = client.emit.bind(client)
-        client.emit = function (event, ...args) {
+        client.emit = (event, ...args) => {
           if (event.startsWith('method:')) {
             requestCount++
             logger.log(
@@ -252,7 +264,11 @@ export class NativeMessagingIPCServer {
         `Native messaging IPC server started successfully on ${this.socketPath}`
       )
     } catch (error) {
-      logger.log('IPC-SERVER', 'INFO', `Failed to start IPC server: ${error.message}`)
+      logger.log(
+        'IPC-SERVER',
+        'INFO',
+        `Failed to start IPC server: ${error.message}`
+      )
       throw error
     }
   }
@@ -276,10 +292,14 @@ export class NativeMessagingIPCServer {
     if (platform() !== 'win32') {
       try {
         await unlink(this.socketPath)
-      logger.log('IPC-SERVER', 'INFO', 'Cleaned up socket file')
+        logger.log('IPC-SERVER', 'INFO', 'Cleaned up socket file')
       } catch (err) {
         if (err.code !== 'ENOENT') {
-        logger.log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
+          logger.log(
+            'IPC-SERVER',
+            'WARN',
+            `Could not clean up socket file: ${err.message}`
+          )
         }
       }
     }
@@ -296,9 +316,13 @@ let ipcServerInstance = null
  * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} pearpassClient
  * @returns {Promise<NativeMessagingIPCServer>}
  */
-export async function startNativeMessagingIPC(pearpassClient) {
+export const startNativeMessagingIPC = async (pearpassClient) => {
   if (ipcServerInstance?.isRunning) {
-    logger.log('IPC-SERVER', 'INFO', 'Native messaging IPC server is already running')
+    logger.log(
+      'IPC-SERVER',
+      'INFO',
+      'Native messaging IPC server is already running'
+    )
     return ipcServerInstance
   }
 
@@ -311,9 +335,13 @@ export async function startNativeMessagingIPC(pearpassClient) {
 /**
  * @returns {Promise<void>}
  */
-export async function stopNativeMessagingIPC() {
+export const stopNativeMessagingIPC = async () => {
   if (!ipcServerInstance?.isRunning) {
-    logger.log('IPC-SERVER', 'INFO', 'Native messaging IPC server is not running')
+    logger.log(
+      'IPC-SERVER',
+      'INFO',
+      'Native messaging IPC server is not running'
+    )
     return
   }
 

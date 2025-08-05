@@ -13,7 +13,7 @@
  * @param {Object} message - The message to wrap
  * @returns {WrappedMessage}
  */
-function wrapMessage(message) {
+const wrapMessage = (message) => {
   const originalJson = JSON.stringify(message)
   const originalLength = Buffer.from(originalJson).length
 
@@ -28,8 +28,13 @@ function wrapMessage(message) {
  * @param {WrappedMessage} wrapped - The wrapped message
  * @returns {Object|null} The original message or null if invalid
  */
-function unwrapMessage(wrapped) {
-  if (!wrapped || typeof wrapped !== 'object' || !wrapped.message || typeof wrapped.length !== 'number') {
+const unwrapMessage = (wrapped) => {
+  if (
+    !wrapped ||
+    typeof wrapped !== 'object' ||
+    !wrapped.message ||
+    typeof wrapped.length !== 'number'
+  ) {
     return null
   }
 
@@ -48,9 +53,11 @@ function unwrapMessage(wrapped) {
  * @param {*} message - The message to check
  * @returns {boolean}
  */
-function isWrappedMessage(message) {
-  return !!message && typeof message === 'object' && 'length' in message && 'message' in message
-}
+const isWrappedMessage = (message) =>
+  !!message &&
+  typeof message === 'object' &&
+  'length' in message &&
+  'message' in message
 
 module.exports = {
   wrapMessage,
