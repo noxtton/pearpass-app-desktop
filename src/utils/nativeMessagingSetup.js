@@ -3,6 +3,8 @@ import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
 
+import { logger } from './logger'
+
 const MANIFEST_NAME = 'com.pearpass.vault'
 
 const promisify =
@@ -14,42 +16,49 @@ const promisify =
 const execAsync = promisify(child_process.exec)
 
 /**
- * Setup native messaging for a specific extension ID
- * @param {string} extensionId
+ * Sets up native messaging for a given extension ID
+ * @param {string} extensionId - The Chrome extension ID
  * @returns {Promise<{success: boolean, message: string, extensionId?: string, manifestPath?: string}>}
  */
 export const setupNativeMessaging = async (extensionId) => {
   try {
-    // Create executable path based on platform
+    // Determine platform-specific executable path
     const platform = os.platform()
     const executablePathExtension = platform === 'win32' ? '.bat' : ''
     const executableFileName = `pearpass-native-host-executable${executablePathExtension}`
     const bridgeFileName = 'extension-to-ipc-bridge.cjs'
     const wrapperFileName = 'pearpass-native-host-wrapper.js'
 
-    // Destination paths
     const scriptsDir = path.join(Pear.config.storage, 'native-messaging')
     const executablePath = path.join(scriptsDir, executableFileName)
     path.join(scriptsDir, bridgeFileName)
     const wrapperPath = path.join(scriptsDir, wrapperFileName)
     path.join(scriptsDir, 'node_modules')
-    // Ensure the destination directory exists
+    // Ensure directory for executable exists
     await fs.mkdir(path.dirname(executablePath), { recursive: true })
 
-    // Read and extract the bridge module to temp directory
+    // Fetch and extract the bridge module if available
     try {
       const currentModuleUrl = new URL(import.meta.url)
 
-      // 1. Try to fetch the bridge module archive
+      // Download and extract if the bridge archive exists
       const bridgeArchiveUrl = new URL(
         'native-messaging-bridge.tar.gz',
         currentModuleUrl.origin
       ).href
-      console.log('Fetching bridge module archive from:', bridgeArchiveUrl)
+      logger.log(
+        'NATIVE-MESSAGING-SETUP',
+        'INFO',
+        `Fetching bridge module archive from: ${bridgeArchiveUrl}`
+      )
       try {
         const archiveResponse = await fetch(bridgeArchiveUrl)
         if (archiveResponse.ok) {
-          console.log('Extracting bridge module from archive...')
+          logger.log(
+            'NATIVE-MESSAGING-SETUP',
+            'INFO',
+            'Extracting bridge module from archive...'
+          )
           const archiveBuffer = await archiveResponse.arrayBuffer()
           const tarPath = path.join(scriptsDir, 'bridge.tar.gz')
           await fs.writeFile(tarPath, Buffer.from(archiveBuffer))
@@ -58,16 +67,22 @@ export const setupNativeMessaging = async (extensionId) => {
           await execAsync(
             `cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`
           )
-          console.log('Bridge module extracted successfully')
+          logger.log(
+            'NATIVE-MESSAGING-SETUP',
+            'INFO',
+            'Bridge module extracted successfully'
+          )
         }
       } catch {
-        console.log('Bridge module archive not found, continuing without it')
+        logger.log(
+          'NATIVE-MESSAGING-SETUP',
+          'WARN',
+          'Bridge module archive not found, continuing without it'
+        )
       }
 
-      // 2. Copy pear-ipc and its dependencies to temp directory
-      // In production, we'll need to include these as part of the bundle
-      // For now, we'll create a wrapper that adds the node_modules path
-      console.log('Creating wrapper script...')
+      // Copy dependencies and set up environment
+      logger.log('NATIVE-MESSAGING-SETUP', 'INFO', 'Creating wrapper script...')
 
       // Create wrapper script that sets up module paths
       const wrapperScriptContent = `#!/usr/bin/env node
@@ -77,10 +92,9 @@ export const setupNativeMessaging = async (extensionId) => {
 const path = require('path')
 const fs = require('fs')
 
-// Change to script directory
+// Set script directory as working directory
 process.chdir(__dirname)
 
-// Set up module paths
 const localNodeModules = path.join(__dirname, 'node_modules')
 if (fs.existsSync(localNodeModules)) {
   // Use local node_modules if available (production with extracted dependencies)
@@ -110,9 +124,6 @@ if (fs.existsSync(path.join(__dirname, 'index.js'))) {
         executableContent = `#!/bin/sh
 ':' //; export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; exec node "$0" "$@"
 
-// Browser extension native messaging host launcher
-// This is a polyglot script that works as both shell and JavaScript
-// The shell part above sources NVM if available and then executes this file with node
 
 // Get the directory where this script is located
 const path = require('path')
@@ -220,7 +231,9 @@ require(path.join(scriptDir, '${wrapperFileName}'))
           await fs.chmod(manifestPath, 0o644)
         }
       } catch (err) {
-        console.warn(
+        logger.log(
+          'NATIVE-MESSAGING-SETUP',
+          'WARN',
           `Failed to write manifest at ${manifestPath}: ${err.message}`
         )
       }
@@ -237,7 +250,9 @@ require(path.join(scriptDir, '${wrapperFileName}'))
         try {
           await execAsync(cmd)
         } catch (err) {
-          console.warn(
+          logger.log(
+            'NATIVE-MESSAGING-SETUP',
+            'WARN',
             `Failed to write registry key with command '${cmd}': ${err.message}`
           )
         }
