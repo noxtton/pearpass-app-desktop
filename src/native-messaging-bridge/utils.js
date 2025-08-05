@@ -2,6 +2,8 @@ const os = require('os')
 const path = require('path')
 const fs = require('fs')
 
+const DEBUG_MODE = false
+
 /**
  * Returns cross-platform IPC path
  * Socket is stored in temp directory
@@ -18,16 +20,19 @@ function getIpcPath(socketName) {
 }
 
 /**
- * Simple logger for native messaging
+ * Dedicated logger for native messaging bridge
+ * Logs to the logs directory within the bridge module directory when in debug mode
  * @param {string} component - Component name
  * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
  * @param {string} message - Log message
  */
 function log(component, level, message) {
+  if (!DEBUG_MODE) return
+
   try {
-    const tempDir = os.tmpdir()
-    const logDir = path.join(tempDir, 'pearpass-logs')
-    const logFile = path.join(logDir, 'native-messaging.log')
+    const bridgeDir = path.dirname(__dirname)
+    const logDir = path.join(bridgeDir, 'logs')
+    const logFile = path.join(logDir, 'native-messaging-bridge.log')
 
     // Create logs directory if it doesn't exist
     if (!fs.existsSync(logDir)) {

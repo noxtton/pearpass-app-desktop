@@ -5,7 +5,7 @@ import { unlink } from 'fs/promises'
 import IPC from 'pear-ipc'
 
 import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions'
-import { log } from '../utils/nativeMessagingLogger'
+import { logger } from '../utils/logger'
 
 /**
  * Returns cross-platform IPC path
@@ -42,22 +42,22 @@ export class NativeMessagingIPCServer {
    */
   async start() {
     if (this.isRunning) {
-      log('IPC-SERVER', 'INFO', 'IPC server is already running')
+      logger.log('IPC-SERVER', 'INFO', 'IPC server is already running')
       return
     }
 
     try {
-      log('IPC-SERVER', 'INFO', 'Starting native messaging IPC server...')
+      logger.log('IPC-SERVER', 'INFO', 'Starting native messaging IPC server...')
       
       // Clean up any existing socket file for Unix systems
       if (platform() !== 'win32') {
         try {
           await unlink(this.socketPath)
-          log('IPC-SERVER', 'INFO', 'Cleaned up existing socket file')
+          logger.log('IPC-SERVER', 'INFO', 'Cleaned up existing socket file')
         } catch (err) {
           // Socket file doesn't exist, which is fine
           if (err.code !== 'ENOENT') {
-            log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
+            logger.log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
           }
         }
       }
@@ -158,7 +158,7 @@ export class NativeMessagingIPCServer {
           ),
 
         getDecryptionKey: async (params) => {
-          log(
+          logger.log(
             'IPC-SERVER',
             'INFO',
             `Getting decryption key with params: ${JSON.stringify(params)}`
@@ -167,7 +167,7 @@ export class NativeMessagingIPCServer {
             salt: params.salt,
             password: params.password
           })
-          log('IPC-SERVER', 'INFO', `Decryption key result: ${result}`)
+          logger.log('IPC-SERVER', 'INFO', `Decryption key result: ${result}`)
           return result
         },
 
@@ -202,7 +202,7 @@ export class NativeMessagingIPCServer {
 
       // Handle new client connections
       this.server.on('client', (client) => {
-        log('IPC-SERVER', 'INFO', `New IPC client connected: ${client.id}`)
+        logger.log('IPC-SERVER', 'INFO', `New IPC client connected: ${client.id}`)
 
         // Track client request count
         let requestCount = 0
@@ -212,7 +212,7 @@ export class NativeMessagingIPCServer {
         client.emit = function (event, ...args) {
           if (event.startsWith('method:')) {
             requestCount++
-            log(
+            logger.log(
               'IPC-SERVER',
               'INFO',
               `Client ${client.id} calling ${event} (request #${requestCount})`
@@ -222,7 +222,7 @@ export class NativeMessagingIPCServer {
         }
 
         client.on('close', () => {
-          log(
+          logger.log(
             'IPC-SERVER',
             'INFO',
             `IPC client disconnected: ${client.id} after ${requestCount} requests`
@@ -230,7 +230,7 @@ export class NativeMessagingIPCServer {
         })
 
         client.on('error', (error) => {
-          log(
+          logger.log(
             'IPC-SERVER',
             'INFO',
             `IPC client error (${client.id}): ${error.message}`
@@ -239,20 +239,20 @@ export class NativeMessagingIPCServer {
       })
 
       this.server.on('error', (error) => {
-        log('IPC-SERVER', 'INFO', `IPC server error: ${error.message}`)
+        logger.log('IPC-SERVER', 'INFO', `IPC server error: ${error.message}`)
       })
 
       // Start listening
       await this.server.ready()
 
       this.isRunning = true
-      log(
+      logger.log(
         'IPC-SERVER',
         'INFO',
         `Native messaging IPC server started successfully on ${this.socketPath}`
       )
     } catch (error) {
-      log('IPC-SERVER', 'INFO', `Failed to start IPC server: ${error.message}`)
+      logger.log('IPC-SERVER', 'INFO', `Failed to start IPC server: ${error.message}`)
       throw error
     }
   }
@@ -265,7 +265,7 @@ export class NativeMessagingIPCServer {
       return
     }
 
-    log('IPC-SERVER', 'INFO', 'Stopping native messaging IPC server...')
+    logger.log('IPC-SERVER', 'INFO', 'Stopping native messaging IPC server...')
 
     if (this.server) {
       await this.server.close()
@@ -276,16 +276,16 @@ export class NativeMessagingIPCServer {
     if (platform() !== 'win32') {
       try {
         await unlink(this.socketPath)
-        log('IPC-SERVER', 'INFO', 'Cleaned up socket file')
+      logger.log('IPC-SERVER', 'INFO', 'Cleaned up socket file')
       } catch (err) {
         if (err.code !== 'ENOENT') {
-          log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
+        logger.log('IPC-SERVER', 'WARN', `Could not clean up socket file: ${err.message}`)
         }
       }
     }
 
     this.isRunning = false
-    log('IPC-SERVER', 'INFO', 'Native messaging IPC server stopped')
+    logger.log('IPC-SERVER', 'INFO', 'Native messaging IPC server stopped')
   }
 }
 
@@ -298,7 +298,7 @@ let ipcServerInstance = null
  */
 export async function startNativeMessagingIPC(pearpassClient) {
   if (ipcServerInstance?.isRunning) {
-    log('IPC-SERVER', 'INFO', 'Native messaging IPC server is already running')
+    logger.log('IPC-SERVER', 'INFO', 'Native messaging IPC server is already running')
     return ipcServerInstance
   }
 
@@ -313,7 +313,7 @@ export async function startNativeMessagingIPC(pearpassClient) {
  */
 export async function stopNativeMessagingIPC() {
   if (!ipcServerInstance?.isRunning) {
-    log('IPC-SERVER', 'INFO', 'Native messaging IPC server is not running')
+    logger.log('IPC-SERVER', 'INFO', 'Native messaging IPC server is not running')
     return
   }
 

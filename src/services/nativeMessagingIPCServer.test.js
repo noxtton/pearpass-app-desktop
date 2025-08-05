@@ -11,12 +11,13 @@ import {
   isNativeMessagingIPCRunning,
   getIPCSocketPath
 } from './nativeMessagingIPCServer.js'
-import { log } from '../utils/nativeMessagingLogger.js'
+import { logger } from '../utils/logger.js'
 
 // Mock dependencies
 jest.mock('os', () => ({
   ...jest.requireActual('os'),
-  platform: jest.fn()
+  platform: jest.fn(),
+  tmpdir: jest.fn(() => '/tmp')
 }))
 
 // Mock Pear.config.storage
@@ -36,8 +37,12 @@ jest.mock('pear-ipc', () => ({
   })
 }))
 
-jest.mock('../utils/nativeMessagingLogger.js', () => ({
-  log: jest.fn()
+jest.mock('../utils/logger.js', () => ({
+  logger: {
+    log: jest.fn(),
+    error: jest.fn(),
+    debugMode: true
+  }
 }))
 
 const mockPearpassClient = {
@@ -87,7 +92,7 @@ describe('nativeMessagingIPCServer', () => {
     it('should return a unix domain socket path on non-win32 platforms', () => {
       platform.mockReturnValue('linux')
       const socketName = 'test-socket'
-      expect(getIpcPath(socketName)).toBe(join('/mock/pear/storage', `${socketName}.sock`))
+      expect(getIpcPath(socketName)).toBe(join('/tmp', `${socketName}.sock`))
     })
   })
 
@@ -104,7 +109,7 @@ describe('nativeMessagingIPCServer', () => {
       expect(serverInstance.server).toBeNull()
       expect(serverInstance.isRunning).toBe(false)
       expect(serverInstance.socketPath).toBe(
-        '/mock/pear/storage/pearpass-native-messaging.sock'
+        join('/tmp', 'pearpass-native-messaging.sock')
       )
     })
 
@@ -115,12 +120,12 @@ describe('nativeMessagingIPCServer', () => {
         expect(IPC.Server).toHaveBeenCalledTimes(1)
         expect(serverInstance.server.ready).toHaveBeenCalledTimes(1)
         expect(serverInstance.isRunning).toBe(true)
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.log).toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           'Starting native messaging IPC server...'
         )
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.log).toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           `Native messaging IPC server started successfully on ${serverInstance.socketPath}`
@@ -132,7 +137,7 @@ describe('nativeMessagingIPCServer', () => {
         await serverInstance.start()
 
         expect(IPC.Server).not.toHaveBeenCalled()
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.log).toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           'IPC server is already running'
@@ -150,7 +155,7 @@ describe('nativeMessagingIPCServer', () => {
         const newServer = new NativeMessagingIPCServer(mockPearpassClient)
         await expect(newServer.start()).rejects.toThrow(error)
         expect(newServer.isRunning).toBe(false)
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.log).toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           `Failed to start IPC server: ${error.message}`
@@ -189,12 +194,12 @@ describe('nativeMessagingIPCServer', () => {
         expect(server.close).toHaveBeenCalledTimes(1)
         expect(serverInstance.isRunning).toBe(false)
         expect(serverInstance.server).toBeNull()
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.log).toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           'Stopping native messaging IPC server...'
         )
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.log).toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           'Native messaging IPC server stopped'
@@ -203,7 +208,7 @@ describe('nativeMessagingIPCServer', () => {
 
       it('should not do anything if the server is not running', async () => {
         await serverInstance.stop()
-        expect(log).not.toHaveBeenCalledWith(
+        expect(logger.log).not.toHaveBeenCalledWith(
           'IPC-SERVER',
           'INFO',
           'Stopping native messaging IPC server...'
@@ -228,7 +233,7 @@ describe('nativeMessagingIPCServer', () => {
       const instance1 = await startNativeMessagingIPC(mockPearpassClient)
       const instance2 = await startNativeMessagingIPC(mockPearpassClient)
       expect(instance1).toBe(instance2)
-      expect(log).toHaveBeenCalledWith(
+      expect(logger.log).toHaveBeenCalledWith(
         'IPC-SERVER',
         'INFO',
         'Native messaging IPC server is already running'
@@ -245,7 +250,7 @@ describe('nativeMessagingIPCServer', () => {
 
     it('stopNativeMessagingIPC should do nothing if not running', async () => {
       await stopNativeMessagingIPC()
-      expect(log).toHaveBeenCalledWith(
+      expect(logger.log).toHaveBeenCalledWith(
         'IPC-SERVER',
         'INFO',
         'Native messaging IPC server is not running'
@@ -260,7 +265,7 @@ describe('nativeMessagingIPCServer', () => {
     it('getIPCSocketPath should return a default path when not running', () => {
       platform.mockReturnValue('linux')
       expect(getIPCSocketPath()).toBe(
-        '/mock/pear/storage/pearpass-native-messaging.sock'
+        join('/tmp', 'pearpass-native-messaging.sock')
       )
     })
   })
