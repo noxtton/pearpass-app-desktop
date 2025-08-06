@@ -7,7 +7,6 @@ import { Validator } from 'pear-apps-utils-validator'
 import {
   InputField,
   ButtonLittle,
-  FolderIcon,
   SaveIcon
 } from 'pearpass-lib-ui-react-components'
 import { useCreateFolder, useFolders } from 'pearpass-lib-vault'

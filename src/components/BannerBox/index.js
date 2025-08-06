@@ -1,4 +1,3 @@
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
   ButtonPrimary,

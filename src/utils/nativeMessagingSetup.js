@@ -3,6 +3,8 @@ import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
 
+import { logger } from './logger'
+
 const MANIFEST_NAME = 'com.pearpass.vault'
 
 const promisify =
@@ -14,13 +16,132 @@ const promisify =
 const execAsync = promisify(child_process.exec)
 
 /**
- * Setup native messaging for a specific extension ID
- * @param {string} extensionId
- * @param {string} executablePath
+ * Sets up native messaging for a given extension ID
+ * @param {string} extensionId - The Chrome extension ID
  * @returns {Promise<{success: boolean, message: string, extensionId?: string, manifestPath?: string}>}
  */
-export async function setupNativeMessaging(extensionId, executablePath) {
+export const setupNativeMessaging = async (extensionId) => {
   try {
+    // Determine platform-specific executable path
+    const platform = os.platform()
+    const executablePathExtension = platform === 'win32' ? '.bat' : ''
+    const executableFileName = `pearpass-native-host-executable${executablePathExtension}`
+    const bridgeFileName = 'extension-to-ipc-bridge.cjs'
+    const wrapperFileName = 'pearpass-native-host-wrapper.js'
+
+    const scriptsDir = path.join(Pear.config.storage, 'native-messaging')
+    const executablePath = path.join(scriptsDir, executableFileName)
+    path.join(scriptsDir, bridgeFileName)
+    const wrapperPath = path.join(scriptsDir, wrapperFileName)
+    path.join(scriptsDir, 'node_modules')
+    // Ensure directory for executable exists
+    await fs.mkdir(path.dirname(executablePath), { recursive: true })
+
+    // Fetch and extract the bridge module if available
+    try {
+      const currentModuleUrl = new URL(import.meta.url)
+
+      // Download and extract if the bridge archive exists
+      const bridgeArchiveUrl = new URL(
+        'native-messaging-bridge.tar.gz',
+        currentModuleUrl.origin
+      ).href
+      logger.log(
+        'NATIVE-MESSAGING-SETUP',
+        'INFO',
+        `Fetching bridge module archive from: ${bridgeArchiveUrl}`
+      )
+      try {
+        const archiveResponse = await fetch(bridgeArchiveUrl)
+        if (archiveResponse.ok) {
+          logger.log(
+            'NATIVE-MESSAGING-SETUP',
+            'INFO',
+            'Extracting bridge module from archive...'
+          )
+          const archiveBuffer = await archiveResponse.arrayBuffer()
+          const tarPath = path.join(scriptsDir, 'bridge.tar.gz')
+          await fs.writeFile(tarPath, Buffer.from(archiveBuffer))
+
+          // Extract the archive
+          await execAsync(
+            `cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`
+          )
+          logger.log(
+            'NATIVE-MESSAGING-SETUP',
+            'INFO',
+            'Bridge module extracted successfully'
+          )
+        }
+      } catch {
+        logger.log(
+          'NATIVE-MESSAGING-SETUP',
+          'WARN',
+          'Bridge module archive not found, continuing without it'
+        )
+      }
+
+      // Copy dependencies and set up environment
+      logger.log('NATIVE-MESSAGING-SETUP', 'INFO', 'Creating wrapper script...')
+
+      // Create wrapper script that sets up module paths
+      const wrapperScriptContent = `#!/usr/bin/env node
+// Native messaging host wrapper
+// This script sets up the module paths and runs the actual bridge script
+
+const path = require('path')
+const fs = require('fs')
+
+// Set script directory as working directory
+process.chdir(__dirname)
+
+const localNodeModules = path.join(__dirname, 'node_modules')
+if (fs.existsSync(localNodeModules)) {
+  // Use local node_modules if available (production with extracted dependencies)
+  module.paths.unshift(localNodeModules)
+}
+
+// Run the actual bridge script
+if (fs.existsSync(path.join(__dirname, 'index.js'))) {
+  // Production: run the extracted module
+  require('./index.js')
+} else {
+  console.error('Native messaging bridge module not found!')
+  process.exit(1)
+}
+`
+
+      await fs.writeFile(wrapperPath, wrapperScriptContent, { mode: 0o755 })
+
+      // 3. Create platform-specific executable that runs the wrapper
+      let executableContent
+      if (platform === 'win32') {
+        // Windows batch file
+        executableContent = `@echo off\nnode "%~dp0${wrapperFileName}" %*`
+      } else {
+        // Unix shell script with NVM support and polyglot shebang
+        // This allows the script to work as both a shell script and a Node.js script
+        executableContent = `#!/bin/sh
+':' //; export NVM_DIR="$HOME/.nvm"; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; exec node "$0" "$@"
+
+
+// Get the directory where this script is located
+const path = require('path')
+const scriptDir = __dirname
+
+// Execute the wrapper script
+require(path.join(scriptDir, '${wrapperFileName}'))
+`
+      }
+
+      // Write executable with proper permissions
+      await fs.writeFile(executablePath, executableContent, { mode: 0o755 })
+    } catch (err) {
+      throw new Error(
+        `Failed to create script files in temp directory: ${err.message}`
+      )
+    }
+
     // Create native messaging manifest
     const manifest = {
       name: MANIFEST_NAME,
@@ -31,7 +152,6 @@ export async function setupNativeMessaging(extensionId, executablePath) {
     }
 
     // Get manifest path
-    const platform = os.platform()
     const home = os.homedir()
     const manifestFile = `${MANIFEST_NAME}.json`
     let manifestPaths = []
@@ -109,10 +229,11 @@ export async function setupNativeMessaging(extensionId, executablePath) {
 
         if (platform !== 'win32') {
           await fs.chmod(manifestPath, 0o644)
-          await fs.chmod(executablePath, 0o755)
         }
       } catch (err) {
-        console.warn(
+        logger.log(
+          'NATIVE-MESSAGING-SETUP',
+          'WARN',
           `Failed to write manifest at ${manifestPath}: ${err.message}`
         )
       }
@@ -129,7 +250,9 @@ export async function setupNativeMessaging(extensionId, executablePath) {
         try {
           await execAsync(cmd)
         } catch (err) {
-          console.warn(
+          logger.log(
+            'NATIVE-MESSAGING-SETUP',
+            'WARN',
             `Failed to write registry key with command '${cmd}': ${err.message}`
           )
         }

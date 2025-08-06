@@ -1,6 +1,3 @@
-import os from 'os'
-import path from 'path'
-
 import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
@@ -46,19 +43,8 @@ export const SettingsPrivacyTab = () => {
     setSetupMessage('')
 
     try {
-      const executablePathExtension = os.platform() === 'win32' ? '.bat' : ''
-      const executablePath = path.join(
-        process.cwd(),
-        'src',
-        'scripts',
-        `pearpass-native-host-executable${executablePathExtension}`
-      )
-
       // Setup native messaging for the extension
-      const result = await setupNativeMessaging(
-        extensionId.trim(),
-        executablePath
-      )
+      const result = await setupNativeMessaging(extensionId.trim())
 
       if (result.success) {
         // Start native messaging IPC server
@@ -155,7 +141,9 @@ export const SettingsPrivacyTab = () => {
         </div>
 
         ${setupMessage &&
-        html` <div style=${{ marginTop: '8px' }}>${setupMessage}</div>`}
+        html`<${Description} style=${{ display: 'block', marginTop: '8px' }}
+          >${setupMessage}<//
+        >`}
       <//>
     `}
     ${isBrowserExtensionEnabled &&
