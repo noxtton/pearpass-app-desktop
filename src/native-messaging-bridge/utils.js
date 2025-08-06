@@ -22,11 +22,10 @@ const getIpcPath = (socketName) => {
 /**
  * Dedicated logger for native messaging bridge
  * Logs to the logs directory within the bridge module directory when in debug mode
- * @param {string} component - Component name
  * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
  * @param {string} message - Log message
  */
-const log = (component, level, message) => {
+const log = (level, message) => {
   if (!DEBUG_MODE) return
 
   try {
@@ -40,7 +39,7 @@ const log = (component, level, message) => {
     }
 
     const timestamp = new Date().toISOString()
-    const logMsg = `${timestamp} [${level}] [${component}] ${message}\n`
+    const logMsg = `${timestamp} [${level}] [IPC-BRIDGE] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
   } catch (e) {
     console.error(`Failed to write log: ${e.message}`)
