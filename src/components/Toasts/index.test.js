@@ -38,7 +38,11 @@ describe('Toasts Component', () => {
     expect(getByText('Success message')).toBeInTheDocument()
     expect(getByText('Error message')).toBeInTheDocument()
     expect(getByTestId('mock-icon')).toBeInTheDocument()
-    expect(mockIcon).toHaveBeenCalledWith({ color: colors.black.mode1 }, {})
+    // htm/react passes a second undefined argument
+    expect(mockIcon).toHaveBeenCalledWith(
+      { color: colors.black.mode1 },
+      undefined
+    )
     expect(container).toMatchSnapshot()
   })
 
@@ -71,6 +75,9 @@ describe('Toasts Component', () => {
       </ThemeProvider>
     )
 
-    expect(mockIcon).toHaveBeenCalledWith({ color: colors.black.mode1 }, {})
+    expect(mockIcon).toHaveBeenCalledWith(
+      { color: colors.black.mode1 },
+      undefined
+    )
   })
 })
