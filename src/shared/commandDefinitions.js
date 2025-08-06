@@ -58,7 +58,4 @@ const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
  */
 const isValidCommand = (commandName) => COMMAND_NAMES.includes(commandName)
 
-module.exports = {
-  COMMAND_DEFINITIONS,
-  isValidCommand
-}
+export { COMMAND_DEFINITIONS, isValidCommand }
