@@ -75,12 +75,11 @@ class NativeMessagingHost {
     }
 
     try {
-      log('IPC-BRIDGE', 'INFO', 'Starting simple native messaging host...')
+      log('INFO', 'Starting simple native messaging host...')
 
       // Set up native messaging handler first
       this.handler.on('message', async (message) => {
         log(
-          'IPC-BRIDGE',
           'INFO',
           'Received message from extension: ' + JSON.stringify(message)
         )
@@ -88,18 +87,14 @@ class NativeMessagingHost {
       })
 
       this.handler.on('disconnect', () => {
-        log('IPC-BRIDGE', 'INFO', 'Native messaging disconnected')
+        log('INFO', 'Native messaging disconnected')
         this.stop()
       })
 
       this.handler.on('error', (error) => {
-        log(
-          'IPC-BRIDGE',
-          'INFO',
-          'Native messaging handler error: ' + error.message
-        )
+        log('INFO', 'Native messaging handler error: ' + error.message)
         if (error.stack) {
-          log('IPC-BRIDGE', 'INFO', 'Error stack: ' + error.stack)
+          log('INFO', 'Error stack: ' + error.stack)
         }
         this.stop()
       })
@@ -109,23 +104,17 @@ class NativeMessagingHost {
       this.isRunning = true
 
       log(
-        'IPC-BRIDGE',
         'INFO',
         'Simple native messaging host started, attempting IPC connection...'
       )
 
       // Try to connect to IPC server (non-blocking)
       this.connectToIPC().catch((error) => {
-        log(
-          'IPC-BRIDGE',
-          'INFO',
-          'Initial IPC connection failed: ' + error.message
-        )
+        log('INFO', 'Initial IPC connection failed: ' + error.message)
         this.updateDesktopAppStatus(error)
       })
     } catch (error) {
       log(
-        'IPC-BRIDGE',
         'INFO',
         'Failed to start simple native messaging host: ' + error.message
       )
@@ -139,11 +128,7 @@ class NativeMessagingHost {
   async connectToIPC() {
     try {
       this.desktopAppStatus = DESKTOP_APP_STATUS.CONNECTING
-      log(
-        'IPC-BRIDGE',
-        'INFO',
-        `Attempting to connect to IPC server at: ${this.socketPath}`
-      )
+      log('INFO', `Attempting to connect to IPC server at: ${this.socketPath}`)
 
       // Create new IPC client connection
       this.ipcClient = new IPC.Client({
@@ -162,23 +147,19 @@ class NativeMessagingHost {
 
       await Promise.race([this.ipcClient.ready(), timeoutPromise])
 
-      log('IPC-BRIDGE', 'INFO', 'Successfully connected to IPC server')
+      log('INFO', 'Successfully connected to IPC server')
 
       // Update status
       this.desktopAppStatus = DESKTOP_APP_STATUS.CONNECTED
 
       // Set up disconnect handler
       this.ipcClient.on('close', () => {
-        log('IPC-BRIDGE', 'INFO', 'IPC client disconnected')
+        log('INFO', 'IPC client disconnected')
         this.desktopAppStatus = DESKTOP_APP_STATUS.NOT_RUNNING
         this.ipcClient = null
       })
     } catch (error) {
-      log(
-        'IPC-BRIDGE',
-        'INFO',
-        `Failed to connect to IPC server: ${error.message}`
-      )
+      log('INFO', `Failed to connect to IPC server: ${error.message}`)
       this.updateDesktopAppStatus(error)
 
       // Clean up client on failure
@@ -218,7 +199,6 @@ class NativeMessagingHost {
       delete cleanParams.padding
 
       log(
-        'IPC-BRIDGE',
         'INFO',
         `Processing request: ${methodName} with params: ${JSON.stringify(cleanParams)}`
       )
@@ -227,16 +207,11 @@ class NativeMessagingHost {
       if (methodName === 'checkAvailability') {
         // Always try to connect when checking availability
         if (this.desktopAppStatus !== DESKTOP_APP_STATUS.CONNECTED) {
-          log(
-            'IPC-BRIDGE',
-            'INFO',
-            'Checking availability - attempting to connect...'
-          )
+          log('INFO', 'Checking availability - attempting to connect...')
           try {
             await this.connectToIPC()
           } catch (connectError) {
             log(
-              'IPC-BRIDGE',
               'INFO',
               `Availability check - connection failed: ${connectError.message}`
             )
@@ -256,7 +231,6 @@ class NativeMessagingHost {
         }
         this.handler.send(response)
         log(
-          'IPC-BRIDGE',
           'INFO',
           `Sent availability check response: ${JSON.stringify(response)}`
         )
@@ -266,19 +240,11 @@ class NativeMessagingHost {
       // For all other commands, check if desktop app is available
       if (this.desktopAppStatus !== DESKTOP_APP_STATUS.CONNECTED) {
         // Try to reconnect first
-        log(
-          'IPC-BRIDGE',
-          'INFO',
-          'Desktop app not connected, attempting to connect...'
-        )
+        log('INFO', 'Desktop app not connected, attempting to connect...')
         try {
           await this.connectToIPC()
         } catch (connectError) {
-          log(
-            'IPC-BRIDGE',
-            'INFO',
-            `Failed to connect: ${connectError.message}`
-          )
+          log('INFO', `Failed to connect: ${connectError.message}`)
         }
 
         // Check again after connection attempt
@@ -292,18 +258,14 @@ class NativeMessagingHost {
             error: errorMessage,
             errorCode: this.desktopAppStatus
           })
-          log('IPC-BRIDGE', 'INFO', `Sent error response: ${errorMessage}`)
+          log('INFO', `Sent error response: ${errorMessage}`)
           return
         }
       }
 
       // Check if IPC client is still connected
       if (!this.ipcClient || this.ipcClient.closed) {
-        log(
-          'IPC-BRIDGE',
-          'INFO',
-          'IPC client is not connected, attempting to reconnect...'
-        )
+        log('INFO', 'IPC client is not connected, attempting to reconnect...')
         await this.reconnectIPC()
       }
 
@@ -334,11 +296,7 @@ class NativeMessagingHost {
             error.message.includes('timed out') ||
             error.message.includes('RPC destroyed')
           ) {
-            log(
-              'IPC-BRIDGE',
-              'INFO',
-              'IPC call failed, desktop app may have been closed'
-            )
+            log('INFO', 'IPC call failed, desktop app may have been closed')
             this.desktopAppStatus = DESKTOP_APP_STATUS.NOT_RUNNING
             this.ipcClient = null
           }
@@ -355,31 +313,19 @@ class NativeMessagingHost {
         result
       })
 
-      log(
-        'IPC-BRIDGE',
-        'INFO',
-        `Sent response for ${methodName}: ${JSON.stringify(result)}`
-      )
+      log('INFO', `Sent response for ${methodName}: ${JSON.stringify(result)}`)
     } catch (error) {
-      log('IPC-BRIDGE', 'INFO', `Error handling message: ${error.message}`)
+      log('INFO', `Error handling message: ${error.message}`)
 
       // If it's an RPC destroyed error, try to reconnect
       if (error.message.includes('RPC destroyed')) {
-        log(
-          'IPC-BRIDGE',
-          'INFO',
-          'RPC destroyed detected, attempting to reconnect...'
-        )
+        log('INFO', 'RPC destroyed detected, attempting to reconnect...')
         try {
           await this.reconnectIPC()
           // Retry the message after reconnection
           return this.handleMessage(message)
         } catch (reconnectError) {
-          log(
-            'IPC-BRIDGE',
-            'INFO',
-            `Failed to reconnect: ${reconnectError.message}`
-          )
+          log('INFO', `Failed to reconnect: ${reconnectError.message}`)
           this.updateDesktopAppStatus(reconnectError)
         }
       }
@@ -415,11 +361,7 @@ class NativeMessagingHost {
         throw new Error(STATUS_MESSAGES[this.desktopAppStatus])
       }
     } catch (error) {
-      log(
-        'IPC-BRIDGE',
-        'INFO',
-        `Failed to reconnect to IPC server: ${error.message}`
-      )
+      log('INFO', `Failed to reconnect to IPC server: ${error.message}`)
       throw error
     }
   }
@@ -440,12 +382,12 @@ class NativeMessagingHost {
       this.handler.stop()
     }
 
-    log('IPC-BRIDGE', 'INFO', 'Simple native messaging host stopped')
+    log('INFO', 'Simple native messaging host stopped')
   }
 }
 
 // Log early to verify logging works
-log('IPC-BRIDGE', 'INFO', 'Native messaging host script started')
+log('INFO', 'Native messaging host script started')
 
 // Create and start the host
 const host = new NativeMessagingHost()
@@ -462,26 +404,22 @@ process.on('SIGTERM', () => {
 })
 
 process.on('uncaughtException', (error) => {
-  log('IPC-BRIDGE', 'INFO', 'Uncaught exception: ' + error.message)
-  log('IPC-BRIDGE', 'INFO', 'Stack trace: ' + error.stack)
+  log('INFO', 'Uncaught exception: ' + error.message)
+  log('INFO', 'Stack trace: ' + error.stack)
   host.stop()
   process.exit(1)
 })
 
 process.on('unhandledRejection', (reason, promise) => {
-  log(
-    'IPC-BRIDGE',
-    'INFO',
-    'Unhandled rejection at: ' + promise + ' reason: ' + reason
-  )
+  log('INFO', 'Unhandled rejection at: ' + promise + ' reason: ' + reason)
   host.stop()
   process.exit(1)
 })
 
 // Start the host
-log('IPC-BRIDGE', 'INFO', 'About to start host...')
+log('INFO', 'About to start host...')
 host.start().catch((error) => {
-  log('IPC-BRIDGE', 'INFO', 'Failed to start host: ' + error.message)
-  log('IPC-BRIDGE', 'INFO', 'Stack trace: ' + error.stack)
+  log('INFO', 'Failed to start host: ' + error.message)
+  log('INFO', 'Stack trace: ' + error.stack)
   process.exit(1)
 })

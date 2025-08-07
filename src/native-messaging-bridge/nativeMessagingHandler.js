@@ -1,32 +1,11 @@
 const { EventEmitter } = require('events')
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
 
 const {
   wrapMessage,
   unwrapMessage,
   isWrappedMessage
 } = require('./nativeMessagingProtocol.js')
-
-/**
- * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level
- * @param {string} message
- */
-const log = (level, message) => {
-  try {
-    const logFile = path.join(
-      os.tmpdir(),
-      'logs',
-      'native-messaging-handler.log'
-    )
-    const timestamp = new Date().toISOString()
-    const logMsg = `${timestamp} [${level}] ${message}\n`
-    fs.appendFileSync(logFile, logMsg)
-  } catch {
-    // Ignore logging errors
-  }
-}
+const { log } = require('./utils')
 
 // Constants
 const MESSAGE_SIZE_LIMIT = 1024 * 1024 // 1MB
@@ -335,6 +314,54 @@ class NativeMessagingHandler extends EventEmitter {
     process.stdin.removeAllListeners()
     this.inputBuffer = Buffer.alloc(0)
     log('INFO', 'Native messaging handler stopped')
+  }
+
+  addListener(eventName, listener) {
+    return undefined;
+  }
+
+  eventNames() {
+    return undefined;
+  }
+
+  getMaxListeners() {
+    return 0;
+  }
+
+  listenerCount(eventName, listener) {
+    return 0;
+  }
+
+  listeners(eventName) {
+    return undefined;
+  }
+
+  off(eventName, listener) {
+    return undefined;
+  }
+
+  once(eventName, listener) {
+    return undefined;
+  }
+
+  prependListener(eventName, listener) {
+    return undefined;
+  }
+
+  prependOnceListener(eventName, listener) {
+    return undefined;
+  }
+
+  rawListeners(eventName) {
+    return undefined;
+  }
+
+  removeAllListeners(eventName) {
+    return undefined;
+  }
+
+  setMaxListeners(n) {
+    return undefined;
   }
 }
 
