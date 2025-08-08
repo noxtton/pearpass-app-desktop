@@ -44,6 +44,7 @@
     "@lingui/format-json": "5.1.2",
     "@lingui/macro": "5.1.2",
     "@lingui/react": "5.1.2",
+    "dotenv": "17.2.1",
     "htm": "3.1.1",
     "jszip": "3.10.1",
     "pear-apps-lib-feedback": "github:tetherto/pear-apps-lib-feedback#v0.0.3",
