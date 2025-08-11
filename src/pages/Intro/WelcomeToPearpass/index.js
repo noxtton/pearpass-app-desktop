@@ -26,7 +26,7 @@ export const WelcomeToPearpass = ({ isLockLocked }) => {
               >${i18n._('peer-to-peer password manager.')}<//
             >`,
             i18n._(' Your data'),
-            html`<${StrongText}>${i18n._('never touches a server')}<//>`,
+            html`<${StrongText}>${i18n._('never touches a server -')}<//>`,
             i18n._('it lives with you, syncs between your devices, and'),
             html`<${StrongText}
               >${i18n._('stays entirely in your control.')}<//
@@ -44,7 +44,7 @@ export const WelcomeToPearpass = ({ isLockLocked }) => {
       <//>
 
       <${DescriptionText} className=${isLockLocked ? 'fade-out' : ''}>
-        This is a description text for the Welcome to Pearpass section.
+        Fully local, open-source password manager
       <//>
     <//>
   `

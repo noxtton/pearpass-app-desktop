@@ -15,6 +15,7 @@ import {
   LastPageContentContainer,
   LastPageDescription,
   LogoContainer,
+  SkipContainer,
   StrongText,
   Video,
   WelcomeText
@@ -48,6 +49,10 @@ export const Intro = () => {
       return
     }
     setPageIndex((prevIndex) => prevIndex + 1)
+  }
+
+  const handleSkipToLast = () => {
+    setPageIndex(5)
   }
 
   const renderPageContent = () => {
@@ -144,6 +149,15 @@ export const Intro = () => {
       <//>
 
       <${ContentContainer}> ${renderPageContent()} <//>
+
+      ${!isLastPage &&
+      html`
+        <${SkipContainer} className=${isLockLocked ? 'fade-in' : ''}>
+          <${ButtonSecondary} onClick=${handleSkipToLast}>
+            ${i18n._('Skip')}
+          <//>
+        <//>
+      `}
 
       <${ButtonContainer} className=${isLockLocked ? 'fade-in' : ''}>
         <${ButtonSecondary} disabled=${!isLockLocked} onClick=${handleNextPage}>

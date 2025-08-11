@@ -12,8 +12,6 @@ export const BlackBackground = styled.div`
     pageIndex === 0 || pageIndex === 5 ? '#010702' : theme.colors.black.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
   padding: 40px 50px;
-  /* background-image: ${({ hasImageBackground }) =>
-    hasImageBackground ? 'url(assets/images/pearBackground.png)' : 'none'}; */
 `
 
 export const GradientBackground = styled.div`
@@ -118,4 +116,10 @@ export const Video = styled.video`
   max-width: 100%;
   height: auto;
   object-fit: cover;
+`
+
+export const SkipContainer = styled.div`
+  position: absolute;
+  top: 84px;
+  right: 106px;
 `
