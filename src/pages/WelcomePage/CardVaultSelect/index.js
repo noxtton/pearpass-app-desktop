@@ -91,7 +91,8 @@ export const CardVaultSelect = () => {
         <//>
       <//>
 
-      ${!hasVaults &&
+      <!-- Will be visible when the feature is added-->
+      <!-- ${!hasVaults &&
       html`
         <${ImportContainer}>
           ${i18n._('Or')}
@@ -100,7 +101,7 @@ export const CardVaultSelect = () => {
             ${i18n._('import from a backup file')}
           <//>
         <//>
-      `}
+      `} -->
     <//>
   `
 }
