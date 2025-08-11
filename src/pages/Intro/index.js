@@ -6,6 +6,7 @@ import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 
 import { AddDevice } from './AddDevice'
 import { CategoryAnimation } from './CategoryAnimation'
+import { CreditCardAnimation } from './CreditCardAnimation'
 import { PasswordFillAnimation } from './PasswordFillAnimation'
 import {
   BlackBackground,
@@ -97,7 +98,7 @@ export const Intro = () => {
               html`<${StrongText}>${i18n._('Store everything')}<//>`,
               i18n._('from passwords to payment cards, IDs, and private notes')
             ]}
-            content=${html`<img src="assets/images/EditCategory.png" />`}
+            content=${html`<${CreditCardAnimation} />`}
           />
         `
 
