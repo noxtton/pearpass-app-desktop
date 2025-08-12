@@ -2,7 +2,7 @@ const fs = require('fs')
 const os = require('os')
 const path = require('path')
 
-const DEBUG_MODE = false
+const DEBUG_MODE = true
 
 /**
  * Returns cross-platform IPC path

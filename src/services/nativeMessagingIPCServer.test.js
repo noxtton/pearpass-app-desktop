@@ -162,25 +162,27 @@ describe('nativeMessagingIPCServer', () => {
         )
       })
 
-      it('should correctly wire up handlers to the pearpass client', async () => {
+      it('should correctly wire up secure handlers to the pearpass client', async () => {
         await serverInstance.start()
         const handlers = IPC.Server.mock.calls[0][0].handlers
 
+        // Test secure handlers that are always available
         await handlers.encryptionInit()
         expect(mockPearpassClient.encryptionInit).toHaveBeenCalled()
 
-        const getParams = { key: 'testKey' }
-        await handlers.encryptionGet(getParams)
-        expect(mockPearpassClient.encryptionGet).toHaveBeenCalledWith(
-          getParams.key
-        )
+        // Test availability check handler
+        const availability = await handlers.checkAvailability()
+        expect(availability).toEqual({
+          available: true,
+          status: 'running',
+          message: 'Desktop app is running'
+        })
 
-        const addParams = { key: 'testKey', data: 'testData' }
-        await handlers.encryptionAdd(addParams)
-        expect(mockPearpassClient.encryptionAdd).toHaveBeenCalledWith(
-          addParams.key,
-          addParams.data
-        )
+        // Test that sensitive handlers like encryptionGet are NOT directly exposed
+        // They should only be accessible via nmSecureRequest
+        expect(handlers.encryptionGet).toBeUndefined()
+        expect(handlers.encryptionAdd).toBeUndefined()
+        expect(handlers.activeVaultList).toBeUndefined()
       })
     })
 

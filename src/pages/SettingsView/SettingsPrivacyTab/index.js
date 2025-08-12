@@ -23,6 +23,7 @@ import {
 } from '../../../services/nativeMessagingPreferences.js'
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
 import { Description } from '../ExportTab/styles'
+import { getOrCreateIdentity, getPairingCode, getFingerprint } from '../../../services/security/appIdentity.js'
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
@@ -90,6 +91,32 @@ export const SettingsPrivacyTab = () => {
       setIsBrowserExtensionEnabled(true)
     }
   }, [])
+
+  // Pairing info state
+  const [pairingCode, setPairingCode] = useState('')
+  const [fingerprint, setFingerprint] = useState('')
+  const [loadingPairing, setLoadingPairing] = useState(false)
+
+  const loadPairingInfo = async () => {
+    try {
+      setLoadingPairing(true)
+      const client = createOrGetPearpassClient()
+      const id = await getOrCreateIdentity(client)
+      setPairingCode(getPairingCode(id.ed25519PublicKey))
+      setFingerprint(getFingerprint(id.ed25519PublicKey))
+    } catch {
+      setPairingCode('')
+      setFingerprint('')
+    } finally {
+      setLoadingPairing(false)
+    }
+  }
+
+  useEffect(() => {
+    if (isBrowserExtensionEnabled && !showSetupForm) {
+      void loadPairingInfo()
+    }
+  }, [isBrowserExtensionEnabled, showSetupForm])
 
   return html`
     <${CardSingleSetting} title=${i18n._('Browser Extension')}>
@@ -164,6 +191,29 @@ export const SettingsPrivacyTab = () => {
               }}
             >
               ${i18n._('Connect Different Extension')}
+            <//>
+          <//>
+        </div>
+      <//>
+
+      <${CardSingleSetting} title=${i18n._('Extension Pairing')}>
+        <${Description}>
+          ${i18n._('Use this information to pair and pin the browser extension.')}
+        <//>
+        <${Description} style=${{ display: 'block', marginTop: '8px' }}>
+          ${i18n._('Pairing Code')}: ${
+            loadingPairing ? i18n._('Loading...') : pairingCode || i18n._('Unavailable')
+          }
+        <//>
+        <${Description} style=${{ display: 'block' }}>
+          ${i18n._('Fingerprint')}: ${
+            loadingPairing ? i18n._('Loading...') : fingerprint || i18n._('Unavailable')
+          }
+        <//>
+        <div>
+          <${ButtonWrapper}>
+            <${ButtonSecondary} onClick=${() => void loadPairingInfo()}>
+              ${i18n._('Refresh Pairing Info')}
             <//>
           <//>
         </div>
