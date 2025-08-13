@@ -1,13 +1,15 @@
+import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
+
 /**
  * Get/set native messaging preference in localStorage
  */
 export const getNativeMessagingEnabled = () =>
-  localStorage.getItem('native-messaging-enabled') === 'true'
+  localStorage.getItem(LOCAL_STORAGE_KEYS.NATIVE_MESSAGING_ENABLED) === 'true'
 
 export const setNativeMessagingEnabled = (enabled) => {
   if (enabled) {
-    localStorage.setItem('native-messaging-enabled', 'true')
+    localStorage.setItem(LOCAL_STORAGE_KEYS.NATIVE_MESSAGING_ENABLED, 'true')
   } else {
-    localStorage.removeItem('native-messaging-enabled')
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.NATIVE_MESSAGING_ENABLED)
   }
 }
