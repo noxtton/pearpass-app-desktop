@@ -54,9 +54,6 @@ jest.mock('./handlers/SecurityHandlers', () => ({
       x25519PublicKey: 'mock-x25519-key',
       fingerprint: 'mock-fingerprint'
     })
-    this.nmGetPairingCode = jest.fn().mockResolvedValue({
-      pairingCode: '123456'
-    })
     this.nmBeginHandshake = jest.fn().mockResolvedValue({
       sessionId: 'mock-session-id',
       appEphemeralPubB64: 'mock-ephemeral-key',
@@ -247,7 +244,6 @@ describe('nativeMessagingIPCServer', () => {
 
         // Test that security handlers are available
         expect(handlers.nmGetAppIdentity).toBeDefined()
-        expect(handlers.nmGetPairingCode).toBeDefined()
         expect(handlers.nmBeginHandshake).toBeDefined()
         expect(handlers.nmFinishHandshake).toBeDefined()
         expect(handlers.nmSecureRequest).toBeDefined()

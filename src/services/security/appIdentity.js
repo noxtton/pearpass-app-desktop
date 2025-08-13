@@ -7,9 +7,10 @@ import { logger } from '../../utils/logger'
 
 const ENC_KEY_ED25519 = 'nm.identity.ed25519'
 const ENC_KEY_X25519 = 'nm.identity.x25519'
+const ENC_KEY_CREATION_DATE = 'nm.identity.creationDate'
 
 // In-memory fallback cache if persistence is unavailable (e.g., before unlock)
-// Structure: { ed25519PublicKeyBytes, ed25519PrivateKeyBytes, x25519PublicKeyBytes, x25519PrivateKeyBytes }
+// Structure: { ed25519PublicKeyBytes, ed25519PrivateKeyBytes, x25519PublicKeyBytes, x25519PrivateKeyBytes, creationDate }
 let MEMORY_IDENTITY = null
 
 /**
@@ -43,7 +44,7 @@ const fromBase64 = (base64String) => new Uint8Array(Buffer.from(base64String, 'b
 /**
  * Create or load the long-term identity keypairs.
  * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} client
- * @returns {Promise<{ ed25519PublicKey: string, x25519PublicKey: string }>} base64-encoded public keys
+ * @returns {Promise<{ ed25519PublicKey: string, x25519PublicKey: string, creationDate: string }>} base64-encoded public keys and creation date
  */
 export const getOrCreateIdentity = async (client) => {
   // Always try to initialize encryption if not already done
@@ -73,12 +74,14 @@ export const getOrCreateIdentity = async (client) => {
   // Try load encrypted blobs first (normalize to base64 string)
   let ed25519BlobB64 = normalizeEncryptionGet(await client.encryptionGet(ENC_KEY_ED25519).catch(() => null))
   let x25519BlobB64 = normalizeEncryptionGet(await client.encryptionGet(ENC_KEY_X25519).catch(() => null))
+  let creationDate = normalizeEncryptionGet(await client.encryptionGet(ENC_KEY_CREATION_DATE).catch(() => null))
 
   // Fallback to in-memory cache if present
   if ((!ed25519BlobB64 || !x25519BlobB64) && MEMORY_IDENTITY) {
     return {
       ed25519PublicKey: toBase64(MEMORY_IDENTITY.ed25519PublicKeyBytes),
-      x25519PublicKey: toBase64(MEMORY_IDENTITY.x25519PublicKeyBytes)
+      x25519PublicKey: toBase64(MEMORY_IDENTITY.x25519PublicKeyBytes),
+      creationDate: MEMORY_IDENTITY.creationDate || new Date().toISOString()
     }
   }
 
@@ -114,6 +117,9 @@ export const getOrCreateIdentity = async (client) => {
       Buffer.from(x25519PrivateKeyBytes)
     ])
 
+    // Store creation date
+    creationDate = new Date().toISOString()
+    
     let persisted = true
     try {
       await client.encryptionAdd(ENC_KEY_ED25519, payloadEd25519.toString('base64'))
@@ -125,6 +131,11 @@ export const getOrCreateIdentity = async (client) => {
     } catch {
       persisted = false
     }
+    try {
+      await client.encryptionAdd(ENC_KEY_CREATION_DATE, creationDate)
+    } catch {
+      persisted = false
+    }
 
     // If we couldn't persist yet (e.g., locked), keep in-memory so UI can show pairing
     if (!persisted) {
@@ -132,7 +143,8 @@ export const getOrCreateIdentity = async (client) => {
         ed25519PublicKeyBytes,
         ed25519PrivateKeyBytes,
         x25519PublicKeyBytes,
-        x25519PrivateKeyBytes
+        x25519PrivateKeyBytes,
+        creationDate
       }
     }
   } else {
@@ -160,10 +172,11 @@ export const getOrCreateIdentity = async (client) => {
     )
   }
 
-  // Return only public keys (base64)
+  // Return only public keys (base64) and creation date
   return {
     ed25519PublicKey: toBase64(ed25519PublicKeyBytes),
-    x25519PublicKey: toBase64(x25519PublicKeyBytes)
+    x25519PublicKey: toBase64(x25519PublicKeyBytes),
+    creationDate: creationDate || new Date().toISOString()
   }
 }
 
@@ -191,6 +204,31 @@ export const getFingerprint = (ed25519PublicKeyB64) => {
   const out = new Uint8Array(32)
   sodium.crypto_hash_sha256(out, publicKeyBytes)
   return Buffer.from(out).toString('hex')
+}
+
+/**
+ * Verify a pairing token against the expected value
+ * The pairing token is a combination of the pairing code and a portion of the fingerprint
+ * Format: XXXXXX-YYYY where XXXXXX is the 6-digit pairing code and YYYY is fingerprint chars
+ * @param {string} ed25519PublicKeyB64
+ * @param {string} userProvidedToken
+ * @returns {boolean}
+ */
+export const verifyPairingToken = (ed25519PublicKeyB64, userProvidedToken) => {
+  if (!userProvidedToken || typeof userProvidedToken !== 'string') {
+    return false
+  }
+  
+  // Generate the expected token
+  const pairingCode = getPairingCode(ed25519PublicKeyB64)
+  const fingerprint = getFingerprint(ed25519PublicKeyB64)
+  
+  // Create a token format: pairing code + first 4 chars of fingerprint
+  // This provides both user-friendly verification and cryptographic binding
+  const expectedToken = `${pairingCode}-${fingerprint.slice(0, 4).toUpperCase()}`
+  
+  // Case-insensitive comparison
+  return userProvidedToken.toUpperCase() === expectedToken
 }
 
 // Internal: expose in-memory identity for session fallback

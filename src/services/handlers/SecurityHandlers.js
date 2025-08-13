@@ -11,23 +11,28 @@ export class SecurityHandlers {
   /**
    * Get the app's identity for pairing
    */
-  async nmGetAppIdentity() {
-    const { getOrCreateIdentity, getFingerprint } = await import('../security/appIdentity.js')
+  async nmGetAppIdentity(params) {
+    const { pairingToken } = params || {}
+    
+    // Require a pairing token that the user manually copied from desktop app
+    if (!pairingToken) {
+      throw new Error('PairingTokenRequired: Please enter the pairing token from the desktop app')
+    }
+    
+    const { getOrCreateIdentity, getFingerprint, verifyPairingToken } = await import('../security/appIdentity.js')
     const id = await getOrCreateIdentity(this.client)
+    
+    // Verify the pairing token matches what the desktop app expects
+    const isValidToken = await verifyPairingToken(id.ed25519PublicKey, pairingToken)
+    if (!isValidToken) {
+      throw new Error('InvalidPairingToken: The pairing token is incorrect')
+    }
+    
     return {
       ed25519PublicKey: id.ed25519PublicKey,
       x25519PublicKey: id.x25519PublicKey,
       fingerprint: getFingerprint(id.ed25519PublicKey)
     }
-  }
-
-  /**
-   * Get pairing code for manual entry
-   */
-  async nmGetPairingCode() {
-    const { getOrCreateIdentity, getPairingCode } = await import('../security/appIdentity.js')
-    const id = await getOrCreateIdentity(this.client)
-    return { pairingCode: getPairingCode(id.ed25519PublicKey) }
   }
 
   /**
@@ -37,7 +42,7 @@ export class SecurityHandlers {
     const { beginHandshake } = await import('../security/sessionManager.js')
     const { extEphemeralPubB64 } = params || {}
     if (!extEphemeralPubB64) throw new Error('Missing extEphemeralPubB64')
-    return await beginHandshake(this.client, extEphemeralPubB64)
+    return beginHandshake(this.client, extEphemeralPubB64);
   }
 
   /**

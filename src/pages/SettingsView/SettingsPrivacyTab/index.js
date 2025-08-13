@@ -24,6 +24,13 @@ import {
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
 import { Description } from '../ExportTab/styles'
 import { getOrCreateIdentity, getPairingCode, getFingerprint } from '../../../services/security/appIdentity.js'
+import {
+  ListItemContainer, ListItemDate,
+  ListItemDescription,
+  ListItemInfo,
+  ListItemName
+} from "../../../components/ListItem/styles.js";
+import { COPY_FEEDBACK_DISPLAY_TIME } from "../../../constants/timeConstants.js";
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
@@ -93,22 +100,53 @@ export const SettingsPrivacyTab = () => {
   }, [])
 
   // Pairing info state
-  const [pairingCode, setPairingCode] = useState('')
+  const [pairingToken, setPairingToken] = useState('')
   const [fingerprint, setFingerprint] = useState('')
+  const [tokenCreationDate, setTokenCreationDate] = useState('')
   const [loadingPairing, setLoadingPairing] = useState(false)
+  const [copyFeedback, setCopyFeedback] = useState('')
 
   const loadPairingInfo = async () => {
     try {
       setLoadingPairing(true)
       const client = createOrGetPearpassClient()
       const id = await getOrCreateIdentity(client)
-      setPairingCode(getPairingCode(id.ed25519PublicKey))
-      setFingerprint(getFingerprint(id.ed25519PublicKey))
+      const code = getPairingCode(id.ed25519PublicKey)
+      const fingerprint = getFingerprint(id.ed25519PublicKey)
+      // Create a combined token for secure pairing
+      const token = `${code}-${fingerprint.slice(0, 4).toUpperCase()}`
+      setPairingToken(token)
+      setFingerprint(fingerprint)
+      setTokenCreationDate(id.creationDate)
     } catch {
-      setPairingCode('')
+      setPairingToken('')
       setFingerprint('')
+      setTokenCreationDate('')
     } finally {
       setLoadingPairing(false)
+    }
+  }
+
+  const copyTokenToClipboard = async () => {
+    if (!pairingToken || loadingPairing) return
+    
+    try {
+      await navigator.clipboard.writeText(pairingToken)
+      setCopyFeedback(i18n._('Copied!'))
+      setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
+    } catch (err) {
+      setCopyFeedback(i18n._('Failed to copy'))
+      setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
+    }
+  }
+
+  const formatCreationDate = (isoDate) => {
+    if (!isoDate) return ''
+    try {
+      const date = new Date(isoDate)
+      return i18n._(`Created on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`)
+    } catch {
+      return ''
     }
   }
 
@@ -179,7 +217,7 @@ export const SettingsPrivacyTab = () => {
       <${CardSingleSetting} title=${i18n._('Connection Status')}>
         <${Description}>
           ${i18n._(
-            'Browser extension is connected and can communicate with PearPass securely.'
+            'Browser extension is connected and can communicate with PearPass.'
           )}
         <//>
         <div>
@@ -198,22 +236,48 @@ export const SettingsPrivacyTab = () => {
 
       <${CardSingleSetting} title=${i18n._('Extension Pairing')}>
         <${Description}>
-          ${i18n._('Use this information to pair and pin the browser extension.')}
+          ${i18n._('Click below to copy the pairing token to your clipboard, then paste it in your browser extension to establish secure communication.')}
         <//>
-        <${Description} style=${{ display: 'block', marginTop: '8px' }}>
-          ${i18n._('Pairing Code')}: ${
-            loadingPairing ? i18n._('Loading...') : pairingCode || i18n._('Unavailable')
-          }
+        <${ListItemContainer} 
+          onClick=${copyTokenToClipboard}
+          style=${{ 
+            cursor: pairingToken && !loadingPairing ? 'pointer' : 'default',
+            transition: 'background-color 0.2s',
+            borderRadius: '8px',
+            marginTop: '16px'
+          }}
+          onMouseEnter=${(e) => {
+            if (pairingToken && !loadingPairing) {
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.05)'
+            }
+          }}
+          onMouseLeave=${(e) => {
+            e.currentTarget.style.backgroundColor = 'transparent'
+          }}
+        >
+          <${ListItemInfo}>
+            <${ListItemDescription}>
+              <${ListItemName} style=${{ fontFamily: 'monospace', fontSize: '16px', fontWeight: 'bold' }}>${
+                      loadingPairing ? i18n._('Loading...') : pairingToken || i18n._('Unavailable')
+              }<//>
+              <${ListItemDate}>${
+                copyFeedback || formatCreationDate(tokenCreationDate)
+              }<//>
+            <//>
+          <//>
         <//>
-        <${Description} style=${{ display: 'block' }}>
-          ${i18n._('Fingerprint')}: ${
-            loadingPairing ? i18n._('Loading...') : fingerprint || i18n._('Unavailable')
+        <${Description} style=${{ display: 'block', marginTop: '16px', fontSize: '12px', color: '#666' }}>
+          ${i18n._('⚠️ Security Note: Only enter this token in the official PearPass browser extension. Never share it with anyone or enter it on websites.')}
+        <//>
+        <${Description} style=${{ display: 'block', marginTop: '8px', fontSize: '12px', color: '#666' }}>
+          ${i18n._('Fingerprint (for verification): ')}${
+            loadingPairing ? '' : fingerprint ? fingerprint.slice(0, 16) + '...' : ''
           }
         <//>
         <div>
           <${ButtonWrapper}>
             <${ButtonSecondary} onClick=${() => void loadPairingInfo()}>
-              ${i18n._('Refresh Pairing Info')}
+              ${i18n._('Generate New Pairing Token')}
             <//>
           <//>
         </div>

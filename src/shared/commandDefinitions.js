@@ -44,7 +44,6 @@ const COMMAND_DEFINITIONS = [
 
   // Native Messaging secure channel (pairing/handshake)
   { id: 1100, name: 'nmGetAppIdentity' },
-  { id: 1101, name: 'nmGetPairingCode' },
   // Handshake/session placeholders for Phase 2
   { id: 1102, name: 'nmBeginHandshake' },
   { id: 1103, name: 'nmFinishHandshake' },
