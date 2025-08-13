@@ -11,6 +11,14 @@ import {
 import { InputWrapper, SwitchList, SwitchWrapper } from './styles'
 import { ButtonWrapper } from './styles.js'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import {
+  ListItemContainer,
+  ListItemDate,
+  ListItemDescription,
+  ListItemInfo,
+  ListItemName
+} from '../../../components/ListItem/styles.js'
+import { COPY_FEEDBACK_DISPLAY_TIME } from '../../../constants/timeConstants.js'
 import { createOrGetPearpassClient } from '../../../services/createOrGetPearpassClient'
 import {
   isNativeMessagingIPCRunning,
@@ -21,16 +29,13 @@ import {
   getNativeMessagingEnabled,
   setNativeMessagingEnabled
 } from '../../../services/nativeMessagingPreferences.js'
+import {
+  getOrCreateIdentity,
+  getPairingCode,
+  getFingerprint
+} from '../../../services/security/appIdentity.js'
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
 import { Description } from '../ExportTab/styles'
-import { getOrCreateIdentity, getPairingCode, getFingerprint } from '../../../services/security/appIdentity.js'
-import {
-  ListItemContainer, ListItemDate,
-  ListItemDescription,
-  ListItemInfo,
-  ListItemName
-} from "../../../components/ListItem/styles.js";
-import { COPY_FEEDBACK_DISPLAY_TIME } from "../../../constants/timeConstants.js";
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
@@ -129,12 +134,12 @@ export const SettingsPrivacyTab = () => {
 
   const copyTokenToClipboard = async () => {
     if (!pairingToken || loadingPairing) return
-    
+
     try {
       await navigator.clipboard.writeText(pairingToken)
       setCopyFeedback(i18n._('Copied!'))
       setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
-    } catch (err) {
+    } catch {
       setCopyFeedback(i18n._('Failed to copy'))
       setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
     }
@@ -144,7 +149,9 @@ export const SettingsPrivacyTab = () => {
     if (!isoDate) return ''
     try {
       const date = new Date(isoDate)
-      return i18n._(`Created on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`)
+      return i18n._(
+        `Created on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
+      )
     } catch {
       return ''
     }
@@ -236,11 +243,13 @@ export const SettingsPrivacyTab = () => {
 
       <${CardSingleSetting} title=${i18n._('Extension Pairing')}>
         <${Description}>
-          ${i18n._('Click below to copy the pairing token to your clipboard, then paste it in your browser extension to establish secure communication.')}
+          ${i18n._(
+            'Click below to copy the pairing token to your clipboard, then paste it in your browser extension to establish secure communication.'
+          )}
         <//>
-        <${ListItemContainer} 
+        <${ListItemContainer}
           onClick=${copyTokenToClipboard}
-          style=${{ 
+          style=${{
             cursor: pairingToken && !loadingPairing ? 'pointer' : 'default',
             transition: 'background-color 0.2s',
             borderRadius: '8px',
@@ -257,22 +266,47 @@ export const SettingsPrivacyTab = () => {
         >
           <${ListItemInfo}>
             <${ListItemDescription}>
-              <${ListItemName} style=${{ fontFamily: 'monospace', fontSize: '16px', fontWeight: 'bold' }}>${
-                      loadingPairing ? i18n._('Loading...') : pairingToken || i18n._('Unavailable')
-              }<//>
-              <${ListItemDate}>${
-                copyFeedback || formatCreationDate(tokenCreationDate)
-              }<//>
+              <${ListItemName}
+                style=${{
+                  fontFamily: 'monospace',
+                  fontSize: '16px',
+                  fontWeight: 'bold'
+                }}
+                >${loadingPairing
+                  ? i18n._('Loading...')
+                  : pairingToken || i18n._('Unavailable')}<//
+              >
+              <${ListItemDate}
+                >${copyFeedback || formatCreationDate(tokenCreationDate)}<//
+              >
             <//>
           <//>
         <//>
-        <${Description} style=${{ display: 'block', marginTop: '16px', fontSize: '12px', color: '#666' }}>
-          ${i18n._('⚠️ Security Note: Only enter this token in the official PearPass browser extension. Never share it with anyone or enter it on websites.')}
+        <${Description}
+          style=${{
+            display: 'block',
+            marginTop: '16px',
+            fontSize: '12px',
+            color: '#666'
+          }}
+        >
+          ${i18n._(
+            '⚠️ Security Note: Only enter this token in the official PearPass browser extension. Never share it with anyone or enter it on websites.'
+          )}
         <//>
-        <${Description} style=${{ display: 'block', marginTop: '8px', fontSize: '12px', color: '#666' }}>
-          ${i18n._('Fingerprint (for verification): ')}${
-            loadingPairing ? '' : fingerprint ? fingerprint.slice(0, 16) + '...' : ''
-          }
+        <${Description}
+          style=${{
+            display: 'block',
+            marginTop: '8px',
+            fontSize: '12px',
+            color: '#666'
+          }}
+        >
+          ${i18n._('Fingerprint (for verification): ')}${loadingPairing
+            ? ''
+            : fingerprint
+              ? fingerprint.slice(0, 16) + '...'
+              : ''}
         <//>
         <div>
           <${ButtonWrapper}>

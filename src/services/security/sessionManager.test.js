@@ -1,4 +1,5 @@
 import sodium from 'sodium-native'
+
 import {
   beginHandshake,
   getSession,
@@ -38,17 +39,20 @@ jest.mock('sodium-native', () => ({
       out[i] = (input[0] + i) % 256
     }
   }),
-  crypto_sign_detached: jest.fn((sig, msg, sk) => {
+  // eslint-disable-next-line no-unused-vars
+  crypto_sign_detached: jest.fn((sig, _msg, _sk) => {
     // Mock signature
     sig.fill(99)
   }),
-  crypto_secretbox_easy: jest.fn((cipher, msg, nonce, key) => {
+  // eslint-disable-next-line no-unused-vars
+  crypto_secretbox_easy: jest.fn((cipher, msg, _nonce, _key) => {
     // Mock encryption - just copy with a tag
     cipher.set(msg)
-    cipher.set([0xAA, 0xBB, 0xCC], msg.length)
+    cipher.set([0xaa, 0xbb, 0xcc], msg.length)
     return true
   }),
-  crypto_secretbox_open_easy: jest.fn((msg, cipher, nonce, key) => {
+  // eslint-disable-next-line no-unused-vars
+  crypto_secretbox_open_easy: jest.fn((msg, cipher, _nonce, _key) => {
     // Mock decryption - just copy without tag
     const msgLen = Math.max(0, cipher.length - 3)
     if (msgLen > 0 && msgLen <= msg.length) {
@@ -91,13 +95,13 @@ describe('sessionManager', () => {
   describe('beginHandshake', () => {
     it('should create a new session with ephemeral keys', async () => {
       const extEphemeralPubB64 = Buffer.alloc(32, 20).toString('base64')
-      
+
       // Mock stored keys
       const ed25519Mock = Buffer.concat([
         Buffer.alloc(32, 5),
         Buffer.alloc(64, 6)
       ]).toString('base64')
-      
+
       const x25519Mock = Buffer.concat([
         Buffer.alloc(32, 7),
         Buffer.alloc(32, 8)
@@ -121,12 +125,12 @@ describe('sessionManager', () => {
 
     it('should derive shared secret using ECDH', async () => {
       const extEphemeralPubB64 = Buffer.alloc(32, 30).toString('base64')
-      
+
       const ed25519Mock = Buffer.concat([
         Buffer.alloc(32, 5),
         Buffer.alloc(64, 6)
       ]).toString('base64')
-      
+
       const x25519Mock = Buffer.concat([
         Buffer.alloc(32, 7),
         Buffer.alloc(32, 8)
@@ -147,7 +151,7 @@ describe('sessionManager', () => {
 
     it('should use in-memory identity when storage is unavailable', async () => {
       const extEphemeralPubB64 = Buffer.alloc(32, 40).toString('base64')
-      
+
       mockClient.encryptionGet.mockResolvedValue(null)
 
       const result = await beginHandshake(mockClient, extEphemeralPubB64)
@@ -155,14 +159,14 @@ describe('sessionManager', () => {
       expect(result).toHaveProperty('sessionId')
       expect(result).toHaveProperty('hostEphemeralPubB64')
       expect(result).toHaveProperty('signatureB64')
-      
+
       const session = getSession(result.sessionId)
       expect(session).toBeDefined()
     })
 
     it('should initialize session with sequence numbers', async () => {
       const extEphemeralPubB64 = Buffer.alloc(32, 50).toString('base64')
-      
+
       mockClient.encryptionGet.mockResolvedValue(null)
 
       const result = await beginHandshake(mockClient, extEphemeralPubB64)
@@ -198,9 +202,9 @@ describe('sessionManager', () => {
 
     it('should close and remove a session', () => {
       expect(getSession(sessionId)).toBeDefined()
-      
+
       closeSession(sessionId)
-      
+
       expect(getSession(sessionId)).toBeNull()
     })
 
@@ -223,27 +227,27 @@ describe('sessionManager', () => {
       expect(() => recordIncomingSeq(sessionId, 1)).not.toThrow()
       expect(() => recordIncomingSeq(sessionId, 2)).not.toThrow()
       expect(() => recordIncomingSeq(sessionId, 3)).not.toThrow()
-      
+
       const session = getSession(sessionId)
       expect(session.lastRecvSeq).toBe(3)
     })
 
     it('should reject repeated sequence numbers', () => {
       recordIncomingSeq(sessionId, 5)
-      
+
       expect(() => recordIncomingSeq(sessionId, 5)).toThrow('ReplayDetected')
     })
 
     it('should reject decreasing sequence numbers', () => {
       recordIncomingSeq(sessionId, 10)
-      
+
       expect(() => recordIncomingSeq(sessionId, 9)).toThrow('ReplayDetected')
     })
 
     it('should handle sequence number 0 correctly', () => {
       // Sequence 0 should be rejected since initial lastRecvSeq is 0
       expect(() => recordIncomingSeq(sessionId, 0)).toThrow('ReplayDetected')
-      
+
       // But sequence 1 should be accepted
       expect(() => recordIncomingSeq(sessionId, 1)).not.toThrow()
     })
@@ -261,9 +265,9 @@ describe('sessionManager', () => {
 
     it('should encrypt data with session', () => {
       const plaintext = new Uint8Array([1, 2, 3, 4, 5])
-      
+
       const result = encryptWithSession(sessionId, plaintext)
-      
+
       expect(result).toHaveProperty('nonceB64')
       expect(result).toHaveProperty('ciphertextB64')
       expect(result).toHaveProperty('seq')
@@ -275,15 +279,15 @@ describe('sessionManager', () => {
 
     it('should increment send sequence on encryption', () => {
       const plaintext = new Uint8Array([1, 2, 3])
-      
+
       const result1 = encryptWithSession(sessionId, plaintext)
       const result2 = encryptWithSession(sessionId, plaintext)
       const result3 = encryptWithSession(sessionId, plaintext)
-      
+
       expect(result1.seq).toBe(1)
       expect(result2.seq).toBe(2)
       expect(result3.seq).toBe(3)
-      
+
       const session = getSession(sessionId)
       expect(session.sendSeq).toBe(3)
     })
@@ -291,27 +295,33 @@ describe('sessionManager', () => {
     it('should decrypt data with session', () => {
       const plaintext = new Uint8Array([10, 20, 30, 40])
       const encrypted = encryptWithSession(sessionId, plaintext)
-      
+
       const nonce = new Uint8Array(Buffer.from(encrypted.nonceB64, 'base64'))
-      const ciphertext = new Uint8Array(Buffer.from(encrypted.ciphertextB64, 'base64'))
-      
+      const ciphertext = new Uint8Array(
+        Buffer.from(encrypted.ciphertextB64, 'base64')
+      )
+
       const decrypted = decryptWithSession(sessionId, nonce, ciphertext)
-      
+
       expect(decrypted).toBeInstanceOf(Uint8Array)
       expect(sodium.crypto_secretbox_open_easy).toHaveBeenCalled()
     })
 
     it('should throw error for invalid session on encrypt', () => {
       const plaintext = new Uint8Array([1, 2, 3])
-      
-      expect(() => encryptWithSession('invalid-id', plaintext)).toThrow('SessionNotFound')
+
+      expect(() => encryptWithSession('invalid-id', plaintext)).toThrow(
+        'SessionNotFound'
+      )
     })
 
     it('should throw error for invalid session on decrypt', () => {
       const nonce = new Uint8Array(24)
       const ciphertext = new Uint8Array(32)
-      
-      expect(() => decryptWithSession('invalid-id', nonce, ciphertext)).toThrow('SessionNotFound')
+
+      expect(() => decryptWithSession('invalid-id', nonce, ciphertext)).toThrow(
+        'SessionNotFound'
+      )
     })
   })
 
@@ -320,10 +330,10 @@ describe('sessionManager', () => {
       const extEphemeralPubB64 = Buffer.alloc(32, 90).toString('base64')
       mockClient.encryptionGet.mockResolvedValue(null)
       const result = await beginHandshake(mockClient, extEphemeralPubB64)
-      
+
       const plaintext = new Uint8Array(0)
       const encrypted = encryptWithSession(result.sessionId, plaintext)
-      
+
       expect(encrypted).toHaveProperty('nonceB64')
       expect(encrypted).toHaveProperty('ciphertextB64')
       expect(encrypted).toHaveProperty('seq')
@@ -333,10 +343,10 @@ describe('sessionManager', () => {
       const extEphemeralPubB64 = Buffer.alloc(32, 100).toString('base64')
       mockClient.encryptionGet.mockResolvedValue(null)
       const result = await beginHandshake(mockClient, extEphemeralPubB64)
-      
+
       const plaintext = new Uint8Array(10000).fill(42)
       const encrypted = encryptWithSession(result.sessionId, plaintext)
-      
+
       expect(encrypted).toHaveProperty('nonceB64')
       expect(encrypted).toHaveProperty('ciphertextB64')
       expect(encrypted).toHaveProperty('seq')

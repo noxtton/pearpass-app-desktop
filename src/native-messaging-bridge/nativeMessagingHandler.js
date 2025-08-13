@@ -316,52 +316,62 @@ class NativeMessagingHandler extends EventEmitter {
     log('INFO', 'Native messaging handler stopped')
   }
 
-  addListener(eventName, listener) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  addListener(_eventName, _listener) {
+    return undefined
   }
 
   eventNames() {
-    return undefined;
+    return undefined
   }
 
   getMaxListeners() {
-    return 0;
+    return 0
   }
 
-  listenerCount(eventName, listener) {
-    return 0;
+  // eslint-disable-next-line no-unused-vars
+  listenerCount(_eventName, _listener) {
+    return 0
   }
 
-  listeners(eventName) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  listeners(_eventName) {
+    return undefined
   }
 
-  off(eventName, listener) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  off(_eventName, _listener) {
+    return undefined
   }
 
-  once(eventName, listener) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  once(_eventName, _listener) {
+    return undefined
   }
 
-  prependListener(eventName, listener) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  prependListener(_eventName, _listener) {
+    return undefined
   }
 
-  prependOnceListener(eventName, listener) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  prependOnceListener(_eventName, _listener) {
+    return undefined
   }
 
-  rawListeners(eventName) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  rawListeners(_eventName) {
+    return undefined
   }
 
-  removeAllListeners(eventName) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  removeAllListeners(_eventName) {
+    return undefined
   }
 
-  setMaxListeners(n) {
-    return undefined;
+  // eslint-disable-next-line no-unused-vars
+  setMaxListeners(_n) {
+    return undefined
   }
 }
 

@@ -1,6 +1,7 @@
 import { unlink } from 'fs/promises'
 import { platform, tmpdir } from 'os'
 import { join } from 'path'
+
 import { logger } from '../../utils/logger'
 
 /**
@@ -33,7 +34,11 @@ export class SocketManager {
       logger.log('SOCKET-MANAGER', 'INFO', 'Cleaned up existing socket file')
     } catch (err) {
       if (err.code !== 'ENOENT') {
-        logger.log('SOCKET-MANAGER', 'WARN', `Could not clean up socket file: ${err.message}`)
+        logger.log(
+          'SOCKET-MANAGER',
+          'WARN',
+          `Could not clean up socket file: ${err.message}`
+        )
       }
     }
   }

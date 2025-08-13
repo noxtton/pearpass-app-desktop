@@ -47,7 +47,7 @@ jest.mock('../utils/logger.js', () => ({
 
 // Mock the new handler modules
 jest.mock('./handlers/SecurityHandlers', () => ({
-  SecurityHandlers: jest.fn().mockImplementation(function(client) {
+  SecurityHandlers: jest.fn().mockImplementation(function (client) {
     this.client = client
     this.nmGetAppIdentity = jest.fn().mockResolvedValue({
       ed25519PublicKey: 'mock-ed25519-key',
@@ -70,14 +70,16 @@ jest.mock('./handlers/SecurityHandlers', () => ({
 }))
 
 jest.mock('./handlers/EncryptionHandlers', () => ({
-  EncryptionHandlers: jest.fn().mockImplementation(function(client) {
+  EncryptionHandlers: jest.fn().mockImplementation(function (client) {
     this.client = client
     this.encryptionInit = jest.fn().mockResolvedValue({ initialized: true })
     this.encryptionGetStatus = jest.fn().mockResolvedValue({ status: true })
     this.encryptionGet = jest.fn().mockResolvedValue({ data: 'encrypted-data' })
     this.encryptionAdd = jest.fn().mockResolvedValue({ success: true })
     this.hashPassword = jest.fn().mockResolvedValue('hashed-password')
-    this.encryptVaultKeyWithHashedPassword = jest.fn().mockResolvedValue('encrypted-key')
+    this.encryptVaultKeyWithHashedPassword = jest
+      .fn()
+      .mockResolvedValue('encrypted-key')
     this.encryptVaultWithKey = jest.fn().mockResolvedValue('encrypted-vault')
     this.getDecryptionKey = jest.fn().mockResolvedValue('decryption-key')
     this.decryptVaultKey = jest.fn().mockResolvedValue('decrypted-key')
@@ -85,7 +87,7 @@ jest.mock('./handlers/EncryptionHandlers', () => ({
 }))
 
 jest.mock('./handlers/VaultHandlers', () => ({
-  VaultHandlers: jest.fn().mockImplementation(function(client) {
+  VaultHandlers: jest.fn().mockImplementation(function (client) {
     this.client = client
     this.vaultsInit = jest.fn().mockResolvedValue({ initialized: true })
     this.vaultsGetStatus = jest.fn().mockResolvedValue({ status: true })
@@ -101,8 +103,12 @@ jest.mock('./handlers/VaultHandlers', () => ({
     this.activeVaultAdd = jest.fn().mockResolvedValue({ success: true })
     this.activeVaultRemove = jest.fn().mockResolvedValue({ success: true })
     this.activeVaultClose = jest.fn().mockResolvedValue({ success: true })
-    this.activeVaultCreateInvite = jest.fn().mockResolvedValue({ invite: 'mock-invite' })
-    this.activeVaultDeleteInvite = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultCreateInvite = jest
+      .fn()
+      .mockResolvedValue({ invite: 'mock-invite' })
+    this.activeVaultDeleteInvite = jest
+      .fn()
+      .mockResolvedValue({ success: true })
     this.pair = jest.fn().mockResolvedValue({ success: true })
     this.initListener = jest.fn().mockResolvedValue({ success: true })
     this.closeVault = jest.fn().mockResolvedValue({ success: true })
@@ -110,15 +116,17 @@ jest.mock('./handlers/VaultHandlers', () => ({
 }))
 
 jest.mock('./handlers/SecureRequestHandler', () => ({
-  SecureRequestHandler: jest.fn().mockImplementation(function(client, registry) {
-    this.client = client
-    this.methodRegistry = registry
-    this.handle = jest.fn().mockResolvedValue({
-      nonceB64: 'mock-nonce',
-      ciphertextB64: 'mock-ciphertext',
-      seq: 1
+  SecureRequestHandler: jest
+    .fn()
+    .mockImplementation(function (client, registry) {
+      this.client = client
+      this.methodRegistry = registry
+      this.handle = jest.fn().mockResolvedValue({
+        nonceB64: 'mock-nonce',
+        ciphertextB64: 'mock-ciphertext',
+        seq: 1
+      })
     })
-  })
 }))
 
 const mockPearpassClient = {
@@ -273,7 +281,7 @@ describe('nativeMessagingIPCServer', () => {
       it('should call nmGetAppIdentity handler correctly', async () => {
         await serverInstance.start()
         const handlers = IPC.Server.mock.calls[0][0].handlers
-        
+
         const result = await handlers.nmGetAppIdentity()
         expect(result).toEqual({
           ed25519PublicKey: 'mock-ed25519-key',
@@ -285,9 +293,9 @@ describe('nativeMessagingIPCServer', () => {
       it('should call nmBeginHandshake handler correctly', async () => {
         await serverInstance.start()
         const handlers = IPC.Server.mock.calls[0][0].handlers
-        
-        const result = await handlers.nmBeginHandshake({ 
-          extEphemeralPubB64: 'test-key' 
+
+        const result = await handlers.nmBeginHandshake({
+          extEphemeralPubB64: 'test-key'
         })
         expect(result).toEqual({
           sessionId: 'mock-session-id',
@@ -299,7 +307,7 @@ describe('nativeMessagingIPCServer', () => {
       it('should call nmSecureRequest handler correctly', async () => {
         await serverInstance.start()
         const handlers = IPC.Server.mock.calls[0][0].handlers
-        
+
         const result = await handlers.nmSecureRequest({
           sessionId: 'test-session',
           nonceB64: 'test-nonce',

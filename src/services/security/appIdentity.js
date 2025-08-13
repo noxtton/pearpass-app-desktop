@@ -3,6 +3,7 @@
 // Private keys are stored via pearpass client's encryption* APIs.
 
 import sodium from 'sodium-native'
+
 import { logger } from '../../utils/logger'
 
 const ENC_KEY_ED25519 = 'nm.identity.ed25519'
@@ -20,7 +21,7 @@ let MEMORY_IDENTITY = null
  * @returns {string|null}
  */
 const normalizeEncryptionGet = (val) => {
-  if (val == null) return null
+  if (val === null || val === undefined) return null
   if (typeof val === 'string') return val || null
   if (typeof val === 'object' && typeof val.data !== 'undefined') {
     return val.data || null
@@ -39,7 +40,8 @@ const toBase64 = (bytes) => Buffer.from(bytes).toString('base64')
  * @param {string} base64String
  * @returns {Uint8Array}
  */
-const fromBase64 = (base64String) => new Uint8Array(Buffer.from(base64String, 'base64'))
+const fromBase64 = (base64String) =>
+  new Uint8Array(Buffer.from(base64String, 'base64'))
 
 /**
  * Create or load the long-term identity keypairs.
@@ -53,28 +55,54 @@ export const getOrCreateIdentity = async (client) => {
     // The worklet returns { status: boolean }
     const initialized = statusResponse?.status === true
     if (!initialized) {
-      logger.log('APP-IDENTITY', 'INFO', 'Encryption not initialized, initializing...')
+      logger.log(
+        'APP-IDENTITY',
+        'INFO',
+        'Encryption not initialized, initializing...'
+      )
       const initResult = await client.encryptionInit()
-      logger.log('APP-IDENTITY', 'INFO', `Encryption initialization result: ${JSON.stringify(initResult)}`)
+      logger.log(
+        'APP-IDENTITY',
+        'INFO',
+        `Encryption initialization result: ${JSON.stringify(initResult)}`
+      )
     }
   } catch (err) {
     // If status check fails, try to initialize anyway
-    logger.log('APP-IDENTITY', 'INFO', `Status check failed, attempting initialization: ${err.message}`)
+    logger.log(
+      'APP-IDENTITY',
+      'INFO',
+      `Status check failed, attempting initialization: ${err.message}`
+    )
     try {
       const initResult = await client.encryptionInit()
-      logger.log('APP-IDENTITY', 'INFO', `Encryption initialization result: ${JSON.stringify(initResult)}`)
+      logger.log(
+        'APP-IDENTITY',
+        'INFO',
+        `Encryption initialization result: ${JSON.stringify(initResult)}`
+      )
     } catch (initErr) {
       // Ignore if already initialized
       if (!initErr?.message?.includes('already initialized')) {
-        logger.log('APP-IDENTITY', 'ERROR', `Failed to initialize encryption: ${initErr.message}`)
+        logger.log(
+          'APP-IDENTITY',
+          'ERROR',
+          `Failed to initialize encryption: ${initErr.message}`
+        )
       }
     }
   }
 
   // Try load encrypted blobs first (normalize to base64 string)
-  let ed25519BlobB64 = normalizeEncryptionGet(await client.encryptionGet(ENC_KEY_ED25519).catch(() => null))
-  let x25519BlobB64 = normalizeEncryptionGet(await client.encryptionGet(ENC_KEY_X25519).catch(() => null))
-  let creationDate = normalizeEncryptionGet(await client.encryptionGet(ENC_KEY_CREATION_DATE).catch(() => null))
+  const ed25519BlobB64 = normalizeEncryptionGet(
+    await client.encryptionGet(ENC_KEY_ED25519).catch(() => null)
+  )
+  const x25519BlobB64 = normalizeEncryptionGet(
+    await client.encryptionGet(ENC_KEY_X25519).catch(() => null)
+  )
+  let creationDate = normalizeEncryptionGet(
+    await client.encryptionGet(ENC_KEY_CREATION_DATE).catch(() => null)
+  )
 
   // Fallback to in-memory cache if present
   if ((!ed25519BlobB64 || !x25519BlobB64) && MEMORY_IDENTITY) {
@@ -119,15 +147,21 @@ export const getOrCreateIdentity = async (client) => {
 
     // Store creation date
     creationDate = new Date().toISOString()
-    
+
     let persisted = true
     try {
-      await client.encryptionAdd(ENC_KEY_ED25519, payloadEd25519.toString('base64'))
+      await client.encryptionAdd(
+        ENC_KEY_ED25519,
+        payloadEd25519.toString('base64')
+      )
     } catch {
       persisted = false
     }
     try {
-      await client.encryptionAdd(ENC_KEY_X25519, payloadX25519.toString('base64'))
+      await client.encryptionAdd(
+        ENC_KEY_X25519,
+        payloadX25519.toString('base64')
+      )
     } catch {
       persisted = false
     }
@@ -218,18 +252,19 @@ export const verifyPairingToken = (ed25519PublicKeyB64, userProvidedToken) => {
   if (!userProvidedToken || typeof userProvidedToken !== 'string') {
     return false
   }
-  
+
   // Generate the expected token
   const pairingCode = getPairingCode(ed25519PublicKeyB64)
   const fingerprint = getFingerprint(ed25519PublicKeyB64)
-  
+
   // Create a token format: pairing code + first 4 chars of fingerprint
   // This provides both user-friendly verification and cryptographic binding
   const expectedToken = `${pairingCode}-${fingerprint.slice(0, 4).toUpperCase()}`
-  
+
   // Case-insensitive comparison
   return userProvidedToken.toUpperCase() === expectedToken
 }
 
 // Internal: expose in-memory identity for session fallback
+// eslint-disable-next-line no-underscore-dangle
 export const __getMemIdentity = () => MEMORY_IDENTITY

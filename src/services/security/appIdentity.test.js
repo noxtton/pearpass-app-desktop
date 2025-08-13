@@ -1,11 +1,12 @@
 import sodium from 'sodium-native'
-import { logger } from '../../utils/logger'
+
 import {
   getOrCreateIdentity,
   getPairingCode,
   getFingerprint,
   __getMemIdentity
 } from './appIdentity'
+import { logger } from '../../utils/logger'
 
 // Mock dependencies
 jest.mock('../../utils/logger', () => ({
@@ -87,16 +88,16 @@ describe('appIdentity', () => {
 
     it('should load existing keypairs from storage', async () => {
       mockClient.encryptionGetStatus.mockResolvedValue({ status: true })
-      
+
       // Create mock stored keypairs
       const ed25519Mock = Buffer.concat([
         Buffer.alloc(32, 5), // public key
-        Buffer.alloc(64, 6)  // private key
+        Buffer.alloc(64, 6) // private key
       ]).toString('base64')
-      
+
       const x25519Mock = Buffer.concat([
         Buffer.alloc(32, 7), // public key
-        Buffer.alloc(32, 8)  // private key
+        Buffer.alloc(32, 8) // private key
       ]).toString('base64')
 
       mockClient.encryptionGet
@@ -114,12 +115,12 @@ describe('appIdentity', () => {
 
     it('should handle encryptionGet returning object with data property', async () => {
       mockClient.encryptionGetStatus.mockResolvedValue({ status: true })
-      
+
       const ed25519Mock = Buffer.concat([
         Buffer.alloc(32, 5),
         Buffer.alloc(64, 6)
       ]).toString('base64')
-      
+
       const x25519Mock = Buffer.concat([
         Buffer.alloc(32, 7),
         Buffer.alloc(32, 8)
@@ -141,7 +142,7 @@ describe('appIdentity', () => {
       mockClient.encryptionAdd.mockRejectedValue(new Error('Storage locked'))
 
       const result1 = await getOrCreateIdentity(mockClient)
-      
+
       // Second call should use in-memory cache
       const result2 = await getOrCreateIdentity(mockClient)
 
@@ -151,7 +152,9 @@ describe('appIdentity', () => {
     })
 
     it('should handle encryption initialization failure gracefully', async () => {
-      mockClient.encryptionGetStatus.mockRejectedValue(new Error('Status check failed'))
+      mockClient.encryptionGetStatus.mockRejectedValue(
+        new Error('Status check failed')
+      )
       mockClient.encryptionInit.mockResolvedValue({ success: true })
       mockClient.encryptionGet.mockResolvedValue(null)
       mockClient.encryptionAdd.mockResolvedValue()
@@ -167,8 +170,12 @@ describe('appIdentity', () => {
     })
 
     it('should ignore "already initialized" errors', async () => {
-      mockClient.encryptionGetStatus.mockRejectedValue(new Error('Status check failed'))
-      mockClient.encryptionInit.mockRejectedValue(new Error('Encryption already initialized'))
+      mockClient.encryptionGetStatus.mockRejectedValue(
+        new Error('Status check failed')
+      )
+      mockClient.encryptionInit.mockRejectedValue(
+        new Error('Encryption already initialized')
+      )
       mockClient.encryptionGet.mockResolvedValue(null)
       mockClient.encryptionAdd.mockResolvedValue()
 
@@ -202,7 +209,7 @@ describe('appIdentity', () => {
     it('should generate different codes for different keys', () => {
       const key1 = Buffer.alloc(32, 1).toString('base64')
       const key2 = Buffer.alloc(32, 2).toString('base64')
-      
+
       const code1 = getPairingCode(key1)
       const code2 = getPairingCode(key2)
 
@@ -230,7 +237,7 @@ describe('appIdentity', () => {
     it('should generate different fingerprints for different keys', () => {
       const key1 = Buffer.alloc(32, 30).toString('base64')
       const key2 = Buffer.alloc(32, 40).toString('base64')
-      
+
       const fp1 = getFingerprint(key1)
       const fp2 = getFingerprint(key2)
 

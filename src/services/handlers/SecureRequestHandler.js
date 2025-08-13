@@ -14,25 +14,29 @@ export class SecureRequestHandler {
    */
   async handle(params) {
     const { sessionId, nonceB64, ciphertextB64, seq } = params || {}
-    
+
     // Validate request
     this.validateSecurePayload(sessionId, nonceB64, ciphertextB64)
-    
+
     // Check session and replay protection
-    const session = await this.validateSession(sessionId, seq)
-    
+    await this.validateSession(sessionId, seq)
+
     // Decrypt request
-    const request = await this.decryptRequest(sessionId, nonceB64, ciphertextB64)
-    
+    const request = await this.decryptRequest(
+      sessionId,
+      nonceB64,
+      ciphertextB64
+    )
+
     logger.log('SECURE-REQUEST', 'DEBUG', `Received method: ${request.method}`)
-    
+
     // Execute method through registry
     const result = await this.methodRegistry.execute(
       request.method,
       request.params,
       { client: this.client }
     )
-    
+
     // Encrypt response
     return await this.encryptResponse(sessionId, result)
   }
@@ -44,7 +48,9 @@ export class SecureRequestHandler {
   }
 
   async validateSession(sessionId, seq) {
-    const { getSession, recordIncomingSeq } = await import('../security/sessionManager.js')
+    const { getSession, recordIncomingSeq } = await import(
+      '../security/sessionManager.js'
+    )
     const session = getSession(sessionId)
     if (!session) {
       throw new Error('SessionNotFound')
@@ -64,7 +70,7 @@ export class SecureRequestHandler {
   async encryptResponse(sessionId, result) {
     const { encryptWithSession } = await import('../security/sessionManager.js')
     const responsePlaintext = Buffer.from(
-      JSON.stringify({ ok: true, result }), 
+      JSON.stringify({ ok: true, result }),
       'utf8'
     )
     return encryptWithSession(sessionId, new Uint8Array(responsePlaintext))

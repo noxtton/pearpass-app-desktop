@@ -42,6 +42,7 @@ const log = (level, message) => {
     const logMsg = `${timestamp} [${level}] [IPC-BRIDGE] ${message}\n`
     fs.appendFileSync(logFile, logMsg)
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(`Failed to write log: ${e.message}`)
   }
 }

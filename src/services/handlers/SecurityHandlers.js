@@ -1,5 +1,3 @@
-import { logger } from '../../utils/logger'
-
 /**
  * Handles security-related IPC operations for native messaging
  */
@@ -13,21 +11,27 @@ export class SecurityHandlers {
    */
   async nmGetAppIdentity(params) {
     const { pairingToken } = params || {}
-    
+
     // Require a pairing token that the user manually copied from desktop app
     if (!pairingToken) {
-      throw new Error('PairingTokenRequired: Please enter the pairing token from the desktop app')
+      throw new Error(
+        'PairingTokenRequired: Please enter the pairing token from the desktop app'
+      )
     }
-    
-    const { getOrCreateIdentity, getFingerprint, verifyPairingToken } = await import('../security/appIdentity.js')
+
+    const { getOrCreateIdentity, getFingerprint, verifyPairingToken } =
+      await import('../security/appIdentity.js')
     const id = await getOrCreateIdentity(this.client)
-    
+
     // Verify the pairing token matches what the desktop app expects
-    const isValidToken = await verifyPairingToken(id.ed25519PublicKey, pairingToken)
+    const isValidToken = await verifyPairingToken(
+      id.ed25519PublicKey,
+      pairingToken
+    )
     if (!isValidToken) {
       throw new Error('InvalidPairingToken: The pairing token is incorrect')
     }
-    
+
     return {
       ed25519PublicKey: id.ed25519PublicKey,
       x25519PublicKey: id.x25519PublicKey,
@@ -42,7 +46,7 @@ export class SecurityHandlers {
     const { beginHandshake } = await import('../security/sessionManager.js')
     const { extEphemeralPubB64 } = params || {}
     if (!extEphemeralPubB64) throw new Error('Missing extEphemeralPubB64')
-    return beginHandshake(this.client, extEphemeralPubB64);
+    return beginHandshake(this.client, extEphemeralPubB64)
   }
 
   /**

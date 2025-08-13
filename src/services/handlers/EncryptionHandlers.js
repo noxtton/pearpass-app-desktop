@@ -19,7 +19,11 @@ export class EncryptionHandlers {
 
   async encryptionGet(params) {
     const result = await this.client.encryptionGet(params.key)
-    logger.log('ENCRYPTION-HANDLER', 'DEBUG', `encryptionGet for key: ${params.key}`)
+    logger.log(
+      'ENCRYPTION-HANDLER',
+      'DEBUG',
+      `encryptionGet for key: ${params.key}`
+    )
     return result
   }
 
@@ -33,11 +37,16 @@ export class EncryptionHandlers {
   }
 
   async encryptVaultKeyWithHashedPassword(params) {
-    return await this.client.encryptVaultKeyWithHashedPassword(params.hashedPassword)
+    return await this.client.encryptVaultKeyWithHashedPassword(
+      params.hashedPassword
+    )
   }
 
   async encryptVaultWithKey(params) {
-    return await this.client.encryptVaultWithKey(params.hashedPassword, params.key)
+    return await this.client.encryptVaultWithKey(
+      params.hashedPassword,
+      params.key
+    )
   }
 
   async getDecryptionKey(params) {

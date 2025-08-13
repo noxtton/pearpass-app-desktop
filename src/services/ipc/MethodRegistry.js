@@ -35,12 +35,16 @@ export class MethodRegistry {
     if (!handler) {
       logger.log('METHOD-REGISTRY', 'ERROR', `Unknown method: ${methodName}`)
       const availableMethods = Array.from(this.handlers.keys()).slice(0, 10)
-      logger.log('METHOD-REGISTRY', 'ERROR', `Available methods: ${availableMethods.join(', ')}`)
+      logger.log(
+        'METHOD-REGISTRY',
+        'ERROR',
+        `Available methods: ${availableMethods.join(', ')}`
+      )
       throw new Error(`UnknownMethod: ${methodName}`)
     }
 
     const config = this.configs.get(methodName)
-    
+
     // Log status checks if configured
     if (config.requiresStatus && config.requiresStatus.length > 0) {
       await this.performStatusChecks(methodName, config.requiresStatus, context)
@@ -48,21 +52,33 @@ export class MethodRegistry {
 
     // Log method call
     if (config.logLevel === 'DEBUG') {
-      logger.log('METHOD-REGISTRY', 'DEBUG', `Executing ${methodName} with params: ${JSON.stringify(params)}`)
+      logger.log(
+        'METHOD-REGISTRY',
+        'DEBUG',
+        `Executing ${methodName} with params: ${JSON.stringify(params)}`
+      )
     }
 
     try {
       // Execute handler
       const result = await handler(params)
-      
+
       // Log result if debug
       if (config.logLevel === 'DEBUG' && result) {
-        logger.log('METHOD-REGISTRY', 'DEBUG', `${methodName} result: ${JSON.stringify(result)}`)
+        logger.log(
+          'METHOD-REGISTRY',
+          'DEBUG',
+          `${methodName} result: ${JSON.stringify(result)}`
+        )
       }
-      
+
       return result
     } catch (error) {
-      logger.log('METHOD-REGISTRY', 'ERROR', `Error in ${methodName}: ${error.message}`)
+      logger.log(
+        'METHOD-REGISTRY',
+        'ERROR',
+        `Error in ${methodName}: ${error.message}`
+      )
       throw error
     }
   }
@@ -72,7 +88,7 @@ export class MethodRegistry {
    */
   async performStatusChecks(methodName, statusChecks, context) {
     const statuses = {}
-    
+
     for (const check of statusChecks) {
       switch (check) {
         case 'encryption':
@@ -82,13 +98,18 @@ export class MethodRegistry {
           statuses.vaultsStatus = await context.client.vaultsGetStatus()
           break
         case 'activeVault':
-          statuses.activeVaultStatus = await context.client.activeVaultGetStatus()
+          statuses.activeVaultStatus =
+            await context.client.activeVaultGetStatus()
           break
       }
     }
-    
+
     if (Object.keys(statuses).length > 0) {
-      logger.log('METHOD-REGISTRY', 'DEBUG', `Status before ${methodName}: ${JSON.stringify(statuses)}`)
+      logger.log(
+        'METHOD-REGISTRY',
+        'DEBUG',
+        `Status before ${methodName}: ${JSON.stringify(statuses)}`
+      )
     }
   }
 

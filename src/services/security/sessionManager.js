@@ -2,6 +2,7 @@
 // Uses X25519 ECDH + Ed25519 signature (auth) and XSalsa20-Poly1305 (secretbox) for AEAD.
 
 import sodium from 'sodium-native'
+
 import { getOrCreateIdentity } from './appIdentity.js'
 
 /** @typedef {{ key: Uint8Array, sendSeq: number, lastRecvSeq: number }} Session */
@@ -23,7 +24,8 @@ const randomBytes = (size) => {
  * @param {Uint8Array} right
  * @returns {Uint8Array}
  */
-const concatBytes = (left, right) => new Uint8Array(Buffer.concat([Buffer.from(left), Buffer.from(right)]))
+const concatBytes = (left, right) =>
+  new Uint8Array(Buffer.concat([Buffer.from(left), Buffer.from(right)]))
 
 /**
  * Derive 32-byte session key as H = SHA-256(shared || transcript)
@@ -75,7 +77,9 @@ export const encryptWithSession = (sessionId, plaintext) => {
   const session = getSession(sessionId)
   if (!session) throw new Error('SessionNotFound')
   const nonce = randomBytes(sodium.crypto_secretbox_NONCEBYTES)
-  const ciphertext = new Uint8Array(plaintext.length + sodium.crypto_secretbox_MACBYTES)
+  const ciphertext = new Uint8Array(
+    plaintext.length + sodium.crypto_secretbox_MACBYTES
+  )
   sodium.crypto_secretbox_easy(ciphertext, plaintext, nonce, session.key)
   const seq = ++session.sendSeq
   return {
@@ -95,8 +99,17 @@ export const encryptWithSession = (sessionId, plaintext) => {
 export const decryptWithSession = (sessionId, nonce, ciphertext) => {
   const session = getSession(sessionId)
   if (!session) throw new Error('SessionNotFound')
-  const plaintext = new Uint8Array(ciphertext.length - sodium.crypto_secretbox_MACBYTES)
-  if (!sodium.crypto_secretbox_open_easy(plaintext, ciphertext, nonce, session.key)) {
+  const plaintext = new Uint8Array(
+    ciphertext.length - sodium.crypto_secretbox_MACBYTES
+  )
+  if (
+    !sodium.crypto_secretbox_open_easy(
+      plaintext,
+      ciphertext,
+      nonce,
+      session.key
+    )
+  ) {
     throw new Error('DecryptFailed')
   }
   return plaintext
@@ -109,13 +122,21 @@ export const decryptWithSession = (sessionId, nonce, ciphertext) => {
  * @param {string} extensionEphemeralPublicKeyB64
  * @returns {{ hostEphemeralPubB64: string, signatureB64: string, sessionId: string }}
  */
-export const beginHandshake = async (client, extensionEphemeralPublicKeyB64) => {
+export const beginHandshake = async (
+  client,
+  extensionEphemeralPublicKeyB64
+) => {
   // Load or create identity, then load private parts from encryption store (or memory)
   await getOrCreateIdentity(client)
   // Support both direct string and { data } shapes from encryptionGet
-  const edResponse = await client.encryptionGet('nm.identity.ed25519').catch(() => null)
-  const xResponse = await client.encryptionGet('nm.identity.x25519').catch(() => null)
-  const edBlobB64 = typeof edResponse === 'string' ? edResponse : edResponse?.data
+  const edResponse = await client
+    .encryptionGet('nm.identity.ed25519')
+    .catch(() => null)
+  const xResponse = await client
+    .encryptionGet('nm.identity.x25519')
+    .catch(() => null)
+  const edBlobB64 =
+    typeof edResponse === 'string' ? edResponse : edResponse?.data
   const xBlobB64 = typeof xResponse === 'string' ? xResponse : xResponse?.data
   if (!edBlobB64 || !xBlobB64) {
     // Try to use in-memory identity from appIdentity if available
@@ -123,14 +144,16 @@ export const beginHandshake = async (client, extensionEphemeralPublicKeyB64) => 
       const { __getMemIdentity } = await import('./appIdentity.js')
       const mem = __getMemIdentity?.()
       if (mem) {
-        return finalizeHandshakeWithMemoryIdentity(mem, extensionEphemeralPublicKeyB64)
+        return finalizeHandshakeWithMemoryIdentity(
+          mem,
+          extensionEphemeralPublicKeyB64
+        )
       }
     } catch {}
     throw new Error('IdentityKeysUnavailable')
   }
   const edBuffer = Buffer.from(edBlobB64, 'base64')
 
-  const ed25519PublicKeyBytes = new Uint8Array(edBuffer.slice(0, sodium.crypto_sign_PUBLICKEYBYTES))
   const ed25519PrivateKeyBytes = new Uint8Array(
     edBuffer.slice(
       sodium.crypto_sign_PUBLICKEYBYTES,
@@ -138,18 +161,31 @@ export const beginHandshake = async (client, extensionEphemeralPublicKeyB64) => 
     )
   )
 
-  const hostEphemeralPrivateKey = new Uint8Array(sodium.crypto_box_SECRETKEYBYTES)
-  const hostEphemeralPublicKey = new Uint8Array(sodium.crypto_box_PUBLICKEYBYTES)
+  const hostEphemeralPrivateKey = new Uint8Array(
+    sodium.crypto_box_SECRETKEYBYTES
+  )
+  const hostEphemeralPublicKey = new Uint8Array(
+    sodium.crypto_box_PUBLICKEYBYTES
+  )
   sodium.crypto_box_keypair(hostEphemeralPublicKey, hostEphemeralPrivateKey)
 
-  const extensionEphemeralPublicKey = new Uint8Array(Buffer.from(extensionEphemeralPublicKeyB64, 'base64'))
+  const extensionEphemeralPublicKey = new Uint8Array(
+    Buffer.from(extensionEphemeralPublicKeyB64, 'base64')
+  )
 
   // Compute ECDH
   const sharedSecret = new Uint8Array(32)
-  sodium.crypto_scalarmult(sharedSecret, hostEphemeralPrivateKey, extensionEphemeralPublicKey)
+  sodium.crypto_scalarmult(
+    sharedSecret,
+    hostEphemeralPrivateKey,
+    extensionEphemeralPublicKey
+  )
 
   // Transcript = host_eph_pk || ext_eph_pk
-  const transcript = concatBytes(hostEphemeralPublicKey, extensionEphemeralPublicKey)
+  const transcript = concatBytes(
+    hostEphemeralPublicKey,
+    extensionEphemeralPublicKey
+  )
 
   // Signature (Ed25519) over transcript
   const signature = new Uint8Array(sodium.crypto_sign_BYTES)
@@ -170,20 +206,36 @@ export const beginHandshake = async (client, extensionEphemeralPublicKeyB64) => 
  * @param {{ ed25519PublicKeyBytes: Uint8Array, ed25519PrivateKeyBytes: Uint8Array, x25519PublicKeyBytes: Uint8Array, x25519PrivateKeyBytes: Uint8Array } | { edPk: Uint8Array, edSk: Uint8Array, xPk: Uint8Array, xSk: Uint8Array }} mem
  * @param {string} extensionEphemeralPublicKeyB64
  */
-function finalizeHandshakeWithMemoryIdentity(mem, extensionEphemeralPublicKeyB64) {
-  const hostEphemeralPrivateKey = new Uint8Array(sodium.crypto_box_SECRETKEYBYTES)
-  const hostEphemeralPublicKey = new Uint8Array(sodium.crypto_box_PUBLICKEYBYTES)
+function finalizeHandshakeWithMemoryIdentity(
+  mem,
+  extensionEphemeralPublicKeyB64
+) {
+  const hostEphemeralPrivateKey = new Uint8Array(
+    sodium.crypto_box_SECRETKEYBYTES
+  )
+  const hostEphemeralPublicKey = new Uint8Array(
+    sodium.crypto_box_PUBLICKEYBYTES
+  )
   sodium.crypto_box_keypair(hostEphemeralPublicKey, hostEphemeralPrivateKey)
 
-  const extensionEphemeralPublicKey = new Uint8Array(Buffer.from(extensionEphemeralPublicKeyB64, 'base64'))
+  const extensionEphemeralPublicKey = new Uint8Array(
+    Buffer.from(extensionEphemeralPublicKeyB64, 'base64')
+  )
 
   // Compute ECDH
   const sharedSecret = new Uint8Array(32)
-  sodium.crypto_scalarmult(sharedSecret, hostEphemeralPrivateKey, extensionEphemeralPublicKey)
+  sodium.crypto_scalarmult(
+    sharedSecret,
+    hostEphemeralPrivateKey,
+    extensionEphemeralPublicKey
+  )
 
   // Transcript = host_eph_pk || ext_eph_pk
   const transcript = new Uint8Array(
-    Buffer.concat([Buffer.from(hostEphemeralPublicKey), Buffer.from(extensionEphemeralPublicKey)])
+    Buffer.concat([
+      Buffer.from(hostEphemeralPublicKey),
+      Buffer.from(extensionEphemeralPublicKey)
+    ])
   )
 
   // Signature (Ed25519) over transcript
@@ -210,7 +262,8 @@ function finalizeHandshakeWithMemoryIdentity(mem, extensionEphemeralPublicKeyB64
 export const recordIncomingSeq = (sessionId, seq) => {
   const session = getSession(sessionId)
   if (!session) throw new Error('SessionNotFound')
-  if (typeof seq !== 'number' || !Number.isFinite(seq)) throw new Error('InvalidSeq')
+  if (typeof seq !== 'number' || !Number.isFinite(seq))
+    throw new Error('InvalidSeq')
   if (seq <= session.lastRecvSeq) throw new Error('ReplayDetected')
   session.lastRecvSeq = seq
 }

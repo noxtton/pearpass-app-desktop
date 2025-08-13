@@ -9,7 +9,11 @@ export class VaultHandlers {
   }
 
   async vaultsInit(params) {
-    logger.log('VAULT-HANDLER', 'DEBUG', `vaultsInit called with encryptionKey: ${params?.encryptionKey ? 'provided' : 'missing'}`)
+    logger.log(
+      'VAULT-HANDLER',
+      'DEBUG',
+      `vaultsInit called with encryptionKey: ${params?.encryptionKey ? 'provided' : 'missing'}`
+    )
     await this.client.vaultsInit(params.encryptionKey)
     return { initialized: true }
   }
@@ -23,19 +27,35 @@ export class VaultHandlers {
   }
 
   async vaultsList(params) {
-    logger.log('VAULT-HANDLER', 'DEBUG', `vaultsList called with filterKey: ${params?.filterKey}`)
-    
+    logger.log(
+      'VAULT-HANDLER',
+      'DEBUG',
+      `vaultsList called with filterKey: ${params?.filterKey}`
+    )
+
     // Check vault status first
     const vaultsStatus = await this.client.vaultsGetStatus()
-    logger.log('VAULT-HANDLER', 'DEBUG', `Vaults status before list: ${JSON.stringify(vaultsStatus)}`)
-    
+    logger.log(
+      'VAULT-HANDLER',
+      'DEBUG',
+      `Vaults status before list: ${JSON.stringify(vaultsStatus)}`
+    )
+
     const result = await this.client.vaultsList(params?.filterKey)
-    logger.log('VAULT-HANDLER', 'DEBUG', `vaultsList result: ${JSON.stringify(result)}`)
-    
+    logger.log(
+      'VAULT-HANDLER',
+      'DEBUG',
+      `vaultsList result: ${JSON.stringify(result)}`
+    )
+
     // Also check encryption status
     const encStatus = await this.client.encryptionGetStatus()
-    logger.log('VAULT-HANDLER', 'DEBUG', `Encryption status: ${JSON.stringify(encStatus)}`)
-    
+    logger.log(
+      'VAULT-HANDLER',
+      'DEBUG',
+      `Encryption status: ${JSON.stringify(encStatus)}`
+    )
+
     return result
   }
 
@@ -54,20 +74,20 @@ export class VaultHandlers {
       id: params.id,
       encryptionKey: params.encryptionKey
     })
-    
+
     // After initializing, also load the vault metadata
     if (result?.success) {
       await this.loadVaultMetadata(params.id)
     }
-    
+
     return result
   }
 
   async loadVaultMetadata(vaultId) {
     // Find the vault from the vaults list
     const vaults = await this.client.vaultsList('vault/')
-    const vault = vaults?.data?.find(v => v.id === vaultId)
-    
+    const vault = vaults?.data?.find((v) => v.id === vaultId)
+
     if (vault) {
       // Store the vault metadata in active vault storage
       const vaultData = {
@@ -80,7 +100,11 @@ export class VaultHandlers {
         updatedAt: vault.updatedAt
       }
       await this.client.activeVaultAdd('vault', vaultData)
-      logger.log('VAULT-HANDLER', 'DEBUG', `Stored vault metadata after init: ${JSON.stringify(vaultData)}`)
+      logger.log(
+        'VAULT-HANDLER',
+        'DEBUG',
+        `Stored vault metadata after init: ${JSON.stringify(vaultData)}`
+      )
     }
   }
 
@@ -96,14 +120,18 @@ export class VaultHandlers {
     const encStatus = await this.client.encryptionGetStatus()
     const vaultsStatus = await this.client.vaultsGetStatus()
     const activeVaultStatus = await this.client.activeVaultGetStatus()
-    
-    logger.log('VAULT-HANDLER', 'DEBUG', `Before activeVaultList: ${JSON.stringify({
-      encStatus,
-      vaultsStatus,
-      activeVaultStatus,
-      filterKey: params?.filterKey
-    })}`)
-    
+
+    logger.log(
+      'VAULT-HANDLER',
+      'DEBUG',
+      `Before activeVaultList: ${JSON.stringify({
+        encStatus,
+        vaultsStatus,
+        activeVaultStatus,
+        filterKey: params?.filterKey
+      })}`
+    )
+
     return await this.client.activeVaultList(params?.filterKey)
   }
 

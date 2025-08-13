@@ -32,12 +32,14 @@ export function createOrGetPearpassClient(ipc, storagePath, opts = {}) {
  * @param {'none' | 'stub' | 'full'} level
  */
 function getLogger(level) {
+  // eslint-disable-next-line no-console
   if (level === 'full') return console.debug
   if (level === 'stub') return stubLogger
   return noop
 }
 
 function stubLogger(...args) {
+  // eslint-disable-next-line no-console
   console.debug(args.join(' '))
 }
 function noop() {}

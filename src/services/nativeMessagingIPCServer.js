@@ -2,12 +2,12 @@ import IPC from 'pear-ipc'
 
 import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions'
 import { logger } from '../utils/logger'
-import { SocketManager, getIpcPath } from './ipc/SocketManager'
-import { MethodRegistry } from './ipc/MethodRegistry'
-import { SecurityHandlers } from './handlers/SecurityHandlers'
 import { EncryptionHandlers } from './handlers/EncryptionHandlers'
-import { VaultHandlers } from './handlers/VaultHandlers'
 import { SecureRequestHandler } from './handlers/SecureRequestHandler'
+import { SecurityHandlers } from './handlers/SecurityHandlers'
+import { VaultHandlers } from './handlers/VaultHandlers'
+import { MethodRegistry } from './ipc/MethodRegistry'
+import { SocketManager, getIpcPath } from './ipc/SocketManager'
 
 // Re-export for backward compatibility
 export { getIpcPath }
@@ -34,7 +34,7 @@ export class NativeMessagingIPCServer {
     this.methodRegistry = new MethodRegistry()
     /** @type {MethodRegistry} */
     this.secureMethodRegistry = new MethodRegistry()
-    
+
     // Initialize handlers
     this.setupHandlers()
   }
@@ -47,7 +47,7 @@ export class NativeMessagingIPCServer {
     const securityHandlers = new SecurityHandlers(this.client)
     const encryptionHandlers = new EncryptionHandlers(this.client)
     const vaultHandlers = new VaultHandlers(this.client)
-    
+
     // Register security methods (always available)
     this.methodRegistry.register(
       'nmGetAppIdentity',
@@ -69,7 +69,7 @@ export class NativeMessagingIPCServer {
       'checkAvailability',
       securityHandlers.checkAvailability.bind(securityHandlers)
     )
-    
+
     // Register encryption init (needed for bootstrap)
     this.methodRegistry.register(
       'encryptionInit',
@@ -79,15 +79,18 @@ export class NativeMessagingIPCServer {
       'encryptionGetStatus',
       encryptionHandlers.encryptionGetStatus.bind(encryptionHandlers)
     )
-    
+
     // Register secure channel handler
-    const secureRequestHandler = new SecureRequestHandler(this.client, this.secureMethodRegistry)
+    const secureRequestHandler = new SecureRequestHandler(
+      this.client,
+      this.secureMethodRegistry
+    )
     this.methodRegistry.register(
       'nmSecureRequest',
       secureRequestHandler.handle.bind(secureRequestHandler),
       { logLevel: 'DEBUG' }
     )
-    
+
     // Register methods accessible through secure channel
     this.registerSecureMethods(encryptionHandlers, vaultHandlers)
   }
@@ -112,7 +115,9 @@ export class NativeMessagingIPCServer {
     )
     this.secureMethodRegistry.register(
       'encryptVaultKeyWithHashedPassword',
-      encryptionHandlers.encryptVaultKeyWithHashedPassword.bind(encryptionHandlers)
+      encryptionHandlers.encryptVaultKeyWithHashedPassword.bind(
+        encryptionHandlers
+      )
     )
     this.secureMethodRegistry.register(
       'encryptVaultWithKey',
@@ -127,7 +132,7 @@ export class NativeMessagingIPCServer {
       encryptionHandlers.decryptVaultKey.bind(encryptionHandlers),
       { logLevel: 'DEBUG' }
     )
-    
+
     // Vault methods
     this.secureMethodRegistry.register(
       'vaultsInit',
@@ -170,7 +175,10 @@ export class NativeMessagingIPCServer {
     this.secureMethodRegistry.register(
       'activeVaultList',
       vaultHandlers.activeVaultList.bind(vaultHandlers),
-      { requiresStatus: ['encryption', 'vaults', 'activeVault'], logLevel: 'DEBUG' }
+      {
+        requiresStatus: ['encryption', 'vaults', 'activeVault'],
+        logLevel: 'DEBUG'
+      }
     )
     this.secureMethodRegistry.register(
       'activeVaultAdd',
@@ -216,7 +224,11 @@ export class NativeMessagingIPCServer {
     }
 
     try {
-      logger.log('IPC-SERVER', 'INFO', 'Starting native messaging IPC server...')
+      logger.log(
+        'IPC-SERVER',
+        'INFO',
+        'Starting native messaging IPC server...'
+      )
 
       // Clean up any existing socket file
       await this.socketManager.cleanupSocket()
@@ -227,7 +239,11 @@ export class NativeMessagingIPCServer {
         handlers[name] = handler
       }
 
-      logger.log('IPC-SERVER', 'INFO', `Registered ${this.methodRegistry.getMethodNames().length} handlers`)
+      logger.log(
+        'IPC-SERVER',
+        'INFO',
+        `Registered ${this.methodRegistry.getMethodNames().length} handlers`
+      )
 
       // Create IPC server
       this.server = new IPC.Server({
