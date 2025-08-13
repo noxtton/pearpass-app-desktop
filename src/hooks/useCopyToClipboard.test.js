@@ -47,13 +47,12 @@ describe('useCopyToClipboard', () => {
     navigator.clipboard.writeText.mockResolvedValueOnce()
     const { result } = renderHook(() => useCopyToClipboard())
 
-    act(() => {
+    await act(async () => {
       result.current.copyToClipboard('test text')
     })
 
-    await act(async () => {
-      await Promise.resolve()
-      jest.runAllTimers()
+    await waitFor(() => {
+      expect(result.current.isCopied).toBe(true)
     })
 
     act(() => {
@@ -68,16 +67,13 @@ describe('useCopyToClipboard', () => {
     navigator.clipboard.writeText.mockResolvedValueOnce()
     const { result } = renderHook(() => useCopyToClipboard({ onCopy }))
 
-    act(() => {
+    await act(async () => {
       result.current.copyToClipboard('test text')
     })
 
-    await act(async () => {
-      await Promise.resolve()
-      jest.runAllTimers()
+    await waitFor(() => {
+      expect(onCopy).toHaveBeenCalledTimes(1)
     })
-
-    expect(onCopy).toHaveBeenCalledTimes(1)
   })
 
   test('returns false when clipboard API is not available', () => {

@@ -79,11 +79,13 @@ describe('appIdentity', () => {
 
       expect(sodium.crypto_sign_keypair).toHaveBeenCalled()
       expect(sodium.crypto_box_keypair).toHaveBeenCalled()
-      expect(mockClient.encryptionAdd).toHaveBeenCalledTimes(2)
+      expect(mockClient.encryptionAdd).toHaveBeenCalledTimes(3) // ed25519, x25519, and creationDate
       expect(result).toHaveProperty('ed25519PublicKey')
       expect(result).toHaveProperty('x25519PublicKey')
+      expect(result).toHaveProperty('creationDate')
       expect(typeof result.ed25519PublicKey).toBe('string')
       expect(typeof result.x25519PublicKey).toBe('string')
+      expect(typeof result.creationDate).toBe('string')
     })
 
     it('should load existing keypairs from storage', async () => {
@@ -100,9 +102,12 @@ describe('appIdentity', () => {
         Buffer.alloc(32, 8) // private key
       ]).toString('base64')
 
+      const creationDate = '2024-01-01T00:00:00.000Z'
+
       mockClient.encryptionGet
         .mockResolvedValueOnce(ed25519Mock)
         .mockResolvedValueOnce(x25519Mock)
+        .mockResolvedValueOnce(creationDate)
 
       const result = await getOrCreateIdentity(mockClient)
 
@@ -111,6 +116,8 @@ describe('appIdentity', () => {
       expect(mockClient.encryptionAdd).not.toHaveBeenCalled()
       expect(result).toHaveProperty('ed25519PublicKey')
       expect(result).toHaveProperty('x25519PublicKey')
+      expect(result).toHaveProperty('creationDate')
+      expect(result.creationDate).toBe(creationDate)
     })
 
     it('should handle encryptionGet returning object with data property', async () => {
@@ -126,14 +133,18 @@ describe('appIdentity', () => {
         Buffer.alloc(32, 8)
       ]).toString('base64')
 
+      const creationDate = '2024-01-01T00:00:00.000Z'
+
       mockClient.encryptionGet
         .mockResolvedValueOnce({ data: ed25519Mock })
         .mockResolvedValueOnce({ data: x25519Mock })
+        .mockResolvedValueOnce({ data: creationDate })
 
       const result = await getOrCreateIdentity(mockClient)
 
       expect(result).toHaveProperty('ed25519PublicKey')
       expect(result).toHaveProperty('x25519PublicKey')
+      expect(result).toHaveProperty('creationDate')
     })
 
     it('should use in-memory cache when storage is unavailable', async () => {
