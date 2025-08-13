@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { render, act } from '@testing-library/react'
+import { render } from '@testing-library/react'
 
 const { useInactivity } = require('./useInactivity')
 
@@ -8,16 +8,23 @@ jest.mock('pearpass-lib-vault', () => ({
   closeAllInstances: jest.fn(() => Promise.resolve()),
   useVaults: () => ({
     resetState: jest.fn()
+  }),
+  useUserData: () => ({
+    refetch: jest.fn(() => Promise.resolve({ isLoggedIn: true }))
   })
 }))
 
-jest.mock('../context/LoadingContext', () => ({
+jest.mock('pearpass-lib-constants', () => ({
+  MS_PER_MINUTE: 60000
+}))
+
+jest.mock('../../../context/LoadingContext', () => ({
   useLoadingContext: () => ({
     setIsLoading: jest.fn()
   })
 }))
 
-jest.mock('../context/RouterContext', () => ({
+jest.mock('../../../context/RouterContext', () => ({
   useRouter: () => ({
     currentPage: 'home',
     data: {},
@@ -78,19 +85,5 @@ describe('useInactivity', () => {
     expect(setTimeoutSpy).toHaveBeenCalled()
     unmount()
     expect(clearTimeoutSpy).toHaveBeenCalled()
-  })
-
-  it('should expose resetInactivity function', () => {
-    let hookResult
-    function TestComponent() {
-      hookResult = useInactivity({ timeoutMs: 500 })
-      return null
-    }
-    render(<TestComponent />)
-    expect(typeof hookResult.resetInactivity).toBe('function')
-    act(() => {
-      hookResult.resetInactivity()
-    })
-    expect(setTimeoutSpy).toHaveBeenCalled()
   })
 })

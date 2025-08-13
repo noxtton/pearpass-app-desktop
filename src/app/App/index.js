@@ -1,6 +1,6 @@
 import { html } from 'htm/react'
 
-import { useInactivity } from '../../hooks/useInactivity'
+import { useInactivity } from './hooks/useInactivity'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading'
 import { Routes } from '../Routes'
 import { useRedirect } from './hooks/useRedirect'

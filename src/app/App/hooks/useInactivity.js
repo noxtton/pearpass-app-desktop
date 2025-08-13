@@ -3,8 +3,9 @@ import { useEffect, useRef } from 'react'
 import { MS_PER_MINUTE } from 'pearpass-lib-constants'
 import { closeAllInstances, useUserData, useVaults } from 'pearpass-lib-vault'
 
-import { useLoadingContext } from '../context/LoadingContext'
-import { useRouter } from '../context/RouterContext'
+import { useLoadingContext } from '../../../context/LoadingContext'
+import { useRouter } from '../../../context/RouterContext'
+import { logger } from '../../../utils/logger'
 
 /**
  * @param {Object} options - Configuration options for inactivity detection.
@@ -26,8 +27,13 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
 
     timerRef.current = setTimeout(async () => {
       const userData = await refetchUser()
+      logger.log(
+        'INACTIVITY-TIMER',
+        'INFO',
+        `Inactivity timer triggered, user data: ${JSON.stringify(userData)}`
+      )
 
-      if (userData.isLoggedIn || userData.isVaultOpen) {
+      if (!userData.isLoggedIn) {
         return
       }
 
@@ -36,6 +42,8 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
       navigate('welcome', { state: 'masterPassword' })
       resetState()
       setIsLoading(false)
+
+      logger.log('INACTIVITY-TIMER', 'INFO', 'Inactivity timer reset')
     }, timeoutMs)
   }
 
