@@ -41,9 +41,7 @@ export const AddDeviceModalContent = () => {
   const { closeModal } = useModal()
   const [qrSvg, setQrSvg] = useState('')
   const [isProtected, setIsProtected] = useState(true)
-  const { data: vaultData, isVaultProtected } = useVault({
-    shouldSkip: true
-  })
+  const { data: vaultData, isVaultProtected } = useVault()
   const { createInvite, deleteInvite, data } = useInvite()
 
   const expireTime = useCountDown({

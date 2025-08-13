@@ -37,9 +37,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { closeModal, setModal } = useModal()
 
-  const { isVaultProtected, refetch } = useVault({
-    shouldSkip: true
-  })
+  const { isVaultProtected, refetch: refetchVault } = useVault()
 
   const handleVaultUnlock = async ({ vault, password }) => {
     if (!vault.id) {
@@ -47,7 +45,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
     }
 
     try {
-      await refetch(vault.id, { password })
+      await refetchVault(vault.id, { password })
       closeModal()
     } catch (error) {
       logger.error(error)
@@ -67,7 +65,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
         />`
       )
     } else {
-      await refetch(vault?.id)
+      await refetchVault(vault?.id)
     }
 
     setIsOpen(false)

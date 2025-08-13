@@ -27,9 +27,7 @@ export const CardVaultSelect = () => {
 
   const { data } = useVaults()
 
-  const { isVaultProtected, refetch } = useVault({
-    shouldSkip: true
-  })
+  const { isVaultProtected, refetch: refetchVault } = useVault()
 
   const handleLoadVault = () => {
     navigate(currentPage, { state: 'loadVault' })
@@ -44,7 +42,7 @@ export const CardVaultSelect = () => {
       return
     }
 
-    await refetch(vaultId)
+    await refetchVault(vaultId)
 
     navigate('vault', { recordType: 'all' })
   }

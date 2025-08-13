@@ -28,9 +28,7 @@ export const CardLoadVault = () => {
 
   const { setToast } = useToast()
 
-  const { refetch, addDevice } = useVault({
-    shouldSkip: true
-  })
+  const { refetch: refetchVault, addDevice } = useVault()
 
   const {
     pairActiveVault,
@@ -54,7 +52,7 @@ export const CardLoadVault = () => {
         throw new Error('Vault ID is empty')
       }
 
-      await refetch(vaultId)
+      await refetchVault(vaultId)
 
       await addDevice(os.hostname() + ' ' + os.platform() + ' ' + os.release())
 
