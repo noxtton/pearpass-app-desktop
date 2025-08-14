@@ -30,6 +30,7 @@ export const VaultsContainer = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 10px;
+  overflow: scroll;
   max-height: 35vh;
 `
 
