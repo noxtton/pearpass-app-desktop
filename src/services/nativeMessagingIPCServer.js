@@ -101,6 +101,14 @@ export class NativeMessagingIPCServer {
   registerSecureMethods(encryptionHandlers, vaultHandlers) {
     // Encryption methods
     this.secureMethodRegistry.register(
+      'encryptionInit',
+      encryptionHandlers.encryptionInit.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'encryptionGetStatus',
+      encryptionHandlers.encryptionGetStatus.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
       'encryptionGet',
       encryptionHandlers.encryptionGet.bind(encryptionHandlers),
       { logLevel: 'DEBUG' }

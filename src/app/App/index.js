@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 
 import { html } from 'htm/react'
-import { useUserData } from 'pearpass-lib-vault'
+import { useUserData, useVaults } from 'pearpass-lib-vault'
 
 import { useRouter } from '../../context/RouterContext'
 import { useInactivity } from '../../hooks/useInactivity'
@@ -13,7 +13,8 @@ export const App = () => {
 
   const isSimulatedLoading = useSimulatedLoading()
 
-  const { isLoading: isUserDataLoading, refetch: refetchUser } = useUserData()
+  const { isLoading: isUserDataLoading, refetch: refetchUser, logIn } = useUserData()
+  const { initVaults } = useVaults()
 
   const isLoading = isUserDataLoading || isSimulatedLoading
 
@@ -35,6 +36,30 @@ export const App = () => {
       }
     })()
   }, [])
+
+  // Listen for extension authentication events
+  useEffect(() => {
+    const handleExtensionAuth = async () => {
+      try {
+        await initVaults({})
+
+        navigate('welcome', {
+          state: 'vaults'
+        })
+        resetInactivity()
+      } catch (error) {
+        console.error('Error handling extension authentication:', error)
+
+        // If initialization fails, try to refresh user data
+        await refetchUser()
+      }
+    }
+
+    window.addEventListener('extension-authenticated', handleExtensionAuth)
+    return () => {
+      window.removeEventListener('extension-authenticated', handleExtensionAuth)
+    }
+  }, [navigate, resetInactivity, initVaults, refetchUser])
 
   return html` <${Routes} isLoading=${isLoading} /> `
 }
