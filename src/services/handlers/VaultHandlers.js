@@ -15,30 +15,8 @@ export class VaultHandlers {
       `vaultsInit called with encryptionKey: ${params?.encryptionKey ? 'provided' : 'missing'}`
     )
     
-    // Check if desktop was unauthenticated
-    let wasUnauthenticated
-    try {
-      const status = await this.client.vaultsGetStatus()
-      wasUnauthenticated = !status?.initialized
-    } catch (e) {
-      wasUnauthenticated = true
-    }
-    
     // Initialize vaults
     await this.client.vaultsInit(params.encryptionKey)
-    
-    // If desktop was unauthenticated emit an event to navigate to vaults list
-    if (wasUnauthenticated) {
-      logger.log(
-        'VAULT-HANDLER',
-        'INFO',
-        'Desktop was unauthenticated, navigating to vaults list after extension login'
-      )
-
-      if (global.window) {
-        global.window.dispatchEvent(new CustomEvent('extension-authenticated'))
-      }
-    }
     
     return { initialized: true }
   }

@@ -30,10 +30,21 @@ export class NativeMessagingIPCServer {
     this.socketManager = new SocketManager('pearpass-native-messaging')
     /** @type {string} */
     this.socketPath = this.socketManager.getPath()
+    
+    // Create wrapper function for IPC activity
+    const ipcActivityWrapper = (handler) => {
+      return async (...args) => {
+        this.emitIPCActivity()
+        return handler(...args)
+      }
+    }
+    
     /** @type {MethodRegistry} */
-    this.methodRegistry = new MethodRegistry()
+    this.methodRegistry = new MethodRegistry(ipcActivityWrapper)
     /** @type {MethodRegistry} */
-    this.secureMethodRegistry = new MethodRegistry()
+    this.secureMethodRegistry = new MethodRegistry(ipcActivityWrapper)
+    /** @type {Map<string, number>} */
+    this.clientRequestCounts = new Map()
 
     // Initialize handlers
     this.setupHandlers()
@@ -70,7 +81,7 @@ export class NativeMessagingIPCServer {
       securityHandlers.checkAvailability.bind(securityHandlers)
     )
 
-    // Register encryption init (needed for bootstrap)
+    // Register encryption bootstrap methods
     this.methodRegistry.register(
       'encryptionInit',
       encryptionHandlers.encryptionInit.bind(encryptionHandlers)
@@ -93,6 +104,16 @@ export class NativeMessagingIPCServer {
 
     // Register methods accessible through secure channel
     this.registerSecureMethods(encryptionHandlers, vaultHandlers)
+  }
+
+  /**
+   * Emit IPC activity event to reset inactivity timer
+   */
+  emitIPCActivity() {
+    if (global.window) {
+      logger.log('IPC-SERVER', 'DEBUG', 'Emitting IPC activity event')
+      global.window.dispatchEvent(new Event('ipc-activity'))
+    }
   }
 
   /**
@@ -268,35 +289,23 @@ export class NativeMessagingIPCServer {
           `New IPC client connected: ${client.id}`
         )
 
-        // Track client request count
-        let requestCount = 0
-
-        // Listen for method calls
-        const originalEmit = client.emit.bind(client)
-        client.emit = (event, ...args) => {
-          if (event.startsWith('method:')) {
-            requestCount++
-            logger.log(
-              'IPC-SERVER',
-              'INFO',
-              `Client ${client.id} calling ${event} (request #${requestCount})`
-            )
-          }
-          return originalEmit(event, ...args)
-        }
+        // Initialize request count for this client
+        this.clientRequestCounts.set(client.id, 0)
 
         client.on('close', () => {
+          const requestCount = this.clientRequestCounts.get(client.id) || 0
           logger.log(
             'IPC-SERVER',
             'INFO',
             `IPC client disconnected: ${client.id} after ${requestCount} requests`
           )
+          this.clientRequestCounts.delete(client.id)
         })
 
         client.on('error', (error) => {
           logger.log(
             'IPC-SERVER',
-            'INFO',
+            'ERROR',
             `IPC client error (${client.id}): ${error.message}`
           )
         })

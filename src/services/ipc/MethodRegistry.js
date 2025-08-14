@@ -4,9 +4,13 @@ import { logger } from '../../utils/logger'
  * Registry for IPC method handlers with configuration support
  */
 export class MethodRegistry {
-  constructor() {
+  /**
+   * @param {Function} wrapperFn - Optional function to wrap all handlers
+   */
+  constructor(wrapperFn = null) {
     this.handlers = new Map()
     this.configs = new Map()
+    this.wrapperFn = wrapperFn
   }
 
   /**
@@ -16,7 +20,9 @@ export class MethodRegistry {
    * @param {Object} config - Configuration for the handler
    */
   register(name, handler, config = {}) {
-    this.handlers.set(name, handler)
+    // Apply wrapper if provided
+    const wrappedHandler = this.wrapperFn ? this.wrapperFn(handler) : handler
+    this.handlers.set(name, wrappedHandler)
     this.configs.set(name, {
       requiresStatus: config.requiresStatus || [],
       logLevel: config.logLevel || 'INFO',
@@ -45,6 +51,32 @@ export class MethodRegistry {
 
     const config = this.configs.get(methodName)
 
+    // Check if desktop is authenticated for non-exempt methods
+    const authMethods = ['logIn', 'logOut', 'checkAuthStatus', 'encryptionInit', 'encryptionGet', 'getDecryptionKey', 'decryptVaultKey', 'vaultsInit']
+    const statusMethods = ['encryptionGetStatus', 'vaultsGetStatus', 'activeVaultGetStatus']
+    const pairingMethods = ['nmGetAppIdentity', 'nmGetPairingCode', 'nmBeginHandshake', 'nmFinishHandshake', 'nmCloseSession']
+    const exemptMethods = [...authMethods, ...statusMethods, ...pairingMethods]
+    const shouldCheckAuth = !exemptMethods.includes(methodName)
+
+    if (shouldCheckAuth) {
+      try {
+        const { client } = context
+        const vaultsStatusRes = await client.vaultsGetStatus()
+        logger.log('METHOD-REGISTRY', 'INFO', `vaultsStatusRes ${JSON.stringify(vaultsStatusRes)}`)
+        if (!(!!vaultsStatusRes?.status)) {
+          logger.log('METHOD-REGISTRY', 'INFO', `Desktop not authenticated for method ${methodName}`)
+          throw new Error('DesktopNotAuthenticated: Desktop app is not authenticated')
+        }
+      } catch (error) {
+        // If we can't check status or not initialized, desktop is not authenticated
+        if (error.message.includes('DesktopNotAuthenticated')) {
+          throw error
+        }
+        logger.log('METHOD-REGISTRY', 'INFO', `Could not verify auth for ${methodName}: ${error.message}`)
+        throw new Error('DesktopNotAuthenticated: Desktop app is not authenticated')
+      }
+    }
+
     // Log status checks if configured
     if (config.requiresStatus && config.requiresStatus.length > 0) {
       await this.performStatusChecks(methodName, config.requiresStatus, context)
@@ -62,6 +94,11 @@ export class MethodRegistry {
     try {
       // Execute handler
       const result = await handler(params)
+
+      // Check if this was vaultsInit and desktop was previously unauthenticated
+      if (methodName === 'vaultsInit') {
+        await this.handleVaultsInitAuth(context)
+      }
 
       // Log result if debug
       if (config.logLevel === 'DEBUG' && result) {
@@ -125,5 +162,33 @@ export class MethodRegistry {
    */
   hasMethod(name) {
     return this.handlers.has(name)
+  }
+
+  /**
+   * Handle desktop authentication when extension authenticates via vaultsInit
+   */
+  async handleVaultsInitAuth(context) {
+    try {
+      // Check if desktop is now authenticated after vaultsInit
+      const status = await context.client.vaultsGetStatus()
+      if (status?.status) {
+        logger.log(
+          'METHOD-REGISTRY',
+          'INFO',
+          'Desktop authenticated after extension login, emitting event'
+        )
+
+        // Emit event to trigger desktop navigation
+        if (global.window) {
+          global.window.dispatchEvent(new CustomEvent('extension-authenticated'))
+        }
+      }
+    } catch (error) {
+      logger.log(
+        'METHOD-REGISTRY',
+        'DEBUG',
+        `Could not check post-vaultsInit status: ${error.message}`
+      )
+    }
   }
 }

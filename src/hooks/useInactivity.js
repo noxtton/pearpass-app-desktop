@@ -38,15 +38,24 @@ export function useInactivity({ timeoutMs = 60 * 1000 }) {
   ]
 
   useEffect(() => {
+    // Handler for IPC activity
+    const handleIPCActivity = () => resetTimer()
+    
+    // Listen for DOM events
     activityEvents.forEach((event) =>
       window.addEventListener(event, resetTimer)
     )
+    
+    // Listen for IPC activity events
+    window.addEventListener('ipc-activity', handleIPCActivity)
+    
     resetTimer()
 
     return () => {
       activityEvents.forEach((event) =>
         window.removeEventListener(event, resetTimer)
       )
+      window.removeEventListener('ipc-activity', handleIPCActivity)
       if (timerRef.current) clearTimeout(timerRef.current)
     }
   }, [])
