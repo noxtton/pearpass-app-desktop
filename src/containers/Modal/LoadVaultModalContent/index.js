@@ -1,5 +1,3 @@
-import os from 'os'
-
 import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
@@ -10,6 +8,7 @@ import { LoadVaultCard, LoadVaultInput, LoadVaultTitle } from './styles'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
 import { useToast } from '../../../context/ToastContext'
+import { getDeviceName } from '../../../utils/getDeviceName'
 
 export const LoadVaultModalContent = () => {
   const { i18n } = useLingui()
@@ -40,7 +39,7 @@ export const LoadVaultModalContent = () => {
 
       await refetch(vaultId)
 
-      await addDevice(os.hostname() + ' ' + os.platform() + ' ' + os.release())
+      await addDevice(getDeviceName())
 
       navigate('vault', {
         recordType: 'all'
