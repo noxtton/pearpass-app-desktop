@@ -116,7 +116,7 @@ export const SettingsPrivacyTab = () => {
     try {
       setLoadingPairing(true)
       const client = createOrGetPearpassClient()
-      
+
       let id
       if (reset) {
         // Reset pairing - generate new identity and clear sessions
@@ -125,7 +125,7 @@ export const SettingsPrivacyTab = () => {
         // Just load existing identity
         id = await getOrCreateIdentity(client)
       }
-      
+
       const code = getPairingCode(id.ed25519PublicKey)
       const fingerprint = getFingerprint(id.ed25519PublicKey)
       // Create a combined token for secure pairing
@@ -133,13 +133,13 @@ export const SettingsPrivacyTab = () => {
       setPairingToken(token)
       setFingerprint(fingerprint)
       setTokenCreationDate(id.creationDate)
-      
+
       if (reset) {
         // Show feedback when new token is generated
         setCopyFeedback(i18n._('New pairing token generated!'))
         setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
       }
-    } catch (err) {
+    } catch {
       setPairingToken('')
       setFingerprint('')
       setTokenCreationDate('')

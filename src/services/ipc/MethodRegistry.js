@@ -52,9 +52,28 @@ export class MethodRegistry {
     const config = this.configs.get(methodName)
 
     // Check if desktop is authenticated for non-exempt methods
-    const authMethods = ['logIn', 'logOut', 'checkAuthStatus', 'encryptionInit', 'encryptionGet', 'getDecryptionKey', 'decryptVaultKey', 'vaultsInit']
-    const statusMethods = ['encryptionGetStatus', 'vaultsGetStatus', 'activeVaultGetStatus']
-    const pairingMethods = ['nmGetAppIdentity', 'nmGetPairingCode', 'nmBeginHandshake', 'nmFinishHandshake', 'nmCloseSession']
+    const authMethods = [
+      'logIn',
+      'logOut',
+      'checkAuthStatus',
+      'encryptionInit',
+      'encryptionGet',
+      'getDecryptionKey',
+      'decryptVaultKey',
+      'vaultsInit'
+    ]
+    const statusMethods = [
+      'encryptionGetStatus',
+      'vaultsGetStatus',
+      'activeVaultGetStatus'
+    ]
+    const pairingMethods = [
+      'nmGetAppIdentity',
+      'nmGetPairingCode',
+      'nmBeginHandshake',
+      'nmFinishHandshake',
+      'nmCloseSession'
+    ]
     const exemptMethods = [...authMethods, ...statusMethods, ...pairingMethods]
     const shouldCheckAuth = !exemptMethods.includes(methodName)
 
@@ -62,18 +81,34 @@ export class MethodRegistry {
       try {
         const { client } = context
         const vaultsStatusRes = await client.vaultsGetStatus()
-        logger.log('METHOD-REGISTRY', 'INFO', `vaultsStatusRes ${JSON.stringify(vaultsStatusRes)}`)
-        if (!(!!vaultsStatusRes?.status)) {
-          logger.log('METHOD-REGISTRY', 'INFO', `Desktop not authenticated for method ${methodName}`)
-          throw new Error('DesktopNotAuthenticated: Desktop app is not authenticated')
+        logger.log(
+          'METHOD-REGISTRY',
+          'INFO',
+          `vaultsStatusRes ${JSON.stringify(vaultsStatusRes)}`
+        )
+        if (!!!vaultsStatusRes?.status) {
+          logger.log(
+            'METHOD-REGISTRY',
+            'INFO',
+            `Desktop not authenticated for method ${methodName}`
+          )
+          throw new Error(
+            'DesktopNotAuthenticated: Desktop app is not authenticated'
+          )
         }
       } catch (error) {
         // If we can't check status or not initialized, desktop is not authenticated
         if (error.message.includes('DesktopNotAuthenticated')) {
           throw error
         }
-        logger.log('METHOD-REGISTRY', 'INFO', `Could not verify auth for ${methodName}: ${error.message}`)
-        throw new Error('DesktopNotAuthenticated: Desktop app is not authenticated')
+        logger.log(
+          'METHOD-REGISTRY',
+          'INFO',
+          `Could not verify auth for ${methodName}: ${error.message}`
+        )
+        throw new Error(
+          'DesktopNotAuthenticated: Desktop app is not authenticated'
+        )
       }
     }
 
@@ -180,7 +215,9 @@ export class MethodRegistry {
 
         // Emit event to trigger desktop navigation
         if (global.window) {
-          global.window.dispatchEvent(new CustomEvent('extension-authenticated'))
+          global.window.dispatchEvent(
+            new CustomEvent('extension-authenticated')
+          )
         }
       }
     } catch (error) {

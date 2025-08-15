@@ -45,7 +45,6 @@ jest.mock('../utils/logger.js', () => ({
   }
 }))
 
-
 // Mock the new handler modules
 jest.mock('./handlers/SecurityHandlers', () => ({
   SecurityHandlers: jest.fn().mockImplementation(function (client) {

@@ -6,7 +6,6 @@ import {
   encryptWithSession,
   decryptWithSession
 } from './sessionManager'
-
 import { getSession, closeSession } from './sessionStore'
 
 // Mock dependencies

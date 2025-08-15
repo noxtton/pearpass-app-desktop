@@ -14,10 +14,10 @@ export class VaultHandlers {
       'DEBUG',
       `vaultsInit called with encryptionKey: ${params?.encryptionKey ? 'provided' : 'missing'}`
     )
-    
+
     // Initialize vaults
     await this.client.vaultsInit(params.encryptionKey)
-    
+
     return { initialized: true }
   }
 

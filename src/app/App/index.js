@@ -7,13 +7,14 @@ import { useRouter } from '../../context/RouterContext'
 import { useInactivity } from '../../hooks/useInactivity'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading'
 import { Routes } from '../Routes'
+import { logger } from "../../utils/logger.js";
 
 export const App = () => {
   const { navigate } = useRouter()
 
   const isSimulatedLoading = useSimulatedLoading()
 
-  const { isLoading: isUserDataLoading, refetch: refetchUser, logIn } = useUserData()
+  const { isLoading: isUserDataLoading, refetch: refetchUser } = useUserData()
   const { initVaults } = useVaults()
 
   const isLoading = isUserDataLoading || isSimulatedLoading
@@ -48,7 +49,7 @@ export const App = () => {
         })
         resetInactivity()
       } catch (error) {
-        console.error('Error handling extension authentication:', error)
+        logger.error('Error handling extension authentication:', error)
 
         // If initialization fails, try to refresh user data
         await refetchUser()

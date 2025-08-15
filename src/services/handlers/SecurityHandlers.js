@@ -1,11 +1,15 @@
-import { beginHandshake } from '../security/sessionManager.js'
-import { getSession, closeSession, clearAllSessions } from '../security/sessionStore.js'
 import {
   getOrCreateIdentity,
   getFingerprint,
   verifyPairingToken,
   resetIdentity
 } from '../security/appIdentity.js'
+import { beginHandshake } from '../security/sessionManager.js'
+import {
+  getSession,
+  closeSession,
+  clearAllSessions
+} from '../security/sessionStore.js'
 
 /**
  * Handles security-related IPC operations for native messaging
@@ -94,7 +98,7 @@ export class SecurityHandlers {
     const clearedSessions = clearAllSessions()
 
     const newIdentity = await resetIdentity(this.client)
-    
+
     return {
       ok: true,
       clearedSessions,
@@ -105,5 +109,4 @@ export class SecurityHandlers {
       }
     }
   }
-
 }

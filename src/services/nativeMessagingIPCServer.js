@@ -30,15 +30,15 @@ export class NativeMessagingIPCServer {
     this.socketManager = new SocketManager('pearpass-native-messaging')
     /** @type {string} */
     this.socketPath = this.socketManager.getPath()
-    
+
     // Create wrapper function for IPC activity
-    const ipcActivityWrapper = (handler) => {
-      return async (...args) => {
+    const ipcActivityWrapper =
+      (handler) =>
+      async (...args) => {
         this.emitIPCActivity()
         return handler(...args)
       }
-    }
-    
+
     /** @type {MethodRegistry} */
     this.methodRegistry = new MethodRegistry(ipcActivityWrapper)
     /** @type {MethodRegistry} */

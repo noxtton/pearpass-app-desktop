@@ -8,7 +8,7 @@ import {
   randomBytes,
   concatBytes,
   createSession,
-  getSession,
+  getSession
 } from './sessionStore.js'
 
 /**

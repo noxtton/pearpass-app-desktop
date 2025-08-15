@@ -4,8 +4,8 @@
 
 import sodium from 'sodium-native'
 
-import { logger } from '../../utils/logger.js'
 import { clearAllSessions } from './sessionStore.js'
+import { logger } from '../../utils/logger.js'
 
 const ENC_KEY_ED25519 = 'nm.identity.ed25519'
 const ENC_KEY_X25519 = 'nm.identity.x25519'
@@ -275,25 +275,21 @@ export const verifyPairingToken = (ed25519PublicKeyB64, userProvidedToken) => {
 export const resetIdentity = async (client) => {
   // First, clear all active sessions to immediately disconnect extension
   const clearedSessions = clearAllSessions()
-  
+
   logger.log(
     'APP-IDENTITY',
     'INFO',
     `Cleared ${clearedSessions} active sessions`
   )
-  
+
   try {
     // Clear existing keys from storage by overwriting with empty values
     // This removes them since getOrCreateIdentity will regenerate when missing
     await client.encryptionAdd(ENC_KEY_ED25519, '').catch(() => {})
     await client.encryptionAdd(ENC_KEY_X25519, '').catch(() => {})
     await client.encryptionAdd(ENC_KEY_CREATION_DATE, '').catch(() => {})
-    
-    logger.log(
-      'APP-IDENTITY',
-      'INFO',
-      'Cleared existing identity keys'
-    )
+
+    logger.log('APP-IDENTITY', 'INFO', 'Cleared existing identity keys')
   } catch (err) {
     logger.log(
       'APP-IDENTITY',
@@ -301,19 +297,15 @@ export const resetIdentity = async (client) => {
       `Failed to clear existing keys: ${err.message}`
     )
   }
-  
+
   // Clear in-memory cache
   MEMORY_IDENTITY = null
-  
+
   // Generate new identity
   const newIdentity = await getOrCreateIdentity(client)
-  
-  logger.log(
-    'APP-IDENTITY',
-    'INFO',
-    'Generated new identity for pairing'
-  )
-  
+
+  logger.log('APP-IDENTITY', 'INFO', 'Generated new identity for pairing')
+
   return newIdentity
 }
 
