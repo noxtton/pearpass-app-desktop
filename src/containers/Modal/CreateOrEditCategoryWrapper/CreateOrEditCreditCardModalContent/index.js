@@ -28,6 +28,7 @@ import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
@@ -204,13 +205,6 @@ export const CreateOrEditCreditCardModalContent = ({
     )
   }
 
-  const handleAttachmentRemove = (index) => {
-    const updatedAttachments = values.attachments.filter(
-      (_, idx) => idx !== index
-    )
-    setValue('attachments', updatedAttachments)
-  }
-
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -297,14 +291,22 @@ export const CreateOrEditCreditCardModalContent = ({
         html`
           <${FormGroup}>
             ${values.attachments.map(
-              (attachment, index) =>
+              (attachment) =>
                 html`<${AttachmentField}
+                  key=${attachment.id || attachment.tempId}
                   attachment=${attachment}
                   label=${i18n._('File')}
                   additionalItems=${html`
                     <${ButtonSingleInput}
                       startIcon=${DeleteIcon}
-                      onClick=${() => handleAttachmentRemove(index)}
+                      onClick=${() =>
+                        setValue(
+                          'attachments',
+                          getFilteredAttachmentsById(
+                            values.attachments,
+                            attachment
+                          )
+                        )}
                     >
                       ${i18n._('Delete File')}
                     <//>

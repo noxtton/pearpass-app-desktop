@@ -5,6 +5,9 @@ import { readFileContent } from '../pages/SettingsView/ImportTab/utils/readFileC
 jest.mock('./logger', () => ({
   logger: { error: jest.fn() }
 }))
+jest.mock('pear-apps-utils-generate-unique-id', () => ({
+  generateUniqueId: jest.fn(() => 'unique-id')
+}))
 
 jest.mock('../pages/SettingsView/ImportTab/utils/readFileContent', () => ({
   readFileContent: jest.fn()
@@ -34,7 +37,11 @@ describe('handleFileSelect', () => {
     expect(readFileContent).toHaveBeenCalledWith(file, { as: 'buffer' })
     expect(setValue).toHaveBeenCalledWith(fieldName, [
       ...values[fieldName],
-      { buffer: new Uint8Array(arrayBuffer), name: 'test.txt' }
+      {
+        buffer: new Uint8Array(arrayBuffer),
+        name: 'test.txt',
+        tempId: 'unique-id'
+      }
     ])
   })
 
