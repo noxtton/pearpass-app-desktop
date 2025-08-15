@@ -34,16 +34,18 @@ export const Routes = ({ isLoading }) => {
   }
 }
 
+const MAIN_VIEW_BY_PAGE = {
+  vault: MainView,
+  settings: SettingsView
+}
+
 /**
  * @param {string} currentPage
  * @returns {import('react').ReactNode}
  */
 function getMainView(currentPage) {
-  if (currentPage === 'vault') {
-    return html`<${MainView} /> `
-  } else if (currentPage === 'settings') {
-    return html`<${SettingsView} /> `
-  }
+  const Component = MAIN_VIEW_BY_PAGE[currentPage]
+  return Component ? html`<${Component} />` : null
 }
 
 /**
