@@ -32,7 +32,8 @@ import {
 import {
   getOrCreateIdentity,
   getPairingCode,
-  getFingerprint
+  getFingerprint,
+  resetIdentity
 } from '../../../services/security/appIdentity.js'
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
 import { Description } from '../ExportTab/styles'
@@ -111,11 +112,20 @@ export const SettingsPrivacyTab = () => {
   const [loadingPairing, setLoadingPairing] = useState(false)
   const [copyFeedback, setCopyFeedback] = useState('')
 
-  const loadPairingInfo = async () => {
+  const loadPairingInfo = async (reset = false) => {
     try {
       setLoadingPairing(true)
       const client = createOrGetPearpassClient()
-      const id = await getOrCreateIdentity(client)
+      
+      let id
+      if (reset) {
+        // Reset pairing - generate new identity and clear sessions
+        id = await resetIdentity(client)
+      } else {
+        // Just load existing identity
+        id = await getOrCreateIdentity(client)
+      }
+      
       const code = getPairingCode(id.ed25519PublicKey)
       const fingerprint = getFingerprint(id.ed25519PublicKey)
       // Create a combined token for secure pairing
@@ -123,10 +133,20 @@ export const SettingsPrivacyTab = () => {
       setPairingToken(token)
       setFingerprint(fingerprint)
       setTokenCreationDate(id.creationDate)
-    } catch {
+      
+      if (reset) {
+        // Show feedback when new token is generated
+        setCopyFeedback(i18n._('New pairing token generated!'))
+        setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
+      }
+    } catch (err) {
       setPairingToken('')
       setFingerprint('')
       setTokenCreationDate('')
+      if (reset) {
+        setCopyFeedback(i18n._('Failed to generate new token'))
+        setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
+      }
     } finally {
       setLoadingPairing(false)
     }
@@ -310,7 +330,7 @@ export const SettingsPrivacyTab = () => {
         <//>
         <div>
           <${ButtonWrapper}>
-            <${ButtonSecondary} onClick=${() => void loadPairingInfo()}>
+            <${ButtonSecondary} onClick=${() => void loadPairingInfo(true)}>
               ${i18n._('Generate New Pairing Token')}
             <//>
           <//>

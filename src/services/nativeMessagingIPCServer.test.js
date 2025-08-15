@@ -67,6 +67,15 @@ jest.mock('./handlers/SecurityHandlers', () => ({
       status: 'running',
       message: 'Desktop app is running'
     })
+    this.nmResetPairing = jest.fn().mockResolvedValue({
+      ok: true,
+      clearedSessions: 0,
+      newIdentity: {
+        ed25519PublicKey: 'new-mock-ed25519-key',
+        x25519PublicKey: 'new-mock-x25519-key',
+        creationDate: new Date().toISOString()
+      }
+    })
   })
 }))
 

@@ -2,12 +2,12 @@ import sodium from 'sodium-native'
 
 import {
   beginHandshake,
-  getSession,
-  closeSession,
   recordIncomingSeq,
   encryptWithSession,
   decryptWithSession
 } from './sessionManager'
+
+import { getSession, closeSession } from './sessionStore'
 
 // Mock dependencies
 jest.mock('sodium-native', () => ({

@@ -1,4 +1,10 @@
 import { logger } from '../../utils/logger'
+import {
+  recordIncomingSeq,
+  decryptWithSession,
+  encryptWithSession
+} from '../security/sessionManager.js'
+import { getSession } from '../security/sessionStore.js'
 
 /**
  * Handles secure encrypted requests from the extension
@@ -48,9 +54,6 @@ export class SecureRequestHandler {
   }
 
   async validateSession(sessionId, seq) {
-    const { getSession, recordIncomingSeq } = await import(
-      '../security/sessionManager.js'
-    )
     const session = getSession(sessionId)
     if (!session) {
       throw new Error('SessionNotFound')
@@ -60,7 +63,6 @@ export class SecureRequestHandler {
   }
 
   async decryptRequest(sessionId, nonceB64, ciphertextB64) {
-    const { decryptWithSession } = await import('../security/sessionManager.js')
     const nonce = new Uint8Array(Buffer.from(nonceB64, 'base64'))
     const ciphertext = new Uint8Array(Buffer.from(ciphertextB64, 'base64'))
     const plaintext = decryptWithSession(sessionId, nonce, ciphertext)
@@ -68,7 +70,6 @@ export class SecureRequestHandler {
   }
 
   async encryptResponse(sessionId, result) {
-    const { encryptWithSession } = await import('../security/sessionManager.js')
     const responsePlaintext = Buffer.from(
       JSON.stringify({ ok: true, result }),
       'utf8'

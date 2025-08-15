@@ -1,3 +1,12 @@
+import { beginHandshake } from '../security/sessionManager.js'
+import { getSession, closeSession, clearAllSessions } from '../security/sessionStore.js'
+import {
+  getOrCreateIdentity,
+  getFingerprint,
+  verifyPairingToken,
+  resetIdentity
+} from '../security/appIdentity.js'
+
 /**
  * Handles security-related IPC operations for native messaging
  */
@@ -19,8 +28,6 @@ export class SecurityHandlers {
       )
     }
 
-    const { getOrCreateIdentity, getFingerprint, verifyPairingToken } =
-      await import('../security/appIdentity.js')
     const id = await getOrCreateIdentity(this.client)
 
     // Verify the pairing token matches what the desktop app expects
@@ -43,7 +50,6 @@ export class SecurityHandlers {
    * Begin secure handshake with extension
    */
   async nmBeginHandshake(params) {
-    const { beginHandshake } = await import('../security/sessionManager.js')
     const { extEphemeralPubB64 } = params || {}
     if (!extEphemeralPubB64) throw new Error('Missing extEphemeralPubB64')
     return beginHandshake(this.client, extEphemeralPubB64)
@@ -55,7 +61,6 @@ export class SecurityHandlers {
   async nmFinishHandshake(params) {
     const { sessionId } = params || {}
     if (!sessionId) throw new Error('Missing sessionId')
-    const { getSession } = await import('../security/sessionManager.js')
     if (!getSession(sessionId)) throw new Error('SessionNotFound')
     return { ok: true }
   }
@@ -66,7 +71,6 @@ export class SecurityHandlers {
   async nmCloseSession(params) {
     const { sessionId } = params || {}
     if (!sessionId) throw new Error('Missing sessionId')
-    const { closeSession } = await import('../security/sessionManager.js')
     closeSession(sessionId)
     return { ok: true }
   }
@@ -79,6 +83,26 @@ export class SecurityHandlers {
       available: true,
       status: 'running',
       message: 'Desktop app is running'
+    }
+  }
+
+  /**
+   * Reset pairing by generating new identity keys and clearing all sessions
+   * This will unpair the connected extension
+   */
+  async nmResetPairing() {
+    const clearedSessions = clearAllSessions()
+
+    const newIdentity = await resetIdentity(this.client)
+    
+    return {
+      ok: true,
+      clearedSessions,
+      newIdentity: {
+        ed25519PublicKey: newIdentity.ed25519PublicKey,
+        x25519PublicKey: newIdentity.x25519PublicKey,
+        creationDate: newIdentity.creationDate
+      }
     }
   }
 
