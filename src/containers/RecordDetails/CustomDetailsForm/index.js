@@ -55,7 +55,7 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
   )
 
   const { registerArray, setValues, setValue, values } = useForm({
-    initialValues: initialValues
+    initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')

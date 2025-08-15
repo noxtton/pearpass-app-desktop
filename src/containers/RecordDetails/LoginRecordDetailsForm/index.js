@@ -72,7 +72,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   )
 
   const { register, registerArray, setValues, values, setValue } = useForm({
-    initialValues: initialValues
+    initialValues
   })
 
   const { value: websitesList, registerItem } = registerArray('websites')

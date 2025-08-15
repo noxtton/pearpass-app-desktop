@@ -46,7 +46,7 @@ export const UploadFilesModalContent = ({ accepts, type, onFilesSelected }) => {
       headerChildren=${html`
         <${HeaderWrapper}>
           ${isTypeImage
-            ? html` <${isTypeImage ? ImageIcon : CommonFileIcon} size="21" />
+            ? html` <${ImageIcon} size="21" />
                 ${i18n._('Upload picture')}`
             : html`
                 <${CommonFileIcon} size="21" />

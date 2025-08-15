@@ -54,7 +54,7 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
   )
 
   const { register, registerArray, setValues, values, setValue } = useForm({
-    initialValues: initialValues
+    initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
