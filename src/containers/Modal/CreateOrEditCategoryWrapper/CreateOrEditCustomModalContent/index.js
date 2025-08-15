@@ -18,6 +18,7 @@ import { FormGroup } from '../../../../components/FormGroup'
 import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWrapper'
 import { FormWrapper } from '../../../../components/FormWrapper'
 import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { ATTACHMENTS_FIELD_KEY } from '../../../../constants/formFields'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
@@ -115,7 +116,7 @@ export const CreateOrEditCustomModalContent = ({
   } = registerArray('customFields')
 
   useGetMultipleFiles({
-    fieldNames: ['attachments'],
+    fieldNames: [ATTACHMENTS_FIELD_KEY],
     updateValues: setValue,
     initialRecord
   })
@@ -155,7 +156,7 @@ export const CreateOrEditCustomModalContent = ({
         onFilesSelected=${(files) =>
           handleFileSelect({
             files,
-            fieldName: 'attachments',
+            fieldName: ATTACHMENTS_FIELD_KEY,
             setValue,
             values
           })}
@@ -216,7 +217,7 @@ export const CreateOrEditCustomModalContent = ({
                       startIcon=${DeleteIcon}
                       onClick=${() =>
                         setValue(
-                          'attachments',
+                          ATTACHMENTS_FIELD_KEY,
                           getFilteredAttachmentsById(
                             values.attachments,
                             attachment

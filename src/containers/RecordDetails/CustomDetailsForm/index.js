@@ -7,6 +7,7 @@ import { CopyIcon } from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
+import { ATTACHMENT_FIELD_KEY } from '../../../constants/formFields'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
@@ -60,7 +61,7 @@ export const CustomDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { value: list, registerItem } = registerArray('customFields')
 
   useGetMultipleFiles({
-    fieldNames: ['attachments'],
+    fieldNames: [ATTACHMENT_FIELD_KEY],
     updateValues: setValue,
     initialRecord
   })
