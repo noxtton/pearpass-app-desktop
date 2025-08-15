@@ -17,7 +17,7 @@ import { ListItem } from '../../../components/ListItem'
 import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
-import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const CardVaultSelect = () => {
   const { i18n } = useLingui()

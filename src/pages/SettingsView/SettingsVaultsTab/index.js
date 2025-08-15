@@ -10,7 +10,7 @@ import { ListItem } from '../../../components/ListItem'
 import { ModifyMasterVaultModalContent } from '../../../containers/Modal/ModifyMasterVaultModalContent'
 import { ModifyVaultModalContent } from '../../../containers/Modal/ModifyVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
-import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const SettingsVaultsTab = () => {
   const { i18n } = useLingui()

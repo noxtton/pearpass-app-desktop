@@ -12,18 +12,18 @@ import {
 } from 'pearpass-lib-ui-react-components'
 
 import { InputWrapper, SwitchList, SwitchWrapper } from './styles'
-import { ButtonWrapper } from './styles.js'
+import { ButtonWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { createOrGetPearpassClient } from '../../../services/createOrGetPearpassClient'
 import {
   isNativeMessagingIPCRunning,
   startNativeMessagingIPC,
   stopNativeMessagingIPC
-} from '../../../services/nativeMessagingIPCServer.js'
+} from '../../../services/nativeMessagingIPCServer'
 import {
   getNativeMessagingEnabled,
   setNativeMessagingEnabled
-} from '../../../services/nativeMessagingPreferences.js'
+} from '../../../services/nativeMessagingPreferences'
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
 import { Description } from '../ExportTab/styles'
 

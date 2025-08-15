@@ -14,7 +14,7 @@ import {
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useRecordById, useRecords } from 'pearpass-lib-vault'
 
-import { RecordDetailsContent } from './RecordDetailsContent/index.js'
+import { RecordDetailsContent } from './RecordDetailsContent'
 import {
   Fields,
   FavoriteButtonWrapper,
@@ -24,14 +24,14 @@ import {
   RecordActions,
   Title,
   RecordInfo
-} from './styles.js'
+} from './styles'
 import { PopupMenu } from '../../components/PopupMenu'
 import { RecordActionsPopupContent } from '../../components/RecordActionsPopupContent'
-import { RecordAvatar } from '../../components/RecordAvatar/index.js'
-import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType.js'
-import { useRouter } from '../../context/RouterContext.js'
-import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord.js'
-import { useRecordActionItems } from '../../hooks/useRecordActionItems.js'
+import { RecordAvatar } from '../../components/RecordAvatar'
+import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
+import { useRouter } from '../../context/RouterContext'
+import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
+import { useRecordActionItems } from '../../hooks/useRecordActionItems'
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()

@@ -21,7 +21,7 @@ import { RadioSelect } from '../../../components/RadioSelect'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { VaultPasswordFormModalContent } from '../../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../../context/ModalContext'
-import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const ExportTab = () => {
   const { closeModal, setModal } = useModal()
