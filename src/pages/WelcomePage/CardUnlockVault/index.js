@@ -14,6 +14,7 @@ import { useVault, useVaults } from 'pearpass-lib-vault'
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { logger } from '../../../utils/logger'
 
 export const CardUnlockVault = () => {
   const { i18n } = useLingui()
@@ -49,7 +50,7 @@ export const CardUnlockVault = () => {
     try {
       setIsLoading(true)
 
-      await refetch(routerData.vaultId, values.password)
+      await refetch(routerData.vaultId, { password: values.password })
 
       setIsLoading(false)
 
@@ -61,7 +62,7 @@ export const CardUnlockVault = () => {
 
       setIsLoading(false)
 
-      console.error(error)
+      logger.error(error)
     }
   }
 

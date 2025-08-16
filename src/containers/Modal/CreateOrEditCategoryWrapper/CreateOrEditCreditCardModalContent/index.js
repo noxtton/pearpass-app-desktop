@@ -3,16 +3,19 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import {
-  InputField,
   ButtonLittle,
-  SaveIcon,
-  UserIcon,
-  CreditCardIcon,
+  ButtonSingleInput,
   CalendarIcon,
+  CreditCardIcon,
+  DeleteIcon,
+  ImageIcon,
+  InputField,
   NineDotsIcon,
-  PasswordField
+  PasswordField,
+  SaveIcon,
+  UserIcon
 } from 'pearpass-lib-ui-react-components'
-import { useCreateRecord, useRecords, RECORD_TYPES } from 'pearpass-lib-vault'
+import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
 import { FolderDropdown } from '../../../../components/FolderDropdown'
@@ -21,13 +24,19 @@ import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWr
 import { FormWrapper } from '../../../../components/FormWrapper'
 import { InputFieldNote } from '../../../../components/InputFieldNote'
 import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { ATTACHMENTS_FIELD_KEY } from '../../../../constants/formFields'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
+import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
+import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { isFavorite } from '../../../../utils/isFavorite'
+import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
+import { UploadFilesModalContent } from '../../UploadImageModalContent'
 
 /**
  * @param {{
@@ -44,6 +53,7 @@ import { DropdownsWrapper } from '../../styles'
  *       type: string
  *       name: string
  *    }[]
+ *    attachments: { id: string, name: string}[]
  *  }
  * }
  *  selectedFolder?: string
@@ -56,7 +66,8 @@ export const CreateOrEditCreditCardModalContent = ({
   onTypeChange
 }) => {
   const { i18n } = useLingui()
-  const { closeModal } = useModal()
+
+  const { closeModal, setModal } = useModal()
   const { setToast } = useToast()
 
   const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
@@ -98,7 +109,14 @@ export const CreateOrEditCreditCardModalContent = ({
         note: Validator.string().required(i18n._('Note is required'))
       })
     ),
-    folder: Validator.string()
+    folder: Validator.string(),
+    attachments: Validator.array().items(
+      Validator.object({
+        id: Validator.string(),
+        name: Validator.string().required(),
+        buffer: Validator.object({})
+      })
+    )
   })
 
   const { values, register, handleSubmit, registerArray, setValue } = useForm({
@@ -111,9 +129,16 @@ export const CreateOrEditCreditCardModalContent = ({
       pinCode: initialRecord?.data?.pinCode ?? '',
       note: initialRecord?.data?.note ?? '',
       customFields: initialRecord?.data?.customFields ?? [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     },
     validate: (values) => schema.validate(values)
+  })
+
+  useGetMultipleFiles({
+    fieldNames: [ATTACHMENTS_FIELD_KEY],
+    updateValues: setValue,
+    initialRecord
   })
 
   const {
@@ -136,7 +161,8 @@ export const CreateOrEditCreditCardModalContent = ({
         securityCode: values.securityCode,
         pinCode: values.pinCode,
         note: values.note,
-        customFields: values.customFields
+        customFields: values.customFields,
+        attachments: values.attachments
       }
     }
 
@@ -165,6 +191,21 @@ export const CreateOrEditCreditCardModalContent = ({
     setValue('expireDate', value)
   }
 
+  const handleFileLoad = () => {
+    setModal(
+      html`<${UploadFilesModalContent}
+        type=${'file'}
+        onFilesSelected=${(files) =>
+          handleFileSelect({
+            files,
+            fieldName: ATTACHMENTS_FIELD_KEY,
+            setValue,
+            values
+          })}
+      />`
+    )
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -172,6 +213,9 @@ export const CreateOrEditCreditCardModalContent = ({
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
+            <${ButtonLittle} startIcon=${ImageIcon} onClick=${handleFileLoad}>
+              ${i18n._('Load file')}
+            <//>
             <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
@@ -243,6 +287,35 @@ export const CreateOrEditCreditCardModalContent = ({
             ...${register('pinCode')}
           />
         <//>
+
+        ${values.attachments.length > 0 &&
+        html`
+          <${FormGroup}>
+            ${values.attachments.map(
+              (attachment) =>
+                html`<${AttachmentField}
+                  key=${attachment.id || attachment.tempId}
+                  attachment=${attachment}
+                  label=${i18n._('File')}
+                  additionalItems=${html`
+                    <${ButtonSingleInput}
+                      startIcon=${DeleteIcon}
+                      onClick=${() =>
+                        setValue(
+                          ATTACHMENTS_FIELD_KEY,
+                          getFilteredAttachmentsById(
+                            values.attachments,
+                            attachment
+                          )
+                        )}
+                    >
+                      ${i18n._('Delete File')}
+                    <//>
+                  `}
+                />`
+            )}
+          <//>
+        `}
 
         <${FormGroup}>
           <${InputFieldNote} ...${register('note')} />

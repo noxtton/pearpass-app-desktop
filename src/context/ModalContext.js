@@ -1,12 +1,12 @@
 import { createContext, useState, useContext, useEffect } from 'react'
 
 import { html } from 'htm/react'
+import { generateUniqueId } from 'pear-apps-utils-generate-unique-id'
 
 import { Overlay } from '../components/Overlay'
 import { BASE_TRANSITION_DURATION } from '../constants/transitions'
 import { ModalWrapper } from '../containers/Modal'
 import { SideDrawer } from '../containers/Modal/SideDrawer'
-import { generateUniqueId } from '../utils/generateUniqueId'
 
 const ModalContext = createContext()
 
@@ -74,7 +74,6 @@ export const ModalProvider = ({ children }) => {
   return html`
     <${ModalContext.Provider} value=${{ isOpen, setModal, closeModal }}>
       ${children}
-
       ${modalStack?.map(
         ({ content, id, isOpen, params }) => html`
           <${ModalWrapper} key=${id}>
@@ -90,7 +89,7 @@ export const ModalProvider = ({ children }) => {
           <//>
         `
       )}
-    </${ModalContext.Provider}>
+    <//>
   `
 }
 

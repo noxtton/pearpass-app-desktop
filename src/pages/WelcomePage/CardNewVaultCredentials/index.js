@@ -10,7 +10,7 @@ import {
   PearPassInputField,
   PearPassPasswordField
 } from 'pearpass-lib-ui-react-components'
-import { useCreateVault } from 'pearpass-lib-vault'
+import { useCreateVault, useVault } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
@@ -21,6 +21,8 @@ import {
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { getDeviceName } from '../../../utils/getDeviceName'
+import { logger } from '../../../utils/logger'
 
 export const CardNewVaultCredentials = () => {
   const { i18n } = useLingui()
@@ -36,11 +38,9 @@ export const CardNewVaultCredentials = () => {
     passwordConfirm: Validator.string()
   })
 
-  const { createVault } = useCreateVault({
-    onCompleted: () => {
-      navigate('vault', { recordType: 'all' })
-    }
-  })
+  const { addDevice } = useVault()
+
+  const { createVault } = useCreateVault()
 
   const { register, handleSubmit, setErrors } = useForm({
     initialValues: {
@@ -65,13 +65,18 @@ export const CardNewVaultCredentials = () => {
     try {
       setIsLoading(true)
 
-      await createVault({ name: values.name, password: values.password })
+      await createVault({
+        name: values.name,
+        password: values.password
+      })
+      await addDevice(getDeviceName())
+      navigate('vault', { recordType: 'all' })
 
       setIsLoading(false)
     } catch (error) {
       setIsLoading(false)
 
-      console.error(error)
+      logger.error(error)
     }
   }
 

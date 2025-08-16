@@ -1,15 +1,12 @@
+/** @typedef {import('pear-interface')} */ /* global Pear */
+
 import { createElement } from 'react'
 
 import { i18n } from '@lingui/core'
 import { I18nProvider } from '@lingui/react'
 import htm from 'htm'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
-import {
-  closeAllInstances,
-  setPearpassVaultClient,
-  VaultProvider
-} from 'pearpass-lib-vault'
-import { createPearpassVaultClient } from 'pearpass-lib-vault-desktop'
+import { setPearpassVaultClient, VaultProvider } from 'pearpass-lib-vault'
 import { createRoot } from 'react-dom/client'
 
 import { App } from './src/app/App'
@@ -18,29 +15,54 @@ import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
 import { ToastProvider } from './src/context/ToastContext'
 import { messages } from './src/locales/en/messages.mjs'
+import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
+import { createOrGetPipe } from './src/services/createOrGetPipe'
+import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
+import { logger } from './src/utils/logger'
 import { setFontsAndResetCSS } from './styles'
 
-Pear.updates(async () => {
-  await closeAllInstances()
+const storage = Pear.config.storage
+
+// Set fonts and reset CSS
+setFontsAndResetCSS()
+
+// Initialize i18n
+i18n.load('en', messages)
+i18n.activate('en')
+
+// Initialize the vault client
+const pipe = createOrGetPipe()
+
+const client = createOrGetPearpassClient(pipe, storage, { debugMode: true })
+
+setPearpassVaultClient(client)
+
+// Check if native messaging is enabled and start IPC server
+// For testing, always start the IPC server
+startNativeMessagingIPC(client).catch((err) => {
+  logger.error('Failed to start IPC server:', err)
+})
+
+Pear.updates(async (update) => {
+  // Check if the update is related to our IPC socket file or debug log
+  if (update && update.diff) {
+    const hasNonIgnoredChanges = update.diff.some(
+      ({ key: file }) =>
+        !file.startsWith('/logs') &&
+        !file.includes('pearpass-native-messaging.sock')
+    )
+
+    if (!hasNonIgnoredChanges) {
+      return
+    }
+  }
 
   Pear.reload()
 })
 
+// Render the application
 const root = createRoot(document.querySelector('#root'))
-
-setFontsAndResetCSS()
-
-i18n.load('en', messages)
-i18n.activate('en')
-
-setPearpassVaultClient(
-  createPearpassVaultClient(Pear.config.storage, {
-    debugMode: true
-  })
-)
-
 const html = htm.bind(createElement)
-
 root.render(html`
   <${LoadingProvider}>
     <${ThemeProvider}>

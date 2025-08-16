@@ -4,7 +4,11 @@ export const Wrapper = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex-direction: ${({ isSwitchFirst }) =>
+    isSwitchFirst ? 'row-reverse' : 'row'};
+  justify-content: ${({ stretch, isSwitchFirst }) =>
+    stretch ? 'space-between' : isSwitchFirst ? 'flex-end' : 'flex-start'};
+  gap: 8px;
   cursor: pointer;
 `
 

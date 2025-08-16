@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item Component matches snapshot when action icons are clicked: after action icons clicked 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-blHHSb gKQSBW"
+  >
+    <div
+      class="sc-gtLWhw bBbqdy"
+    >
+      <svg
+        data-testid="lock-icon"
+      />
+      <div
+        class="sc-egkSDF jkBTJR"
+      >
+        <span
+          class="sc-fAUdSK hLsNmL"
+        >
+          vault-123
+        </span>
+        <p
+          class="sc-dntaoT iUYSmE"
+        >
+           Created 13/06/2025
+        </p>
+      </div>
+    </div>
+    <div
+      class="sc-ivxoEo ehkgIB"
+    >
+      <span>
+        <svg
+          data-testid="share-icon"
+        />
+      </span>
+      <span>
+         
+        <svg
+          data-testid="brush-icon"
+        />
+      </span>
+      <span>
+        <svg
+          data-testid="delete-icon"
+        />
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Item Component matches snapshot when action icons are clicked: initial state 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-blHHSb gKQSBW"
+  >
+    <div
+      class="sc-gtLWhw bBbqdy"
+    >
+      <svg
+        data-testid="lock-icon"
+      />
+      <div
+        class="sc-egkSDF jkBTJR"
+      >
+        <span
+          class="sc-fAUdSK hLsNmL"
+        >
+          vault-123
+        </span>
+        <p
+          class="sc-dntaoT iUYSmE"
+        >
+           Created 13/06/2025
+        </p>
+      </div>
+    </div>
+    <div
+      class="sc-ivxoEo ehkgIB"
+    >
+      <span>
+        <svg
+          data-testid="share-icon"
+        />
+      </span>
+      <span>
+         
+        <svg
+          data-testid="brush-icon"
+        />
+      </span>
+      <span>
+        <svg
+          data-testid="delete-icon"
+        />
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Item Component renders Item component correctly and matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-blHHSb gKQSBW"
+  >
+    <div
+      class="sc-gtLWhw bBbqdy"
+    >
+      <svg
+        data-testid="lock-icon"
+      />
+      <div
+        class="sc-egkSDF jkBTJR"
+      >
+        <span
+          class="sc-fAUdSK hLsNmL"
+        >
+          vault-123
+        </span>
+        <p
+          class="sc-dntaoT iUYSmE"
+        >
+           Created 13/06/2025
+        </p>
+      </div>
+    </div>
+    <div
+      class="sc-ivxoEo ehkgIB"
+    >
+      <span>
+        <svg
+          data-testid="share-icon"
+        />
+      </span>
+      <span>
+         
+        <svg
+          data-testid="brush-icon"
+        />
+      </span>
+      <span>
+        <svg
+          data-testid="delete-icon"
+        />
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;

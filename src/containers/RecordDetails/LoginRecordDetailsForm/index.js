@@ -16,8 +16,11 @@ import {
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { ATTACHMENT_FIELD_KEY } from '../../../constants/formFields'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -33,6 +36,7 @@ import { CustomFields } from '../../CustomFields'
  *        type: string
  *        name: string
  *     }[]
+ *    attachments: { id: string, name: string}[]
  *    }
  *  }
  *  selectedFolder?: string
@@ -61,13 +65,14 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
         ? initialRecord?.data?.websites.map((website) => ({ website }))
         : [{ name: 'website' }],
       customFields: initialRecord?.data.customFields ?? [],
-      folder: selectedFolder ?? initialRecord?.folder
+      folder: selectedFolder ?? initialRecord?.folder,
+      attachments: initialRecord?.attachments ?? []
     }),
     [initialRecord, selectedFolder]
   )
 
-  const { register, registerArray, setValues, values } = useForm({
-    initialValues: initialValues
+  const { register, registerArray, setValues, values, setValue } = useForm({
+    initialValues
   })
 
   const { value: websitesList, registerItem } = registerArray('websites')
@@ -75,6 +80,11 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { value: customFieldsList, registerItem: registerCustomFieldItem } =
     registerArray('customFields')
 
+  useGetMultipleFiles({
+    fieldNames: [ATTACHMENT_FIELD_KEY],
+    updateValues: setValue,
+    initialRecord
+  })
   const handleWebsiteClick = (url) => {
     if (!url?.length) {
       return
@@ -140,6 +150,19 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
                     handleWebsiteClick(registerItem('website', index).value)}
                 />
               <//>
+            `
+          )}
+        <//>
+      `}
+      ${values?.attachments?.length > 0 &&
+      html`
+        <${FormGroup}>
+          ${values.attachments.map(
+            (attachment) => html`
+              <${AttachmentField}
+                label=${i18n._('File')}
+                attachment=${attachment}
+              />
             `
           )}
         <//>

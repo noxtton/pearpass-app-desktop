@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -6,10 +6,11 @@ import {
   sendGoogleFormFeedback,
   sendSlackFeedback
 } from 'pear-apps-lib-feedback'
-import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
-import { ButtonWrapper, Form } from './styles'
-import { version } from '../../../../package.json'
+import { SettingsDevicesSection } from './SettingsDevicesSection'
+import { SettingsLanguageSection } from './SettingsLanguageSection'
+import { SettingsReportSection } from './SettingsReportSection'
+import { VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   GOOGLE_FORM_KEY,
@@ -18,6 +19,8 @@ import {
 } from '../../../constants/feedback'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
+import { useLanguageOptions } from '../../../hooks/useLanguageOptions'
+import { logger } from '../../../utils/logger'
 
 export const SettingsTab = () => {
   const { i18n } = useLingui()
@@ -25,8 +28,17 @@ export const SettingsTab = () => {
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [language, setLanguage] = useState(i18n.locale)
+  const [currentVersion, setCurrentVersion] = useState('')
+
+  const { languageOptions } = useLanguageOptions()
 
   useGlobalLoading({ isLoading })
+
+  const handleLanguageChange = (selected) => {
+    setLanguage(selected.value)
+    i18n.activate(selected.value)
+  }
 
   const handleReportProblem = async () => {
     if (!message?.length || isLoading) {
@@ -42,7 +54,7 @@ export const SettingsTab = () => {
         app: 'DESKTOP',
         operatingSystem: navigator?.userAgentData?.platform,
         deviceModel: navigator?.platform,
-        appVersion: version
+        appVersion: currentVersion
       }
 
       await sendSlackFeedback({
@@ -70,29 +82,41 @@ export const SettingsTab = () => {
         message: i18n._('Something went wrong, please try again')
       })
 
-      console.error('Error sending feedback:', error)
+      logger.error('Error sending feedback:', error)
     }
   }
 
-  return html`
-    <${CardSingleSetting} title=${i18n._('Report a problem')}>
-      <${Form}
-        onSubmit=${(e) => {
-          e.preventDefault()
-          handleReportProblem()
-        }}
-      >
-        <${TextArea}
-          value=${message}
-          onChange=${(value) => setMessage(value)}
-          variant="report"
-          placeholder=${i18n._('Write your issue...')}
-        />
+  const selectedLangItem = languageOptions.find((l) => l.value === language)
 
-        <${ButtonWrapper}>
-          <${ButtonSecondary} type="submit"> ${i18n._('send')} <//>
-        <//>
-      <//>
+  useEffect(() => {
+    fetch('/package.json')
+      .then((r) => r.json())
+      .then((pkg) => setCurrentVersion(pkg.version))
+      .catch((error) => logger.error('Error fetching package.json:', error))
+  }, [])
+
+  return html`
+    <${SettingsLanguageSection}
+      selectedItem=${selectedLangItem}
+      onItemSelect=${handleLanguageChange}
+      placeholder=${i18n._('Select')}
+      title=${i18n._('Language')}
+      languageOptions=${languageOptions}
+    />
+
+    <${SettingsReportSection}
+      onSubmitReport=${handleReportProblem}
+      message=${message}
+      title=${i18n._('Report a problem')}
+      buttonText=${i18n._('send')}
+      textAreaPlaceholder=${i18n._('Write your issue...')}
+      textAreaOnChange=${setMessage}
+    />
+
+    <${SettingsDevicesSection} />
+
+    <${CardSingleSetting} title=${i18n._('Version')}>
+      <${VersionWrapper}> ${currentVersion} <//>
     <//>
   `
 }

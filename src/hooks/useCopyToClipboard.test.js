@@ -84,8 +84,6 @@ describe('useCopyToClipboard', () => {
     const originalClipboard = navigator.clipboard
     delete navigator.clipboard
 
-    console.error = jest.fn()
-
     const { result } = renderHook(() => useCopyToClipboard())
 
     let returnValue
@@ -94,7 +92,6 @@ describe('useCopyToClipboard', () => {
     })
 
     expect(returnValue).toBe(false)
-    expect(console.error).toHaveBeenCalledWith('Clipboard API is not available')
 
     navigator.clipboard = originalClipboard
   })

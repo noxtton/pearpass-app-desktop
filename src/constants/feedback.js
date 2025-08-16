@@ -1,33 +1,31 @@
-export const SLACK_WEBHOOK_URL_PATH =
-  '/T1RUJ063F/B08N38YAP7B/kzsZgiB2g39OgMXCuM995lbG'
+import 'dotenv/config'
 
-export const GOOGLE_FORM_KEY =
-  '1FAIpQLSelP1jZFW6gQtsLSlOtaD7UKDUPeqfdYbLUGdHdX6vIOAThwA'
+const isDev = Pear.config.tier === 'dev'
 
-export const GOOGLE_FORM_MAPPING = {
-  timestamp: 'entry.34343954',
-  topic: 'entry.302384538',
-  app: 'entry.536199007',
-  operatingSystem: 'entry.1717180794',
-  deviceModel: 'entry.536951034',
-  message: 'entry.9561956',
-  appVersion: 'entry.156031897'
-}
+export const SLACK_WEBHOOK_URL_PATH = isDev
+  ? process.env.TEST_SLACK_WEBHOOK_URL_PATH
+  : process.env.SLACK_WEBHOOK_URL_PATH
 
-// Test values for local development
+export const GOOGLE_FORM_KEY = isDev
+  ? process.env.TEST_GOOGLE_FORM_KEY
+  : process.env.GOOGLE_FORM_KEY
 
-export const TEST_SLACK_WEBHOOK_URL_PATH =
-  '/T1RUJ063F/B08LLRLBY9M/KTKA3MIJfmjX4izWfgnjbRIM'
-
-export const TEST_GOOGLE_FORM_KEY =
-  '1FAIpQLScLltvRe64VzMDRzOVjGtHWZ3KafLC2zzvkEoJfTzJkFd67OA'
-
-export const TEST_GOOGLE_FORM_MAPPING = {
-  timestamp: 'entry.34343954',
-  topic: 'entry.302384538',
-  app: 'entry.536199007',
-  operatingSystem: 'entry.1717180794',
-  deviceModel: 'entry.536951034',
-  message: 'entry.9561956',
-  appVersion: 'entry.156031897'
-}
+export const GOOGLE_FORM_MAPPING = isDev
+  ? {
+      timestamp: process.env.TEST_GOOGLE_FORM_MAPPING_TIMESTAMP,
+      topic: process.env.TEST_GOOGLE_FORM_MAPPING_TOPIC,
+      app: process.env.TEST_GOOGLE_FORM_MAPPING_APP,
+      operatingSystem: process.env.TEST_GOOGLE_FORM_MAPPING_OPERATING_SYSTEM,
+      deviceModel: process.env.TEST_GOOGLE_FORM_MAPPING_DEVICE_MODEL,
+      message: process.env.TEST_GOOGLE_FORM_MAPPING_MESSAGE,
+      appVersion: process.env.TEST_GOOGLE_FORM_MAPPING_APP_VERSION
+    }
+  : {
+      timestamp: process.env.GOOGLE_FORM_MAPPING_TIMESTAMP,
+      topic: process.env.GOOGLE_FORM_MAPPING_TOPIC,
+      app: process.env.GOOGLE_FORM_MAPPING_APP,
+      operatingSystem: process.env.GOOGLE_FORM_MAPPING_OPERATING_SYSTEM,
+      deviceModel: process.env.GOOGLE_FORM_MAPPING_DEVICE_MODEL,
+      message: process.env.GOOGLE_FORM_MAPPING_MESSAGE,
+      appVersion: process.env.GOOGLE_FORM_MAPPING_APP_VERSION
+    }

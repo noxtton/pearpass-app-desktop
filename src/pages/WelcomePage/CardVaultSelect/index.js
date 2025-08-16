@@ -13,10 +13,11 @@ import {
   Title,
   VaultsContainer
 } from './styles'
-import { Vault } from '../../../components/Vault'
+import { ListItem } from '../../../components/ListItem'
 import { LoadVaultModalContent } from '../../../containers/Modal/LoadVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const CardVaultSelect = () => {
   const { i18n } = useLingui()
@@ -62,9 +63,10 @@ export const CardVaultSelect = () => {
       <${VaultsContainer}>
         ${data.map(
           (vault) =>
-            html`<${Vault}
+            html`<${ListItem}
               onClick=${() => handleSelectVault(vault.id)}
-              vault=${vault}
+              itemName="${vault.name}"
+              itemDateText=${vaultCreatedFormat(vault.createdAt)}
             />`
         )}
       <//>

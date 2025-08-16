@@ -85,6 +85,8 @@ npm test
 - [pearpass-lib-ui-react-components](https://github.com/tetherto/pearpass-lib-ui-react-components) - A library of React UI components for PearPass
 - [tether-dev-docs](https://github.com/tetherto/tether-dev-docs) - Documentations and guides for developers
 - [pearpass-lib-vault](https://github.com/tetherto/pearpass-lib-vault) - A library for managing password vaults
-- [pearpass-lib-vault-desktop](https://github.com/tetherto/pearpass-lib-vault-desktop) - A library for managing password vaults for Pearpass desktop app
+- [pearpass-lib-vault-mobile](https://github.com/tetherto/pearpass-lib-vault-mobile) - A bare worker and a client for PearPass vaults
 
+## License
 
+This project is licensed under the Apache License, Version 2.0. See the [LICENSE](./LICENSE) file for details.
