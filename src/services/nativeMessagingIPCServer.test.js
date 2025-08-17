@@ -45,6 +45,99 @@ jest.mock('../utils/logger.js', () => ({
   }
 }))
 
+// Mock the new handler modules
+jest.mock('./handlers/SecurityHandlers', () => ({
+  SecurityHandlers: jest.fn().mockImplementation(function (client) {
+    this.client = client
+    this.nmGetAppIdentity = jest.fn().mockResolvedValue({
+      ed25519PublicKey: 'mock-ed25519-key',
+      x25519PublicKey: 'mock-x25519-key',
+      fingerprint: 'mock-fingerprint'
+    })
+    this.nmBeginHandshake = jest.fn().mockResolvedValue({
+      sessionId: 'mock-session-id',
+      appEphemeralPubB64: 'mock-ephemeral-key',
+      signatureB64: 'mock-signature'
+    })
+    this.nmFinishHandshake = jest.fn().mockResolvedValue({ ok: true })
+    this.nmCloseSession = jest.fn().mockResolvedValue({ ok: true })
+    this.checkAvailability = jest.fn().mockResolvedValue({
+      available: true,
+      status: 'running',
+      message: 'Desktop app is running'
+    })
+    this.nmResetPairing = jest.fn().mockResolvedValue({
+      ok: true,
+      clearedSessions: 0,
+      newIdentity: {
+        ed25519PublicKey: 'new-mock-ed25519-key',
+        x25519PublicKey: 'new-mock-x25519-key',
+        creationDate: new Date().toISOString()
+      }
+    })
+  })
+}))
+
+jest.mock('./handlers/EncryptionHandlers', () => ({
+  EncryptionHandlers: jest.fn().mockImplementation(function (client) {
+    this.client = client
+    this.encryptionInit = jest.fn().mockResolvedValue({ initialized: true })
+    this.encryptionGetStatus = jest.fn().mockResolvedValue({ status: true })
+    this.encryptionGet = jest.fn().mockResolvedValue({ data: 'encrypted-data' })
+    this.encryptionAdd = jest.fn().mockResolvedValue({ success: true })
+    this.hashPassword = jest.fn().mockResolvedValue('hashed-password')
+    this.encryptVaultKeyWithHashedPassword = jest
+      .fn()
+      .mockResolvedValue('encrypted-key')
+    this.encryptVaultWithKey = jest.fn().mockResolvedValue('encrypted-vault')
+    this.getDecryptionKey = jest.fn().mockResolvedValue('decryption-key')
+    this.decryptVaultKey = jest.fn().mockResolvedValue('decrypted-key')
+  })
+}))
+
+jest.mock('./handlers/VaultHandlers', () => ({
+  VaultHandlers: jest.fn().mockImplementation(function (client) {
+    this.client = client
+    this.vaultsInit = jest.fn().mockResolvedValue({ initialized: true })
+    this.vaultsGetStatus = jest.fn().mockResolvedValue({ status: true })
+    this.vaultsGet = jest.fn().mockResolvedValue({ data: {} })
+    this.vaultsList = jest.fn().mockResolvedValue({ data: [] })
+    this.vaultsAdd = jest.fn().mockResolvedValue({ success: true })
+    this.vaultsClose = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultInit = jest.fn().mockResolvedValue({ success: true })
+    this.loadVaultMetadata = jest.fn().mockResolvedValue()
+    this.activeVaultGetStatus = jest.fn().mockResolvedValue({ status: true })
+    this.activeVaultGet = jest.fn().mockResolvedValue({ data: {} })
+    this.activeVaultList = jest.fn().mockResolvedValue({ data: [] })
+    this.activeVaultAdd = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultRemove = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultClose = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultCreateInvite = jest
+      .fn()
+      .mockResolvedValue({ invite: 'mock-invite' })
+    this.activeVaultDeleteInvite = jest
+      .fn()
+      .mockResolvedValue({ success: true })
+    this.pair = jest.fn().mockResolvedValue({ success: true })
+    this.initListener = jest.fn().mockResolvedValue({ success: true })
+    this.closeVault = jest.fn().mockResolvedValue({ success: true })
+  })
+}))
+
+jest.mock('./handlers/SecureRequestHandler', () => ({
+  SecureRequestHandler: jest
+    .fn()
+    .mockImplementation(function (client, registry) {
+      this.client = client
+      this.methodRegistry = registry
+      this.handle = jest.fn().mockResolvedValue({
+        nonceB64: 'mock-nonce',
+        ciphertextB64: 'mock-ciphertext',
+        seq: 1
+      })
+    })
+}))
+
 const mockPearpassClient = {
   encryptionInit: jest.fn(),
   encryptionGetStatus: jest.fn(),
@@ -162,25 +255,79 @@ describe('nativeMessagingIPCServer', () => {
         )
       })
 
-      it('should correctly wire up handlers to the pearpass client', async () => {
+      it('should correctly wire up secure handlers to the pearpass client', async () => {
         await serverInstance.start()
         const handlers = IPC.Server.mock.calls[0][0].handlers
 
-        await handlers.encryptionInit()
-        expect(mockPearpassClient.encryptionInit).toHaveBeenCalled()
+        // Test that security handlers are available
+        expect(handlers.nmGetAppIdentity).toBeDefined()
+        expect(handlers.nmBeginHandshake).toBeDefined()
+        expect(handlers.nmFinishHandshake).toBeDefined()
+        expect(handlers.nmSecureRequest).toBeDefined()
+        expect(handlers.nmCloseSession).toBeDefined()
 
-        const getParams = { key: 'testKey' }
-        await handlers.encryptionGet(getParams)
-        expect(mockPearpassClient.encryptionGet).toHaveBeenCalledWith(
-          getParams.key
-        )
+        // Test encryption bootstrap handlers
+        expect(handlers.encryptionInit).toBeDefined()
+        expect(handlers.encryptionGetStatus).toBeDefined()
 
-        const addParams = { key: 'testKey', data: 'testData' }
-        await handlers.encryptionAdd(addParams)
-        expect(mockPearpassClient.encryptionAdd).toHaveBeenCalledWith(
-          addParams.key,
-          addParams.data
-        )
+        // Test availability check handler
+        expect(handlers.checkAvailability).toBeDefined()
+        const availability = await handlers.checkAvailability()
+        expect(availability).toEqual({
+          available: true,
+          status: 'running',
+          message: 'Desktop app is running'
+        })
+
+        // Test that sensitive handlers are NOT directly exposed
+        // They should only be accessible via nmSecureRequest
+        expect(handlers.encryptionGet).toBeUndefined()
+        expect(handlers.encryptionAdd).toBeUndefined()
+        expect(handlers.vaultsList).toBeUndefined()
+        expect(handlers.activeVaultList).toBeUndefined()
+      })
+
+      it('should call nmGetAppIdentity handler correctly', async () => {
+        await serverInstance.start()
+        const handlers = IPC.Server.mock.calls[0][0].handlers
+
+        const result = await handlers.nmGetAppIdentity()
+        expect(result).toEqual({
+          ed25519PublicKey: 'mock-ed25519-key',
+          x25519PublicKey: 'mock-x25519-key',
+          fingerprint: 'mock-fingerprint'
+        })
+      })
+
+      it('should call nmBeginHandshake handler correctly', async () => {
+        await serverInstance.start()
+        const handlers = IPC.Server.mock.calls[0][0].handlers
+
+        const result = await handlers.nmBeginHandshake({
+          extEphemeralPubB64: 'test-key'
+        })
+        expect(result).toEqual({
+          sessionId: 'mock-session-id',
+          appEphemeralPubB64: 'mock-ephemeral-key',
+          signatureB64: 'mock-signature'
+        })
+      })
+
+      it('should call nmSecureRequest handler correctly', async () => {
+        await serverInstance.start()
+        const handlers = IPC.Server.mock.calls[0][0].handlers
+
+        const result = await handlers.nmSecureRequest({
+          sessionId: 'test-session',
+          nonceB64: 'test-nonce',
+          ciphertextB64: 'test-ciphertext',
+          seq: 1
+        })
+        expect(result).toEqual({
+          nonceB64: 'mock-nonce',
+          ciphertextB64: 'mock-ciphertext',
+          seq: 1
+        })
       })
     })
 

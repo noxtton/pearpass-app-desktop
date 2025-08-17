@@ -8,14 +8,18 @@ const moduleDirname = dirname(fileURLToPath(import.meta.url))
 const SOURCE_DIR = join(moduleDirname, '..', 'native-messaging-bridge')
 const ARCHIVE_NAME = 'native-messaging-bridge.tar.gz'
 
+// eslint-disable-next-line no-console
 console.log('Building native messaging bridge package...')
 
 // Create tar.gz archive directly from source directory
 try {
   execSync(`tar -czf ${ARCHIVE_NAME} -C ${SOURCE_DIR} .`, { stdio: 'inherit' })
+  // eslint-disable-next-line no-console
   console.log(`\n✓ Build complete!`)
+  // eslint-disable-next-line no-console
   console.log(`  Archive: ${ARCHIVE_NAME}`)
 } catch (err) {
+  // eslint-disable-next-line no-console
   console.error('Failed to create archive:', err.message)
   process.exit(1)
 }

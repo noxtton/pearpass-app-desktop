@@ -15,18 +15,22 @@ export class Logger {
 
     switch (level) {
       case 'ERROR':
+        // eslint-disable-next-line no-console
         console.error(formattedMessage)
         break
       case 'WARN':
+        // eslint-disable-next-line no-console
         console.warn(formattedMessage)
         break
       case 'DEBUG':
         if (this.debugMode) {
+          // eslint-disable-next-line no-console
           console.log(formattedMessage)
         }
         break
       case 'INFO':
       default:
+        // eslint-disable-next-line no-console
         console.log(formattedMessage)
         break
     }

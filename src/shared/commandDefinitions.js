@@ -42,6 +42,14 @@ const COMMAND_DEFINITIONS = [
   { id: 1023, name: 'getDecryptionKey' },
   { id: 1024, name: 'decryptVaultKey' },
 
+  // Native Messaging secure channel (pairing/handshake)
+  { id: 1100, name: 'nmGetAppIdentity' },
+  // Handshake/session placeholders for Phase 2
+  { id: 1102, name: 'nmBeginHandshake' },
+  { id: 1103, name: 'nmFinishHandshake' },
+  { id: 1104, name: 'nmSecureRequest' },
+  { id: 1105, name: 'nmCloseSession' },
+
   // Pairing and misc commands
   { id: 1025, name: 'pair' },
   { id: 1026, name: 'initListener' },
