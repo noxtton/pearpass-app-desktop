@@ -12,8 +12,11 @@ export const Container = styled.div`
       type === 'warning'
         ? theme.colors.errorYellow.mode1
         : theme.colors.errorRed.mode1};
-  background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.8) 100%
+    ),
     ${({ theme, type }) =>
       type === 'warning'
         ? theme.colors.errorYellow.mode1

@@ -48,7 +48,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
       await refetchVault(vault.id, { password })
       closeModal()
     } catch (error) {
-      logger.error(error)
+      logger.error('DropdownSwapVault', error)
 
       throw error
     }

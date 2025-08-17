@@ -40,7 +40,7 @@ setPearpassVaultClient(client)
 // Check if native messaging is enabled and start IPC server
 // For testing, always start the IPC server
 startNativeMessagingIPC(client).catch((err) => {
-  logger.error('Failed to start IPC server:', err)
+  logger.error('INDEX', 'Failed to start IPC server:', err)
 })
 
 Pear.updates(async (update) => {

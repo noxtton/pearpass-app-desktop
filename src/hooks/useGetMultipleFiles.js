@@ -34,7 +34,7 @@ export const useGetMultipleFiles = ({
 
       updateValues(fieldName, files)
     } catch (error) {
-      logger.error('Error retrieving files:', error)
+      logger.error('useGetMultipleFiles', 'Error retrieving files:', error)
     }
   }
 

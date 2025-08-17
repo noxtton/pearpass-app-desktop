@@ -4,6 +4,7 @@ import os from 'os'
 import path from 'path'
 
 import { logger } from './logger'
+import { META_URL } from '../constants/meta'
 
 const MANIFEST_NAME = 'com.pearpass.vault'
 
@@ -39,7 +40,7 @@ export const setupNativeMessaging = async (extensionId) => {
 
     // Fetch and extract the bridge module if available
     try {
-      const currentModuleUrl = new URL(import.meta.url)
+      const currentModuleUrl = new URL(META_URL)
 
       // Download and extract if the bridge archive exists
       const bridgeArchiveUrl = new URL(

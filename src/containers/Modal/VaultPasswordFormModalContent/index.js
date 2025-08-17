@@ -51,7 +51,7 @@ export const VaultPasswordFormModalContent = ({ vault, onSubmit }) => {
 
       setIsLoading(false)
     } catch (error) {
-      logger.error(error)
+      logger.error('VaultPasswordFormModalContent', error)
 
       setIsLoading(false)
 

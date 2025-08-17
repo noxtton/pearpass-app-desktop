@@ -62,7 +62,7 @@ export const CardUnlockVault = () => {
 
       setIsLoading(false)
 
-      logger.error(error)
+      logger.error('useGetMultipleFiles', 'Error unlocking vault:', error)
     }
   }
 

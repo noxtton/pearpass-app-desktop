@@ -41,7 +41,7 @@ export const unwrapMessage = (wrapped) => {
     !wrapped.message ||
     typeof wrapped.length !== 'number'
   ) {
-    logger.error('[Protocol] Invalid message structure')
+    logger.error('useGetMultipleFiles', '[Protocol] Invalid message structure')
     return null
   }
 
@@ -51,6 +51,7 @@ export const unwrapMessage = (wrapped) => {
 
   if (actualLength !== wrapped.length) {
     logger.error(
+      'useGetMultipleFiles',
       '[Protocol] Length mismatch - expected:',
       wrapped.length,
       'actual:',

@@ -122,7 +122,11 @@ export const ImportTab = () => {
         message: i18n._('Data imported successfully')
       })
     } catch (error) {
-      logger.error('Error reading file:', error.message || error)
+      logger.error(
+        'useGetMultipleFiles',
+        'Error reading file:',
+        error.message || error
+      )
     }
   }
 

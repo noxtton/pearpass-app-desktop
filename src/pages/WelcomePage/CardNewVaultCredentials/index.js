@@ -78,7 +78,11 @@ export const CardNewVaultCredentials = () => {
     } catch (error) {
       setIsLoading(false)
 
-      logger.error(error)
+      logger.error(
+        'useGetMultipleFiles',
+        'Error creating master password:',
+        error
+      )
     }
   }
 

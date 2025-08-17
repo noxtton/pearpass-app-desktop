@@ -95,8 +95,11 @@ export const WarningSection = styled.div`
   gap: 8px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.errorYellow.mode1};
-  background:
-    linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 100%),
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.8) 100%
+    ),
     ${({ theme }) => theme.colors.errorYellow.mode1};
 `
 

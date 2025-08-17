@@ -81,7 +81,11 @@ export const ModifyMasterVaultModalContent = () => {
       closeModal()
     } catch (error) {
       setIsLoading(false)
-      logger.error('Error updating master password:', error)
+      logger.error(
+        'ModifyMasterVaultModalContent',
+        'Error updating master password:',
+        error
+      )
       setErrors({
         currentPassword: i18n._('Invalid password')
       })

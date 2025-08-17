@@ -16,7 +16,7 @@ import {
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
-import { ATTACHMENT_FIELD_KEY } from '../../../constants/formFields'
+import { ATTACHMENTS_FIELD_KEY } from '../../../constants/formFields'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
@@ -81,7 +81,7 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     registerArray('customFields')
 
   useGetMultipleFiles({
-    fieldNames: [ATTACHMENT_FIELD_KEY],
+    fieldNames: [ATTACHMENTS_FIELD_KEY],
     updateValues: setValue,
     initialRecord
   })

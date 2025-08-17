@@ -74,7 +74,7 @@ export const CardUnlockPearPass = () => {
         password: i18n._('Invalid password')
       })
 
-      logger.error('Error unlocking PearPass:', error)
+      logger.error('useGetMultipleFiles', 'Error unlocking PearPass:', error)
     }
   }
 

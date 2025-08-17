@@ -92,7 +92,11 @@ export const CardCreateMasterPassword = () => {
         password: i18n._('Error creating master password')
       })
 
-      logger.error('Error creating master password:', error)
+      logger.error(
+        'useGetMultipleFiles',
+        'Error creating master password:',
+        error
+      )
     }
   }
 

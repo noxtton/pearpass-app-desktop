@@ -1,44 +1,69 @@
-export class Logger {
-  constructor({ debugMode }) {
-    this.debugMode = debugMode || false
+class Logger {
+  /**
+   * Log a message with component and level
+   * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  _print(level, component, message) {
+    if (!this.debugMode) return
+
+    const timestamp = new Date().toISOString()
+    const formatted = `${timestamp} [${level}] [${component}]`
+
+    if (level === 'ERROR') {
+      // eslint-disable-next-line no-console
+      console.error(formatted, message)
+      return
+    }
+
+    // eslint-disable-next-line no-console
+    console.log(formatted, message)
   }
 
   /**
    * Log a message with component and level
    * @param {string} component - Component name
-   * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
-   * @param {string} message - Log message
+   * @param {any[]} message - Log message
    */
-  log(component, level, message) {
-    const timestamp = new Date().toISOString()
-    const formattedMessage = `${timestamp} [${level}] [${component}] ${message}`
-
-    switch (level) {
-      case 'ERROR':
-        // eslint-disable-next-line no-console
-        console.error(formattedMessage)
-        break
-      case 'WARN':
-        // eslint-disable-next-line no-console
-        console.warn(formattedMessage)
-        break
-      case 'DEBUG':
-        if (this.debugMode) {
-          // eslint-disable-next-line no-console
-          console.log(formattedMessage)
-        }
-        break
-      case 'INFO':
-      default:
-        // eslint-disable-next-line no-console
-        console.log(formattedMessage)
-        break
-    }
+  log(component, ...args) {
+    this._print('LOG', component, ...args)
   }
 
-  error(...messages) {
-    const message = messages.join(' ')
-    this.log('GENERAL', 'ERROR', message)
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  debug(component, ...args) {
+    this._print('DEBUG', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  info(component, ...args) {
+    this._print('INFO', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  warn(component, ...args) {
+    this._print('WARN', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  error(component, ...args) {
+    this._print('ERROR', component, ...args)
   }
 }
 

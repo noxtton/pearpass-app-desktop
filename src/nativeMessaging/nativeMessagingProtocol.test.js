@@ -108,6 +108,7 @@ describe('nativeMessagingProtocol', () => {
 
       expect(unwrapped).toBeNull()
       expect(logger.error).toHaveBeenCalledWith(
+        'useGetMultipleFiles',
         '[Protocol] Length mismatch - expected:',
         10,
         'actual:',
@@ -146,6 +147,7 @@ describe('nativeMessagingProtocol', () => {
         const unwrapped = unwrapMessage(invalidInput)
         expect(unwrapped).toBeNull()
         expect(logger.error).toHaveBeenCalledWith(
+          'useGetMultipleFiles',
           '[Protocol] Invalid message structure'
         )
       }

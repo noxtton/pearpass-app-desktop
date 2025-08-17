@@ -80,7 +80,7 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
       closeModal()
     } catch (error) {
       setIsLoading(false)
-      logger.error('Error updating vault:', error)
+      logger.error('ModifyVaultModalContent', 'Error updating vault:', error)
       setErrors({
         currentPassword: i18n._('Invalid password')
       })
