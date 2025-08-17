@@ -28,7 +28,7 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
-  const { isVaultProtected, updateVault } = useVault()
+  const { isVaultProtected, updateVault, refetch: refetchVault } = useVault()
 
   const [isProtected, setIsProtected] = useState(false)
   const { setIsLoading } = useLoadingContext()
@@ -94,6 +94,10 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
     }
     checkProtection()
   }, [vaultId])
+
+  useEffect(() => {
+    refetchVault()
+  }, [])
 
   return html` <${ModalContent}
     onClose=${closeModal}

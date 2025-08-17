@@ -10,19 +10,27 @@ import {
 } from './styles'
 import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 
-export const InitialLoadPage = () => {
+/**
+ * @param {Object} props - Component props.
+ * @param {React.ReactNode} props.children - Child components to be rendered inside the page.
+ * @returns {JSX.Element} The rendered initial page layout.
+ */
+export const BaseInitialPage = ({ children }) => {
   const { i18n } = useLingui()
 
   return html`
     <${InitialPageWrapper}>
       <${PageContainer}>
         <${PageContentContainer}>
-          <${Title}>
-            ${i18n._('Protect')}${' '}
+          <div>
+            <${Title}>
+              ${i18n._('Protect')}${' '}
 
-            <${GreenText}>${i18n._('your digital')}<//>
-            ${' '} ${i18n._('life')}
-          <//>
+              <${GreenText}>${i18n._('your digital')}<//>
+              ${' '} ${i18n._('life')}
+            <//>
+            ${children}
+          </div>
 
           <${PearHand} src="assets/images/pear_lock_clear.png" alt="pearHand" />
         <//>

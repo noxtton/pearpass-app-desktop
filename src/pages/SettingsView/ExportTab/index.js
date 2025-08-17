@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -27,7 +27,11 @@ export const ExportTab = () => {
   const { closeModal, setModal } = useModal()
   const { i18n } = useLingui()
   const { data } = useVaults()
-  const { isVaultProtected, refetch, data: currentVault } = useVault()
+  const {
+    isVaultProtected,
+    refetch: refetchVault,
+    data: currentVault
+  } = useVault()
 
   const [selectedVaults, setSelectedVaults] = useState([])
   const [selectedProtectedVault, setSelectedProtectedVault] = useState(null)
@@ -72,7 +76,7 @@ export const ExportTab = () => {
 
     handleSubmitExport([{ ...vault, records }])
 
-    await refetch(currentVaultId, currentEncryption)
+    await refetchVault(currentVaultId, currentEncryption)
   }
 
   const fetchUnprotectedVault = async (vaultId) => {
@@ -126,10 +130,14 @@ export const ExportTab = () => {
         )
       )
 
-      refetch(currentVaultId, currentEncryption)
+      refetchVault(currentVaultId, currentEncryption)
       handleSubmitExport(vaultsToExport)
     }
   }
+
+  useEffect(() => {
+    refetchVault()
+  }, [])
 
   return html` <${CardSingleSetting} title=${i18n._('Export')}>
     <${ContentContainer}>

@@ -1,13 +1,22 @@
 import { useEffect, useRef } from 'react'
 
-import { closeAllInstances, useVaults } from 'pearpass-lib-vault'
+import { MS_PER_MINUTE } from 'pearpass-lib-constants'
+import { closeAllInstances, useUserData, useVaults } from 'pearpass-lib-vault'
 
-import { useLoadingContext } from '../context/LoadingContext'
-import { useRouter } from '../context/RouterContext'
+import { useLoadingContext } from '../../../context/LoadingContext'
+import { useRouter } from '../../../context/RouterContext'
+import { logger } from '../../../utils/logger'
 
-export function useInactivity({ timeoutMs = 60 * 1000 }) {
+/**
+ * @param {Object} options - Configuration options for inactivity detection.
+ * @param {number} [options.timeoutMs=60000] - Timeout duration in milliseconds before triggering inactivity actions.
+ * @returns {void}
+ */
+export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
   const { setIsLoading } = useLoadingContext()
-  const { currentPage, data, navigate } = useRouter()
+  const { navigate } = useRouter()
+  const { refetch: refetchUser } = useUserData()
+
   const { resetState } = useVaults()
   const timerRef = useRef(null)
 
@@ -17,7 +26,14 @@ export function useInactivity({ timeoutMs = 60 * 1000 }) {
     }
 
     timerRef.current = setTimeout(async () => {
-      if (currentPage === 'welcome' && data?.state === 'masterPassword') {
+      const userData = await refetchUser()
+      logger.log(
+        'INACTIVITY-TIMER',
+        'INFO',
+        `Inactivity timer triggered, user data: ${JSON.stringify(userData)}`
+      )
+
+      if (!userData.isLoggedIn) {
         return
       }
 
@@ -26,6 +42,8 @@ export function useInactivity({ timeoutMs = 60 * 1000 }) {
       navigate('welcome', { state: 'masterPassword' })
       resetState()
       setIsLoading(false)
+
+      logger.log('INACTIVITY-TIMER', 'INFO', 'Inactivity timer reset')
     }, timeoutMs)
   }
 
@@ -41,14 +59,12 @@ export function useInactivity({ timeoutMs = 60 * 1000 }) {
     // Handler for IPC activity
     const handleIPCActivity = () => resetTimer()
 
-    // Listen for DOM events
     activityEvents.forEach((event) =>
       window.addEventListener(event, resetTimer)
     )
 
     // Listen for IPC activity events
     window.addEventListener('ipc-activity', handleIPCActivity)
-
     resetTimer()
 
     return () => {
@@ -59,8 +75,4 @@ export function useInactivity({ timeoutMs = 60 * 1000 }) {
       if (timerRef.current) clearTimeout(timerRef.current)
     }
   }, [])
-
-  return {
-    resetInactivity: resetTimer
-  }
 }

@@ -130,11 +130,6 @@ export class MethodRegistry {
       // Execute handler
       const result = await handler(params)
 
-      // Check if this was vaultsInit and desktop was previously unauthenticated
-      if (methodName === 'vaultsInit') {
-        await this.handleVaultsInitAuth(context)
-      }
-
       // Log result if debug
       if (config.logLevel === 'DEBUG' && result) {
         logger.log(
@@ -197,35 +192,5 @@ export class MethodRegistry {
    */
   hasMethod(name) {
     return this.handlers.has(name)
-  }
-
-  /**
-   * Handle desktop authentication when extension authenticates via vaultsInit
-   */
-  async handleVaultsInitAuth(context) {
-    try {
-      // Check if desktop is now authenticated after vaultsInit
-      const status = await context.client.vaultsGetStatus()
-      if (status?.status) {
-        logger.log(
-          'METHOD-REGISTRY',
-          'INFO',
-          'Desktop authenticated after extension login, emitting event'
-        )
-
-        // Emit event to trigger desktop navigation
-        if (global.window) {
-          global.window.dispatchEvent(
-            new CustomEvent('extension-authenticated')
-          )
-        }
-      }
-    } catch (error) {
-      logger.log(
-        'METHOD-REGISTRY',
-        'DEBUG',
-        `Could not check post-vaultsInit status: ${error.message}`
-      )
-    }
   }
 }
