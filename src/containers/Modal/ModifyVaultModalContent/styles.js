@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const ModalTitle = styled.h2`
-  color: #fff;
+  color: ${({ theme }) => theme.colors.white.mode1};
   text-align: center;
   font-family: Inter;
   font-size: 20px;

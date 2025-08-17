@@ -48,8 +48,8 @@ Pear.updates(async (update) => {
   if (update && update.diff) {
     const hasNonIgnoredChanges = update.diff.some(
       ({ key: file }) =>
-        !file.includes('pearpass-native-messaging.sock') &&
-        !file.startsWith('/logs')
+        !file.startsWith('/logs') &&
+        !file.includes('pearpass-native-messaging.sock')
     )
 
     if (!hasNonIgnoredChanges) {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -6,11 +6,6 @@ import {
   sendGoogleFormFeedback,
   sendSlackFeedback
 } from 'pear-apps-lib-feedback'
-import {
-  GOOGLE_FORM_KEY,
-  GOOGLE_FORM_MAPPING,
-  SLACK_WEBHOOK_URL_PATH
-} from 'pearpass-lib-constants'
 
 import { SettingsDevicesSection } from './SettingsDevicesSection'
 import { SettingsLanguageSection } from './SettingsLanguageSection'
@@ -18,7 +13,11 @@ import { SettingsPasswordsSection } from './SettingsPasswordsSection'
 import { SettingsReportSection } from './SettingsReportSection'
 import { VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
-import { VERSION } from '../../../constants/version'
+import {
+  GOOGLE_FORM_KEY,
+  GOOGLE_FORM_MAPPING,
+  SLACK_WEBHOOK_URL_PATH
+} from '../../../constants/feedback'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useToast } from '../../../context/ToastContext'
 import { useLanguageOptions } from '../../../hooks/useLanguageOptions'
@@ -31,6 +30,7 @@ export const SettingsTab = () => {
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState(i18n.locale)
+  const [currentVersion, setCurrentVersion] = useState('')
 
   const { languageOptions } = useLanguageOptions()
 
@@ -55,7 +55,7 @@ export const SettingsTab = () => {
         app: 'DESKTOP',
         operatingSystem: navigator?.userAgentData?.platform,
         deviceModel: navigator?.platform,
-        appVersion: VERSION
+        appVersion: currentVersion
       }
 
       await sendSlackFeedback({
@@ -89,6 +89,13 @@ export const SettingsTab = () => {
 
   const selectedLangItem = languageOptions.find((l) => l.value === language)
 
+  useEffect(() => {
+    fetch('/package.json')
+      .then((r) => r.json())
+      .then((pkg) => setCurrentVersion(pkg.version))
+      .catch((error) => logger.error('Error fetching package.json:', error))
+  }, [])
+
   return html`
     <${SettingsLanguageSection}
       selectedItem=${selectedLangItem}
@@ -112,7 +119,7 @@ export const SettingsTab = () => {
     <${SettingsPasswordsSection} />
 
     <${CardSingleSetting} title=${i18n._('Version')}>
-      <${VersionWrapper}> ${VERSION} <//>
+      <${VersionWrapper}> ${currentVersion} <//>
     <//>
   `
 }

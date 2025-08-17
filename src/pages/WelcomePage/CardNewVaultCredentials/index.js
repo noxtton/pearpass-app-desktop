@@ -1,5 +1,3 @@
-import os from 'os'
-
 import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
@@ -25,6 +23,7 @@ import {
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { getDeviceName } from '../../../utils/getDeviceName'
 import { logger } from '../../../utils/logger'
 
 export const CardNewVaultCredentials = () => {
@@ -72,7 +71,7 @@ export const CardNewVaultCredentials = () => {
         name: values.name,
         password: values.password
       })
-      await addDevice(os.hostname() + ' ' + os.platform() + ' ' + os.release())
+      await addDevice(getDeviceName())
       navigate('vault', { recordType: 'all' })
 
       setIsLoading(false)

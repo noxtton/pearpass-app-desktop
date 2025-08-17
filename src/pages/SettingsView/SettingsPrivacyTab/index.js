@@ -9,7 +9,7 @@ import {
 } from 'pearpass-lib-ui-react-components'
 
 import { InputWrapper, SwitchList, SwitchWrapper } from './styles'
-import { ButtonWrapper } from './styles.js'
+import { ButtonWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   ListItemContainer,
@@ -17,24 +17,24 @@ import {
   ListItemDescription,
   ListItemInfo,
   ListItemName
-} from '../../../components/ListItem/styles.js'
-import { COPY_FEEDBACK_DISPLAY_TIME } from '../../../constants/timeConstants.js'
+} from '../../../components/ListItem/styles'
+import { COPY_FEEDBACK_DISPLAY_TIME } from '../../../constants/timeConstants'
 import { createOrGetPearpassClient } from '../../../services/createOrGetPearpassClient'
 import {
   isNativeMessagingIPCRunning,
   startNativeMessagingIPC,
   stopNativeMessagingIPC
-} from '../../../services/nativeMessagingIPCServer.js'
+} from '../../../services/nativeMessagingIPCServer'
 import {
   getNativeMessagingEnabled,
   setNativeMessagingEnabled
-} from '../../../services/nativeMessagingPreferences.js'
+} from '../../../services/nativeMessagingPreferences'
 import {
   getOrCreateIdentity,
   getPairingCode,
   getFingerprint,
   resetIdentity
-} from '../../../services/security/appIdentity.js'
+} from '../../../services/security/appIdentity'
 import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
 import { Description } from '../ExportTab/styles'
 

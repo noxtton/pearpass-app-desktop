@@ -29,12 +29,14 @@ import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWr
 import { FormWrapper } from '../../../../components/FormWrapper'
 import { InputFieldNote } from '../../../../components/InputFieldNote'
 import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { ATTACHMENTS_FIELD_KEY } from '../../../../constants/formFields'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useCreateOrEditRecord } from '../../../../hooks/useCreateOrEditRecord'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
 import { addHttps } from '../../../../utils/addHttps'
+import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
@@ -152,7 +154,7 @@ export const CreateOrEditLoginModalContent = ({
   } = registerArray('customFields')
 
   useGetMultipleFiles({
-    fieldNames: ['attachments'],
+    fieldNames: [ATTACHMENTS_FIELD_KEY],
     updateValues: setValue,
     initialRecord
   })
@@ -198,19 +200,12 @@ export const CreateOrEditLoginModalContent = ({
         onFilesSelected=${(files) =>
           handleFileSelect({
             files,
-            fieldName: 'attachments',
+            fieldName: ATTACHMENTS_FIELD_KEY,
             setValue,
             values
           })}
       />`
     )
-  }
-
-  const handleAttachmentRemove = (index) => {
-    const updatedAttachments = values.attachments.filter(
-      (_, idx) => idx !== index
-    )
-    setValue('attachments', updatedAttachments)
   }
 
   return html`
@@ -317,14 +312,22 @@ export const CreateOrEditLoginModalContent = ({
         html`
           <${FormGroup}>
             ${values.attachments.map(
-              (attachment, index) =>
+              (attachment) =>
                 html`<${AttachmentField}
+                  key=${attachment.id || attachment.tempId}
                   attachment=${attachment}
                   label=${i18n._('File')}
                   additionalItems=${html`
                     <${ButtonSingleInput}
                       startIcon=${DeleteIcon}
-                      onClick=${() => handleAttachmentRemove(index)}
+                      onClick=${() =>
+                        setValue(
+                          ATTACHMENTS_FIELD_KEY,
+                          getFilteredAttachmentsById(
+                            values.attachments,
+                            attachment
+                          )
+                        )}
                     >
                       ${i18n._('Delete File')}
                     <//>

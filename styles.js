@@ -152,7 +152,7 @@ export const setFontsAndResetCSS = () => {
       -webkit-app-region: drag;
       height: var(--title-bar-height);
       padding: 0;
-      color: #fff;
+      color: ${({ theme }) => theme.colors.white.mode1};
       white-space: nowrap;
       position: fixed;
       z-index: 10000;

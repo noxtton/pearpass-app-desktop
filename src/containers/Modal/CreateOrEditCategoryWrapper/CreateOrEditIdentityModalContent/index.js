@@ -26,6 +26,7 @@ import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWr
 import { FormWrapper } from '../../../../components/FormWrapper'
 import { InputFieldNote } from '../../../../components/InputFieldNote'
 import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
+import { ATTACHMENTS_FIELD_KEY } from '../../../../constants/formFields'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
@@ -226,7 +227,7 @@ export const CreateOrEditIdentityModalContent = ({
 
   useGetMultipleFiles({
     fieldNames: [
-      'attachments',
+      ATTACHMENTS_FIELD_KEY,
       'passportPicture',
       'idCardPicture',
       'drivingLicensePicture'
@@ -318,7 +319,7 @@ export const CreateOrEditIdentityModalContent = ({
           buttons=${html`
             <${ButtonLittle}
               startIcon=${ImageIcon}
-              onClick=${() => handleFileLoad('attachments')}
+              onClick=${() => handleFileLoad(ATTACHMENTS_FIELD_KEY)}
             >
               ${i18n._('Load file')}
             <//>
@@ -587,7 +588,7 @@ export const CreateOrEditIdentityModalContent = ({
                     <${ButtonSingleInput}
                       startIcon=${DeleteIcon}
                       onClick=${() =>
-                        handleAttachmentRemove('attachments', index)}
+                        handleAttachmentRemove(ATTACHMENTS_FIELD_KEY, index)}
                     >
                       ${i18n._('Delete File')}
                     <//>

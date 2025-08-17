@@ -1,3 +1,5 @@
+import { generateUniqueId } from 'pear-apps-utils-generate-unique-id'
+
 import { logger } from './logger'
 import { readFileContent } from '../pages/SettingsView/ImportTab/utils/readFileContent'
 
@@ -5,7 +7,7 @@ import { readFileContent } from '../pages/SettingsView/ImportTab/utils/readFileC
  * @param {Object} params
  * @param {FileList} params.files
  * @param {string} params.fieldName
- * @param {Function} params.setValue
+ * @param {(string, { buffer: Uint8Array, name: string, tempId: string }[]) => void} params.setValue
  * @param {Object} params.values
  *
  * @returns {void}
@@ -19,7 +21,7 @@ export const handleFileSelect = ({ files, fieldName, setValue, values }) => {
 
       setValue(fieldName, [
         ...values[fieldName],
-        { buffer: uint8Buffer, name: filename }
+        { buffer: uint8Buffer, name: filename, tempId: generateUniqueId() }
       ])
     })
     .catch((e) => {

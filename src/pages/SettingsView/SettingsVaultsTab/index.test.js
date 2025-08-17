@@ -25,7 +25,7 @@ jest.mock('../../../context/ModalContext', () => ({
   useModal: jest.fn()
 }))
 
-jest.mock('../../../utils/vaultCreated.js', () => ({
+jest.mock('../../../utils/vaultCreated', () => ({
   vaultCreatedFormat: jest.fn((date) => date + 'date')
 }))
 

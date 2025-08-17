@@ -7,7 +7,7 @@ import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ListItem } from '../../../components/ListItem'
 import { ModifyVaultModalContent } from '../../../containers/Modal/ModifyVaultModalContent'
 import { useModal } from '../../../context/ModalContext'
-import { vaultCreatedFormat } from '../../../utils/vaultCreated.js'
+import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const SettingsVaultsTab = () => {
   const { i18n } = useLingui()

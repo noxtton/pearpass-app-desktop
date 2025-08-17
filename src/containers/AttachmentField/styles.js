@@ -54,6 +54,7 @@ export const MainWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 `
 
 export const AttachmentName = styled.a`
@@ -63,6 +64,9 @@ export const AttachmentName = styled.a`
   font-weight: 700;
   padding: 1px 0px;
   height: 21.5px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 export const Label = styled.span`

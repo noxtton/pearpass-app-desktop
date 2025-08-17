@@ -2,12 +2,12 @@ import { html } from 'htm/react'
 
 import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar'
 import { RecordDetails } from '../../containers/RecordDetails'
-import { useRouter } from '../../context/RouterContext.js'
-import { InitialPage } from '../../pages/InitialPage/index.js'
-import { Intro } from '../../pages/Intro/index.js'
+import { useRouter } from '../../context/RouterContext'
+import { InitialPage } from '../../pages/InitialPage'
+import { Intro } from '../../pages/Intro'
 import { MainView } from '../../pages/MainView'
 import { SettingsView } from '../../pages/SettingsView'
-import { TouPage } from '../../pages/TouPage/index.js'
+import { TouPage } from '../../pages/TouPage'
 import { WelcomePage } from '../../pages/WelcomePage'
 
 /**
@@ -44,16 +44,18 @@ export const Routes = ({ isLoading }) => {
   }
 }
 
+const MAIN_VIEW_BY_PAGE = {
+  vault: MainView,
+  settings: SettingsView
+}
+
 /**
  * @param {string} currentPage
  * @returns {import('react').ReactNode}
  */
 function getMainView(currentPage) {
-  if (currentPage === 'vault') {
-    return html`<${MainView} /> `
-  } else if (currentPage === 'settings') {
-    return html`<${SettingsView} /> `
-  }
+  const Component = MAIN_VIEW_BY_PAGE[currentPage]
+  return Component ? html`<${Component} />` : null
 }
 
 /**

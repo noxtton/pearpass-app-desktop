@@ -11,3 +11,5 @@ pass
 
 # Generated log files
 logs/
+
+.env

@@ -14,6 +14,7 @@ import {
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
+import { ATTACHMENT_FIELD_KEY } from '../../../constants/formFields'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
@@ -100,14 +101,14 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
   )
 
   const { register, registerArray, setValues, values, setValue } = useForm({
-    initialValues: initialValues
+    initialValues
   })
 
   const { value: list, registerItem } = registerArray('customFields')
 
   useGetMultipleFiles({
     fieldNames: [
-      'attachments',
+      ATTACHMENT_FIELD_KEY,
       'passportPicture',
       'idCardPicture',
       'drivingLicensePicture'
