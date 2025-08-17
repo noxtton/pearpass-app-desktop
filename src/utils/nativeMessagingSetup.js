@@ -47,17 +47,15 @@ export const setupNativeMessaging = async (extensionId) => {
         'native-messaging-bridge.tar.gz',
         currentModuleUrl.origin
       ).href
-      logger.log(
+      logger.info(
         'NATIVE-MESSAGING-SETUP',
-        'INFO',
         `Fetching bridge module archive from: ${bridgeArchiveUrl}`
       )
       try {
         const archiveResponse = await fetch(bridgeArchiveUrl)
         if (archiveResponse.ok) {
-          logger.log(
+          logger.info(
             'NATIVE-MESSAGING-SETUP',
-            'INFO',
             'Extracting bridge module from archive...'
           )
           const archiveBuffer = await archiveResponse.arrayBuffer()
@@ -68,22 +66,20 @@ export const setupNativeMessaging = async (extensionId) => {
           await execAsync(
             `cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`
           )
-          logger.log(
+          logger.info(
             'NATIVE-MESSAGING-SETUP',
-            'INFO',
             'Bridge module extracted successfully'
           )
         }
       } catch {
-        logger.log(
+        logger.error(
           'NATIVE-MESSAGING-SETUP',
-          'WARN',
           'Bridge module archive not found, continuing without it'
         )
       }
 
       // Copy dependencies and set up environment
-      logger.log('NATIVE-MESSAGING-SETUP', 'INFO', 'Creating wrapper script...')
+      logger.info('NATIVE-MESSAGING-SETUP', 'Creating wrapper script...')
 
       // Create wrapper script that sets up module paths
       const wrapperScriptContent = `#!/usr/bin/env node
@@ -232,9 +228,8 @@ require(path.join(scriptDir, '${wrapperFileName}'))
           await fs.chmod(manifestPath, 0o644)
         }
       } catch (err) {
-        logger.log(
+        logger.error(
           'NATIVE-MESSAGING-SETUP',
-          'WARN',
           `Failed to write manifest at ${manifestPath}: ${err.message}`
         )
       }
@@ -251,9 +246,8 @@ require(path.join(scriptDir, '${wrapperFileName}'))
         try {
           await execAsync(cmd)
         } catch (err) {
-          logger.log(
+          logger.error(
             'NATIVE-MESSAGING-SETUP',
-            'WARN',
             `Failed to write registry key with command '${cmd}': ${err.message}`
           )
         }

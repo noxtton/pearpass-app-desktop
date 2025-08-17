@@ -56,38 +56,30 @@ export const getOrCreateIdentity = async (client) => {
     // The worklet returns { status: boolean }
     const initialized = statusResponse?.status === true
     if (!initialized) {
-      logger.log(
-        'APP-IDENTITY',
-        'INFO',
-        'Encryption not initialized, initializing...'
-      )
+      logger.info('APP-IDENTITY', 'Encryption not initialized, initializing...')
       const initResult = await client.encryptionInit()
-      logger.log(
+      logger.info(
         'APP-IDENTITY',
-        'INFO',
         `Encryption initialization result: ${JSON.stringify(initResult)}`
       )
     }
   } catch (err) {
     // If status check fails, try to initialize anyway
-    logger.log(
+    logger.info(
       'APP-IDENTITY',
-      'INFO',
       `Status check failed, attempting initialization: ${err.message}`
     )
     try {
       const initResult = await client.encryptionInit()
-      logger.log(
+      logger.info(
         'APP-IDENTITY',
-        'INFO',
         `Encryption initialization result: ${JSON.stringify(initResult)}`
       )
     } catch (initErr) {
       // Ignore if already initialized
       if (!initErr?.message?.includes('already initialized')) {
-        logger.log(
+        logger.error(
           'APP-IDENTITY',
-          'ERROR',
           `Failed to initialize encryption: ${initErr.message}`
         )
       }
@@ -276,11 +268,7 @@ export const resetIdentity = async (client) => {
   // First, clear all active sessions to immediately disconnect extension
   const clearedSessions = clearAllSessions()
 
-  logger.log(
-    'APP-IDENTITY',
-    'INFO',
-    `Cleared ${clearedSessions} active sessions`
-  )
+  logger.info('APP-IDENTITY', `Cleared ${clearedSessions} active sessions`)
 
   try {
     // Clear existing keys from storage by overwriting with empty values
@@ -289,11 +277,10 @@ export const resetIdentity = async (client) => {
     await client.encryptionAdd(ENC_KEY_X25519, '').catch(() => {})
     await client.encryptionAdd(ENC_KEY_CREATION_DATE, '').catch(() => {})
 
-    logger.log('APP-IDENTITY', 'INFO', 'Cleared existing identity keys')
+    logger.info('APP-IDENTITY', 'Cleared existing identity keys')
   } catch (err) {
-    logger.log(
+    logger.error(
       'APP-IDENTITY',
-      'ERROR',
       `Failed to clear existing keys: ${err.message}`
     )
   }
@@ -304,7 +291,7 @@ export const resetIdentity = async (client) => {
   // Generate new identity
   const newIdentity = await getOrCreateIdentity(client)
 
-  logger.log('APP-IDENTITY', 'INFO', 'Generated new identity for pairing')
+  logger.info('APP-IDENTITY', 'Generated new identity for pairing')
 
   return newIdentity
 }

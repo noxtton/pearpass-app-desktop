@@ -4,7 +4,10 @@ import { logger } from '../../utils/logger'
 // Mock logger
 jest.mock('../../utils/logger', () => ({
   logger: {
-    log: jest.fn()
+    log: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+    error: jest.fn()
   }
 }))
 
@@ -161,9 +164,8 @@ describe('MethodRegistry', () => {
 
         await registry.execute('debugMethod', { param: 'value' }, context)
 
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.debug).toHaveBeenCalledWith(
           'METHOD-REGISTRY',
-          'DEBUG',
           expect.stringContaining('debugMethod')
         )
       })
@@ -178,9 +180,8 @@ describe('MethodRegistry', () => {
           registry.execute('errorMethod', {}, context)
         ).rejects.toThrow('Handler error')
 
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.error).toHaveBeenCalledWith(
           'METHOD-REGISTRY',
-          'ERROR',
           'Error in errorMethod: Handler error'
         )
       })

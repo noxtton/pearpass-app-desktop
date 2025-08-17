@@ -41,6 +41,8 @@ jest.mock('../utils/logger.js', () => ({
   logger: {
     log: jest.fn(),
     error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
     debugMode: true
   }
 }))
@@ -213,14 +215,12 @@ describe('nativeMessagingIPCServer', () => {
         expect(IPC.Server).toHaveBeenCalledTimes(1)
         expect(serverInstance.server.ready).toHaveBeenCalledTimes(1)
         expect(serverInstance.isRunning).toBe(true)
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Starting native messaging IPC server...'
         )
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           `Native messaging IPC server started successfully on ${serverInstance.socketPath}`
         )
       })
@@ -230,9 +230,8 @@ describe('nativeMessagingIPCServer', () => {
         await serverInstance.start()
 
         expect(IPC.Server).not.toHaveBeenCalled()
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'IPC server is already running'
         )
       })
@@ -248,9 +247,8 @@ describe('nativeMessagingIPCServer', () => {
         const newServer = new NativeMessagingIPCServer(mockPearpassClient)
         await expect(newServer.start()).rejects.toThrow(error)
         expect(newServer.isRunning).toBe(false)
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.error).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           `Failed to start IPC server: ${error.message}`
         )
       })
@@ -341,23 +339,20 @@ describe('nativeMessagingIPCServer', () => {
         expect(server.close).toHaveBeenCalledTimes(1)
         expect(serverInstance.isRunning).toBe(false)
         expect(serverInstance.server).toBeNull()
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Stopping native messaging IPC server...'
         )
-        expect(logger.log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Native messaging IPC server stopped'
         )
       })
 
       it('should not do anything if the server is not running', async () => {
         await serverInstance.stop()
-        expect(logger.log).not.toHaveBeenCalledWith(
+        expect(logger.info).not.toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Stopping native messaging IPC server...'
         )
       })
@@ -380,9 +375,8 @@ describe('nativeMessagingIPCServer', () => {
       const instance1 = await startNativeMessagingIPC(mockPearpassClient)
       const instance2 = await startNativeMessagingIPC(mockPearpassClient)
       expect(instance1).toBe(instance2)
-      expect(logger.log).toHaveBeenCalledWith(
+      expect(logger.info).toHaveBeenCalledWith(
         'IPC-SERVER',
-        'INFO',
         'Native messaging IPC server is already running'
       )
     })
@@ -397,9 +391,8 @@ describe('nativeMessagingIPCServer', () => {
 
     it('stopNativeMessagingIPC should do nothing if not running', async () => {
       await stopNativeMessagingIPC()
-      expect(logger.log).toHaveBeenCalledWith(
+      expect(logger.info).toHaveBeenCalledWith(
         'IPC-SERVER',
-        'INFO',
         'Native messaging IPC server is not running'
       )
     })

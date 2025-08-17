@@ -34,7 +34,7 @@ export class SecureRequestHandler {
       ciphertextB64
     )
 
-    logger.log('SECURE-REQUEST', 'DEBUG', `Received method: ${request.method}`)
+    logger.debug('SECURE-REQUEST', `Received method: ${request.method}`)
 
     // Execute method through registry
     const result = await this.methodRegistry.execute(

@@ -10,7 +10,9 @@ jest.mock('fs/promises')
 jest.mock('path')
 jest.mock('./logger', () => ({
   logger: {
-    log: jest.fn()
+    log: jest.fn(),
+    info: jest.fn(),
+    error: jest.fn()
   }
 }))
 jest.mock('../constants/meta', () => ({

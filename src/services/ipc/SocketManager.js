@@ -31,12 +31,11 @@ export class SocketManager {
 
     try {
       await unlink(this.socketPath)
-      logger.log('SOCKET-MANAGER', 'INFO', 'Cleaned up existing socket file')
+      logger.info('SOCKET-MANAGER', 'Cleaned up existing socket file')
     } catch (err) {
       if (err.code !== 'ENOENT') {
-        logger.log(
+        logger.warn(
           'SOCKET-MANAGER',
-          'WARN',
           `Could not clean up socket file: ${err.message}`
         )
       }

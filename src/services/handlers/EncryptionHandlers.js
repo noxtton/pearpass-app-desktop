@@ -19,11 +19,7 @@ export class EncryptionHandlers {
 
   async encryptionGet(params) {
     const result = await this.client.encryptionGet(params.key)
-    logger.log(
-      'ENCRYPTION-HANDLER',
-      'DEBUG',
-      `encryptionGet for key: ${params.key}`
-    )
+    logger.debug('ENCRYPTION-HANDLER', `encryptionGet for key: ${params.key}`)
     return result
   }
 
@@ -50,17 +46,17 @@ export class EncryptionHandlers {
   }
 
   async getDecryptionKey(params) {
-    logger.log('ENCRYPTION-HANDLER', 'INFO', `Getting decryption key`)
+    logger.info('ENCRYPTION-HANDLER', `Getting decryption key`)
     const result = await this.client.getDecryptionKey({
       salt: params.salt,
       password: params.password
     })
-    logger.log('ENCRYPTION-HANDLER', 'INFO', `Decryption key obtained`)
+    logger.info('ENCRYPTION-HANDLER', `Decryption key obtained`)
     return result
   }
 
   async decryptVaultKey(params) {
-    logger.log('ENCRYPTION-HANDLER', 'DEBUG', `Decrypting vault key`)
+    logger.debug('ENCRYPTION-HANDLER', `Decrypting vault key`)
     return await this.client.decryptVaultKey({
       ciphertext: params.ciphertext,
       nonce: params.nonce,

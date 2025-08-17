@@ -11,7 +11,8 @@ import { logger } from '../../utils/logger'
 // Mock dependencies
 jest.mock('../../utils/logger', () => ({
   logger: {
-    log: jest.fn()
+    info: jest.fn(),
+    error: jest.fn()
   }
 }))
 
@@ -63,9 +64,8 @@ describe('appIdentity', () => {
 
       expect(mockClient.encryptionGetStatus).toHaveBeenCalled()
       expect(mockClient.encryptionInit).toHaveBeenCalled()
-      expect(logger.log).toHaveBeenCalledWith(
+      expect(logger.info).toHaveBeenCalledWith(
         'APP-IDENTITY',
-        'INFO',
         'Encryption not initialized, initializing...'
       )
     })
@@ -172,9 +172,8 @@ describe('appIdentity', () => {
 
       await getOrCreateIdentity(mockClient)
 
-      expect(logger.log).toHaveBeenCalledWith(
+      expect(logger.info).toHaveBeenCalledWith(
         'APP-IDENTITY',
-        'INFO',
         expect.stringContaining('Status check failed')
       )
       expect(mockClient.encryptionInit).toHaveBeenCalled()
@@ -192,9 +191,8 @@ describe('appIdentity', () => {
 
       await getOrCreateIdentity(mockClient)
 
-      expect(logger.log).not.toHaveBeenCalledWith(
+      expect(logger.error).not.toHaveBeenCalledWith(
         'APP-IDENTITY',
-        'ERROR',
         expect.stringContaining('already initialized')
       )
     })

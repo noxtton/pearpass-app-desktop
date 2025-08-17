@@ -39,11 +39,10 @@ export class MethodRegistry {
   async execute(methodName, params, context) {
     const handler = this.handlers.get(methodName)
     if (!handler) {
-      logger.log('METHOD-REGISTRY', 'ERROR', `Unknown method: ${methodName}`)
+      logger.error('METHOD-REGISTRY', `Unknown method: ${methodName}`)
       const availableMethods = Array.from(this.handlers.keys()).slice(0, 10)
-      logger.log(
+      logger.error(
         'METHOD-REGISTRY',
-        'ERROR',
         `Available methods: ${availableMethods.join(', ')}`
       )
       throw new Error(`UnknownMethod: ${methodName}`)
@@ -81,15 +80,13 @@ export class MethodRegistry {
       try {
         const { client } = context
         const vaultsStatusRes = await client.vaultsGetStatus()
-        logger.log(
+        logger.info(
           'METHOD-REGISTRY',
-          'INFO',
           `vaultsStatusRes ${JSON.stringify(vaultsStatusRes)}`
         )
         if (!!!vaultsStatusRes?.status) {
-          logger.log(
+          logger.info(
             'METHOD-REGISTRY',
-            'INFO',
             `Desktop not authenticated for method ${methodName}`
           )
           throw new Error(
@@ -101,9 +98,8 @@ export class MethodRegistry {
         if (error.message.includes('DesktopNotAuthenticated')) {
           throw error
         }
-        logger.log(
+        logger.info(
           'METHOD-REGISTRY',
-          'INFO',
           `Could not verify auth for ${methodName}: ${error.message}`
         )
         throw new Error(
@@ -119,9 +115,8 @@ export class MethodRegistry {
 
     // Log method call
     if (config.logLevel === 'DEBUG') {
-      logger.log(
+      logger.debug(
         'METHOD-REGISTRY',
-        'DEBUG',
         `Executing ${methodName} with params: ${JSON.stringify(params)}`
       )
     }
@@ -132,18 +127,16 @@ export class MethodRegistry {
 
       // Log result if debug
       if (config.logLevel === 'DEBUG' && result) {
-        logger.log(
+        logger.debug(
           'METHOD-REGISTRY',
-          'DEBUG',
           `${methodName} result: ${JSON.stringify(result)}`
         )
       }
 
       return result
     } catch (error) {
-      logger.log(
+      logger.error(
         'METHOD-REGISTRY',
-        'ERROR',
         `Error in ${methodName}: ${error.message}`
       )
       throw error
@@ -172,9 +165,8 @@ export class MethodRegistry {
     }
 
     if (Object.keys(statuses).length > 0) {
-      logger.log(
+      logger.debug(
         'METHOD-REGISTRY',
-        'DEBUG',
         `Status before ${methodName}: ${JSON.stringify(statuses)}`
       )
     }

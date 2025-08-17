@@ -27,9 +27,8 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
 
     timerRef.current = setTimeout(async () => {
       const userData = await refetchUser()
-      logger.log(
+      logger.info(
         'INACTIVITY-TIMER',
-        'INFO',
         `Inactivity timer triggered, user data: ${JSON.stringify(userData)}`
       )
 
@@ -43,7 +42,7 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
       resetState()
       setIsLoading(false)
 
-      logger.log('INACTIVITY-TIMER', 'INFO', 'Inactivity timer reset')
+      logger.info('INACTIVITY-TIMER', 'Inactivity timer reset')
     }, timeoutMs)
   }
 

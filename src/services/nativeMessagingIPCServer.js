@@ -115,7 +115,7 @@ export class NativeMessagingIPCServer {
    */
   emitIPCActivity() {
     if (global.window) {
-      logger.log('IPC-SERVER', 'DEBUG', 'Emitting IPC activity event')
+      logger.debug('IPC-SERVER', 'Emitting IPC activity event')
       global.window.dispatchEvent(new Event('ipc-activity'))
     }
   }
@@ -252,16 +252,12 @@ export class NativeMessagingIPCServer {
    */
   async start() {
     if (this.isRunning) {
-      logger.log('IPC-SERVER', 'INFO', 'IPC server is already running')
+      logger.info('IPC-SERVER', 'IPC server is already running')
       return
     }
 
     try {
-      logger.log(
-        'IPC-SERVER',
-        'INFO',
-        'Starting native messaging IPC server...'
-      )
+      logger.info('IPC-SERVER', 'Starting native messaging IPC server...')
 
       // Clean up any existing socket file
       await this.socketManager.cleanupSocket()
@@ -272,9 +268,8 @@ export class NativeMessagingIPCServer {
         handlers[name] = handler
       }
 
-      logger.log(
+      logger.info(
         'IPC-SERVER',
-        'INFO',
         `Registered ${this.methodRegistry.getMethodNames().length} handlers`
       )
 
@@ -287,53 +282,42 @@ export class NativeMessagingIPCServer {
 
       // Handle new client connections
       this.server.on('client', (client) => {
-        logger.log(
-          'IPC-SERVER',
-          'INFO',
-          `New IPC client connected: ${client.id}`
-        )
+        logger.info('IPC-SERVER', `New IPC client connected: ${client.id}`)
 
         // Initialize request count for this client
         this.clientRequestCounts.set(client.id, 0)
 
         client.on('close', () => {
           const requestCount = this.clientRequestCounts.get(client.id) || 0
-          logger.log(
+          logger.info(
             'IPC-SERVER',
-            'INFO',
             `IPC client disconnected: ${client.id} after ${requestCount} requests`
           )
           this.clientRequestCounts.delete(client.id)
         })
 
         client.on('error', (error) => {
-          logger.log(
+          logger.error(
             'IPC-SERVER',
-            'ERROR',
             `IPC client error (${client.id}): ${error.message}`
           )
         })
       })
 
       this.server.on('error', (error) => {
-        logger.log('IPC-SERVER', 'INFO', `IPC server error: ${error.message}`)
+        logger.error('IPC-SERVER', `IPC server error: ${error.message}`)
       })
 
       // Start listening
       await this.server.ready()
 
       this.isRunning = true
-      logger.log(
+      logger.info(
         'IPC-SERVER',
-        'INFO',
         `Native messaging IPC server started successfully on ${this.socketPath}`
       )
     } catch (error) {
-      logger.log(
-        'IPC-SERVER',
-        'INFO',
-        `Failed to start IPC server: ${error.message}`
-      )
+      logger.error('IPC-SERVER', `Failed to start IPC server: ${error.message}`)
       throw error
     }
   }
@@ -346,7 +330,7 @@ export class NativeMessagingIPCServer {
       return
     }
 
-    logger.log('IPC-SERVER', 'INFO', 'Stopping native messaging IPC server...')
+    logger.info('IPC-SERVER', 'Stopping native messaging IPC server...')
 
     if (this.server) {
       await this.server.close()
@@ -357,7 +341,7 @@ export class NativeMessagingIPCServer {
     await this.socketManager.cleanupSocket()
 
     this.isRunning = false
-    logger.log('IPC-SERVER', 'INFO', 'Native messaging IPC server stopped')
+    logger.info('IPC-SERVER', 'Native messaging IPC server stopped')
   }
 }
 
@@ -370,11 +354,7 @@ let ipcServerInstance = null
  */
 export const startNativeMessagingIPC = async (pearpassClient) => {
   if (ipcServerInstance?.isRunning) {
-    logger.log(
-      'IPC-SERVER',
-      'INFO',
-      'Native messaging IPC server is already running'
-    )
+    logger.info('IPC-SERVER', 'Native messaging IPC server is already running')
     return ipcServerInstance
   }
 
@@ -389,11 +369,7 @@ export const startNativeMessagingIPC = async (pearpassClient) => {
  */
 export const stopNativeMessagingIPC = async () => {
   if (!ipcServerInstance?.isRunning) {
-    logger.log(
-      'IPC-SERVER',
-      'INFO',
-      'Native messaging IPC server is not running'
-    )
+    logger.info('IPC-SERVER', 'Native messaging IPC server is not running')
     return
   }
 
