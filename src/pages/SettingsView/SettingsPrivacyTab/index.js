@@ -169,9 +169,10 @@ export const SettingsPrivacyTab = () => {
     if (!isoDate) return ''
     try {
       const date = new Date(isoDate)
-      return i18n._(
-        `Created on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
-      )
+      return i18n._('Created on {date} at {time}', {
+        date: date.toLocaleDateString(),
+        time: date.toLocaleTimeString()
+      })
     } catch {
       return ''
     }

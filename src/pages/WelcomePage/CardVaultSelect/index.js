@@ -63,7 +63,7 @@ export const CardVaultSelect = () => {
         <${Title}>
           ${data.length > 0
             ? i18n._('Select a vault, create a new one or load another one')
-            : i18n._('Start with creating a new vault or importing one')}
+            : i18n._('Start with creating a new vault or load another one')}
         <//>
       <//>
 
