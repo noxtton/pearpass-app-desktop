@@ -36,9 +36,18 @@ export const LeftSide = styled.div`
   gap: 8px;
 `
 
-export const QrImage = styled.img`
+export const QrContainer = styled.div`
   width: 226px;
   height: 226px;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 16px;
+  background-color: ${({ theme }) => theme.colors.white.mode1};
+`
+
+export const QrImage = styled.img`
+  width: 100%;
+  height: 100%;
 `
 
 export const Content = styled.div`

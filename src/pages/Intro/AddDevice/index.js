@@ -16,6 +16,7 @@ import {
   ExpireTime,
   Header,
   LeftSide,
+  QrContainer,
   QrImage,
   Text
 } from './styles'
@@ -38,7 +39,9 @@ export const AddDevice = () => {
       <//>
       <${Content}>
         <${Text}> ${i18n._('Scan this QR code')} <//>
-        <${QrImage} src="assets/images/AddDeviceQr.png" />
+        <${QrContainer}>
+          <${QrImage} src="assets/images/intro_qr.png" />
+        <//>
       <//>
 
       <${ExpireText}>
