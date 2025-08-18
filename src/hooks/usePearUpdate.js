@@ -29,13 +29,17 @@ export const usePearUpdate = () => {
           return
         }
       }
-      if (!modalShownRef.current) {
+      if (!modalShownRef.current && Pear.config.tier !== 'dev') {
         modalShownRef.current = true
 
         setModal(
           html`<${UpdateRequiredModalContent} onUpdate=${handleUpdateApp} />`,
           { closeable: false }
         )
+      }
+
+      if (Pear.config.tier === 'dev') {
+        Pear.reload()
       }
     })
   }, [])

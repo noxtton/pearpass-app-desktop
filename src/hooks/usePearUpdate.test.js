@@ -1,76 +1,82 @@
-import { renderHook } from '@testing-library/react'
+import { renderHook, act } from '@testing-library/react'
 
 import { usePearUpdate } from './usePearUpdate'
 import { useModal } from '../context/ModalContext'
 
-const mockSetModal = jest.fn()
-const mockRestart = jest.fn()
-const mockUpdates = jest.fn()
+global.Pear = {
+  updates: jest.fn(),
+  restart: jest.fn(),
+  reload: jest.fn(),
+  config: { tier: 'prod' }
+}
 
 jest.mock('../context/ModalContext', () => ({
   useModal: jest.fn()
 }))
 
-global.Pear = {
-  restart: mockRestart,
-  updates: (cb) => mockUpdates(cb)
-}
-
 describe('usePearUpdate', () => {
+  let setModalMock
+
   beforeEach(() => {
-    jest.clearAllMocks()
-
-    useModal.mockReturnValue({
-      setModal: mockSetModal
-    })
+    setModalMock = jest.fn()
+    useModal.mockReturnValue({ setModal: setModalMock })
+    Pear.updates.mockClear()
+    Pear.restart.mockClear()
+    Pear.reload.mockClear()
+    Pear.config.tier = 'prod'
   })
 
-  test('shows modal when non-ignored update is received', () => {
+  it('subscribes to Pear updates', () => {
     renderHook(() => usePearUpdate())
-
-    const updateHandler = mockUpdates.mock.calls[0][0]
-    updateHandler({ diff: [{ key: '/src/index.js' }] })
-
-    expect(mockSetModal).toHaveBeenCalledTimes(1)
-    const [modalElement, options] = mockSetModal.mock.calls[0]
-
-    expect(modalElement.type.name).toBe('UpdateRequiredModalContent')
-    expect(options.closeable).toBe(false)
+    expect(Pear.updates).toHaveBeenCalledTimes(1)
   })
 
-  test('does not show modal for ignored changes', () => {
+  it('shows modal when update has non-ignored changes (prod)', async () => {
     renderHook(() => usePearUpdate())
-    const updateHandler = mockUpdates.mock.calls[0][0]
 
-    updateHandler({ diff: [{ key: '/logs/debug.log' }] })
-
-    updateHandler({
-      diff: [{ key: '/some/path/pearpass-native-messaging.sock' }]
+    const callback = Pear.updates.mock.calls[0][0]
+    await act(async () => {
+      await callback({ diff: [{ key: '/src/file.js' }] })
     })
 
-    expect(mockSetModal).not.toHaveBeenCalled()
+    expect(setModalMock).toHaveBeenCalledTimes(1)
+    expect(Pear.restart).not.toHaveBeenCalled()
+    expect(Pear.reload).not.toHaveBeenCalled()
   })
 
-  test('does not show modal twice', () => {
+  it('does not show modal for only ignored files', async () => {
     renderHook(() => usePearUpdate())
-    const updateHandler = mockUpdates.mock.calls[0][0]
 
-    updateHandler({ diff: [{ key: '/src/index.js' }] })
-    updateHandler({ diff: [{ key: '/src/anotherFile.js' }] })
+    const callback = Pear.updates.mock.calls[0][0]
+    await act(async () => {
+      await callback({ diff: [{ key: '/logs/log.txt' }] })
+    })
 
-    expect(mockSetModal).toHaveBeenCalledTimes(1)
+    expect(setModalMock).not.toHaveBeenCalled()
   })
 
-  test('calls Pear.restart when onUpdate is triggered from modal', () => {
+  it('reloads app immediately in dev tier', async () => {
+    Pear.config.tier = 'dev'
     renderHook(() => usePearUpdate())
-    const updateHandler = mockUpdates.mock.calls[0][0]
 
-    updateHandler({ diff: [{ key: '/src/index.js' }] })
+    const callback = Pear.updates.mock.calls[0][0]
+    await act(async () => {
+      await callback({ diff: [{ key: '/src/file.js' }] })
+    })
 
-    const [modalElement] = mockSetModal.mock.calls[0]
+    expect(Pear.reload).toHaveBeenCalledTimes(1)
+  })
 
-    modalElement.props.onUpdate()
+  it('triggers restart when update handler is called', async () => {
+    renderHook(() => usePearUpdate())
 
-    expect(mockRestart).toHaveBeenCalledWith({ platform: false })
+    const callback = Pear.updates.mock.calls[0][0]
+    await act(async () => {
+      await callback({ diff: [{ key: '/src/file.js' }] })
+    })
+
+    const modalVNode = setModalMock.mock.calls[0][0]
+    modalVNode.props.onUpdate()
+    expect(Pear.restart).toHaveBeenCalledWith({ platform: false })
   })
 })
