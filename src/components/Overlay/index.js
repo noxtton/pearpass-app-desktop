@@ -25,7 +25,7 @@ export const Overlay = ({ isOpen, onClick, type = 'default' }) => {
     <${OverlayComponent}
       type=${type}
       isShown=${isShown}
-      onClick=${() => onClick()}
+      onClick=${() => onClick?.()}
     />
   `
 }

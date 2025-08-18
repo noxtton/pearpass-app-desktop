@@ -1,11 +1,13 @@
 import { html } from 'htm/react'
 
-import { useInactivity } from './hooks/useInactivity'
-import { useRedirect } from './hooks/useRedirect'
+import { usePearUpdate } from '../../hooks/usePearUpdate'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading'
 import { Routes } from '../Routes'
+import { useInactivity } from './hooks/useInactivity'
+import { useRedirect } from './hooks/useRedirect'
 
 export const App = () => {
+  usePearUpdate()
   const isSimulatedLoading = useSimulatedLoading()
 
   useInactivity()

@@ -43,23 +43,6 @@ startNativeMessagingIPC(client).catch((err) => {
   logger.error('INDEX', 'Failed to start IPC server:', err)
 })
 
-Pear.updates(async (update) => {
-  // Check if the update is related to our IPC socket file or debug log
-  if (update && update.diff) {
-    const hasNonIgnoredChanges = update.diff.some(
-      ({ key: file }) =>
-        !file.startsWith('/logs') &&
-        !file.includes('pearpass-native-messaging.sock')
-    )
-
-    if (!hasNonIgnoredChanges) {
-      return
-    }
-  }
-
-  Pear.reload()
-})
-
 let inactivityTimeout
 
 const resetInactivityTimer = () => {

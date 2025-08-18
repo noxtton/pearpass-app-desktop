@@ -4,6 +4,7 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
   ArrowUpAndDown,
+  ButtonCreate,
   ButtonFilter,
   DeleteIcon,
   FolderIcon,
@@ -32,6 +33,7 @@ import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
 import { ConfirmationModalContent } from '../Modal/ConfirmationModalContent'
 import { MoveFolderModalContent } from '../Modal/MoveFolderModalContent'
+import { UpdateRequiredModalContent } from '../Modal/UpdateRequiredModalContent'
 
 /**
  * @param {{
@@ -203,6 +205,11 @@ export const RecordListView = ({
                 ${i18n._('Multiple selection')}
               <//> `}
         <//>
+      <//>
+      <${ButtonCreate}
+        onClick=${() => setModal(html`<${UpdateRequiredModalContent} />`)}
+      >
+        update
       <//>
 
       ${!isMultiSelect &&
