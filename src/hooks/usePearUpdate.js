@@ -1,3 +1,5 @@
+/** @typedef {import('pear-interface')} */ /* global Pear */
+
 import { useEffect, useRef } from 'react'
 
 import { html } from 'htm/react'
@@ -15,8 +17,6 @@ export const usePearUpdate = () => {
 
   useEffect(() => {
     Pear.updates(async (update) => {
-      if (modalShownRef.current) return
-
       // Check if the update is related to our IPC socket file or debug log
       if (update && update.diff) {
         const hasNonIgnoredChanges = update.diff.some(
@@ -29,12 +29,14 @@ export const usePearUpdate = () => {
           return
         }
       }
+      if (!modalShownRef.current) {
+        modalShownRef.current = true
 
-      modalShownRef.current = true
-      setModal(
-        html`<${UpdateRequiredModalContent} onUpdate=${handleUpdateApp} />`,
-        { closeable: false }
-      )
+        setModal(
+          html`<${UpdateRequiredModalContent} onUpdate=${handleUpdateApp} />`,
+          { closeable: false }
+        )
+      }
     })
   }, [])
 }
