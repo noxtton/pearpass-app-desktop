@@ -4,6 +4,7 @@ import { MS_PER_MINUTE } from 'pearpass-lib-constants'
 import { closeAllInstances, useUserData, useVaults } from 'pearpass-lib-vault'
 
 import { useLoadingContext } from '../../../context/LoadingContext'
+import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
 import { logger } from '../../../utils/logger'
 
@@ -16,6 +17,7 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
   const { setIsLoading } = useLoadingContext()
   const { navigate } = useRouter()
   const { refetch: refetchUser } = useUserData()
+  const { closeModal } = useModal()
 
   const { resetState } = useVaults()
   const timerRef = useRef(null)
@@ -38,6 +40,7 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
 
       setIsLoading(true)
       await closeAllInstances()
+      closeModal()
       navigate('welcome', { state: 'masterPassword' })
       resetState()
       setIsLoading(false)

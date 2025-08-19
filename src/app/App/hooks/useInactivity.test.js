@@ -32,6 +32,12 @@ jest.mock('../../../context/RouterContext', () => ({
   })
 }))
 
+jest.mock('../../../context/ModalContext', () => ({
+  useModal: () => ({
+    closeModal: jest.fn()
+  })
+}))
+
 describe('useInactivity', () => {
   let addEventListenerSpy
   let removeEventListenerSpy
