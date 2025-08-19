@@ -14,6 +14,7 @@ export const Container = styled.div`
 
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.primary400.mode1};
+  background-color: ${({ theme }) => theme.colors.grey400.mode1};
 `
 
 export const Title = styled.span`

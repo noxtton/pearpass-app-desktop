@@ -23,8 +23,10 @@ export const PassphraseChecker = ({ pass }) => {
 
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass && pass.join('-')} />
-    ${!result.isSafe
+    ${result.strength === 'vulnerable'
       ? html` <${NoticeText} text=${i18n._('Vulnerable')} type="error" />`
-      : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
+      : result.strength === 'weak'
+        ? html` <${NoticeText} text=${i18n._('Weak')} type="warning" />`
+        : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
   <//>`
 }

@@ -85,14 +85,14 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
     initialRecord
   })
 
-  const handleCopy = (value) => {
+  const handleCopy = (value, stripSpaces = false) => {
     if (!value?.length) {
       return
     }
 
-    copyToClipboard(value)
+    const textToCopy = stripSpaces ? value.replace(/\s/g, '') : value
+    copyToClipboard(textToCopy)
   }
-
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -119,9 +119,10 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
             placeholder="1234 1234 1234 1234 "
             variant="outline"
             icon=${CreditCardIcon}
-            onClick=${handleCopy}
+            onClick=${(value) => handleCopy(value, true)}
             isDisabled
             ...${register('number')}
+            value=${values.number.replace(/(.{4})/g, '$1 ').trim()}
           />
         `}
         ${!!values?.expireDate?.length &&
