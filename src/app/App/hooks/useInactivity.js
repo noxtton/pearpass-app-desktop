@@ -9,6 +9,7 @@ import { useRouter } from '../../../context/RouterContext'
 import { logger } from '../../../utils/logger'
 
 /**
+ *
  * @param {Object} options - Configuration options for inactivity detection.
  * @param {number} [options.timeoutMs=60000] - Timeout duration in milliseconds before triggering inactivity actions.
  * @returns {void}
