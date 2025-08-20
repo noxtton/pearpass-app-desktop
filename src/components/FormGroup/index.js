@@ -9,11 +9,17 @@ import { Collapse, TitleWrapper, Wrapper } from './styles'
  * @param {{
  *  title: string,
  *  isCollapse: boolean
+ *  defaultOpenState: boolean
  *  children: import('react').ReactNode
  * }} props
  */
-export const FormGroup = ({ title, isCollapse, children }) => {
-  const [isOpen, setIsOpen] = useState(true)
+export const FormGroup = ({
+  title,
+  isCollapse,
+  children,
+  defaultOpenState = true
+}) => {
+  const [isOpen, setIsOpen] = useState(defaultOpenState)
 
   if (!children) {
     return
