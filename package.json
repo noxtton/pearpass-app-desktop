@@ -63,7 +63,7 @@
     "pearpass-lib-constants": "github:noxtton/pearpass-lib-constants#v0.0.5",
     "pearpass-lib-data-export": "github:noxtton/pearpass-lib-data-export#v0.0.7",
     "pearpass-lib-data-import": "github:noxtton/pearpass-lib-data-import#v0.0.7",
-    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.64",
+    "pearpass-lib-ui-react-components": "github:noxtton/pearpass-lib-ui-react-components#v0.0.65",
     "pearpass-lib-ui-theme-provider": "github:noxtton/pearpass-lib-ui-theme-provider#v0.0.11",
     "pearpass-lib-vault": "github:noxtton/pearpass-lib-vault#v0.0.66",
     "pearpass-lib-vault-mobile": "github:noxtton/pearpass-lib-vault-mobile#v0.0.56",
