@@ -1,4 +1,8 @@
 class Logger {
+  constructor({ debugMode = false } = {}) {
+    this.debugMode = debugMode
+  }
+
   /**
    * Log a message with component and level
    * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
