@@ -34,7 +34,7 @@ export const usePearUpdate = () => {
 
         setModal(
           html`<${UpdateRequiredModalContent} onUpdate=${handleUpdateApp} />`,
-          { closeable: false }
+          { closable: false }
         )
       }
 
