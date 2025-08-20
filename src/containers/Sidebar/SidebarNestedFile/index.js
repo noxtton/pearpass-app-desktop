@@ -54,7 +54,7 @@ export const SidebarNestedFile = ({
   }
 
   return html`
-    <${NestedFileContainer}>
+    <${NestedFileContainer} isRootScope=${folderId === undefined}>
       ${isNew
         ? html`
             <${PopupMenu}
