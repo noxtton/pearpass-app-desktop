@@ -16,7 +16,8 @@ const DEFAULT_MODAL_PARAMS = {
   hasOverlay: true,
   overlayType: 'default',
   modalType: 'default',
-  closeable: true
+  closable: true,
+  replace: false
 }
 
 /**
@@ -30,15 +31,28 @@ export const ModalProvider = ({ children }) => {
   const isOpen = !!modalStack.length
 
   const setModal = (content, params) => {
-    setModalStack((prevState) => [
-      ...prevState,
-      {
-        content,
-        id: generateUniqueId(),
-        isOpen: true,
-        params: { ...DEFAULT_MODAL_PARAMS, ...params }
+    setModalStack((prevState) => {
+      if (params?.replace) {
+        return [
+          {
+            content,
+            id: generateUniqueId(),
+            isOpen: true,
+            params: { ...DEFAULT_MODAL_PARAMS, ...params }
+          }
+        ]
       }
-    ])
+
+      return [
+        ...prevState,
+        {
+          content,
+          id: generateUniqueId(),
+          isOpen: true,
+          params: { ...DEFAULT_MODAL_PARAMS, ...params }
+        }
+      ]
+    })
   }
 
   const closeModal = () => {
@@ -66,7 +80,7 @@ export const ModalProvider = ({ children }) => {
     const handleKeydown = (event) => {
       if (event.key === 'Escape' && isOpen) {
         const topModal = getTopModal(modalStack)
-        if (topModal?.params?.closeable !== false) {
+        if (topModal?.params?.closable !== false) {
           void closeModal()
         }
       }
