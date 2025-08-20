@@ -5,7 +5,7 @@ import { Label } from './styles'
 
 /**
  * @param {{
- *    selectedItem?: { name: string },
+ *    selectedItem?: { label: string },
  *    isOpen: boolean,
  *    setIsOpen?: (isOpen: boolean) => void,
  *    placeholder: string
@@ -18,7 +18,7 @@ export const SelectLabel = ({
   placeholder
 }) => html`
   <${Label} onClick=${() => setIsOpen?.(!isOpen)}>
-    <span> ${selectedItem?.name || placeholder} </span>
+    <span> ${selectedItem?.label || placeholder} </span>
     <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="24" />
   <//>
 `

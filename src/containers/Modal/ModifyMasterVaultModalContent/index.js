@@ -52,7 +52,7 @@ export const ModifyMasterVaultModalContent = () => {
   const onSubmit = async (values) => {
     const result = isPasswordSafe(values.newPassword, { errors: errors })
 
-    if (!result.isSafe && result.errors.length > 0) {
+    if (result.strength !== 'strong' && result.errors.length > 0) {
       setErrors({
         newPassword: result.errors.join(', ')
       })

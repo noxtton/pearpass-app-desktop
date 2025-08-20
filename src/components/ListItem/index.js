@@ -37,7 +37,7 @@ export const ListItem = ({
 
       <${ListItemDescription}>
         <${ListItemName}>${itemName}<//>
-        <${ListItemDate}> ${itemDateText}<//>
+        ${itemDateText && html`<${ListItemDate}> ${itemDateText}<//>`}
       <//>
     <//>
 

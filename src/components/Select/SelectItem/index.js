@@ -5,9 +5,9 @@ import { SelectItemWrapper } from './styles'
 /**
  * @param {{
  *    onClick: () => void,
- *    item: { name: string }
+ *    item: { label: string }
  *  }} props
  */
 export const SelectItem = ({ item, onClick }) => html`
-  <${SelectItemWrapper} onClick=${() => onClick?.()}> ${item.name} <//>
+  <${SelectItemWrapper} onClick=${() => onClick?.()}> ${item.label} <//>
 `

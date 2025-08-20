@@ -9,9 +9,9 @@ import { useOutsideClick } from '../../hooks/useOutsideClick'
 
 /**
  * @param {{
- *    selectedItem?: { name: string },
- *    onItemSelect: (item: { name: string }) => void,
- *    items: Array<{ name: string }>,
+ *    selectedItem?: { label: string },
+ *    onItemSelect: (item: { label: string, value: string }) => void,
+ *    items: Array<{ label: string, value: string }>,
  *    placeholder: string
  *  }} props
  */
@@ -43,7 +43,7 @@ export const Select = ({ selectedItem, onItemSelect, items, placeholder }) => {
         ${items.map(
           (item) => html`
             <${SelectItem}
-              key=${item.name}
+              key=${item.label}
               item=${item}
               onClick=${() => handleSelect(item)}
             />

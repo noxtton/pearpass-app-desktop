@@ -5,9 +5,9 @@ import { Select } from '../../../../components/Select'
 
 /**
  * @param {{
- *    selectedItem?: { name: string },
- *    languageOptions: Array<{ name: string, value: string }>,
- *    onItemSelect: (item: { name: string }) => void,
+ *    selectedItem?: { label: string },
+ *    languageOptions: Array<{ label: string, value: string }>,
+ *    onItemSelect: (item: { label: string, value: string }) => void,
  *    placeholder: string
  *    title: string
  *  }} props

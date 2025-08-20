@@ -206,6 +206,10 @@ export const CreateOrEditCreditCardModalContent = ({
     )
   }
 
+  const handleNumericInputChange = (value, field) => {
+    setValue(field, value.replace(/\D/g, ''))
+  }
+
   return html`
     <${ModalContent}
       onClose=${closeModal}
@@ -260,6 +264,8 @@ export const CreateOrEditCreditCardModalContent = ({
             variant="outline"
             icon=${CreditCardIcon}
             ...${register('number')}
+            value=${values.number.replace(/(.{4})/g, '$1 ').trim()}
+            onChange=${(value) => handleNumericInputChange(value, 'number')}
           />
 
           <${InputField}
@@ -277,6 +283,8 @@ export const CreateOrEditCreditCardModalContent = ({
             variant="outline"
             icon=${CreditCardIcon}
             ...${register('securityCode')}
+            onChange=${(value) =>
+              handleNumericInputChange(value, 'securityCode')}
           />
 
           <${PasswordField}
@@ -285,6 +293,7 @@ export const CreateOrEditCreditCardModalContent = ({
             variant="outline"
             icon=${NineDotsIcon}
             ...${register('pinCode')}
+            onChange=${(value) => handleNumericInputChange(value, 'pinCode')}
           />
         <//>
 

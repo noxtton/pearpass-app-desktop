@@ -41,6 +41,10 @@ export const PasswordWrapper = styled.div`
   font-size: 14px;
   font-weight: 400;
   text-align: center;
+
+  & > div > div {
+    font-size: 10px;
+  }
 `
 
 export const RadioWrapper = styled.div`
