@@ -22,6 +22,7 @@ import {
 } from './styles'
 import { TutorialContainer } from './TutorialContainer'
 import { WelcomeToPearpass } from './WelcomeToPearpass'
+import { LOCAL_STORAGE_KEYS } from '../../constants/localStorage'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
 
@@ -43,11 +44,17 @@ export const Intro = () => {
 
   const handleNextPage = () => {
     if (pageIndex >= 5) {
+      if (localStorage.getItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED) !== 'true') {
+        navigate('termsOfUse')
+        return
+      }
+
       navigate('welcome', {
         state: 'createMasterPassword'
       })
       return
     }
+
     setPageIndex((prevIndex) => prevIndex + 1)
   }
 

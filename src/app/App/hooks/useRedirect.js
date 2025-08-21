@@ -20,22 +20,24 @@ export const useRedirect = () => {
     ;(async () => {
       const userData = await refetchUser()
 
+      if (!userData?.hasPasswordSet) {
+        navigate('intro')
+        return
+      }
+
       const isTouAccepted =
         localStorage.getItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED) === 'true'
 
-      if (!isTouAccepted && userData?.hasPasswordSet) {
+      if (!isTouAccepted) {
         navigate('termsOfUse')
         return
       }
 
-      if (userData?.hasPasswordSet) {
-        navigate('welcome', {
-          state: 'masterPassword'
-        })
-        return
-      }
-
-      navigate('intro')
+      navigate('welcome', {
+        state: userData?.hasPasswordSet
+          ? 'masterPassword'
+          : 'createMasterPassword'
+      })
     })()
   }, [])
 

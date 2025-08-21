@@ -29,14 +29,11 @@ export const TouPage = () => {
   const onContinue = async () => {
     const userData = await refetchUser()
 
-    if (userData?.hasPasswordSet) {
-      navigate('welcome', {
-        state: userData?.hasPasswordSet
-          ? 'masterPassword'
-          : 'createMasterPassword'
-      })
-      return
-    }
+    navigate('welcome', {
+      state: userData?.hasPasswordSet
+        ? 'masterPassword'
+        : 'createMasterPassword'
+    })
   }
 
   const showTouModal = () => {
