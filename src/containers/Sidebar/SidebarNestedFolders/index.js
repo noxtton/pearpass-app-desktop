@@ -65,6 +65,7 @@ export const SidebarNestedFolders = ({
         id=${item.id}
         name=${item.name}
         key=${item.name + item.id + 'file'}
+        level=${level}
       />
     `
   }
@@ -111,6 +112,7 @@ export const SidebarNestedFolders = ({
             name=${i18n._('New')}
             isNew=${true}
             color=${colors.primary400.mode1}
+            level=${level + 1}
           />
         `}
       `}
