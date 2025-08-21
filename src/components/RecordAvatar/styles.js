@@ -39,8 +39,8 @@ export const SelectedAvatarContainer = styled.div`
 
 export const FavoriteIcon = styled.div`
   position: absolute;
-  right: -3px;
-  bottom: -4px;
+  right: -6px;
+  bottom: -9px;
 
   & > svg {
     fill: ${({ theme }) => theme.colors.primary400.mode1};
