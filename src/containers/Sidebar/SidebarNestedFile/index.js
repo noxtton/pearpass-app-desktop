@@ -32,7 +32,7 @@ export const SidebarNestedFile = ({
 
   const [isNewPopupMenuOpen, setIsNewPopupMenuOpen] = useState(false)
 
-  const { popupItems } = useRecordMenuItems()
+  const { defaultItems } = useRecordMenuItems()
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
@@ -64,7 +64,7 @@ export const SidebarNestedFile = ({
               setIsOpen=${setIsNewPopupMenuOpen}
               content=${html`
                 <${CreateNewCategoryPopupContent}
-                  menuItems=${popupItems}
+                  menuItems=${defaultItems}
                   onClick=${handleMenuItemClick}
                 />
               `}
