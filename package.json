@@ -8,7 +8,7 @@
     "gui": {
       "backgroundColor": "#1F2430",
       "minWidth": "1080",
-      "minHeight": "720",
+      "minHeight": "900",
       "height": "1024",
       "width": "1440"
     },
