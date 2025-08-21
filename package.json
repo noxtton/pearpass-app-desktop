@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "main": "index.html",
   "pear": {
     "name": "pearpass-app-desktop",
