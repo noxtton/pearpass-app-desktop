@@ -93,11 +93,12 @@ const moveRight = keyframes`
 `
 
 const levitateBounce = keyframes`
-  0%   { transform: translate(50%, -50%) translateY(0); }
-  25%  { transform: translate(50%, -50%) translateY(-20px); }
-  50%  { transform: translate(50%, -50%) translateY(0); }
-  75%  { transform: translate(50%, -50%) translateY(-10px); }
-  100% { transform: translate(50%, -50%) translateY(0); }
+0%,100% {
+  transform: translate(50%,-50%) translateY(0px);
+}
+50% {
+  transform: translate(50%,-50%) translateY(-30px);
+}
 `
 export const Video = styled.video.attrs(({ className }) => ({
   className
@@ -114,7 +115,7 @@ export const Video = styled.video.attrs(({ className }) => ({
   &.animate {
     animation:
       ${moveRight} 2.5s forwards 2.5s,
-      ${levitateBounce} 2s ease-in-out infinite 5s;
+      ${levitateBounce} 4s ease-in-out infinite 5s;
     animation-fill-mode: forwards;
   }
 `
