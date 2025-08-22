@@ -2,8 +2,7 @@ import styled from 'styled-components'
 
 export const NestedFileContainer = styled.div`
   position: relative;
-  padding-left: 34px;
-  margin-bottom: 5px;
+  padding-left: ${({ isRootScope }) => (isRootScope ? '0' : '31px')};
 `
 
 export const NestedFile = styled.div`

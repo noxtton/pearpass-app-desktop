@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CHANNEL_LINK: "pear://3goejdzrg3g1pccaqsdy4meq9yiid1wasx3fbsxxnzafhqt8qhry"
+  CHANNEL_LINK: "pear://ahdgc4xremb3zxnwfth34fun6yxy1jy6az71uun3bh6sy5z4ebwy"
 
 permissions:
   contents: read
@@ -35,6 +35,8 @@ jobs:
         run: |
           npm run lingui:extract
           npm run lingui:compile
+      - name: Prune dev dependencies
+        run: npm prune --omit=dev
       - name: "Stage to channel"
         run: |
           echo "CHANNEL_LINK: ${CHANNEL_LINK}"

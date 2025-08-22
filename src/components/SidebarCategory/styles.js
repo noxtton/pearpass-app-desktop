@@ -46,7 +46,7 @@ export const CategoryButton = styled.button.withConfig({
 
 export const CategoryDescription = styled.div`
   display: flex;
-  gap: 12px;
+  gap: 2px;
   white-space: nowrap;
   font-weight: 600;
 
@@ -67,14 +67,7 @@ export const CategoryDescription = styled.div`
 export const CategoryIconWrapper = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isSelected', 'color'].includes(prop)
 })`
-  width: 14px;
-  height: 14px;
   display: flex;
-
-  & path {
-    stroke: ${({ color, theme, isSelected }) =>
-      isSelected ? theme.colors.black.mode1 : color};
-  }
 `
 
 export const CategoryQuantity = styled.span.withConfig({

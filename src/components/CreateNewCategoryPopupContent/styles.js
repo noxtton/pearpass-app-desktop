@@ -20,6 +20,7 @@ export const MenuItem = styled.div`
   background: ${({ theme }) => theme.colors.grey400.mode1};
   border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   border-bottom: none;
+  align-items: center;
   cursor: pointer;
   position: relative;
 

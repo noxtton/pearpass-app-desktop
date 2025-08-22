@@ -70,29 +70,25 @@ describe('VaultsTab', () => {
     jest.clearAllMocks()
   })
 
-  it('renders Master Vault section', () => {
+  it('renders Manage Vaults section', () => {
     const { container } = renderWithProviders(<SettingsVaultsTab />)
 
-    expect(screen.getAllByText('Master Vault')[0]).toBeInTheDocument()
-    expect(
-      screen.getByText('Here you can modify the your Master password')
-    ).toBeInTheDocument()
+    expect(screen.getByText('Manage Vaults')).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
 
-  it('renders Manage Vaults section with vaults', () => {
+  it('renders vaults in the list', () => {
     renderWithProviders(<SettingsVaultsTab />)
 
-    expect(screen.getByText('Manage Vaults')).toBeInTheDocument()
     expect(screen.getByText('Vault 1')).toBeInTheDocument()
     expect(screen.getByText('Vault 2')).toBeInTheDocument()
   })
 
-  it('opens ModifyMasterVaultModalContent when editing Master Vault', () => {
+  it('opens ModifyVaultModalContent when editing the first vault', () => {
     renderWithProviders(<SettingsVaultsTab />)
 
-    const masterVaultEditButton = screen.getAllByText('Edit')[0]
-    fireEvent.click(masterVaultEditButton)
+    const editButtons = screen.getAllByText('Edit')
+    fireEvent.click(editButtons[0])
 
     expect(setModalMock).toHaveBeenCalledWith(expect.anything())
   })

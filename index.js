@@ -40,25 +40,32 @@ setPearpassVaultClient(client)
 // Check if native messaging is enabled and start IPC server
 // For testing, always start the IPC server
 startNativeMessagingIPC(client).catch((err) => {
-  logger.error('Failed to start IPC server:', err)
+  logger.error('INDEX', 'Failed to start IPC server:', err)
 })
 
-Pear.updates(async (update) => {
-  // Check if the update is related to our IPC socket file or debug log
-  if (update && update.diff) {
-    const hasNonIgnoredChanges = update.diff.some(
-      ({ key: file }) =>
-        !file.startsWith('/logs') &&
-        !file.includes('pearpass-native-messaging.sock')
-    )
+let inactivityTimeout
 
-    if (!hasNonIgnoredChanges) {
-      return
-    }
-  }
+const resetInactivityTimer = () => {
+  clearTimeout(inactivityTimeout)
 
-  Pear.reload()
-})
+  inactivityTimeout = setTimeout(() => {
+    window.dispatchEvent(new Event('user-inactive'))
+  }, 60 * 1000)
+}
+
+const activityEvents = [
+  'mousemove',
+  'mousedown',
+  'keydown',
+  'touchstart',
+  'scroll'
+]
+
+activityEvents.forEach((event) =>
+  window.addEventListener(event, resetInactivityTimer)
+)
+
+resetInactivityTimer()
 
 // Render the application
 const root = createRoot(document.querySelector('#root'))

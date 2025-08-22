@@ -1,12 +1,15 @@
 /**
- * Centralized command definitions for the Pearpass native messaging system.
- * This file serves as the single source of truth for all command names and IDs.
- * Import this file wherever command definitions are needed.
+ * Command definitions for the native messaging bridge
  */
 
-// Define all available commands with their IDs
-// Using IDs starting from 1000 to avoid conflicts with internal pear-ipc methods
-export const COMMAND_DEFINITIONS = [
+/**
+ * @typedef {Object} CommandDefinition
+ * @property {number} id - Unique command ID
+ * @property {string} name - Command name
+ */
+
+/** @type {CommandDefinition[]} */
+const COMMAND_DEFINITIONS = [
   // Encryption commands
   { id: 1001, name: 'encryptionInit' },
   { id: 1002, name: 'encryptionGetStatus' },
@@ -39,45 +42,28 @@ export const COMMAND_DEFINITIONS = [
   { id: 1023, name: 'getDecryptionKey' },
   { id: 1024, name: 'decryptVaultKey' },
 
+  // Native Messaging secure channel (pairing/handshake)
+  { id: 1100, name: 'nmGetAppIdentity' },
+  // Handshake/session placeholders for Phase 2
+  { id: 1102, name: 'nmBeginHandshake' },
+  { id: 1103, name: 'nmFinishHandshake' },
+  { id: 1104, name: 'nmSecureRequest' },
+  { id: 1105, name: 'nmCloseSession' },
+
   // Pairing and misc commands
   { id: 1025, name: 'pair' },
   { id: 1026, name: 'initListener' },
   { id: 1027, name: 'closeVault' }
 ]
 
-// Export just the method names array for simpler usage
-export const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
-
-// Export a map for quick lookup by name
-export const COMMAND_BY_NAME = COMMAND_DEFINITIONS.reduce((acc, cmd) => {
-  acc[cmd.name] = cmd
-  return acc
-}, {})
-
-// Export a map for quick lookup by ID
-export const COMMAND_BY_ID = COMMAND_DEFINITIONS.reduce((acc, cmd) => {
-  acc[cmd.id] = cmd
-  return acc
-}, {})
-
-// Special command mappings (currently none, but keeping structure for future use)
-export const COMMAND_ALIASES = {}
+/** @type {string[]} */
+const COMMAND_NAMES = COMMAND_DEFINITIONS.map((cmd) => cmd.name)
 
 /**
- * Get the normalized command name, handling aliases
- * @param {string} commandName - The command name to normalize
- * @returns {string} The normalized command name
+ * Check if a command name is valid
+ * @param {string} commandName - The command name to validate
+ * @returns {boolean}
  */
-export function normalizeCommandName(commandName) {
-  return COMMAND_ALIASES[commandName] || commandName
-}
+const isValidCommand = (commandName) => COMMAND_NAMES.includes(commandName)
 
-/**
- * Check if a command is valid
- * @param {string} commandName - The command name to check
- * @returns {boolean} True if the command is valid
- */
-export function isValidCommand(commandName) {
-  const normalized = normalizeCommandName(commandName)
-  return COMMAND_NAMES.includes(normalized)
-}
+export { COMMAND_DEFINITIONS, isValidCommand }

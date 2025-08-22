@@ -10,9 +10,8 @@ export const HeaderWrapper = styled.div`
 `
 
 export const ContentWrapper = styled.div`
-  margin-bottom: 15px;
-`
-
-export const HiddenInput = styled.input`
-  display: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
 `

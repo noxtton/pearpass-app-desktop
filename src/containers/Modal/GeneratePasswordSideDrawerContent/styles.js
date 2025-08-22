@@ -21,7 +21,7 @@ export const CloseIconWrapper = styled.div`
   align-items: center;
   cursor: pointer;
   border-radius: 50%;
-  background: ${({ theme }) => theme.colors.black.option2};
+  background: ${({ theme }) => theme.colors.black.dark};
   flex-shrink: 0;
 `
 
@@ -41,6 +41,10 @@ export const PasswordWrapper = styled.div`
   font-size: 14px;
   font-weight: 400;
   text-align: center;
+
+  & > div > div {
+    font-size: 10px;
+  }
 `
 
 export const RadioWrapper = styled.div`

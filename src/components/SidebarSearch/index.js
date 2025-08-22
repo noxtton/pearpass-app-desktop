@@ -20,7 +20,7 @@ export const SidebarSearch = ({ value, onChange }) => {
   return html`
     <${SidebarSearchContainer}>
       <${SearchLabelIcon}>
-        <${SearchIcon} size="13" />
+        <${SearchIcon} size="24" />
       <//>
 
       <${SearchInput}

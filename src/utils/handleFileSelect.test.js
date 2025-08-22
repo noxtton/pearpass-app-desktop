@@ -53,7 +53,11 @@ describe('handleFileSelect', () => {
 
     await Promise.resolve()
 
-    expect(logger.error).toHaveBeenCalledWith('Error reading file:', error)
+    expect(logger.error).toHaveBeenCalledWith(
+      'useGetMultipleFiles',
+      'Error reading file:',
+      error
+    )
     expect(setValue).not.toHaveBeenCalled()
   })
 })

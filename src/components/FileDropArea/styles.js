@@ -6,6 +6,7 @@ export const DropAreaWrapper = styled.div`
   align-items: center;
   min-height: 83px;
   border-radius: 10px;
+  width: 100%;
   border: 1px dashed ${({ theme }) => theme.colors.grey100.mode1};
   background: ${({ theme }) => theme.colors.grey400.mode1};
   opacity: ${({ isDragging }) => (isDragging ? 0.5 : 1)};

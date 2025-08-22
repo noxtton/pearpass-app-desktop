@@ -4,13 +4,22 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { CardCreateMasterPassword } from './CardCreateMasterPassword'
+import { CardLoadVault } from './CardLoadVault'
 import { CardNewVaultCredentials } from './CardNewVaultCredentials'
 import { CardUnlockPearPass } from './CardUnlockPearPass'
 import { CardUnlockVault } from './CardUnlockVault'
+import { CardUploadBackupFile } from './CardUploadBackupFile'
 import { CardVaultSelect } from './CardVaultSelect'
-import { CardVaultActions, PageContainer, PearHand, Title } from './styles'
+import {
+  CardVaultActions,
+  ImageContainer,
+  PageContainer,
+  PearHand,
+  Title
+} from './styles'
 import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import { useRouter } from '../../context/RouterContext'
+import { GradientContainer } from '../Intro/GradientContainer'
 
 export const WelcomePage = () => {
   const { i18n } = useLingui()
@@ -24,6 +33,10 @@ export const WelcomePage = () => {
         return CardUnlockPearPass
       case 'vaults':
         return CardVaultSelect
+      case 'loadVault':
+        return CardLoadVault
+      case 'uploadBackupFile':
+        return CardUploadBackupFile
       case 'vaultPassword':
         return CardUnlockVault
       case 'newVaultCredentials':
@@ -36,13 +49,17 @@ export const WelcomePage = () => {
   return html`
     <${InitialPageWrapper}>
       <${PageContainer}>
-        <${Title}>${i18n._('Hi Peer! Welcome to PearPass!')}<//>
+        <${Title}>${i18n._('Welcome to PearPass!')}<//>
 
         <${CardVaultActions}>
           <${Card} />
         <//>
 
-        <${PearHand} src="assets/images/pearHandBig.png" alt="pearHand" />
+        <${ImageContainer}>
+          <${GradientContainer} blurSize="md">
+            <${PearHand} src="assets/images/PearLock.png" alt="pearHand" />
+          <//>
+        <//>
       <//>
     <//>
   `

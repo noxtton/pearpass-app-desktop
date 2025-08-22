@@ -3,7 +3,7 @@
 exports[`MenuDropdown renders both dropdown labels 1`] = `
 <div>
   <div
-    class="sc-gtLWhw iNRko"
+    class="sc-hvigdm kbHgus"
   >
     <div
       data-testid="menu-dropdown-label"
@@ -12,7 +12,7 @@ exports[`MenuDropdown renders both dropdown labels 1`] = `
       Closed
     </div>
     <div
-      class="sc-egkSDF fshSYa"
+      class="sc-fhHczv haGsoK"
     >
       <div
         data-testid="menu-dropdown-label"

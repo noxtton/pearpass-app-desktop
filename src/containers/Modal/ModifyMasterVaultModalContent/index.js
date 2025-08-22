@@ -52,7 +52,7 @@ export const ModifyMasterVaultModalContent = () => {
   const onSubmit = async (values) => {
     const result = isPasswordSafe(values.newPassword, { errors: errors })
 
-    if (!result.isSafe && result.errors.length > 0) {
+    if (result.strength !== 'strong' && result.errors.length > 0) {
       setErrors({
         newPassword: result.errors.join(', ')
       })
@@ -81,7 +81,11 @@ export const ModifyMasterVaultModalContent = () => {
       closeModal()
     } catch (error) {
       setIsLoading(false)
-      logger.error('Error updating master password:', error)
+      logger.error(
+        'ModifyMasterVaultModalContent',
+        'Error updating master password:',
+        error
+      )
       setErrors({
         currentPassword: i18n._('Invalid password')
       })

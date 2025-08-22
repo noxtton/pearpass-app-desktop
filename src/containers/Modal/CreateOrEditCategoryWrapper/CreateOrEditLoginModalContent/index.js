@@ -6,6 +6,7 @@ import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import {
   ButtonLittle,
+  ButtonRoundIcon,
   ButtonSingleInput,
   CompoundField,
   DeleteIcon,
@@ -262,7 +263,7 @@ export const CreateOrEditLoginModalContent = ({
             icon=${KeyIcon}
             hasStrongness
             additionalItems=${html`
-              <${ButtonSingleInput}
+              <${ButtonRoundIcon}
                 startIcon=${PasswordIcon}
                 onClick=${() =>
                   handleCreateOrEditRecord({

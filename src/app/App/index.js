@@ -1,32 +1,17 @@
-import { useEffect } from 'react'
-
 import { html } from 'htm/react'
-import { useUserData } from 'pearpass-lib-vault'
 
-import { useRouter } from '../../context/RouterContext'
+import { usePearUpdate } from '../../hooks/usePearUpdate'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading'
 import { Routes } from '../Routes'
+import { useInactivity } from './hooks/useInactivity'
+import { useRedirect } from './hooks/useRedirect'
 
 export const App = () => {
-  const { navigate } = useRouter()
-
+  usePearUpdate()
   const isSimulatedLoading = useSimulatedLoading()
 
-  const { isLoading: isUserDataLoading, refetch: refetchUser } = useUserData()
+  useInactivity()
+  const { isLoading } = useRedirect()
 
-  const isLoading = isUserDataLoading || isSimulatedLoading
-
-  useEffect(() => {
-    ;(async () => {
-      const userData = await refetchUser()
-
-      navigate('welcome', {
-        state: userData?.hasPasswordSet
-          ? 'masterPassword'
-          : 'createMasterPassword'
-      })
-    })()
-  }, [])
-
-  return html` <${Routes} isLoading=${isLoading} /> `
+  return html` <${Routes} isLoading=${isLoading || isSimulatedLoading} /> `
 }

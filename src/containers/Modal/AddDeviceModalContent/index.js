@@ -7,8 +7,7 @@ import { generateQRCodeSVG } from 'pear-apps-utils-qr'
 import {
   CopyIcon,
   TimeIcon,
-  UserSecurityIcon,
-  YellowErrorIcon
+  UserSecurityIcon
 } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import {
@@ -17,10 +16,12 @@ import {
   useVault
 } from 'pearpass-lib-vault'
 
+import { AlertBox } from '../../../components/AlertBox'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useModal } from '../../../context/ModalContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { ModalContent } from '../ModalContent'
+import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 import {
   BackgroundSection,
   Content,
@@ -28,25 +29,19 @@ import {
   ExpireText,
   ExpireTime,
   HeaderTitle,
-  IconWrapper,
   QRCode,
   QRCodeCopy,
   QRCodeCopyWrapper,
   QRCodeSection,
-  QRCodeText,
-  WarningSection,
-  WarningText
+  QRCodeText
 } from './styles'
-import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
   const [qrSvg, setQrSvg] = useState('')
   const [isProtected, setIsProtected] = useState(true)
-  const { data: vaultData, isVaultProtected } = useVault({
-    shouldSkip: true
-  })
+  const { data: vaultData, isVaultProtected } = useVault()
   const { createInvite, deleteInvite, data } = useInvite()
 
   const expireTime = useCountDown({
@@ -120,34 +115,24 @@ export const AddDeviceModalContent = () => {
             <${ExpireTime}> ${expireTime} <//>
           <//>
 
-          <${IconWrapper}>
-            <${TimeIcon} color=${colors.primary400.mode1} />
-          <//>
+          <${TimeIcon} color=${colors.primary400.mode1} />
         <//>
 
         <${BackgroundSection} onClick=${() => copyToClipboard(data?.publicKey)}>
           <${QRCodeCopyWrapper}>
             <${QRCodeCopy}>
               <${QRCodeText}> ${i18n._('Copy account link')} <//>
-              <${IconWrapper}>
-                <${CopyIcon} color=${colors.primary400.mode1} />
-              <//>
+              <${CopyIcon} color=${colors.primary400.mode1} />
             <//>
             <${CopyText}> ${isCopied ? i18n._('Copied!') : data?.publicKey} <//>
           <//>
         <//>
 
-        <${WarningSection}>
-          <${IconWrapper}>
-            <${YellowErrorIcon} />
-          <//>
-
-          <${WarningText}>
-            ${i18n._(
-              'Caution: You’re generating a secure invitation to sync another device with your vault. Treat this invite with the same confidentiality as your password.'
-            )}
-          <//>
-        <//>
+        <${AlertBox}
+          message=${i18n._(
+            'Caution: You’re generating a secure invitation to sync another device with your vault. Treat this invite with the same confidentiality as your password.'
+          )}
+        />
       <//>
     <//>
   `

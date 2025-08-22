@@ -19,8 +19,10 @@ export const PasswordChecker = ({ pass }) => {
   const result = isPasswordSafe(pass)
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass} />
-    ${!result.isSafe
+    ${result.strength === 'vulnerable'
       ? html` <${NoticeText} text=${i18n._('Vulnerable')} type="error" />`
-      : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
+      : result.strength === 'weak'
+        ? html` <${NoticeText} text=${i18n._('Weak')} type="warning" />`
+        : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
   <//>`
 }

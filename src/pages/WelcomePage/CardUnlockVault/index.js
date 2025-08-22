@@ -25,7 +25,7 @@ export const CardUnlockVault = () => {
 
   const { navigate, currentPage, data: routerData } = useRouter()
 
-  const { refetch } = useVault({ shouldSkip: true })
+  const { refetch: refetchVault } = useVault()
   const { data: vaults } = useVaults()
 
   const vault = useMemo(
@@ -50,7 +50,7 @@ export const CardUnlockVault = () => {
     try {
       setIsLoading(true)
 
-      await refetch(routerData.vaultId, { password: values.password })
+      await refetchVault(routerData.vaultId, { password: values.password })
 
       setIsLoading(false)
 
@@ -62,7 +62,7 @@ export const CardUnlockVault = () => {
 
       setIsLoading(false)
 
-      logger.error(error)
+      logger.error('useGetMultipleFiles', 'Error unlocking vault:', error)
     }
   }
 

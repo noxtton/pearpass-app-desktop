@@ -5,7 +5,7 @@ export const CardContainer = styled.form`
   flex-direction: column;
   gap: 30px;
   justify-content: center;
-  width: 500px;
+  width: 480px;
 `
 
 export const CardTitle = styled.div`

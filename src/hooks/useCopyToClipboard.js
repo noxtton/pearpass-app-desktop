@@ -17,7 +17,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
 
   const copyToClipboard = React.useCallback((text) => {
     if (!navigator.clipboard) {
-      logger.error('Clipboard API is not available')
+      logger.error('useCopyToClipboard', 'Clipboard API is not available')
       return false
     }
 
@@ -34,7 +34,11 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
         timeoutRef.current = setTimeout(() => setIsCopied(false), 2000)
       },
       (err) => {
-        logger.error('Failed to copy text to clipboard', err)
+        logger.error(
+          'useCopyToClipboard',
+          'Failed to copy text to clipboard',
+          err
+        )
       }
     )
 

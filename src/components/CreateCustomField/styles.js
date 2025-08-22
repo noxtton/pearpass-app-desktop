@@ -29,7 +29,7 @@ export const DropDown = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 17px;
-  padding: 10px 0;
+  padding: 10px 10px 0 10px;
   border-top: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   margin-top: 10px;
 `

@@ -10,10 +10,10 @@ describe('Select Component', () => {
   const mockOnItemSelect = jest.fn()
 
   const items = [
-    { name: 'English' },
-    { name: 'Italian' },
-    { name: 'Spanish' },
-    { name: 'French' }
+    { label: 'English' },
+    { label: 'Italian' },
+    { label: 'Spanish' },
+    { label: 'French' }
   ]
 
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('Select Component', () => {
     const { getByText, container } = render(
       <ThemeProvider>
         <Select
-          selectedItem={{ name: 'English' }}
+          selectedItem={{ label: 'English' }}
           items={items}
           onItemSelect={mockOnItemSelect}
           placeholder="Select a language"
@@ -82,7 +82,7 @@ describe('Select Component', () => {
     fireEvent.click(getByText('Italian'))
 
     expect(mockOnItemSelect).toHaveBeenCalledTimes(1)
-    expect(mockOnItemSelect).toHaveBeenCalledWith({ name: 'Italian' })
+    expect(mockOnItemSelect).toHaveBeenCalledWith({ label: 'Italian' })
   })
 
   test('closes dropdown when an option is selected', () => {

@@ -3,7 +3,7 @@
 exports[`FormWrapper renders correctly 1`] = `
 <div>
   <div
-    class="sc-blHHSb bGLDjz"
+    class="sc-bRKDuR hMjkPC"
   />
 </div>
 `;
@@ -11,7 +11,7 @@ exports[`FormWrapper renders correctly 1`] = `
 exports[`FormWrapper renders multiple children in correct order 1`] = `
 <div>
   <div
-    class="sc-blHHSb bGLDjz"
+    class="sc-bRKDuR hMjkPC"
   >
     <div>
       First Child

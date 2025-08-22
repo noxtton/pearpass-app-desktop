@@ -33,7 +33,7 @@ describe('SelectLabel Component', () => {
     const { getByText, container } = render(
       <ThemeProvider>
         <SelectLabel
-          selectedItem={{ name: 'English' }}
+          selectedItem={{ label: 'English' }}
           isOpen={false}
           setIsOpen={mockSetIsOpen}
           placeholder="Select an option"

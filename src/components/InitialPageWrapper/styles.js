@@ -23,12 +23,30 @@ export const PageContent = styled.div`
   height: 100%;
   padding-top: 42px;
   padding: 42px 110px 0 110px;
+  display: flex;
+  flex-direction: column;
+`
+
+export const ContentWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 export const LeftSpotlightWrapper = styled.div`
   position: absolute;
-  left: 0;
+  left: -5%;
   bottom: 0;
+
+  width: 25%;
+  height: 100%;
+  flex-shrink: 0;
+
+  border-radius: 1194.565px;
+  opacity: 0.3;
+  background: #b0d944;
+  filter: blur(250px);
 `
 
 export const MiddleSmallSpotlightWrapper = styled.div`

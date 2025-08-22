@@ -73,7 +73,7 @@ export const EditFolderPopupContent = ({ name }) => {
           key=${item.type}
           onClick=${(e) => handleMenuItemClick(e, item)}
         >
-          ${Icon && html`<${Icon} size="14" />`} ${item.name}
+          ${Icon && html`<${Icon} size="24" />`} ${item.name}
         <//>`
       })}
     <//>

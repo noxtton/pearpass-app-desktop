@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ArrowLeftIcon, ButtonLittle } from 'pearpass-lib-ui-react-components'
+import { BackIcon, ButtonRoundIcon } from 'pearpass-lib-ui-react-components'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'
@@ -36,11 +36,7 @@ export const SettingsView = () => {
   return html`
     <${Wrapper}>
       <${NavBar}>
-        <${ButtonLittle}
-          onClick=${handleGoBack}
-          variant="secondary"
-          startIcon=${ArrowLeftIcon}
-        />
+        <${ButtonRoundIcon} onClick=${handleGoBack} startIcon=${BackIcon} />
 
         ${i18n._('Settings')}
       <//>

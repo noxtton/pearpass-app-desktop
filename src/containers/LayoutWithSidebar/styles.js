@@ -11,6 +11,7 @@ export const SideBarWrapper = styled.div`
 `
 
 export const ContentWrapper = styled.div`
+  position: relative;
   flex: 1;
   padding: 29px 15px 0;
   display: flex;

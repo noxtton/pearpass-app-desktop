@@ -2,16 +2,16 @@ import styled from 'styled-components'
 
 export const PageContainer = styled.div`
   width: 100%;
-  margin-top: 202px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `
 
 export const Title = styled.p`
   width: 638px;
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Humble Nostalgia';
-  font-size: 109px;
+  font-size: clamp(1rem, 8vw, 10rem);
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -49,9 +49,11 @@ export const Actions = styled.div`
 `
 
 export const PearHand = styled.img`
+  width: 100%;
+`
+
+export const ImageContainer = styled.div`
   position: absolute;
-  width: 700;
-  height: 800px;
-  right: 0;
+  right: -5%;
   z-index: 0;
 `

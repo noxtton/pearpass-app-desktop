@@ -57,9 +57,13 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     variables: { searchPattern: searchValue }
   })
 
-  const { data: vaultsData, resetState, refetch } = useVaults()
+  const {
+    data: vaultsData,
+    resetState,
+    refetch: refetchMasterVault
+  } = useVaults()
 
-  const { data: vaultData } = useVault({ shouldSkip: true })
+  const { data: vaultData } = useVault()
 
   const vaults = useMemo(
     () => vaultsData?.filter((vault) => vault.id !== vaultData?.id),
@@ -157,7 +161,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   }
 
   useEffect(() => {
-    refetch()
+    refetchMasterVault()
   }, [])
 
   return html`
@@ -192,14 +196,14 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
       <${SidebarSettings}>
         <${SettingsContainer} onClick=${handleSettingsClick}>
-          <${SettingsIcon} size="14" />
+          <${SettingsIcon} size="24" />
           ${i18n._('Settings')}
         <//>
 
         <${SettingsSeparator} />
 
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
-          ${i18n._('Add Device')}
+          ${i18n._('Add a Device')}
         <//>
 
         <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>

@@ -1,11 +1,13 @@
 import { html } from 'htm/react'
 
-import { InitialLoadPage } from '../../containers/InitialPage'
 import { LayoutWithSidebar } from '../../containers/LayoutWithSidebar'
 import { RecordDetails } from '../../containers/RecordDetails'
 import { useRouter } from '../../context/RouterContext'
+import { InitialPage } from '../../pages/InitialPage'
+import { Intro } from '../../pages/Intro'
 import { MainView } from '../../pages/MainView'
 import { SettingsView } from '../../pages/SettingsView'
+import { TouPage } from '../../pages/TouPage'
 import { WelcomePage } from '../../pages/WelcomePage'
 
 /**
@@ -17,7 +19,15 @@ export const Routes = ({ isLoading }) => {
   const { currentPage, data } = useRouter()
 
   if (isLoading || currentPage === 'loading') {
-    return html` <${InitialLoadPage} /> `
+    return html` <${InitialPage} /> `
+  }
+
+  if (currentPage === 'termsOfUse') {
+    return html` <${TouPage} /> `
+  }
+
+  if (currentPage === 'intro') {
+    return html` <${Intro} /> `
   }
 
   if (currentPage === 'welcome') {

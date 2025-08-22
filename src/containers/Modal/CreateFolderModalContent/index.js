@@ -7,7 +7,7 @@ import { Validator } from 'pear-apps-utils-validator'
 import {
   InputField,
   ButtonLittle,
-  FolderIcon
+  SaveIcon
 } from 'pearpass-lib-ui-react-components'
 import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
 
@@ -80,7 +80,7 @@ export const CreateFolderModalContent = ({ onCreate, initialValues }) => {
         onClose=${closeModal}
         headerChildren=${html`
           <${HeaderWrapper}>
-            <${ButtonLittle} startIcon=${FolderIcon} type="submit">
+            <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${!!initialValues ? i18n._('Save') : i18n._('Create folder')}
             <//>
           <//>

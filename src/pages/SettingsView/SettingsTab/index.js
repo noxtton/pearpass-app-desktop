@@ -9,6 +9,7 @@ import {
 
 import { SettingsDevicesSection } from './SettingsDevicesSection'
 import { SettingsLanguageSection } from './SettingsLanguageSection'
+import { SettingsPasswordsSection } from './SettingsPasswordsSection'
 import { SettingsReportSection } from './SettingsReportSection'
 import { VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
@@ -82,7 +83,7 @@ export const SettingsTab = () => {
         message: i18n._('Something went wrong, please try again')
       })
 
-      logger.error('Error sending feedback:', error)
+      logger.error('useGetMultipleFiles', 'Error sending feedback:', error)
     }
   }
 
@@ -92,7 +93,13 @@ export const SettingsTab = () => {
     fetch('/package.json')
       .then((r) => r.json())
       .then((pkg) => setCurrentVersion(pkg.version))
-      .catch((error) => logger.error('Error fetching package.json:', error))
+      .catch((error) =>
+        logger.error(
+          'useGetMultipleFiles',
+          'Error fetching package.json:',
+          error
+        )
+      )
   }, [])
 
   return html`
@@ -114,6 +121,8 @@ export const SettingsTab = () => {
     />
 
     <${SettingsDevicesSection} />
+
+    <${SettingsPasswordsSection} />
 
     <${CardSingleSetting} title=${i18n._('Version')}>
       <${VersionWrapper}> ${currentVersion} <//>

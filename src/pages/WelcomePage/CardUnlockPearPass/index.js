@@ -15,8 +15,10 @@ import {
   CardContainer,
   CardTitle,
   Description,
+  InputWrapper,
   Title
 } from './styles'
+import { AlertBox } from '../../../components/AlertBox'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 import { logger } from '../../../utils/logger'
@@ -72,7 +74,7 @@ export const CardUnlockPearPass = () => {
         password: i18n._('Invalid password')
       })
 
-      logger.error('Error unlocking PearPass:', error)
+      logger.error('useGetMultipleFiles', 'Error unlocking PearPass:', error)
     }
   }
 
@@ -86,10 +88,18 @@ export const CardUnlockPearPass = () => {
         <//>
       <//>
 
-      <${PearPassPasswordField}
-        placeholder=${i18n._('Master password')}
-        ...${register('password')}
-      />
+      <${InputWrapper}>
+        <${PearPassPasswordField}
+          placeholder=${i18n._('Master password')}
+          ...${register('password')}
+        />
+
+        <${AlertBox}
+          message=${i18n._(
+            'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
+          )}
+        />
+      <//>
 
       <${ButtonWrapper}>
         <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>

@@ -37,9 +37,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { closeModal, setModal } = useModal()
 
-  const { isVaultProtected, refetch } = useVault({
-    shouldSkip: true
-  })
+  const { isVaultProtected, refetch: refetchVault } = useVault()
 
   const handleVaultUnlock = async ({ vault, password }) => {
     if (!vault.id) {
@@ -47,10 +45,10 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
     }
 
     try {
-      await refetch(vault.id, { password })
+      await refetchVault(vault.id, { password })
       closeModal()
     } catch (error) {
-      logger.error(error)
+      logger.error('DropdownSwapVault', error)
 
       throw error
     }
@@ -67,7 +65,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
         />`
       )
     } else {
-      await refetch(vault?.id)
+      await refetchVault(vault?.id)
     }
 
     setIsOpen(false)
@@ -80,13 +78,13 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   return html`
     <${Wrapper} isOpen=${isOpen}>
       <${Container} isOpen=${isOpen} onClick=${() => setIsOpen(!isOpen)}>
-        <${LockCircleIcon} size="14" color=${colors.primary400.mode1} />
+        <${LockCircleIcon} size="24" color=${colors.primary400.mode1} />
 
         ${selectedVault?.name}
 
         <${ArrowIconWrapper}>
           <${isOpen ? ArrowUpIcon : ArrowDownIcon}
-            size="14"
+            size="24"
             color=${colors.primary400.mode1}
           />
         <//>
@@ -96,7 +94,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
         ${vaults?.map(
           (vault) => html`
             <${DropdownItem} onClick=${() => onVaultSelect(vault)}>
-              <${LockCircleIcon} size="14" color=${colors.primary400.mode1} />
+              <${LockCircleIcon} size="24" color=${colors.primary400.mode1} />
               ${vault.name}
             <//>
           `

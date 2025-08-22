@@ -415,7 +415,11 @@ export const CreateOrEditIdentityModalContent = ({
           />
         <//>
 
-        <${FormGroup} title=${i18n._('Passport')} isCollapse>
+        <${FormGroup}
+          defaultOpenState=${false}
+          title=${i18n._('Passport')}
+          isCollapse
+        >
           <div>
             <${InputField}
               label=${i18n._('Full name')}
@@ -490,7 +494,11 @@ export const CreateOrEditIdentityModalContent = ({
           />
         <//>
 
-        <${FormGroup} title=${i18n._('Identity card')} isCollapse>
+        <${FormGroup}
+          defaultOpenState=${false}
+          title=${i18n._('Identity card')}
+          isCollapse
+        >
           <div>
             <${InputField}
               label=${i18n._('ID number')}
@@ -533,7 +541,11 @@ export const CreateOrEditIdentityModalContent = ({
           />
         <//>
 
-        <${FormGroup} title=${i18n._('Driving license')} isCollapse>
+        <${FormGroup}
+          defaultOpenState=${false}
+          title=${i18n._('Driving license')}
+          isCollapse
+        >
           <div>
             <${InputField}
               label=${i18n._('ID number')}
