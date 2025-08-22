@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 import { renderHook, waitFor } from '@testing-library/react'
 import { useUserData } from 'pearpass-lib-vault'
 
@@ -7,12 +5,12 @@ import { useRedirect } from './useRedirect'
 import { useRouter } from '../../../context/RouterContext'
 
 // Mock dependencies
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useEffect: jest.fn()
-}))
+
 jest.mock('pearpass-lib-vault')
 jest.mock('../../../context/RouterContext')
+jest.mock('../../../utils/logger', () => ({
+  error: jest.fn()
+}))
 jest.mock('../../../constants/localStorage', () => ({
   LOCAL_STORAGE_KEYS: {
     TOU_ACCEPTED: 'TOU_ACCEPTED'
@@ -25,9 +23,6 @@ const mockRefetchUser = jest.fn()
 describe('useRedirect', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
-    // Mock implementation of useEffect to run the effect immediately
-    useEffect.mockImplementation((f) => f())
 
     useRouter.mockReturnValue({ navigate: mockNavigate })
     useUserData.mockReturnValue({
