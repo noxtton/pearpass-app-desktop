@@ -13,10 +13,10 @@ export const SettingsPrivacyTab = () => {
     useConnectExtension()
 
   return html`
-    <${CardSingleSetting} title=${i18n._('Browser Extension')}>
+    <${CardSingleSetting} title=${i18n._('Personalization')}>
       <${Description}>
         ${i18n._(
-          'Connect your browser extension to enable secure communication with PearPass.'
+          'Here you can choose your privacy settings and personalize your experience'
         )}
       <//>
 
@@ -26,7 +26,7 @@ export const SettingsPrivacyTab = () => {
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
           ><//>
-          ${i18n._('Enable Browser Extension Integration')}
+          ${i18n._('Active Browser extension')}
         <//>
       <//>
     <//>

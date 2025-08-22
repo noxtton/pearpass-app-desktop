@@ -129,7 +129,7 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
         html`
           <${InputField}
             label=${i18n._('Date of expire')}
-            placeholder="MM/YY"
+            placeholder="MM YY"
             variant="outline"
             icon=${CalendarIcon}
             onClick=${handleCopy}

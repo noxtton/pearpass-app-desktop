@@ -270,7 +270,7 @@ export const CreateOrEditCreditCardModalContent = ({
 
           <${InputField}
             label=${i18n._('Date of expire')}
-            placeholder="MM/YY"
+            placeholder="MM YY"
             variant="outline"
             icon=${CalendarIcon}
             value=${values.expireDate}
