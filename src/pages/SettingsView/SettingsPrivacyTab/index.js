@@ -48,18 +48,15 @@ export const SettingsPrivacyTab = () => {
     return options
   }, [i18n])
 
-  const handleSetRules = async (newRules) => {
+  const handleSetRules = (newRules) => {
     if (newRules.copyToClipboard !== selectedRules.copyToClipboard) {
       if (newRules.copyToClipboard) {
-        await localStorage.setItem(
+        localStorage.setItem(
           LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED,
           'true'
         )
-        console.log('Copy to clipboard enabled')
       } else {
-        await localStorage.removeItem(
-          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
-        )
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED)
       }
     }
 
