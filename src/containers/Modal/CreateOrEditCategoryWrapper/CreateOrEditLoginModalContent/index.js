@@ -38,7 +38,6 @@ import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
 import { addHttps } from '../../../../utils/addHttps'
 import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
-import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
@@ -162,8 +161,8 @@ export const CreateOrEditLoginModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.LOGIN,
-      folder: isFavorite(values.folder) ? undefined : values.folder,
-      isFavorite: isFavorite(values.folder),
+      folder: values.folder,
+      isFavorite: initialRecord?.isFavorite,
       data: {
         title: values.title,
         username: values.username,
