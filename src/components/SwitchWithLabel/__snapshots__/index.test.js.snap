@@ -6,11 +6,15 @@ exports[`SwitchWithLabel Component renders correctly with default props 1`] = `
     class="sc-bRKDuR kuaafX"
   >
     <div
-      class="sc-hvigdm jeZdne"
+      class="sc-hvigdm fPxzex"
     >
-       
-      Test Label
-       
+      <div
+        class="sc-fhHczv ifvzga"
+      >
+         
+        Test Label
+         
+      </div>
     </div>
     <div
       data-is-on="false"
