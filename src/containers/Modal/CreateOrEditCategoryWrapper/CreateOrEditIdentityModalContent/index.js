@@ -32,7 +32,6 @@ import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
-import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ImagesField } from '../../../ImagesField'
@@ -239,8 +238,8 @@ export const CreateOrEditIdentityModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.IDENTITY,
-      folder: isFavorite(values.folder) ? undefined : values.folder,
-      isFavorite: isFavorite(values.folder),
+      folder: values.folder,
+      isFavorite: initialRecord?.isFavorite,
       data: {
         title: values.title,
         fullName: values.fullName,
