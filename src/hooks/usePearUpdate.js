@@ -1,4 +1,4 @@
-/** @typedef {import('pear-interface')} */ /* global Pear */
+/** @typedef {import('pear-interface')} */
 
 import { useEffect, useRef } from 'react'
 
