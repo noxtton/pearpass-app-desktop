@@ -77,12 +77,14 @@ export const RecordDetails = () => {
     return null
   }
 
+  const domain = record.type === 'login' ? record?.data?.websites?.[0] : null
+
   return html`
     <${React.Fragment}>
       <${Header}>
         <${RecordInfo}>
           <${RecordAvatar}
-            avatarSrc=${record?.data?.avatarSrc}
+            websiteDomain=${domain}
             initials=${generateAvatarInitials(record?.data?.title)}
             isFavorite=${record?.isFavorite}
             color=${RECORD_COLOR_BY_TYPE[record?.type]}
