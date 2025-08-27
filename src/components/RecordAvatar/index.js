@@ -31,15 +31,11 @@ export const RecordAvatar = ({
   isFavorite = false,
   color
 }) => {
-  const avatarSrc = useMemo(
-    () => {
-      const website = websiteDomain?.replace(/^https?:\/\//, '') || null
-      const avatarBuffer = getDefaultFavicon(website) || null
-      return  avatarBuffer ? URL.createObjectURL(new Blob([avatarBuffer]))
-        : null
-    },
-    [websiteDomain]
-  )
+  const avatarSrc = useMemo(() => {
+    const website = websiteDomain?.replace(/^https?:\/\//, '') || null
+    const avatarBuffer = getDefaultFavicon(website) || null
+    return avatarBuffer ? URL.createObjectURL(new Blob([avatarBuffer])) : null
+  }, [websiteDomain])
 
   const avatar = avatarSrc
     ? html`<${AvatarImage} src=${avatarSrc} />`
