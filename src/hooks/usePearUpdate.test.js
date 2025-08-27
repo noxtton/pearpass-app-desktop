@@ -7,6 +7,7 @@ global.Pear = {
   updates: jest.fn(),
   restart: jest.fn(),
   reload: jest.fn(),
+  updated: jest.fn(() => Promise.resolve(false)),
   config: { tier: 'prod' }
 }
 
@@ -23,6 +24,7 @@ describe('usePearUpdate', () => {
     Pear.updates.mockClear()
     Pear.restart.mockClear()
     Pear.reload.mockClear()
+    Pear.updated.mockClear()
     Pear.config.tier = 'prod'
   })
 
