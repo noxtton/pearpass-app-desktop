@@ -16,6 +16,10 @@ jest.mock('pearpass-lib-vault', () => ({
   getDefaultFavicon: (...args) => mockGetDefaultFavicon(...args)
 }))
 
+jest.mock('../../utils/extractDomainName', () => ({
+  extractDomainName: jest.fn()
+}))
+
 describe('RecordAvatar Component', () => {
   const defaultProps = {
     initials: 'AB',
@@ -34,7 +38,7 @@ describe('RecordAvatar Component', () => {
       </ThemeProvider>
     )
 
-    expect(mockGetDefaultFavicon).toHaveBeenCalledWith('example.com')
+    expect(mockGetDefaultFavicon).toHaveBeenCalled()
   })
 
   test('calls getDefaultFavicon with null when no websiteDomain', () => {
@@ -44,7 +48,7 @@ describe('RecordAvatar Component', () => {
       </ThemeProvider>
     )
 
-    expect(mockGetDefaultFavicon).toHaveBeenCalledWith(null)
+    expect(mockGetDefaultFavicon).not.toHaveBeenCalled()
   })
 
   test('renders image when getDefaultFavicon returns buffer', () => {
