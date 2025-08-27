@@ -33,7 +33,7 @@ export const usePearUpdate = () => {
   }
 
   const onPearUpdate = (update) => {
-    if (!hasNonIgnoredChanges(update.diff)) {
+    if (!hasNonIgnoredChanges(update?.diff)) {
       return
     }
 
