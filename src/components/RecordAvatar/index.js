@@ -8,6 +8,7 @@ import { getDefaultFavicon } from 'pearpass-lib-vault'
 import {
   AvatarAlt,
   AvatarContainer,
+  AvatarImage,
   FavoriteIcon,
   SelectedAvatarContainer
 } from './styles'
@@ -42,7 +43,7 @@ export const RecordAvatar = ({
     : null
 
   const avatar = avatarSrc
-    ? html`<img src=${avatarSrc} />`
+    ? html`<${AvatarImage} src=${avatarSrc} />`
     : html`<${AvatarAlt} color=${color} size=${size}> ${initials} <//>`
 
   if (isSelected) {
