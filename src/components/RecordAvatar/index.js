@@ -33,7 +33,9 @@ export const RecordAvatar = ({
   color
 }) => {
   const avatarSrc = useMemo(() => {
-    if (!websiteDomain) return null
+    if (!websiteDomain) {
+      return null
+    }
 
     const website = extractDomainName(websiteDomain)
     const avatarBuffer = getDefaultFavicon(website) || null

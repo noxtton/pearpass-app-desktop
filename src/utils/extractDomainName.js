@@ -7,6 +7,7 @@ export function extractDomainName(url) {
 
   // Remove protocol (http, https, etc.) and any path/query/fragment
   let domainMatch = url
+    .toLowerCase()
     .replace(/^https?:\/\//, '')
     .replace(/^www\./, '')
     .split(/[/?#]/)[0]
