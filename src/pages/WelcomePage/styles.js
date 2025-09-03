@@ -2,9 +2,11 @@ import styled from 'styled-components'
 
 export const PageContainer = styled.div`
   width: 100%;
+  height: 100%;
+  z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `
 
 export const Title = styled.p`
@@ -23,11 +25,15 @@ export const CardVaultActions = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.grey500.mode1};
-  border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
+  background: ${({ theme }) => theme.colors.grey400.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   border-radius: 20px;
   padding: 20px;
-  z-index: 1;
+  z-index: 100;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `
 
 export const ActionCardTitle = styled.p`

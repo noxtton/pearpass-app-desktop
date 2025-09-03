@@ -89,7 +89,7 @@ export const CardNewVaultCredentials = () => {
   return html`
     <${Form} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Enter Name and Password for new Vault')} <//>
+        <${Title}> ${i18n._('Create new Vault')} <//>
       <//>
 
       <${InputsContainer}>

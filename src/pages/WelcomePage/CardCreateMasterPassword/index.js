@@ -6,7 +6,10 @@ import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import {
   ButtonPrimary,
-  PearPassPasswordField
+  ButtonRadio,
+  ButtonRoundIcon,
+  PearPassPasswordField,
+  XIcon
 } from 'pearpass-lib-ui-react-components'
 import { useUserData } from 'pearpass-lib-vault'
 import { isPasswordSafe } from 'pearpass-utils-password-check'
@@ -15,9 +18,18 @@ import {
   ButtonWrapper,
   CardContainer,
   CardTitle,
+  CloseButtonContainer,
   Description,
+  InputGroup,
+  InputLabel,
+  RadioGroup,
+  RadioText,
+  RadioTextBold,
+  TermsOfUseContainer,
   Title
 } from './styles'
+import { AlertBox } from '../../../components/AlertBox'
+import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 import { logger } from '../../../utils/logger'
@@ -25,6 +37,9 @@ import { logger } from '../../../utils/logger'
 export const CardCreateMasterPassword = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
+  const [isAgreed, setIsAgreed] = useState(false)
+  const [termsOfUseError, setTermsOfUseError] = useState(false)
+  const [isTermsOfUseOpen, setIsTermsOfUseOpen] = useState(false)
 
   const errors = {
     minLength: i18n._(`Password must be at least 8 characters long`),
@@ -55,6 +70,11 @@ export const CardCreateMasterPassword = () => {
 
   const onSubmit = async (values) => {
     if (isLoading) {
+      return
+    }
+
+    if (!isAgreed) {
+      setTermsOfUseError(true)
       return
     }
 
@@ -100,19 +120,83 @@ export const CardCreateMasterPassword = () => {
     }
   }
 
+  const handleTOUToggle = () => {
+    if (isAgreed) {
+      localStorage.removeItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED)
+      setIsAgreed(false)
+      setTermsOfUseError(false)
+    } else {
+      localStorage.setItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED, 'true')
+      setIsAgreed(true)
+      setTermsOfUseError(false)
+    }
+  }
+
+  if (isTermsOfUseOpen) {
+    return html`
+      <${TermsOfUseContainer}>
+        <${CloseButtonContainer} onClick=${() => setIsTermsOfUseOpen(false)}>
+          <${ButtonRoundIcon} startIcon=${XIcon} />
+        <//>
+        <${CardTitle}> ${i18n._('PearPass Terms of Use')} <//>
+        <iframe
+          src="/assets/pearpass-tou-30-07-25.html"
+          style=${{
+            width: '100%',
+            height: '50vh',
+            border: 'none'
+          }}
+          title="Terms of Use"
+        />
+      <//>
+    `
+  }
+
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
         <${Title}> ${i18n._('Create Master Password')} <//>
 
         <${Description}>
-          ${i18n._('Create a master password to secure your vaults')}
+          ${i18n._(
+            'The first thing to do is create a Master password to secure your account. You’ll use this password to access PearPass. '
+          )}
         <//>
       <//>
 
-      <${PearPassPasswordField} ...${register('password')} />
+      <${InputGroup}>
+        <${InputLabel}> ${i18n._('Master Password')} <//>
+        <${PearPassPasswordField} ...${register('password')} />
+      <//>
 
-      <${PearPassPasswordField} ...${register('passwordConfirm')} />
+      <${InputGroup}>
+        <${InputLabel}> ${i18n._('Confirm Master Password')} <//>
+        <${PearPassPasswordField} ...${register('passwordConfirm')} />
+      <//>
+
+      <${AlertBox}
+        message=${i18n._(
+          'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
+        )}
+      />
+
+      <${InputGroup}>
+        <${InputLabel}> ${i18n._('PearPass Terms of Use')} <//>
+        <${RadioGroup} onClick=${handleTOUToggle} isError=${termsOfUseError}>
+          <${ButtonRadio} isActive=${isAgreed} />
+          <${RadioText}>
+            ${i18n._('I have read and agree to the')} ${' '}
+            <${RadioTextBold}
+              onClick=${(e) => {
+                e.stopPropagation()
+                setIsTermsOfUseOpen(true)
+              }}
+            >
+              ${i18n._('PearPass Application Terms of Use.')}
+            <//>
+          <//>
+        <//>
+      <//>
 
       <${ButtonWrapper}>
         <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>

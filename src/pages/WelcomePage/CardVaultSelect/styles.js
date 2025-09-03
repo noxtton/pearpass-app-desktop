@@ -5,7 +5,7 @@ export const CardContainer = styled.div`
   flex-direction: column;
   gap: 30px;
   justify-content: center;
-  width: 500px;
+  width: 480px;
 `
 
 export const CardTitle = styled.div`
@@ -63,4 +63,16 @@ export const ImportText = styled.span`
   text-decoration-thickness: auto;
   text-underline-offset: auto;
   text-underline-position: from-font;
+`
+export const CardNoVaultsText = styled.span`
+  color: ${({ theme }) => theme.colors.white.mode1};
+
+  margin: 0 auto;
+  width: 293px;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `

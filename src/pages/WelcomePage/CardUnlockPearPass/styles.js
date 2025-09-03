@@ -3,9 +3,9 @@ import styled from 'styled-components'
 export const CardContainer = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 25px;
   justify-content: center;
-  width: 500px;
+  width: 609px;
 `
 
 export const CardTitle = styled.div`
@@ -23,21 +23,6 @@ export const Title = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-`
-export const Description = styled.p`
-  color: ${({ theme }) => theme.colors.white.mode1};
-  text-align: center;
-  font-family: 'Inter';
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 300;
-  line-height: normal;
-`
-
-export const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 `
 
 export const ButtonWrapper = styled.div`
