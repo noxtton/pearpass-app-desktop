@@ -155,8 +155,8 @@ export class VaultHandlers {
     return { success: true }
   }
 
-  async pair(params) {
-    return await this.client.pair(params.inviteCode)
+  async pairActiveVault(params) {
+    return await this.client.pairActiveVault(params.inviteCode)
   }
 
   async initListener(params) {
@@ -167,5 +167,9 @@ export class VaultHandlers {
   async closeVault() {
     await this.client.close()
     return { success: true }
+  }
+
+  async cancelPairActiveVault(params) {
+    return await this.client.cancelPairActiveVault(params.inviteCode)
   }
 }
