@@ -12,6 +12,7 @@ import { usePair, useVault } from 'pearpass-lib-vault'
 
 import {
   Header,
+  InputContainer,
   LoadVaultCard,
   LoadVaultInput,
   LoadVaultNotice,
@@ -95,7 +96,7 @@ export const CardLoadVault = () => {
       <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
     <//>
 
-    <div>
+    <${InputContainer}>
       <${LoadVaultInput}
         autoFocus
         placeholder=${i18n._('Insert your code vault...')}
@@ -121,6 +122,6 @@ export const CardLoadVault = () => {
 
       ${isPairing &&
       html`<${LoadVaultNotice}>${i18n._('Click Escape to cancel pairing')}<//>`}
-    </div>
+    <//>
   <//>`
 }

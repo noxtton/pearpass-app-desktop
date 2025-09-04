@@ -22,6 +22,7 @@ import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
   FoldersWrapper,
   LogoWrapper,
+  PearPass,
   SettingsContainer,
   SettingsSeparator,
   sideBarContent,
@@ -167,7 +168,8 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
       <${LogoWrapper} onClick=${openMainView}>
-        <${LogoLock} width="126" height="26" />
+        <${LogoLock} width="20" height="26" />
+        <${PearPass}>PearPass<//>
       <//>
 
       <${sideBarContent}>

@@ -10,14 +10,7 @@ import {
 } from 'pearpass-lib-ui-react-components'
 import { useUserData, useVaults } from 'pearpass-lib-vault'
 
-import {
-  ButtonWrapper,
-  CardContainer,
-  CardTitle,
-  Description,
-  InputWrapper,
-  Title
-} from './styles'
+import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { AlertBox } from '../../../components/AlertBox'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
@@ -81,25 +74,19 @@ export const CardUnlockPearPass = () => {
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Unlock PearPass')}<//>
-
-        <${Description}>
-          ${i18n._('Unlock PearPass with your master password')}
-        <//>
+        <${Title}> ${i18n._('Enter your Master password')}<//>
       <//>
 
-      <${InputWrapper}>
-        <${PearPassPasswordField}
-          placeholder=${i18n._('Master password')}
-          ...${register('password')}
-        />
+      <${PearPassPasswordField}
+        placeholder=${i18n._('Master password')}
+        ...${register('password')}
+      />
 
-        <${AlertBox}
-          message=${i18n._(
-            'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
-          )}
-        />
-      <//>
+      <${AlertBox}
+        message=${i18n._(
+          'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
+        )}
+      />
 
       <${ButtonWrapper}>
         <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>

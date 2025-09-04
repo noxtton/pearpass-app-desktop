@@ -1,9 +1,10 @@
 import styled, { keyframes } from 'styled-components'
 
 export const BlackBackground = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
   width: 100%;
@@ -11,7 +12,8 @@ export const BlackBackground = styled.div`
   background-color: ${({ theme, pageIndex }) =>
     pageIndex === 0 || pageIndex === 5 ? '#010702' : theme.colors.black.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
-  padding: 40px 50px;
+  padding: 100px;
+  overflow: hidden;
 `
 
 export const GradientBackground = styled.div`
@@ -24,13 +26,22 @@ export const GradientBackground = styled.div`
 
 export const LogoContainer = styled.div`
   display: flex;
+  gap: 15px;
   flex: 0 0 1;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 20vw;
+  justify-content: flex-start;
+  width: 100%;
   z-index: 1;
-  scale: ${({ size }) => (size === 'md' ? 1 : 0.6)};
+`
+
+export const PearPass = styled.span`
+  color: ${({ theme }) => theme.colors.white.mode1};
+  font-family: 'Humble Nostalgia';
+  font-size: 68px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  height: 55px;
 `
 
 export const WelcomeText = styled.span`
@@ -42,39 +53,12 @@ export const WelcomeText = styled.span`
   line-height: normal;
 `
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`
-
-export const ButtonContainer = styled.div.attrs(({ className }) => ({
-  className
-}))`
-  flex: 0 0 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  opacity: 0;
-
-  &.fade-in {
-    animation: ${fadeIn} 2.5s forwards;
-    animation-delay: 2.5s;
-  }
-`
-
 export const ContentContainer = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 30%;
 `
 
 export const StrongText = styled.span`
@@ -82,11 +66,12 @@ export const StrongText = styled.span`
 `
 
 const levitateBounce = keyframes`
-  0%   { transform: translateY(0); }
-  25%  { transform: translateY(-20px); }
-  50%  { transform: translateY(0); }
-  75%  { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+0%,100% {
+  transform:  translateY(0px);
+}
+50% {
+  transform: translateY(30px);
+}
 `
 
 export const pear3dLockImage = styled.img`
@@ -122,4 +107,83 @@ export const SkipContainer = styled.div`
   position: absolute;
   top: 84px;
   right: 106px;
+`
+
+export const BottomGradient = styled.div`
+  position: absolute;
+  transform: translate(-50%, 50%);
+  left: 100px;
+  bottom: 220px;
+  width: 745px;
+  height: 745px;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  opacity: 0.2;
+  background: ${({ theme }) => theme.colors.primary400.mode1};
+  filter: blur(275px);
+`
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
+
+export const ButtonContainer = styled.div.attrs(({ className }) => ({
+  className
+}))`
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  opacity: 0;
+
+  &.fade-in {
+    animation: ${fadeIn} 2.5s forwards;
+  }
+`
+
+export const ProgressContainer = styled.div`
+  display: flex;
+  gap: 4px;
+  width: 183px;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+`
+
+export const ProgressItem = styled.div`
+  cursor: pointer;
+  height: 8px;
+  flex: 1 0 0;
+
+  background-color: ${({ isSelected, theme }) =>
+    isSelected ? theme.colors.primary400.mode1 : 'transparent'};
+
+  border-radius: 15px;
+  border: 1px solid
+    ${({ isSelected, theme }) =>
+      isSelected ? theme.colors.primary400.mode1 : theme.colors.grey100.mode1};
+
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+`
+
+export const LogoImage = styled.img`
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  animation: ${levitateBounce} 4s ease-in-out infinite;
 `

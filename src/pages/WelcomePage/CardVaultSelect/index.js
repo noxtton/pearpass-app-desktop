@@ -11,6 +11,7 @@ import { useVault, useVaults } from 'pearpass-lib-vault'
 import {
   ButtonWrapper,
   CardContainer,
+  CardNoVaultsText,
   CardTitle,
   ImportContainer,
   ImportText,
@@ -63,21 +64,26 @@ export const CardVaultSelect = () => {
         <${Title}>
           ${data.length > 0
             ? i18n._('Select a vault, create a new one or load another one')
-            : i18n._('Start with creating a new vault or load another one')}
+            : i18n._('Create or Load Vault')}
         <//>
       <//>
 
-      ${hasVaults &&
-      html` <${VaultsContainer}>
-        ${data.map(
-          (vault) =>
-            html`<${ListItem}
-              onClick=${() => handleSelectVault(vault.id)}
-              itemName="${vault.name}"
-              itemDateText=${vaultCreatedFormat(vault.createdAt)}
-            />`
-        )}
-      <//>`}
+      ${hasVaults
+        ? html` <${VaultsContainer}>
+            ${data.map(
+              (vault) =>
+                html`<${ListItem}
+                  onClick=${() => handleSelectVault(vault.id)}
+                  itemName="${vault.name}"
+                  itemDateText=${vaultCreatedFormat(vault.createdAt)}
+                />`
+            )}
+          <//>`
+        : html`<${CardNoVaultsText}>
+            ${i18n._(
+              'Now create a secure vault or load an existing one to get started.'
+            )}
+          <//> `}
 
       <${ButtonWrapper}>
         <${ButtonPrimary} onClick=${handleCreateNewVault}>

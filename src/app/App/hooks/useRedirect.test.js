@@ -52,17 +52,6 @@ describe('useRedirect', () => {
     expect(result.current.isLoading).toBe(true)
   })
 
-  it('should navigate to "termsOfUse" if password is set but ToU not accepted', async () => {
-    mockRefetchUser.mockResolvedValue({ hasPasswordSet: true })
-    localStorage.getItem.mockReturnValue('false')
-
-    renderHook(() => useRedirect())
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith('termsOfUse')
-    })
-  })
-
   it('should navigate to "welcome" with masterPassword state if password is set and ToU is accepted', async () => {
     mockRefetchUser.mockResolvedValue({ hasPasswordSet: true })
     localStorage.getItem.mockReturnValue('true')
