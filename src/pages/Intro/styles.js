@@ -66,11 +66,12 @@ export const StrongText = styled.span`
 `
 
 const levitateBounce = keyframes`
-  0%   { transform: translateY(0); }
-  25%  { transform: translateY(-20px); }
-  50%  { transform: translateY(0); }
-  75%  { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+0%,100% {
+  transform:  translateY(0px);
+}
+50% {
+  transform: translateY(30px);
+}
 `
 
 export const pear3dLockImage = styled.img`
@@ -163,6 +164,7 @@ export const ProgressContainer = styled.div`
 `
 
 export const ProgressItem = styled.div`
+  cursor: pointer;
   height: 8px;
   flex: 1 0 0;
 
@@ -183,4 +185,5 @@ export const LogoImage = styled.img`
   width: 100%;
   height: auto;
   object-fit: cover;
+  animation: ${levitateBounce} 4s ease-in-out infinite;
 `

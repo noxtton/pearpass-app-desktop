@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { CardCreateMasterPassword } from './CardCreateMasterPassword'

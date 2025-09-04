@@ -33,14 +33,3 @@ export const InitialPageWrapper = ({ children, isAuthScreen = false }) => html`
     <${BottomGradient} isAuthScreen=${isAuthScreen} />
   <//>
 `
-// <${LeftSpotlightWrapper}>
-//     <${SpotLightLeft} />
-//   <//>
-
-//   <${MiddleSmallSpotlightWrapper}>
-//     <${SpotlightMiddle} width="500" />
-//   <//>
-
-//   <${RightSpotlightWrapper}>
-//     <${SpotlightRight} />
-//   <//>

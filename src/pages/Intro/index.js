@@ -25,7 +25,6 @@ import {
 } from './styles'
 import { TutorialContainer } from './TutorialContainer'
 import { WelcomeToPearpass } from './WelcomeToPearpass'
-import { LOCAL_STORAGE_KEYS } from '../../constants/localStorage'
 import { useRouter } from '../../context/RouterContext'
 import { LogoLock } from '../../svgs/LogoLock'
 
@@ -47,11 +46,6 @@ export const Intro = () => {
 
   const handleNextPage = () => {
     if (pageIndex >= 5) {
-      if (localStorage.getItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED) !== 'true') {
-        navigate('termsOfUse')
-        return
-      }
-
       navigate('welcome', {
         state: 'createMasterPassword'
       })
@@ -152,25 +146,9 @@ export const Intro = () => {
           />
         `
 
-      // case 6:
-      //   return html`
-      //     <${LastPageContentContainer}>
-      //       <${Video} src="assets/video/lock_close_3s.mp4" autoPlay />
-      //       <${LastPageDescription}
-      //         >${i18n._(
-      //           'Start protecting your passwords the peer-to-peer way.'
-      //         )}
-      //       <//>
-      //     <//>
-      //   `
-
       default:
         return null
     }
-  }
-
-  const handleProgressClick = (idx) => {
-    setPageIndex(idx)
   }
 
   const isFirstPage = pageIndex === 0
@@ -198,27 +176,27 @@ export const Intro = () => {
 
         <${ProgressContainer}>
           <${ProgressItem}
-            onClick=${() => handleProgressClick(0)}
+            onClick=${() => setPageIndex(0)}
             isSelected=${pageIndex === 0}
           />
           <${ProgressItem}
-            onClick=${() => handleProgressClick(1)}
+            onClick=${() => setPageIndex(1)}
             isSelected=${pageIndex === 1}
           />
           <${ProgressItem}
-            onClick=${() => handleProgressClick(2)}
+            onClick=${() => setPageIndex(2)}
             isSelected=${pageIndex === 2}
           />
           <${ProgressItem}
-            onClick=${() => handleProgressClick(3)}
+            onClick=${() => setPageIndex(3)}
             isSelected=${pageIndex === 3}
           />
           <${ProgressItem}
-            onClick=${() => handleProgressClick(4)}
+            onClick=${() => setPageIndex(4)}
             isSelected=${pageIndex === 4}
           />
           <${ProgressItem}
-            onClick=${() => handleProgressClick(5)}
+            onClick=${() => setPageIndex(5)}
             isSelected=${pageIndex === 5}
           />
         <//>

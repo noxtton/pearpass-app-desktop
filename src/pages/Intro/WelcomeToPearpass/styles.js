@@ -76,7 +76,7 @@ const levitateBounce = keyframes`
   transform:  translateY(0px);
 }
 50% {
-  transform: translateY(-30px);
+  transform: translateY(30px);
 }
 `
 export const Video = styled.video.attrs(({ className }) => ({
@@ -88,7 +88,7 @@ export const Video = styled.video.attrs(({ className }) => ({
   object-fit: cover;
 
   &.animate {
-    animation: ${levitateBounce} 4s ease-in-out infinite 5s;
+    animation: ${levitateBounce} 4s ease-in-out infinite 2.8s;
     animation-fill-mode: forwards;
   }
 `
