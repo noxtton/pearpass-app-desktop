@@ -72,9 +72,10 @@ export const useConnectExtension = () => {
     clearAllSessions()
     await stopNativeMessagingIPC()
 
+    resetState()
+
     setNativeMessagingEnabled(false)
-    setIsBrowserExtensionEnabled(false)
-    
+
     // Reset identity to force re-pairing
     // This prevents extensions from reconnecting without a new pairing token
     const client = createOrGetPearpassClient()
@@ -87,6 +88,16 @@ export const useConnectExtension = () => {
   const [tokenCreationDate, setTokenCreationDate] = useState('')
   const [loadingPairing, setLoadingPairing] = useState(false)
   const [copyFeedback, setCopyFeedback] = useState('')
+
+  const resetState = () => {
+    setIsBrowserExtensionEnabled(false)
+    setEnteredExtensionId('')
+    setPairingToken('')
+    setFingerprint('')
+    setTokenCreationDate('')
+    setLoadingPairing(false)
+    setCopyFeedback('')
+  }
 
   const loadPairingInfo = async (reset = false) => {
     try {
