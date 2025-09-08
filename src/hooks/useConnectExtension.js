@@ -38,7 +38,9 @@ export const useConnectExtension = () => {
   })
 
   const [isBrowserExtensionEnabled, setIsBrowserExtensionEnabled] =
-    useState(false)
+    useState(getNativeMessagingEnabled() && isNativeMessagingIPCRunning())
+
+  const [enteredExtensionId, setEnteredExtensionId] = useState('')
 
   const handleSetupExtension = async (extensionId) => {
     if (!extensionId.trim()) {
@@ -70,15 +72,6 @@ export const useConnectExtension = () => {
     setNativeMessagingEnabled(false)
     setIsBrowserExtensionEnabled(false)
   }
-
-  useEffect(() => {
-    const enabled = getNativeMessagingEnabled()
-    const isRunning = isNativeMessagingIPCRunning()
-
-    if (enabled && isRunning) {
-      setIsBrowserExtensionEnabled(true)
-    }
-  }, [])
 
   // Pairing info state
   const [pairingToken, setPairingToken] = useState('')
@@ -127,25 +120,31 @@ export const useConnectExtension = () => {
     }
   }
 
-  const onConnectSubmit = async (extensionId) => {
-    await handleSetupExtension(extensionId)
-    setModal(
-      html`<${ExtensionPairingModalContent}
-        onCopy=${() => copyToClipboard(pairingToken)}
-        pairingToken=${pairingToken}
-        loadingPairing=${loadingPairing}
-        copyFeedback=${copyFeedback}
-        tokenCreationDate=${tokenCreationDate}
-        fingerprint=${fingerprint}
-      />`,
-      { replace: true }
-    )
-  }
+  useEffect(() => {
+    if (enteredExtensionId && pairingToken && !loadingPairing) {
+      setModal(
+        html`<${ExtensionPairingModalContent}
+          onCopy=${() => copyToClipboard(pairingToken)}
+          pairingToken=${pairingToken}
+          loadingPairing=${loadingPairing}
+          copyFeedback=${copyFeedback}
+          tokenCreationDate=${tokenCreationDate}
+          fingerprint=${fingerprint}
+        />`,
+        { replace: true }
+      )
+    }
+  }, [enteredExtensionId, pairingToken, loadingPairing, copyFeedback, tokenCreationDate, fingerprint, copyToClipboard, setModal])
 
   const toggleBrowserExtension = async (isOn) => {
     if (isOn) {
       setModal(
-        html` <${ConnectionStatusModalContent} onSubmit=${onConnectSubmit} />`,
+        html`<${ConnectionStatusModalContent} 
+          onSubmit=${async (extensionId) => {
+            setEnteredExtensionId(extensionId)
+            await handleSetupExtension(extensionId)
+          }}
+        />`,
         { closable: true }
       )
       return
