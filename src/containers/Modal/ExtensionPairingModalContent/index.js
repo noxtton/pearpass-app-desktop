@@ -51,7 +51,7 @@ export const ExtensionPairingModalContent = ({
         <${ModalTitle}> ${i18n._('Extension Pairing')} <//>
         <${ModalDescription}>
           ${i18n._(
-            'click below to copy the pairing token to your clipboard, then paste it in your browser extension to establish secure communication.'
+            'Click below to copy the pairing token to your clipboard, then paste it in your browser extension to establish secure communication.'
           )}
         <//>
       <//>
@@ -112,7 +112,7 @@ export const ExtensionPairingModalContent = ({
         <//>
       <//>
       <${ModalActions}>
-        <${ButtonSecondary} onClick=${closeModal}> ${i18n._('Cancel')} <//>
+        <${ButtonSecondary} onClick=${closeModal}> ${i18n._('Close')} <//>
       <//>
     <//>
   `
