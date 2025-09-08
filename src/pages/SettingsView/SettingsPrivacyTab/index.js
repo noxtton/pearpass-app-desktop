@@ -16,23 +16,15 @@ export const SettingsPrivacyTab = () => {
   const { isBrowserExtensionEnabled, toggleBrowserExtension } =
     useConnectExtension()
 
-  const [selectedRules, setSelectedRules] = useState({
-    copyToClipboard: false
-  })
+  const [selectedRules, setSelectedRules] = useState(() => {
+    const isEnabled = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
+    )
 
-  useEffect(() => {
-    const getCopyToClipboardSetting = () => {
-      const isEnabled = localStorage.getItem(
-        LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
-      )
-
-      setSelectedRules({
-        copyToClipboard: isEnabled === 'true'
-      })
+    return {
+      copyToClipboard: isEnabled === 'true'
     }
-
-    getCopyToClipboardSetting()
-  }, [])
+  })
 
   const ruleOptions = useMemo(() => {
     const options = [
