@@ -10,6 +10,7 @@ import {
   closeSession,
   clearAllSessions
 } from '../security/sessionStore.js'
+import { getNativeMessagingEnabled } from '../nativeMessagingPreferences.js'
 
 /**
  * Handles security-related IPC operations for native messaging
@@ -54,6 +55,12 @@ export class SecurityHandlers {
    * Begin secure handshake with extension
    */
   async nmBeginHandshake(params) {
+    // Only allow handshake if native messaging is enabled
+    // This prevents previously paired extensions from reconnecting after being disabled
+    if (!getNativeMessagingEnabled()) {
+      throw new Error('NativeMessagingDisabled: Extension connection is disabled')
+    }
+    
     const { extEphemeralPubB64 } = params || {}
     if (!extEphemeralPubB64) throw new Error('Missing extEphemeralPubB64')
     return beginHandshake(this.client, extEphemeralPubB64)

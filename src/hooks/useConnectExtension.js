@@ -27,6 +27,7 @@ import {
   resetIdentity
 } from '../services/security/appIdentity'
 import { setupNativeMessaging } from '../utils/nativeMessagingSetup'
+import { clearAllSessions } from "../services/security/sessionStore.js";
 
 export const useConnectExtension = () => {
   const { setModal } = useModal()
@@ -68,9 +69,16 @@ export const useConnectExtension = () => {
   }
 
   const handleStopNativeMessaging = async () => {
+    clearAllSessions()
     await stopNativeMessagingIPC()
+
     setNativeMessagingEnabled(false)
     setIsBrowserExtensionEnabled(false)
+    
+    // Reset identity to force re-pairing
+    // This prevents extensions from reconnecting without a new pairing token
+    const client = createOrGetPearpassClient()
+    await resetIdentity(client)
   }
 
   // Pairing info state
