@@ -247,13 +247,8 @@ export const killNativeMessagingHostProcesses = async () => {
 export const setupNativeMessaging = async (extensionId) => {
   try {
     // Determine platform-specific executable path and names
-    const {
-      platform,
-      scriptsDir,
-      executableFileName,
-      executablePath,
-      wrapperFileName
-    } = getNativeHostExecutableInfo()
+    const { platform, scriptsDir, executablePath, wrapperFileName } =
+      getNativeHostExecutableInfo()
     const bridgeFileName = 'extension-to-ipc-bridge.cjs'
 
     path.join(scriptsDir, bridgeFileName)
