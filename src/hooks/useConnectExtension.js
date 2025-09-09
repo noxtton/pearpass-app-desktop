@@ -26,8 +26,8 @@ import {
   getPairingCode,
   resetIdentity
 } from '../services/security/appIdentity'
+import { clearAllSessions } from '../services/security/sessionStore.js'
 import { setupNativeMessaging } from '../utils/nativeMessagingSetup'
-import { clearAllSessions } from "../services/security/sessionStore.js";
 
 export const useConnectExtension = () => {
   const { setModal } = useModal()
@@ -38,8 +38,9 @@ export const useConnectExtension = () => {
     onCopy: () => setToast({ message: i18n._('Copied!'), icon: CopyIcon })
   })
 
-  const [isBrowserExtensionEnabled, setIsBrowserExtensionEnabled] =
-    useState(getNativeMessagingEnabled() && isNativeMessagingIPCRunning())
+  const [isBrowserExtensionEnabled, setIsBrowserExtensionEnabled] = useState(
+    getNativeMessagingEnabled() && isNativeMessagingIPCRunning()
+  )
 
   const [enteredExtensionId, setEnteredExtensionId] = useState('')
 
@@ -153,12 +154,21 @@ export const useConnectExtension = () => {
         { replace: true }
       )
     }
-  }, [enteredExtensionId, pairingToken, loadingPairing, copyFeedback, tokenCreationDate, fingerprint, copyToClipboard, setModal])
+  }, [
+    enteredExtensionId,
+    pairingToken,
+    loadingPairing,
+    copyFeedback,
+    tokenCreationDate,
+    fingerprint,
+    copyToClipboard,
+    setModal
+  ])
 
   const toggleBrowserExtension = async (isOn) => {
     if (isOn) {
       setModal(
-        html`<${ConnectionStatusModalContent} 
+        html`<${ConnectionStatusModalContent}
           onSubmit=${async (extensionId) => {
             setEnteredExtensionId(extensionId)
             await handleSetupExtension(extensionId)
