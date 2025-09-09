@@ -1,9 +1,4 @@
 import { html } from 'htm/react'
-import {
-  DeleteIcon,
-  ImageIcon,
-  PlusIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
@@ -18,6 +13,7 @@ import {
   Title
 } from './styles'
 import { useModal } from '../../context/ModalContext'
+import { DeleteIcon, ImageIcon, PlusIcon } from '../../lib-react-components'
 import { DisplayPictureModalContent } from '../Modal/DisplayPictureModalContent'
 
 export const ImagesField = ({ title, pictures = [], onAdd, onRemove }) => {

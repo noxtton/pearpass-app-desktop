@@ -4,10 +4,6 @@ import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ArrowLeftIcon,
-  ButtonRoundIcon
-} from 'pearpass-lib-ui-react-components'
 import { usePair, useVault } from 'pearpass-lib-vault'
 
 import {
@@ -20,6 +16,7 @@ import {
 } from './styles'
 import { useRouter } from '../../../context/RouterContext'
 import { useToast } from '../../../context/ToastContext'
+import { ArrowLeftIcon, ButtonRoundIcon } from '../../../lib-react-components'
 
 export const CardLoadVault = () => {
   const { i18n } = useLingui()

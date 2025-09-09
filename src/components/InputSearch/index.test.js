@@ -15,7 +15,7 @@ jest.mock('@lingui/react', () => ({
   I18nProvider: ({ children }) => children
 }))
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   LockCircleIcon: () => <div data-testid="lock-circle-icon">LockCircleIcon</div>
 }))
 

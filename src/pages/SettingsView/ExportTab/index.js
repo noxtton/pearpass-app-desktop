@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 import {
   authoriseCurrentProtectedVault,
   getVaultById,
@@ -21,6 +20,7 @@ import { RadioSelect } from '../../../components/RadioSelect'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { VaultPasswordFormModalContent } from '../../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../../context/ModalContext'
+import { ButtonSecondary } from '../../../lib-react-components'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const ExportTab = () => {

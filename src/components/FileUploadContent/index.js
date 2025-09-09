@@ -2,9 +2,9 @@ import { useRef } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 
 import { ContentWrapper, HiddenInput } from './styles'
+import { ButtonSecondary } from '../../lib-react-components'
 import { FileDropArea } from '../FileDropArea'
 
 export const FileUploadContent = ({

@@ -1,10 +1,10 @@
 import React from 'react'
 
 import { html } from 'htm/react'
-import { ButtonRoundIcon, DeleteIcon } from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../components/FormGroup'
 import { InputFieldNote } from '../../components/InputFieldNote'
+import { ButtonRoundIcon, DeleteIcon } from '../../lib-react-components'
 
 /**
  * @param {{

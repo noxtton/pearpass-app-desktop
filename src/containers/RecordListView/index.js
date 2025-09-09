@@ -2,17 +2,6 @@ import React, { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ArrowUpAndDown,
-  ButtonFilter,
-  DeleteIcon,
-  FolderIcon,
-  MoveToIcon,
-  MultiSelectionIcon,
-  StarIcon,
-  TimeIcon,
-  XIcon
-} from 'pearpass-lib-ui-react-components'
 import { useRecords } from 'pearpass-lib-vault'
 
 import {
@@ -30,6 +19,17 @@ import { Record } from '../../components/Record'
 import { RecordSortActionsPopupContent } from '../../components/RecordSortActionsPopupContent'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
+import {
+  ArrowUpAndDown,
+  ButtonFilter,
+  DeleteIcon,
+  FolderIcon,
+  MoveToIcon,
+  MultiSelectionIcon,
+  StarIcon,
+  TimeIcon,
+  XIcon
+} from '../../lib-react-components'
 import { ConfirmationModalContent } from '../Modal/ConfirmationModalContent'
 import { MoveFolderModalContent } from '../Modal/MoveFolderModalContent'
 

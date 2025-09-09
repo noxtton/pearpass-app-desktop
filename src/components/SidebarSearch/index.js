@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { SearchIcon } from 'pearpass-lib-ui-react-components'
 
 import { SearchInput, SearchLabelIcon, SidebarSearchContainer } from './styles'
+import { SearchIcon } from '../../lib-react-components'
 
 /**
  * @param {{

@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
 import { html } from 'htm/react'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   FolderIcon,
   KebabMenuIcon,
   PlusIcon
-} from 'pearpass-lib-ui-react-components'
-import { colors } from 'pearpass-lib-ui-theme-provider'
-
+} from '../../lib-react-components'
 import { EditFolderPopupContent } from '../EditFolderPopupContent'
 import { PopupMenu } from '../PopupMenu'
 import {

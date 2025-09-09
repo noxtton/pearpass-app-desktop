@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 import { html } from 'htm/react'
-import { ArrowDownIcon, ArrowUpIcon } from 'pearpass-lib-ui-react-components'
 
 import { Collapse, TitleWrapper, Wrapper } from './styles'
+import { ArrowDownIcon, ArrowUpIcon } from '../../lib-react-components'
 
 /**
  * @param {{

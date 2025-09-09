@@ -2,13 +2,13 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { Switch } from 'pearpass-lib-ui-react-components'
 
 import { SwitchList, SwitchWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { RuleSelector } from '../../../containers/Modal/GeneratePasswordSideDrawerContent/RuleSelector'
 import { useConnectExtension } from '../../../hooks/useConnectExtension'
+import { Switch } from '../../../lib-react-components'
 import { Description } from '../ExportTab/styles'
 
 export const SettingsPrivacyTab = () => {

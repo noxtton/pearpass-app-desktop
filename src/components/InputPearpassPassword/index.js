@@ -1,13 +1,6 @@
 import { useState } from 'react'
 
 import { html } from 'htm/react'
-import {
-  ButtonRoundIcon,
-  EyeClosedIcon,
-  EyeIcon,
-  LockCircleIcon,
-  NoticeText
-} from 'pearpass-lib-ui-react-components'
 
 import {
   AdditionalItems,
@@ -18,6 +11,13 @@ import {
   MainWrapper,
   NoticeWrapper
 } from './styles'
+import {
+  ButtonRoundIcon,
+  EyeClosedIcon,
+  EyeIcon,
+  LockCircleIcon,
+  NoticeText
+} from '../../lib-react-components'
 
 /**
  * @param {{

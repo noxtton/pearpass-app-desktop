@@ -8,7 +8,6 @@ import {
   parsePearPassData,
   parseProtonPassData
 } from 'pearpass-lib-data-import'
-import { LockIcon } from 'pearpass-lib-ui-react-components'
 import { useCreateRecord } from 'pearpass-lib-vault'
 
 import { ContentContainer, Description, ImportOptionsContainer } from './styles'
@@ -16,6 +15,7 @@ import { readFileContent } from './utils/readFileContent'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ImportDataOption } from '../../../components/ImportDataOption'
 import { useToast } from '../../../context/ToastContext'
+import { LockIcon } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 const importOptions = [

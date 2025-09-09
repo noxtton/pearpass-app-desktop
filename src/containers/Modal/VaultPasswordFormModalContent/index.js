@@ -4,17 +4,17 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 
+import { Description, Header, Title, UnlockVaultContainer } from './styles'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { useLoadingContext } from '../../../context/LoadingContext'
 import { useModal } from '../../../context/ModalContext'
+import {
+  ButtonPrimary,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 import { ModalContent } from '../ModalContent'
-import { Description, Header, Title, UnlockVaultContainer } from './styles'
 
 /**
  *

@@ -4,16 +4,16 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 import { useUserData, useVaults } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { AlertBox } from '../../../components/AlertBox'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const CardUnlockPearPass = () => {

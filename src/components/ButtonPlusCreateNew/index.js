@@ -1,8 +1,8 @@
 import { html } from 'htm/react'
-import { PlusIcon, XIcon } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { Button } from './styles'
+import { PlusIcon, XIcon } from '../../lib-react-components'
 
 /**
  * @param {{

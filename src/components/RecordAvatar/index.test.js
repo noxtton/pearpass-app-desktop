@@ -6,7 +6,7 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { RecordAvatar } from './index'
 import '@testing-library/jest-dom'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   CheckIcon: (props) => <svg data-testid="check-icon" {...props} />,
   StarIcon: (props) => <svg data-testid="star-icon" {...props} />
 }))

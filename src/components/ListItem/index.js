@@ -1,11 +1,4 @@
 import { html } from 'htm/react'
-import {
-  BrushIcon,
-  CheckIcon,
-  DeleteIcon,
-  LockCircleIcon,
-  ShareIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
@@ -17,6 +10,13 @@ import {
   ListItemInfo,
   ListItemName
 } from './styles'
+import {
+  BrushIcon,
+  CheckIcon,
+  DeleteIcon,
+  LockCircleIcon,
+  ShareIcon
+} from '../../lib-react-components'
 
 export const ListItem = ({
   itemName,

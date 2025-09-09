@@ -2,11 +2,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassInputField
-} from 'pearpass-lib-ui-react-components'
 
 import {
   InputLabel,
@@ -18,6 +13,11 @@ import {
   ModalTitle
 } from './styles'
 import { useModal } from '../../../context/ModalContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassInputField
+} from '../../../lib-react-components'
 
 export const ConnectionStatusModalContent = ({ onSubmit }) => {
   const { i18n } = useLingui()

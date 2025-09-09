@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { ButtonRoundIcon, XIcon } from 'pearpass-lib-ui-react-components'
 
 import { Header, HeaderChildrenWrapper } from './styles'
+import { ButtonRoundIcon, XIcon } from '../../../lib-react-components'
 
 /**
  * @param {{

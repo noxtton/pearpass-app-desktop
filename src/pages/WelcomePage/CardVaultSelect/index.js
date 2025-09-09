@@ -1,10 +1,5 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  CommonFileIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault, useVaults } from 'pearpass-lib-vault'
 
@@ -20,6 +15,11 @@ import {
 } from './styles'
 import { ListItem } from '../../../components/ListItem'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  CommonFileIcon
+} from '../../../lib-react-components'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const CardVaultSelect = () => {

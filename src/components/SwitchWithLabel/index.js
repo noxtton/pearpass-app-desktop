@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { Switch } from 'pearpass-lib-ui-react-components'
 
 import { ContentWrapper, Description, Label, Wrapper } from './styles'
+import { Switch } from '../../lib-react-components'
 
 /**
  * @param {{

@@ -3,15 +3,6 @@ import React, { useEffect } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
-import {
-  CompoundField,
-  CopyIcon,
-  InputField,
-  KeyIcon,
-  PasswordField,
-  UserIcon,
-  WorldIcon
-} from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
@@ -20,6 +11,15 @@ import { ATTACHMENTS_FIELD_KEY } from '../../../constants/formFields'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+import {
+  CompoundField,
+  CopyIcon,
+  InputField,
+  KeyIcon,
+  PasswordField,
+  UserIcon,
+  WorldIcon
+} from '../../../lib-react-components'
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
