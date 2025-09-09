@@ -6,7 +6,7 @@ import {
   NoteIcon,
   PasswordIcon,
   UserIcon
-} from 'pearpass-lib-ui-react-components'
+} from '../lib-react-components'
 
 export const RECORD_ICON_BY_TYPE = {
   all: KeyIcon,

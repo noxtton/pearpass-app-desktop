@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { HighlightString, NoticeText } from 'pearpass-lib-ui-react-components'
 import { isPasswordSafe } from 'pearpass-utils-password-check'
 
+import { HighlightString, NoticeText } from '../../../../lib-react-components'
 import { PasswordWrapper } from '../styles'
 /**
  * @param {{

@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { LockCircleIcon } from 'pearpass-lib-ui-react-components'
 
 import { Container, IconWrapper, Input, QuantityWrapper } from './styles'
+import { LockCircleIcon } from '../../lib-react-components'
 
 /**
  * @param {{

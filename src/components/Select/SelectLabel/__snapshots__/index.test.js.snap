@@ -3,7 +3,7 @@
 exports[`SelectLabel Component renders ArrowDownIcon when isOpen is false 1`] = `
 <div>
   <div
-    class="sc-bjMIFn czFuOH"
+    class="sc-bRKDuR gxznGn"
   >
     <span>
        
@@ -29,7 +29,7 @@ exports[`SelectLabel Component renders ArrowDownIcon when isOpen is false 1`] = 
 exports[`SelectLabel Component renders ArrowUpIcon when isOpen is true 1`] = `
 <div>
   <div
-    class="sc-bjMIFn czFuOH"
+    class="sc-bRKDuR gxznGn"
   >
     <span>
        
@@ -55,7 +55,7 @@ exports[`SelectLabel Component renders ArrowUpIcon when isOpen is true 1`] = `
 exports[`SelectLabel Component renders correctly with placeholder when no selected item 1`] = `
 <div>
   <div
-    class="sc-bjMIFn czFuOH"
+    class="sc-bRKDuR gxznGn"
   >
     <span>
        
@@ -81,7 +81,7 @@ exports[`SelectLabel Component renders correctly with placeholder when no select
 exports[`SelectLabel Component renders correctly with selected item 1`] = `
 <div>
   <div
-    class="sc-bjMIFn czFuOH"
+    class="sc-bRKDuR gxznGn"
   >
     <span>
        

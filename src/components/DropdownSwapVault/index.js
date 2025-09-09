@@ -1,11 +1,6 @@
 import { useState } from 'react'
 
 import { html } from 'htm/react'
-import {
-  ArrowDownIcon,
-  ArrowUpIcon,
-  LockCircleIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault } from 'pearpass-lib-vault'
 
@@ -18,6 +13,11 @@ import {
 } from './styles'
 import { VaultPasswordFormModalContent } from '../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../context/ModalContext'
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  LockCircleIcon
+} from '../../lib-react-components'
 import { logger } from '../../utils/logger'
 
 /**

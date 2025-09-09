@@ -4,11 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
 import { generateQRCodeSVG } from 'pear-apps-utils-qr'
-import {
-  CopyIcon,
-  TimeIcon,
-  UserSecurityIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import {
   authoriseCurrentProtectedVault,
@@ -16,12 +11,6 @@ import {
   useVault
 } from 'pearpass-lib-vault'
 
-import { AlertBox } from '../../../components/AlertBox'
-import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
-import { useModal } from '../../../context/ModalContext'
-import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
-import { ModalContent } from '../ModalContent'
-import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 import {
   BackgroundSection,
   Content,
@@ -35,6 +24,17 @@ import {
   QRCodeSection,
   QRCodeText
 } from './styles'
+import { AlertBox } from '../../../components/AlertBox'
+import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
+import { useModal } from '../../../context/ModalContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import {
+  CopyIcon,
+  TimeIcon,
+  UserSecurityIcon
+} from '../../../lib-react-components'
+import { ModalContent } from '../ModalContent'
+import { VaultPasswordFormModalContent } from '../VaultPasswordFormModalContent'
 
 export const AddDeviceModalContent = () => {
   const { i18n } = useLingui()

@@ -4,12 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassInputField,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 import { useVault } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
@@ -22,6 +16,12 @@ import {
   ModalTitle
 } from './styles'
 import { useLoadingContext } from '../../../context/LoadingContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassInputField,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {

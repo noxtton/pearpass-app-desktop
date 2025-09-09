@@ -3,13 +3,13 @@
 exports[`EmptyCollectionView component renders empty collection message 1`] = `
 <div>
   <div
-    class="sc-bjMIFn jhA-Dks"
+    class="sc-bRKDuR iNCOfY"
   >
     <div
-      class="sc-dClGHI keFZyg"
+      class="sc-hvigdm jbyZno"
     >
       <div
-        class="sc-fhfEft bStSAl"
+        class="sc-fhHczv ioIxCL"
       >
         <span>
            
@@ -20,11 +20,11 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
         </p>
       </div>
       <button
-        class="sc-jJLAfE fBQvWR"
+        class="sc-dYwGCk eVgwkO"
         type="button"
       >
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         >
           <svg
             fill="none"
@@ -41,15 +41,15 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
         </div>
         Create a login
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         />
       </button>
       <button
-        class="sc-jJLAfE fBQvWR"
+        class="sc-dYwGCk eVgwkO"
         type="button"
       >
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         >
           <svg
             fill="none"
@@ -66,15 +66,15 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
         </div>
         Create an identity
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         />
       </button>
       <button
-        class="sc-jJLAfE fBQvWR"
+        class="sc-dYwGCk eVgwkO"
         type="button"
       >
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         >
           <svg
             fill="none"
@@ -91,15 +91,15 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
         </div>
         Create a credit card
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         />
       </button>
       <button
-        class="sc-jJLAfE fBQvWR"
+        class="sc-dYwGCk eVgwkO"
         type="button"
       >
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         >
           <svg
             fill="none"
@@ -116,15 +116,15 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
         </div>
         Create a note
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         />
       </button>
       <button
-        class="sc-jJLAfE fBQvWR"
+        class="sc-dYwGCk eVgwkO"
         type="button"
       >
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         >
           <svg
             fill="none"
@@ -141,7 +141,7 @@ exports[`EmptyCollectionView component renders empty collection message 1`] = `
         </div>
         Create a custom element
         <div
-          class="sc-hwkwBN iDWmCK"
+          class="sc-lgpSej hqfEku"
         />
       </button>
     </div>

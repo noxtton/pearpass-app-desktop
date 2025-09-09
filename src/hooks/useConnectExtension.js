@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { CopyIcon } from 'pearpass-lib-ui-react-components'
 
+import { CopyIcon } from '../lib-react-components'
 import { useCopyToClipboard } from './useCopyToClipboard'
 import { COPY_FEEDBACK_DISPLAY_TIME } from '../constants/timeConstants'
 import { ConnectionStatusModalContent } from '../containers/Modal/ConnectionStatusModalContent'

@@ -2,15 +2,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonLittle,
-  ButtonSingleInput,
-  DeleteIcon,
-  ImageIcon,
-  InputField,
-  SaveIcon,
-  TextArea
-} from 'pearpass-lib-ui-react-components'
 import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
@@ -24,6 +15,15 @@ import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import {
+  ButtonLittle,
+  ButtonSingleInput,
+  DeleteIcon,
+  ImageIcon,
+  InputField,
+  SaveIcon,
+  TextArea
+} from '../../../../lib-react-components'
 import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
 import { AttachmentField } from '../../../AttachmentField'

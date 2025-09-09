@@ -4,13 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonRadio,
-  ButtonRoundIcon,
-  PearPassPasswordField,
-  XIcon
-} from 'pearpass-lib-ui-react-components'
 import { useUserData } from 'pearpass-lib-vault'
 import { isPasswordSafe } from 'pearpass-utils-password-check'
 
@@ -32,6 +25,13 @@ import { AlertBox } from '../../../components/AlertBox'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  ButtonRadio,
+  ButtonRoundIcon,
+  PearPassPasswordField,
+  XIcon
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const CardCreateMasterPassword = () => {

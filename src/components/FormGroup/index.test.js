@@ -7,7 +7,7 @@ import { FormGroup } from './index'
 
 import '@testing-library/jest-dom'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   ArrowDownIcon: () => <div data-testid="arrow-down-icon">ArrowDown</div>,
   ArrowUpIcon: () => <div data-testid="arrow-up-icon">ArrowUp</div>
 }))

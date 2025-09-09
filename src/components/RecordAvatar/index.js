@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 
 import { html } from 'htm/react'
-import { CheckIcon, StarIcon } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { getDefaultFavicon } from 'pearpass-lib-vault'
 
@@ -12,6 +11,7 @@ import {
   FavoriteIcon,
   SelectedAvatarContainer
 } from './styles'
+import { CheckIcon, StarIcon } from '../../lib-react-components'
 import { extractDomainName } from '../../utils/extractDomainName'
 
 /**

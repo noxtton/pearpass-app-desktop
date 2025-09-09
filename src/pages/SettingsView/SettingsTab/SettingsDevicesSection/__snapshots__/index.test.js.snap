@@ -24,10 +24,10 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
           Here you can find a list of the connected devices.
         </span>
         <div
-          class="sc-gsJsQu gNcGoy"
+          class="sc-hjsuWn fqhona"
         >
           <div
-            class="sc-ibashp hPBHtC"
+            class="sc-jJLAfE hibHSh"
           >
             <svg
               fill="none"
@@ -54,15 +54,15 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
               />
             </svg>
             <div
-              class="sc-blIAwI bLuKdb"
+              class="sc-hwkwBN PdQGQ"
             >
               <span
-                class="sc-itBLYH cFfbZx"
+                class="sc-kNOymR kFcumD"
               >
                 IOS
               </span>
               <p
-                class="sc-bEjUoa jWpdWg"
+                class="sc-dYwGCk bkHyLb"
               >
                  
                 Added on formatted-date
@@ -70,14 +70,14 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-boKDdR rqDIN"
+            class="sc-lgpSej dAwUOm"
           />
         </div>
         <div
-          class="sc-gsJsQu gNcGoy"
+          class="sc-hjsuWn fqhona"
         >
           <div
-            class="sc-ibashp hPBHtC"
+            class="sc-jJLAfE hibHSh"
           >
             <svg
               fill="none"
@@ -104,15 +104,15 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
               />
             </svg>
             <div
-              class="sc-blIAwI bLuKdb"
+              class="sc-hwkwBN PdQGQ"
             >
               <span
-                class="sc-itBLYH cFfbZx"
+                class="sc-kNOymR kFcumD"
               >
                 Android
               </span>
               <p
-                class="sc-bEjUoa jWpdWg"
+                class="sc-dYwGCk bkHyLb"
               >
                  
                 Added on formatted-date
@@ -120,7 +120,7 @@ exports[`SettingsDevicesSection matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-boKDdR rqDIN"
+            class="sc-lgpSej dAwUOm"
           />
         </div>
       </div>

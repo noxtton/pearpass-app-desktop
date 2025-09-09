@@ -1,6 +1,5 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonCreate } from 'pearpass-lib-ui-react-components'
 
 import {
   CollectionsContainer,
@@ -10,6 +9,7 @@ import {
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
+import { ButtonCreate } from '../../lib-react-components'
 
 export const EmptyCollectionView = () => {
   const { data } = useRouter()

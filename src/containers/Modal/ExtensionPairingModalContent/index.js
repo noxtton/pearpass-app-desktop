@@ -1,6 +1,5 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 
 import {
   ModalActions,
@@ -19,6 +18,7 @@ import {
   ListItemName
 } from '../../../components/ListItem/styles'
 import { useModal } from '../../../context/ModalContext'
+import { ButtonSecondary } from '../../../lib-react-components'
 import { Description } from '../../../pages/SettingsView/ExportTab/styles'
 
 export const ExtensionPairingModalContent = ({

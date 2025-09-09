@@ -23,7 +23,7 @@ jest.mock('../RecordActionsPopupContent', () => ({
   )
 }))
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   KebabMenuIcon: () => <svg data-testid="kebab-icon" />
 }))
 

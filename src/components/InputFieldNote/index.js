@@ -1,6 +1,7 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { CommonFileIcon, InputField } from 'pearpass-lib-ui-react-components'
+
+import { CommonFileIcon, InputField } from '../../lib-react-components'
 
 /**
  * @param {{

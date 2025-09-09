@@ -2,10 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonPrimary,
-  ButtonSecondary
-} from 'pearpass-lib-ui-react-components'
 
 import { AddDevice } from './AddDevice'
 import { CategoryAnimation } from './CategoryAnimation'
@@ -26,6 +22,7 @@ import {
 import { TutorialContainer } from './TutorialContainer'
 import { WelcomeToPearpass } from './WelcomeToPearpass'
 import { useRouter } from '../../context/RouterContext'
+import { ButtonPrimary, ButtonSecondary } from '../../lib-react-components'
 import { LogoLock } from '../../svgs/LogoLock'
 
 export const Intro = () => {

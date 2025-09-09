@@ -1,11 +1,11 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { CommonFileIcon, ImageIcon } from 'pearpass-lib-ui-react-components'
 
+import { ContentWrapper, HeaderWrapper } from './styles'
 import { FileUploadContent } from '../../../components/FileUploadContent'
 import { useModal } from '../../../context/ModalContext'
+import { CommonFileIcon, ImageIcon } from '../../../lib-react-components'
 import { ModalContent } from '../ModalContent'
-import { ContentWrapper, HeaderWrapper } from './styles'
 
 /**
  * @component

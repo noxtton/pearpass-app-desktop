@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { ErrorIcon, YellowErrorIcon } from 'pearpass-lib-ui-react-components'
 
 import { IconWrapper, Container, Message } from './styles'
+import { ErrorIcon, YellowErrorIcon } from '../../lib-react-components'
 
 export const AlertBox = ({ message, type = 'warning' }) => html`
   <${Container} type=${type}>

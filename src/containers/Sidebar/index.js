@@ -4,13 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { matchPatternToValue } from 'pear-apps-utils-pattern-search'
 import {
-  ButtonThin,
-  ExitIcon,
-  SettingsIcon,
-  StarIcon,
-  UserSecurityIcon
-} from 'pearpass-lib-ui-react-components'
-import {
   closeAllInstances,
   useFolders,
   useVault,
@@ -36,6 +29,13 @@ import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
+import {
+  ButtonThin,
+  ExitIcon,
+  SettingsIcon,
+  StarIcon,
+  UserSecurityIcon
+} from '../../lib-react-components'
 import { LogoLock } from '../../svgs/LogoLock'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
