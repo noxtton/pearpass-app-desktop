@@ -27,7 +27,11 @@ import {
   resetIdentity
 } from '../services/security/appIdentity'
 import { clearAllSessions } from '../services/security/sessionStore.js'
-import { setupNativeMessaging } from '../utils/nativeMessagingSetup'
+import {
+  setupNativeMessaging,
+  killNativeMessagingHostProcesses,
+  cleanupNativeMessaging
+} from '../utils/nativeMessagingSetup'
 
 export const useConnectExtension = () => {
   const { setModal } = useModal()
@@ -55,6 +59,8 @@ export const useConnectExtension = () => {
       const result = await setupNativeMessaging(extensionId.trim())
 
       if (result.success) {
+        // Kill any existing native host so Chrome respawns it and re-reads the manifest
+        await killNativeMessagingHostProcesses()
         // Start native messaging IPC server
         const client = createOrGetPearpassClient()
         await startNativeMessagingIPC(client)
@@ -72,6 +78,12 @@ export const useConnectExtension = () => {
   const handleStopNativeMessaging = async () => {
     clearAllSessions()
     await stopNativeMessagingIPC()
+
+    // Ensure any running native host is terminated so it cannot continue talking
+    await killNativeMessagingHostProcesses()
+
+    // Clean unused manifest file and make sure browser cannot respawn the host while off
+    await cleanupNativeMessaging().catch(() => {})
 
     resetState()
 
