@@ -1,5 +1,4 @@
 import { html } from 'htm/react'
-import { CommonFileIcon } from 'pearpass-lib-ui-react-components'
 
 import {
   AdditionalItems,
@@ -11,6 +10,7 @@ import {
   Wrapper
 } from './styles'
 import { useModal } from '../../context/ModalContext'
+import { CommonFileIcon } from '../../lib-react-components'
 import { DisplayPictureModalContent } from '../Modal/DisplayPictureModalContent'
 
 const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp']

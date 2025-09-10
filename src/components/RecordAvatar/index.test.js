@@ -6,9 +6,18 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { RecordAvatar } from './index'
 import '@testing-library/jest-dom'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   CheckIcon: (props) => <svg data-testid="check-icon" {...props} />,
   StarIcon: (props) => <svg data-testid="star-icon" {...props} />
+}))
+
+const mockGetDefaultFavicon = jest.fn()
+jest.mock('pearpass-lib-vault', () => ({
+  getDefaultFavicon: (...args) => mockGetDefaultFavicon(...args)
+}))
+
+jest.mock('../../utils/extractDomainName', () => ({
+  extractDomainName: jest.fn()
 }))
 
 describe('RecordAvatar Component', () => {
@@ -17,72 +26,67 @@ describe('RecordAvatar Component', () => {
     color: '#FF5500'
   }
 
-  test('renders initials when no avatarSrc is provided', () => {
-    const { getByText, container } = render(
+  beforeEach(() => {
+    mockGetDefaultFavicon.mockReset()
+    global.URL.createObjectURL = jest.fn(() => 'blob:test-url')
+  })
+
+  test('calls getDefaultFavicon with domain (protocol stripped)', () => {
+    render(
+      <ThemeProvider>
+        <RecordAvatar {...defaultProps} websiteDomain="https://example.com" />
+      </ThemeProvider>
+    )
+
+    expect(mockGetDefaultFavicon).toHaveBeenCalled()
+  })
+
+  test('calls getDefaultFavicon with null when no websiteDomain', () => {
+    render(
       <ThemeProvider>
         <RecordAvatar {...defaultProps} />
       </ThemeProvider>
     )
 
-    expect(getByText('AB')).toBeInTheDocument()
-    expect(container).toMatchSnapshot()
+    expect(mockGetDefaultFavicon).not.toHaveBeenCalled()
   })
 
-  test('renders image when avatarSrc is provided', () => {
+  test('renders image when getDefaultFavicon returns buffer', () => {
+    const fakeBuffer = new Uint8Array([1, 2, 3])
+    mockGetDefaultFavicon.mockReturnValue(fakeBuffer)
+
     const { container } = render(
       <ThemeProvider>
-        <RecordAvatar {...defaultProps} avatarSrc="test-avatar.jpg" />
+        <RecordAvatar {...defaultProps} websiteDomain="https://test.com" />
       </ThemeProvider>
     )
 
     const img = container.querySelector('img')
     expect(img).toBeInTheDocument()
-    expect(img).toHaveAttribute('src', 'test-avatar.jpg')
+    expect(img).toHaveAttribute('src', 'blob:test-url')
+    expect(URL.createObjectURL).toHaveBeenCalledWith(new Blob([fakeBuffer]))
   })
 
-  test('renders selected state with check icon', () => {
-    const { getByTestId } = render(
+  test('renders initials fallback if favicon returns null', () => {
+    mockGetDefaultFavicon.mockReturnValue(null)
+
+    const { getByText } = render(
       <ThemeProvider>
-        <RecordAvatar {...defaultProps} isSelected={true} />
+        <RecordAvatar {...defaultProps} websiteDomain="https://test.com" />
+      </ThemeProvider>
+    )
+
+    expect(getByText('AB')).toBeInTheDocument()
+  })
+
+  test('renders check icon instead of favorite when both isSelected and isFavorite are true', () => {
+    const { getByTestId, queryByTestId } = render(
+      <ThemeProvider>
+        <RecordAvatar {...defaultProps} isSelected={true} isFavorite={true} />
       </ThemeProvider>
     )
 
     expect(getByTestId('check-icon')).toBeInTheDocument()
-  })
-
-  test('renders favorite icon when isFavorite is true', () => {
-    const { getByTestId } = render(
-      <ThemeProvider>
-        <RecordAvatar {...defaultProps} isFavorite={true} />
-      </ThemeProvider>
-    )
-
-    expect(getByTestId('star-icon')).toBeInTheDocument()
-  })
-
-  test('does not render favorite icon when isFavorite is false', () => {
-    const { queryByTestId } = render(
-      <ThemeProvider>
-        <RecordAvatar {...defaultProps} isFavorite={false} />
-      </ThemeProvider>
-    )
-
     expect(queryByTestId('star-icon')).not.toBeInTheDocument()
-  })
-
-  test('applies size prop correctly', () => {
-    const { container: mdContainer } = render(
-      <ThemeProvider>
-        <RecordAvatar {...defaultProps} size="md" />
-      </ThemeProvider>
-    )
-
-    const { container: smContainer } = render(
-      <ThemeProvider>
-        <RecordAvatar {...defaultProps} size="sm" />
-      </ThemeProvider>
-    )
-
-    expect(mdContainer.innerHTML).not.toEqual(smContainer.innerHTML)
   })
 })

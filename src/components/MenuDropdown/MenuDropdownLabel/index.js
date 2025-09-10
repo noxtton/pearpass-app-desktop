@@ -1,7 +1,7 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ArrowDownIcon, ArrowUpIcon } from 'pearpass-lib-ui-react-components'
 
+import { ArrowDownIcon, ArrowUpIcon } from '../../../lib-react-components'
 import { MenuDropdownItem } from '../MenuDropdownItem'
 import { Label } from '../styles'
 

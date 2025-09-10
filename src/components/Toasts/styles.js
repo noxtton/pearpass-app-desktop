@@ -8,6 +8,7 @@ export const ToastStack = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  z-index: 1000;
 `
 
 export const ToastContainer = styled.div`

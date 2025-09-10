@@ -50,9 +50,10 @@ const COMMAND_DEFINITIONS = [
   { id: 1105, name: 'nmCloseSession' },
 
   // Pairing and misc commands
-  { id: 1025, name: 'pair' },
+  { id: 1025, name: 'pairActiveVault' },
   { id: 1026, name: 'initListener' },
-  { id: 1027, name: 'closeVault' }
+  { id: 1027, name: 'closeVault' },
+  { id: 1028, name: 'cancelPairActiveVault' }
 ]
 
 /** @type {string[]} */

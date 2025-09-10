@@ -2,21 +2,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonLittle,
-  ButtonSingleInput,
-  CalendarIcon,
-  DeleteIcon,
-  EmailIcon,
-  GenderIcon,
-  GroupIcon,
-  ImageIcon,
-  InputField,
-  NationalityIcon,
-  PhoneIcon,
-  SaveIcon,
-  UserIcon
-} from 'pearpass-lib-ui-react-components'
 import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
@@ -31,8 +16,22 @@ import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import {
+  ButtonLittle,
+  ButtonSingleInput,
+  CalendarIcon,
+  DeleteIcon,
+  EmailIcon,
+  GenderIcon,
+  GroupIcon,
+  ImageIcon,
+  InputField,
+  NationalityIcon,
+  PhoneIcon,
+  SaveIcon,
+  UserIcon
+} from '../../../../lib-react-components'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
-import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ImagesField } from '../../../ImagesField'
@@ -239,8 +238,8 @@ export const CreateOrEditIdentityModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.IDENTITY,
-      folder: isFavorite(values.folder) ? undefined : values.folder,
-      isFavorite: isFavorite(values.folder),
+      folder: values.folder,
+      isFavorite: initialRecord?.isFavorite,
       data: {
         title: values.title,
         fullName: values.fullName,

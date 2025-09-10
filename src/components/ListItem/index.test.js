@@ -6,7 +6,7 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { ListItem } from './index'
 import '@testing-library/jest-dom'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   BrushIcon: () => <svg data-testid="brush-icon" />,
   DeleteIcon: () => <svg data-testid="delete-icon" />,
   LockCircleIcon: () => <svg data-testid="lock-icon" />,

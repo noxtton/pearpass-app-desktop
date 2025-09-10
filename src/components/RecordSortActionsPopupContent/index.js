@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { CheckIcon } from 'pearpass-lib-ui-react-components'
 
 import { MenuCard, MenuItem } from './styles'
+import { CheckIcon } from '../../lib-react-components'
 
 /**
  * @param {{

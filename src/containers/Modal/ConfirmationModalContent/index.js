@@ -1,11 +1,8 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonPrimary,
-  ButtonSecondary
-} from 'pearpass-lib-ui-react-components'
 
 import { useModal } from '../../../context/ModalContext'
+import { ButtonPrimary, ButtonSecondary } from '../../../lib-react-components'
 import { ModalContent } from '../ModalContent'
 import { ButtonWrapper, HeaderWrapper, TextWrapper } from './styles'
 

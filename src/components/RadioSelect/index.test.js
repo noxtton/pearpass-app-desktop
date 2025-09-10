@@ -18,7 +18,7 @@ jest.mock('./styles', () => ({
   )
 }))
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   ButtonRadio: ({ isActive }) => (
     <div data-testid="button-radio" data-active={isActive ? 'true' : 'false'}>
       {isActive ? 'Active' : 'Inactive'}

@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonSecondary } from 'pearpass-lib-ui-react-components'
 
 import { AddDevice } from './AddDevice'
 import { CategoryAnimation } from './CategoryAnimation'
@@ -10,20 +9,20 @@ import { CreditCardAnimation } from './CreditCardAnimation'
 import { PasswordFillAnimation } from './PasswordFillAnimation'
 import {
   BlackBackground,
+  BottomGradient,
   ButtonContainer,
   ContentContainer,
-  LastPageContentContainer,
-  LastPageDescription,
   LogoContainer,
-  SkipContainer,
-  StrongText,
-  Video,
-  WelcomeText
+  LogoImage,
+  PearPass,
+  ProgressContainer,
+  ProgressItem,
+  StrongText
 } from './styles'
 import { TutorialContainer } from './TutorialContainer'
 import { WelcomeToPearpass } from './WelcomeToPearpass'
-import { LOCAL_STORAGE_KEYS } from '../../constants/localStorage'
 import { useRouter } from '../../context/RouterContext'
+import { ButtonPrimary, ButtonSecondary } from '../../lib-react-components'
 import { LogoLock } from '../../svgs/LogoLock'
 
 export const Intro = () => {
@@ -44,11 +43,6 @@ export const Intro = () => {
 
   const handleNextPage = () => {
     if (pageIndex >= 5) {
-      if (localStorage.getItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED) !== 'true') {
-        navigate('termsOfUse')
-        return
-      }
-
       navigate('welcome', {
         state: 'createMasterPassword'
       })
@@ -69,6 +63,27 @@ export const Intro = () => {
       case 1:
         return html`
           <${TutorialContainer}
+            header=${i18n._('Your passwords. Your rules.')}
+            description=${[
+              i18n._('PearPass is the first truly local,'),
+              html`<${StrongText}
+                >${i18n._('peer-to-peer password manager.')}<//
+              >`,
+              i18n._(' Your data'),
+              html`<${StrongText}>${i18n._('never touches a server -')}<//>`,
+              i18n._('it lives with you, syncs between your devices, and'),
+              html`<${StrongText}
+                >${i18n._('stays entirely in your control.')}<//
+              >`
+            ]}
+            content=${html`<${LogoImage}
+              src="assets/images/intro_lock_3D.png"
+            />`}
+          />
+        `
+      case 2:
+        return html`
+          <${TutorialContainer}
             header=${i18n._('You hold the keys')}
             description=${[
               i18n._('No one can unlock your data,'),
@@ -84,7 +99,7 @@ export const Intro = () => {
             content=${html`<${PasswordFillAnimation} />`}
           />
         `
-      case 2:
+      case 3:
         return html`
           <${TutorialContainer}
             header=${i18n._('Store more than passwords')}
@@ -102,7 +117,7 @@ export const Intro = () => {
             content=${html`<${CategoryAnimation} />`}
           />
         `
-      case 3:
+      case 4:
         return html`
           <${TutorialContainer}
             header=${i18n._('All in one encrypted place.')}
@@ -114,7 +129,7 @@ export const Intro = () => {
           />
         `
 
-      case 4:
+      case 5:
         return html`
           <${TutorialContainer}
             header=${i18n._('Sync, without the Cloud')}
@@ -128,18 +143,6 @@ export const Intro = () => {
           />
         `
 
-      case 5:
-        return html`
-          <${LastPageContentContainer}>
-            <${Video} src="assets/video/lock_close_3s.mp4" autoPlay />
-            <${LastPageDescription}
-              >${i18n._(
-                'Start protecting your passwords the peer-to-peer way.'
-              )}
-            <//>
-          <//>
-        `
-
       default:
         return null
     }
@@ -150,27 +153,53 @@ export const Intro = () => {
 
   return html`
     <${BlackBackground} pageIndex=${pageIndex} hasImageBackground=${isLastPage}>
-      <${LogoContainer} size=${isFirstPage || isLastPage ? 'md' : 'sm'}>
-        <${WelcomeText}>Welcome to<//>
-        <${LogoLock} width="100%" height="100" />
+      <${LogoContainer}>
+        <${LogoLock} width="42" height="57" />
+        <${PearPass}>PearPass<//>
       <//>
 
       <${ContentContainer}> ${renderPageContent()} <//>
 
-      ${!isLastPage &&
-      html`
-        <${SkipContainer} className=${isLockLocked ? 'fade-in' : ''}>
+      <${ButtonContainer} className=${isLockLocked ? 'fade-in' : ''}>
+        <${ButtonPrimary} disabled=${!isLockLocked} onClick=${handleNextPage}>
+          ${isFirstPage ? i18n._('Get started') : i18n._('Continue')}
+        <//>
+        ${!isLastPage &&
+        html`
           <${ButtonSecondary} onClick=${handleSkipToLast}>
             ${i18n._('Skip')}
           <//>
-        <//>
-      `}
+        `}
 
-      <${ButtonContainer} className=${isLockLocked ? 'fade-in' : ''}>
-        <${ButtonSecondary} disabled=${!isLockLocked} onClick=${handleNextPage}>
-          ${isFirstPage ? i18n._('Get started') : i18n._('Continue')}
+        <${ProgressContainer}>
+          <${ProgressItem}
+            onClick=${() => setPageIndex(0)}
+            isSelected=${pageIndex === 0}
+          />
+          <${ProgressItem}
+            onClick=${() => setPageIndex(1)}
+            isSelected=${pageIndex === 1}
+          />
+          <${ProgressItem}
+            onClick=${() => setPageIndex(2)}
+            isSelected=${pageIndex === 2}
+          />
+          <${ProgressItem}
+            onClick=${() => setPageIndex(3)}
+            isSelected=${pageIndex === 3}
+          />
+          <${ProgressItem}
+            onClick=${() => setPageIndex(4)}
+            isSelected=${pageIndex === 4}
+          />
+          <${ProgressItem}
+            onClick=${() => setPageIndex(5)}
+            isSelected=${pageIndex === 5}
+          />
         <//>
       <//>
+
+      <${BottomGradient} />
     <//>
   `
 }

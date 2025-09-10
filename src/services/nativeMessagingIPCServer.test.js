@@ -120,9 +120,10 @@ jest.mock('./handlers/VaultHandlers', () => ({
     this.activeVaultDeleteInvite = jest
       .fn()
       .mockResolvedValue({ success: true })
-    this.pair = jest.fn().mockResolvedValue({ success: true })
+    this.pairActiveVault = jest.fn().mockResolvedValue({ success: true })
     this.initListener = jest.fn().mockResolvedValue({ success: true })
     this.closeVault = jest.fn().mockResolvedValue({ success: true })
+    this.cancelPairActiveVault = jest.fn().mockResolvedValue({ success: true })
   })
 }))
 
@@ -165,9 +166,10 @@ const mockPearpassClient = {
   encryptVaultWithKey: jest.fn(),
   getDecryptionKey: jest.fn(),
   decryptVaultKey: jest.fn(),
-  pair: jest.fn(),
+  pairActiveVault: jest.fn(),
   initListener: jest.fn(),
-  close: jest.fn()
+  close: jest.fn(),
+  cancelPairActiveVault: jest.fn()
 }
 
 describe('nativeMessagingIPCServer', () => {

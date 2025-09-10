@@ -2,9 +2,9 @@ import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { StarIcon } from 'pearpass-lib-ui-react-components'
 import { useFolders } from 'pearpass-lib-vault'
 
+import { StarIcon } from '../../lib-react-components'
 import { MenuDropdown } from '../MenuDropdown'
 
 const NO_FOLDER = 'no-folder'

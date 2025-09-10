@@ -6,7 +6,7 @@ exports[`Select Component opens dropdown when label is clicked 1`] = `
     class="sc-fhfEft eCmRTW"
   >
     <div
-      class="sc-dClGHI iYkPfu"
+      class="sc-hvigdm hOKcMe"
     >
       <span>
          
@@ -68,7 +68,7 @@ exports[`Select Component renders correctly with a selected item 1`] = `
     class="sc-fhfEft eCmRTW"
   >
     <div
-      class="sc-dClGHI iYkPfu"
+      class="sc-hvigdm hOKcMe"
     >
       <span>
          
@@ -98,7 +98,7 @@ exports[`Select Component renders correctly with placeholder when no selected it
     class="sc-fhfEft eCmRTW"
   >
     <div
-      class="sc-dClGHI iYkPfu"
+      class="sc-hvigdm hOKcMe"
     >
       <span>
          

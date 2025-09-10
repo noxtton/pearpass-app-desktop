@@ -1,6 +1,7 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
 
 import { useCopyToClipboard } from './useCopyToClipboard'
+import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
 
 Object.assign(navigator, {
   clipboard: {
@@ -13,6 +14,7 @@ jest.useFakeTimers()
 describe('useCopyToClipboard', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    localStorage.clear()
   })
 
   test('initial state is not copied', () => {
@@ -20,10 +22,26 @@ describe('useCopyToClipboard', () => {
     expect(result.current.isCopied).toBe(false)
   })
 
-  test('copyToClipboard calls navigator.clipboard.writeText with correct text', () => {
+  test('does not copy when feature flag is disabled', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'false')
+
     const { result } = renderHook(() => useCopyToClipboard())
 
-    act(() => {
+    let returnValue
+    await act(async () => {
+      returnValue = result.current.copyToClipboard('test text')
+    })
+
+    expect(returnValue).toBe(false)
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled()
+  })
+
+  test('copies when feature flag is enabled', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
+
+    const { result } = renderHook(() => useCopyToClipboard())
+
+    await act(async () => {
       result.current.copyToClipboard('test text')
     })
 
@@ -31,7 +49,9 @@ describe('useCopyToClipboard', () => {
   })
 
   test('isCopied becomes true after successful copy', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     navigator.clipboard.writeText.mockResolvedValueOnce()
+
     const { result } = renderHook(() => useCopyToClipboard())
 
     await act(async () => {
@@ -44,7 +64,9 @@ describe('useCopyToClipboard', () => {
   })
 
   test('isCopied becomes false after timeout', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     navigator.clipboard.writeText.mockResolvedValueOnce()
+
     const { result } = renderHook(() => useCopyToClipboard())
 
     await act(async () => {
@@ -63,8 +85,10 @@ describe('useCopyToClipboard', () => {
   })
 
   test('onCopy callback is called when copying is successful', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     const onCopy = jest.fn()
     navigator.clipboard.writeText.mockResolvedValueOnce()
+
     const { result } = renderHook(() => useCopyToClipboard({ onCopy }))
 
     await act(async () => {
@@ -76,14 +100,15 @@ describe('useCopyToClipboard', () => {
     })
   })
 
-  test('returns false when clipboard API is not available', () => {
+  test('returns false when clipboard API is not available', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     const originalClipboard = navigator.clipboard
     delete navigator.clipboard
 
     const { result } = renderHook(() => useCopyToClipboard())
 
     let returnValue
-    act(() => {
+    await act(async () => {
       returnValue = result.current.copyToClipboard('test text')
     })
 

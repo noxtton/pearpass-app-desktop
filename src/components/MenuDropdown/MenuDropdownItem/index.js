@@ -1,6 +1,6 @@
 import { html } from 'htm/react'
-import { FolderIcon } from 'pearpass-lib-ui-react-components'
 
+import { FolderIcon } from '../../../lib-react-components'
 import { DropDownItem } from '../styles'
 
 /**

@@ -2,10 +2,10 @@ import { useState } from 'react'
 
 import { html } from 'htm/react'
 import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
-import { KebabMenuIcon } from 'pearpass-lib-ui-react-components'
 
 import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems'
+import { KebabMenuIcon } from '../../lib-react-components'
 import { PopupMenu } from '../PopupMenu'
 import { RecordActionsPopupContent } from '../RecordActionsPopupContent'
 import { RecordAvatar } from '../RecordAvatar'
@@ -56,6 +56,8 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
     setIsOpen(!isOpen)
   }
 
+  const domain = record.type === 'login' ? record?.data?.websites?.[0] : null
+
   return html`
     <${RecordWrapper}
       open=${isOpen}
@@ -64,7 +66,7 @@ export const Record = ({ record, isSelected = false, onClick, onSelect }) => {
     >
       <${RecordInformation}>
         <${RecordAvatar}
-          avatarSrc=${record?.data?.avatarSrc}
+          websiteDomain=${domain}
           initials=${generateAvatarInitials(record?.data?.title)}
           isSelected=${isSelected}
           isFavorite=${record?.isFavorite}

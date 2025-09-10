@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { YellowErrorIcon } from 'pearpass-lib-ui-react-components'
 
 import { Container } from './styles'
+import { YellowErrorIcon } from '../../lib-react-components'
 
 export const NoticeContainer = ({ text }) => html`
   <${Container}>

@@ -4,14 +4,11 @@ import { useEffect, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ArrowLeftIcon,
-  ButtonRoundIcon
-} from 'pearpass-lib-ui-react-components'
 import { usePair, useVault } from 'pearpass-lib-vault'
 
 import {
   Header,
+  InputContainer,
   LoadVaultCard,
   LoadVaultInput,
   LoadVaultNotice,
@@ -19,6 +16,7 @@ import {
 } from './styles'
 import { useRouter } from '../../../context/RouterContext'
 import { useToast } from '../../../context/ToastContext'
+import { ArrowLeftIcon, ButtonRoundIcon } from '../../../lib-react-components'
 
 export const CardLoadVault = () => {
   const { i18n } = useLingui()
@@ -95,7 +93,7 @@ export const CardLoadVault = () => {
       <${LoadVaultTitle}>${i18n._('Load an existing Vault')}<//>
     <//>
 
-    <div>
+    <${InputContainer}>
       <${LoadVaultInput}
         autoFocus
         placeholder=${i18n._('Insert your code vault...')}
@@ -121,6 +119,6 @@ export const CardLoadVault = () => {
 
       ${isPairing &&
       html`<${LoadVaultNotice}>${i18n._('Click Escape to cancel pairing')}<//>`}
-    </div>
+    <//>
   <//>`
 }

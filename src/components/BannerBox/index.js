@@ -1,9 +1,4 @@
 import { html } from 'htm/react'
-import {
-  ButtonPrimary,
-  ButtonRoundIcon,
-  XIcon
-} from 'pearpass-lib-ui-react-components'
 
 import {
   CloseButtonWrapper,
@@ -12,6 +7,11 @@ import {
   Message,
   Title
 } from './styles'
+import {
+  ButtonPrimary,
+  ButtonRoundIcon,
+  XIcon
+} from '../../lib-react-components'
 
 export const BannerBox = ({
   onClose,

@@ -1,7 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
-import { ButtonPrimary } from 'pearpass-lib-ui-react-components'
 
 import {
   ButtonWrapper,
@@ -13,6 +12,7 @@ import {
   Title
 } from './styles'
 import { useModal } from '../../../context/ModalContext'
+import { ButtonPrimary } from '../../../lib-react-components'
 
 /**
  * @param {{

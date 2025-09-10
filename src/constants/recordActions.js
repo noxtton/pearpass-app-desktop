@@ -3,7 +3,7 @@ import {
   MoveToIcon,
   DeleteIcon,
   StarIcon
-} from 'pearpass-lib-ui-react-components'
+} from '../lib-react-components'
 
 /**
  * @type {Record<string, import('react').ElementType>}

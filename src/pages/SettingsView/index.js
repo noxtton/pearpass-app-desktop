@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { BackIcon, ButtonRoundIcon } from 'pearpass-lib-ui-react-components'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'
@@ -18,6 +17,7 @@ import {
   Wrapper
 } from './styles'
 import { useRouter } from '../../context/RouterContext'
+import { BackIcon, ButtonRoundIcon } from '../../lib-react-components'
 
 export const SettingsView = () => {
   const { i18n } = useLingui()

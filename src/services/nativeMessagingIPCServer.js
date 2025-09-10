@@ -234,8 +234,8 @@ export class NativeMessagingIPCServer {
       vaultHandlers.activeVaultDeleteInvite.bind(vaultHandlers)
     )
     this.secureMethodRegistry.register(
-      'pair',
-      vaultHandlers.pair.bind(vaultHandlers)
+      'pairActiveVault',
+      vaultHandlers.pairActiveVault.bind(vaultHandlers)
     )
     this.secureMethodRegistry.register(
       'initListener',
@@ -244,6 +244,10 @@ export class NativeMessagingIPCServer {
     this.secureMethodRegistry.register(
       'closeVault',
       vaultHandlers.closeVault.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'cancelPairActiveVault',
+      vaultHandlers.cancelPairActiveVault.bind(vaultHandlers)
     )
   }
 

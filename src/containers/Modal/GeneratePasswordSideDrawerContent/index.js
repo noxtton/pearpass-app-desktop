@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonLittle, CopyIcon } from 'pearpass-lib-ui-react-components'
 import {
   generatePassphrase,
   generatePassword
@@ -18,6 +17,7 @@ import { PasswordGenerator } from './PasswordGenerator'
 import { HeaderButtonWrapper, RadioWrapper, Wrapper } from './styles'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { ButtonLittle, CopyIcon } from '../../../lib-react-components'
 
 /**
  * @param {{

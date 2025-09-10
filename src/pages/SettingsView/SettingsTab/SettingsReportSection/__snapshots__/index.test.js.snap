@@ -3,30 +3,30 @@
 exports[`SettingsReportSection matches snapshot 1`] = `
 <div>
   <div
-    class="sc-fhfEft enYCW"
+    class="sc-fhHczv dTOQkU"
   >
     <div
-      class="sc-bAehkN ghYOwP"
+      class="sc-ggWZvA fNxenS"
     >
       <span
-        class="sc-gahYZc jmcQNG"
+        class="sc-dTvVRJ eiiIng"
       >
         Report Issue
       </span>
     </div>
     <div>
       <form
-        class="sc-bjMIFn dnOnxq"
+        class="sc-bRKDuR hMjkPC"
       >
         <textarea
-          class="sc-ipUnzB gBywZB"
+          class="sc-bbbBoY dthvDh"
           placeholder="Describe the issue"
         />
         <div
-          class="sc-dClGHI iAvMIo"
+          class="sc-hvigdm gPHtFM"
         >
           <button
-            class="sc-ggWZvA SCphM"
+            class="sc-kNOymR dsPMGu"
             type="submit"
           >
              

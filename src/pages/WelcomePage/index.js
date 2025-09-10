@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { CardCreateMasterPassword } from './CardCreateMasterPassword'
@@ -10,19 +9,11 @@ import { CardUnlockPearPass } from './CardUnlockPearPass'
 import { CardUnlockVault } from './CardUnlockVault'
 import { CardUploadBackupFile } from './CardUploadBackupFile'
 import { CardVaultSelect } from './CardVaultSelect'
-import {
-  CardVaultActions,
-  ImageContainer,
-  PageContainer,
-  PearHand,
-  Title
-} from './styles'
+import { CardVaultActions, PageContainer } from './styles'
 import { InitialPageWrapper } from '../../components/InitialPageWrapper'
 import { useRouter } from '../../context/RouterContext'
-import { GradientContainer } from '../Intro/GradientContainer'
 
 export const WelcomePage = () => {
-  const { i18n } = useLingui()
   const { data } = useRouter()
 
   const Card = React.useMemo(() => {
@@ -47,18 +38,10 @@ export const WelcomePage = () => {
   }, [data.state])
 
   return html`
-    <${InitialPageWrapper}>
+    <${InitialPageWrapper} isAuthScreen=${true}>
       <${PageContainer}>
-        <${Title}>${i18n._('Welcome to PearPass!')}<//>
-
         <${CardVaultActions}>
           <${Card} />
-        <//>
-
-        <${ImageContainer}>
-          <${GradientContainer} blurSize="md">
-            <${PearHand} src="assets/images/PearLock.png" alt="pearHand" />
-          <//>
         <//>
       <//>
     <//>

@@ -4,12 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassInputField,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 import { useCreateVault, useVault } from 'pearpass-lib-vault'
 
 import {
@@ -23,6 +17,12 @@ import {
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassInputField,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { getDeviceName } from '../../../utils/getDeviceName'
 import { logger } from '../../../utils/logger'
 
@@ -89,7 +89,7 @@ export const CardNewVaultCredentials = () => {
   return html`
     <${Form} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Enter Name and Password for new Vault')} <//>
+        <${Title}> ${i18n._('Create new Vault')} <//>
       <//>
 
       <${InputsContainer}>

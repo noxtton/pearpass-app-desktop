@@ -2,13 +2,13 @@ import { useMemo } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { DeleteIcon, FolderIcon } from 'pearpass-lib-ui-react-components'
 import { useFolders } from 'pearpass-lib-vault'
 
 import { MenuItem, MenuList } from './styles'
 import { ConfirmationModalContent } from '../../containers/Modal/ConfirmationModalContent'
 import { CreateFolderModalContent } from '../../containers/Modal/CreateFolderModalContent'
 import { useModal } from '../../context/ModalContext'
+import { DeleteIcon, FolderIcon } from '../../lib-react-components'
 
 /**
  *

@@ -1,12 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
-import {
-  ButtonRoundIcon,
-  TimeIcon,
-  UserSecurityIcon,
-  XIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
@@ -20,6 +14,12 @@ import {
   QrImage,
   Text
 } from './styles'
+import {
+  ButtonRoundIcon,
+  TimeIcon,
+  UserSecurityIcon,
+  XIcon
+} from '../../../lib-react-components'
 
 export const AddDevice = () => {
   const { i18n } = useLingui()

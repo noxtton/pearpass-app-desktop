@@ -19,7 +19,19 @@ export const SidebarWrapper = styled.div`
 
 export const LogoWrapper = styled.div`
   display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
+`
+
+export const PearPass = styled.span`
+  color: ${({ theme }) => theme.colors.white.mode1};
+  font-family: 'Humble Nostalgia';
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  height: 26px;
 `
 
 export const sideBarContent = styled.div`

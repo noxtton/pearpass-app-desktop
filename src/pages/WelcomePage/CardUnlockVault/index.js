@@ -1,19 +1,19 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
-import { useVault, useVaults } from 'pearpass-lib-vault'
+import { useVault } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const CardUnlockVault = () => {
@@ -26,12 +26,6 @@ export const CardUnlockVault = () => {
   const { navigate, currentPage, data: routerData } = useRouter()
 
   const { refetch: refetchVault } = useVault()
-  const { data: vaults } = useVaults()
-
-  const vault = useMemo(
-    () => vaults.find((vault) => vault.id === routerData.vaultId),
-    [vaults, routerData]
-  )
 
   const schema = Validator.object({
     password: Validator.string().required(i18n._('Password is required'))
@@ -69,17 +63,16 @@ export const CardUnlockVault = () => {
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}>
-          ${i18n._('Unlock {vaultName} with your vault password', {
-            vaultName: vault.name ?? vault.id
-          })}
-        <//>
+        <${Title}> ${i18n._('Enter Vault Password')} <//>
       <//>
 
-      <${PearPassPasswordField} ...${register('password')} />
+      <${PearPassPasswordField}
+        placeholder=${i18n._('Enter Vault Password')}
+        ...${register('password')}
+      />
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
+        <${ButtonPrimary} type="submit"> ${i18n._('Unlock Vault')} <//>
 
         <${ButtonSecondary}
           onClick=${() => navigate(currentPage, { state: 'vaults' })}

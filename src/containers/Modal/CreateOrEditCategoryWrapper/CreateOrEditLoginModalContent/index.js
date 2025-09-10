@@ -4,22 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonLittle,
-  ButtonRoundIcon,
-  ButtonSingleInput,
-  CompoundField,
-  DeleteIcon,
-  ImageIcon,
-  InputField,
-  KeyIcon,
-  PasswordField,
-  PasswordIcon,
-  PlusIcon,
-  SaveIcon,
-  UserIcon,
-  WorldIcon
-} from 'pearpass-lib-ui-react-components'
 import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
@@ -35,10 +19,25 @@ import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useCreateOrEditRecord } from '../../../../hooks/useCreateOrEditRecord'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import {
+  ButtonLittle,
+  ButtonRoundIcon,
+  ButtonSingleInput,
+  CompoundField,
+  DeleteIcon,
+  ImageIcon,
+  InputField,
+  KeyIcon,
+  PasswordField,
+  PasswordIcon,
+  PlusIcon,
+  SaveIcon,
+  UserIcon,
+  WorldIcon
+} from '../../../../lib-react-components'
 import { addHttps } from '../../../../utils/addHttps'
 import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
-import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
@@ -162,8 +161,8 @@ export const CreateOrEditLoginModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.LOGIN,
-      folder: isFavorite(values.folder) ? undefined : values.folder,
-      isFavorite: isFavorite(values.folder),
+      folder: values.folder,
+      isFavorite: initialRecord?.isFavorite,
       data: {
         title: values.title,
         username: values.username,

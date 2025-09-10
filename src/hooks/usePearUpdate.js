@@ -1,4 +1,4 @@
-/** @typedef {import('pear-interface')} */ /* global Pear */
+/** @typedef {import('pear-interface')} */
 
 import { useEffect, useRef } from 'react'
 
@@ -11,36 +11,55 @@ export const usePearUpdate = () => {
   const { setModal } = useModal()
   const modalShownRef = useRef(false)
 
-  const handleUpdateApp = () => {
-    Pear.restart({ platform: false })
+  const showUpdateRequiredModal = () => {
+    if (modalShownRef.current || Pear.config.tier === 'dev') {
+      return
+    }
+
+    setModal(
+      html`<${UpdateRequiredModalContent} onUpdate=${handleUpdateApp} />`,
+      { closable: false }
+    )
+
+    modalShownRef.current = true
+  }
+
+  const checkIfUpdated = async () => {
+    const update = await Pear.updated()
+
+    if (update) {
+      showUpdateRequiredModal()
+    }
+  }
+
+  const onPearUpdate = (update) => {
+    if (!hasNonIgnoredChanges(update?.diff)) {
+      return
+    }
+
+    if (Pear.config.tier === 'dev') {
+      Pear.reload()
+      return
+    }
+
+    showUpdateRequiredModal()
   }
 
   useEffect(() => {
-    Pear.updates(async (update) => {
-      // Check if the update is related to our IPC socket file or debug log
-      if (update && update.diff) {
-        const hasNonIgnoredChanges = update.diff.some(
-          ({ key: file }) =>
-            !file.startsWith('/logs') &&
-            !file.includes('pearpass-native-messaging.sock')
-        )
+    checkIfUpdated()
 
-        if (!hasNonIgnoredChanges) {
-          return
-        }
-      }
-      if (!modalShownRef.current && Pear.config.tier !== 'dev') {
-        modalShownRef.current = true
-
-        setModal(
-          html`<${UpdateRequiredModalContent} onUpdate=${handleUpdateApp} />`,
-          { closable: false }
-        )
-      }
-
-      if (Pear.config.tier === 'dev') {
-        Pear.reload()
-      }
-    })
+    Pear.updates(onPearUpdate)
   }, [])
+}
+
+function hasNonIgnoredChanges(diff) {
+  return diff?.some(
+    ({ key: file }) =>
+      !file.startsWith('/logs') &&
+      !file.includes('pearpass-native-messaging.sock')
+  )
+}
+
+function handleUpdateApp() {
+  Pear.restart({ platform: false })
 }

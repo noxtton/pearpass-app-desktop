@@ -26,7 +26,7 @@ export const LoadVaultTitle = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   text-align: center;
   font-family: 'Inter';
-  font-size: 24px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -45,13 +45,17 @@ export const LoadVaultNotice = styled.div`
   line-height: normal;
 `
 
+export const InputContainer = styled.div`
+  width: 100%;
+`
+
 export const LoadVaultInput = styled.input`
   display: flex;
-  width: 437px;
+  width: 100%;
   padding: 12px 20px;
   align-items: center;
   gap: 10px;
-  border-radius: 30px;
+  border-radius: 10px;
   background: ${({ theme }) => theme.colors.grey400.mode1};
   border: 1px solid ${({ theme }) => theme.colors.grey300.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};

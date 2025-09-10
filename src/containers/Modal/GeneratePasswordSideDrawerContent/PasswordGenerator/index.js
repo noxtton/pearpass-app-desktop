@@ -1,7 +1,7 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { Slider } from 'pearpass-lib-ui-react-components'
 
+import { Slider } from '../../../../lib-react-components'
 import { RuleSelector } from '../RuleSelector'
 import {
   SliderContainer,

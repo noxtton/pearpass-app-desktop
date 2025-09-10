@@ -1,16 +1,12 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  CommonFileIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault, useVaults } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
   CardContainer,
+  CardNoVaultsText,
   CardTitle,
   ImportContainer,
   ImportText,
@@ -19,6 +15,11 @@ import {
 } from './styles'
 import { ListItem } from '../../../components/ListItem'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  CommonFileIcon
+} from '../../../lib-react-components'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated'
 
 export const CardVaultSelect = () => {
@@ -63,21 +64,26 @@ export const CardVaultSelect = () => {
         <${Title}>
           ${data.length > 0
             ? i18n._('Select a vault, create a new one or load another one')
-            : i18n._('Start with creating a new vault or load another one')}
+            : i18n._('Create or Load Vault')}
         <//>
       <//>
 
-      ${hasVaults &&
-      html` <${VaultsContainer}>
-        ${data.map(
-          (vault) =>
-            html`<${ListItem}
-              onClick=${() => handleSelectVault(vault.id)}
-              itemName="${vault.name}"
-              itemDateText=${vaultCreatedFormat(vault.createdAt)}
-            />`
-        )}
-      <//>`}
+      ${hasVaults
+        ? html` <${VaultsContainer}>
+            ${data.map(
+              (vault) =>
+                html`<${ListItem}
+                  onClick=${() => handleSelectVault(vault.id)}
+                  itemName="${vault.name}"
+                  itemDateText=${vaultCreatedFormat(vault.createdAt)}
+                />`
+            )}
+          <//>`
+        : html`<${CardNoVaultsText}>
+            ${i18n._(
+              'Now create a secure vault or load an existing one to get started.'
+            )}
+          <//> `}
 
       <${ButtonWrapper}>
         <${ButtonPrimary} onClick=${handleCreateNewVault}>

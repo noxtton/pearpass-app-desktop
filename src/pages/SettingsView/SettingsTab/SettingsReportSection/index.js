@@ -1,8 +1,8 @@
 import { html } from 'htm/react'
-import { ButtonSecondary, TextArea } from 'pearpass-lib-ui-react-components'
 
 import { ButtonWrapper, Form } from './styles'
 import { CardSingleSetting } from '../../../../components/CardSingleSetting'
+import { ButtonSecondary, TextArea } from '../../../../lib-react-components'
 
 /**
  * @param {{

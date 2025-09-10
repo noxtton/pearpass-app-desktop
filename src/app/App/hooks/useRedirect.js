@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 
 import { useUserData } from 'pearpass-lib-vault'
 
-import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { useRouter } from '../../../context/RouterContext'
 import { logger } from '../../../utils/logger'
 
@@ -25,14 +24,6 @@ export const useRedirect = () => {
 
         if (!userData?.hasPasswordSet) {
           navigate('intro')
-          return
-        }
-
-        const isTouAccepted =
-          localStorage.getItem(LOCAL_STORAGE_KEYS.TOU_ACCEPTED) === 'true'
-
-        if (!isTouAccepted) {
-          navigate('termsOfUse')
           return
         }
 

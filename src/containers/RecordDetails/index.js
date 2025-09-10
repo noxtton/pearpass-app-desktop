@@ -3,15 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { generateAvatarInitials } from 'pear-apps-utils-avatar-initials'
-import {
-  BrushIcon,
-  ButtonLittle,
-  ButtonRoundIcon,
-  CollapseIcon,
-  FolderIcon,
-  KebabMenuIcon,
-  StarIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useRecordById, useRecords } from 'pearpass-lib-vault'
 
@@ -33,6 +24,15 @@ import { RECORD_COLOR_BY_TYPE } from '../../constants/recordColorByType'
 import { useRouter } from '../../context/RouterContext'
 import { useCreateOrEditRecord } from '../../hooks/useCreateOrEditRecord'
 import { useRecordActionItems } from '../../hooks/useRecordActionItems'
+import {
+  BrushIcon,
+  ButtonLittle,
+  ButtonRoundIcon,
+  CollapseIcon,
+  FolderIcon,
+  KebabMenuIcon,
+  StarIcon
+} from '../../lib-react-components'
 
 export const RecordDetails = () => {
   const { i18n } = useLingui()
@@ -77,12 +77,14 @@ export const RecordDetails = () => {
     return null
   }
 
+  const domain = record.type === 'login' ? record?.data?.websites?.[0] : null
+
   return html`
     <${React.Fragment}>
       <${Header}>
         <${RecordInfo}>
           <${RecordAvatar}
-            avatarSrc=${record?.data?.avatarSrc}
+            websiteDomain=${domain}
             initials=${generateAvatarInitials(record?.data?.title)}
             isFavorite=${record?.isFavorite}
             color=${RECORD_COLOR_BY_TYPE[record?.type]}

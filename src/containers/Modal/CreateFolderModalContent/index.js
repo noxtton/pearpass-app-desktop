@@ -4,17 +4,17 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  InputField,
-  ButtonLittle,
-  SaveIcon
-} from 'pearpass-lib-ui-react-components'
 import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
+import {
+  InputField,
+  ButtonLittle,
+  SaveIcon
+} from '../../../lib-react-components'
 
 /**
  * @param {{
