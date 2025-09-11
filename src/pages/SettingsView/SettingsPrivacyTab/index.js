@@ -69,7 +69,7 @@ export const SettingsPrivacyTab = () => {
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
           ><//>
-          ${i18n._('Active Browser extension')}
+          ${i18n._('Activate browser extension')}
         <//>
         <${RuleSelector}
           rules=${ruleOptions}
