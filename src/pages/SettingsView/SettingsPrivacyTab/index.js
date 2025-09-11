@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
@@ -16,23 +16,15 @@ export const SettingsPrivacyTab = () => {
   const { isBrowserExtensionEnabled, toggleBrowserExtension } =
     useConnectExtension()
 
-  const [selectedRules, setSelectedRules] = useState({
-    copyToClipboard: false
-  })
+  const [selectedRules, setSelectedRules] = useState(() => {
+    const isEnabled = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
+    )
 
-  useEffect(() => {
-    const getCopyToClipboardSetting = () => {
-      const isEnabled = localStorage.getItem(
-        LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
-      )
-
-      setSelectedRules({
-        copyToClipboard: isEnabled === 'true'
-      })
+    return {
+      copyToClipboard: isEnabled === 'true'
     }
-
-    getCopyToClipboardSetting()
-  }, [])
+  })
 
   const ruleOptions = useMemo(() => {
     const options = [
@@ -77,7 +69,7 @@ export const SettingsPrivacyTab = () => {
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
           ><//>
-          ${i18n._('Active Browser extension')}
+          ${i18n._('Activate browser extension')}
         <//>
         <${RuleSelector}
           rules=${ruleOptions}
