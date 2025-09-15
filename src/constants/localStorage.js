@@ -1,5 +1,6 @@
 export const LOCAL_STORAGE_KEYS = {
   NATIVE_MESSAGING_ENABLED: 'native-messaging-enabled',
   TOU_ACCEPTED: 'tou-accepted',
-  COPY_TO_CLIPBOARD_ENABLED: 'copy-to-clipboard-enabled'
+  COPY_TO_CLIPBOARD_ENABLED: 'copy-to-clipboard-enabled',
+  PASSWORD_CHANGE_REMINDER_ENABLED: 'password-change-reminder-enabled'
 }

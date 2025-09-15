@@ -3,7 +3,9 @@ import React, { useEffect } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { isBefore, subtractDateUnits } from 'pear-apps-utils-date'
 
+import { AlertBox } from '../../../components/AlertBox'
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
 import { InputFieldNote } from '../../../components/InputFieldNote'
@@ -20,6 +22,7 @@ import {
   UserIcon,
   WorldIcon
 } from '../../../lib-react-components'
+import { isPasswordChangeReminderDisabled } from '../../../utils/isPasswordChangeReminderDisabled'
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
@@ -100,12 +103,28 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
 
     copyToClipboard(value)
   }
+  const isPasswordSixMonthsOld = () => {
+    const { passwordUpdatedAt } = initialRecord?.data || {}
+    return (
+      !!passwordUpdatedAt &&
+      isBefore(passwordUpdatedAt, subtractDateUnits(6, 'month'))
+    )
+  }
 
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
 
   return html`
+    ${!isPasswordChangeReminderDisabled() &&
+    isPasswordSixMonthsOld() &&
+    html`
+      <${AlertBox}
+        message=${i18n._(
+          'It’s been 6 months since you last updated this password consider changing it to keep your account secure.'
+        )}
+      />
+    `}
     <${FormWrapper}>
       <${FormGroup}>
         ${!!values?.username?.length &&

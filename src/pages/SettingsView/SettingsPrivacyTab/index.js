@@ -5,16 +5,21 @@ import { html } from 'htm/react'
 
 import { SwitchList, SwitchWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { RuleSelector } from '../../../containers/Modal/GeneratePasswordSideDrawerContent/RuleSelector'
 import { useConnectExtension } from '../../../hooks/useConnectExtension'
 import { Switch } from '../../../lib-react-components'
+import { isPasswordChangeReminderDisabled } from '../../../utils/isPasswordChangeReminderDisabled'
 import { Description } from '../ExportTab/styles'
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
   const { isBrowserExtensionEnabled, toggleBrowserExtension } =
     useConnectExtension()
+  const [isPasswordReminderDisabled, setIsPasswordReminderDisabled] = useState(
+    isPasswordChangeReminderDisabled()
+  )
 
   const [selectedRules, setSelectedRules] = useState(() => {
     const isEnabled = localStorage.getItem(
@@ -55,6 +60,21 @@ export const SettingsPrivacyTab = () => {
     setSelectedRules({ ...newRules })
   }
 
+  const handlePasswordChangeReminder = (isEnabled) => {
+    if (!isEnabled) {
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.PASSWORD_CHANGE_REMINDER_ENABLED,
+        'false'
+      )
+    } else {
+      localStorage.removeItem(
+        LOCAL_STORAGE_KEYS.PASSWORD_CHANGE_REMINDER_ENABLED
+      )
+    }
+
+    setIsPasswordReminderDisabled(!isEnabled)
+  }
+
   return html`
     <${CardSingleSetting} title=${i18n._('Personalization')}>
       <${Description}>
@@ -64,6 +84,14 @@ export const SettingsPrivacyTab = () => {
       <//>
 
       <${SwitchList}>
+        <${SwitchWithLabel}
+          isOn=${!isPasswordReminderDisabled}
+          onChange=${(isOn) => handlePasswordChangeReminder(isOn)}
+          label=${i18n._('Reminders')}
+          isSwitchFirst
+          stretch=${false}
+          description=${i18n._('Enable the reminders to change your passwords')}
+        />
         <${SwitchWrapper}>
           <${Switch}
             isOn=${isBrowserExtensionEnabled}
