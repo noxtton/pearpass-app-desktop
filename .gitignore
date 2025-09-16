@@ -12,7 +12,6 @@ pass
 # Generated log files
 logs/
 
-
 .env
 
 .DS_Store
