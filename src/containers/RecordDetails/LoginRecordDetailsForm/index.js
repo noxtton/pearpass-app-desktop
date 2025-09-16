@@ -120,9 +120,11 @@ export const LoginRecordDetailsForm = ({ initialRecord, selectedFolder }) => {
     isPasswordSixMonthsOld() &&
     html`
       <${AlertBox}
-        message=${i18n._(
-          'It’s been 6 months since you last updated this password consider changing it to keep your account secure.'
-        )}
+        message=${html`
+          ${i18n._('It’s been 6 months since you last updated this password')}
+          <br />
+          ${i18n._('Consider changing it to keep your account secure.')}
+        `}
       />
     `}
     <${FormWrapper}>
