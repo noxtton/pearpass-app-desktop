@@ -4,12 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassInputField,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 import { useVault } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
@@ -22,13 +16,19 @@ import {
   ModalTitle
 } from './styles'
 import { useLoadingContext } from '../../../context/LoadingContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassInputField,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
-  const { isVaultProtected, updateVault } = useVault()
+  const { isVaultProtected, updateVault, refetch: refetchVault } = useVault()
 
   const [isProtected, setIsProtected] = useState(false)
   const { setIsLoading } = useLoadingContext()
@@ -80,7 +80,7 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
       closeModal()
     } catch (error) {
       setIsLoading(false)
-      logger.error('Error updating vault:', error)
+      logger.error('ModifyVaultModalContent', 'Error updating vault:', error)
       setErrors({
         currentPassword: i18n._('Invalid password')
       })
@@ -94,6 +94,10 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
     }
     checkProtection()
   }, [vaultId])
+
+  useEffect(() => {
+    refetchVault()
+  }, [])
 
   return html` <${ModalContent}
     onClose=${closeModal}

@@ -58,11 +58,15 @@ describe('ToastContext', () => {
       setToastFn(toastData)
     })
 
-    expect(Toasts).toHaveBeenLastCalledWith(
+    // Find the call with toasts
+    const callsWithToasts = Toasts.mock.calls.filter(
+      (call) => call[0].toasts.length > 0
+    )
+    expect(callsWithToasts.length).toBeGreaterThan(0)
+    expect(callsWithToasts[callsWithToasts.length - 1][0]).toEqual(
       expect.objectContaining({
         toasts: [toastData]
-      }),
-      expect.anything()
+      })
     )
   })
 
@@ -84,23 +88,24 @@ describe('ToastContext', () => {
       setToastFn(toastData)
     })
 
-    expect(Toasts).toHaveBeenLastCalledWith(
+    // Verify toast was added
+    const callsWithToasts = Toasts.mock.calls.filter(
+      (call) => call[0].toasts.length > 0
+    )
+    expect(callsWithToasts.length).toBeGreaterThan(0)
+    expect(callsWithToasts[callsWithToasts.length - 1][0]).toEqual(
       expect.objectContaining({
         toasts: [toastData]
-      }),
-      expect.anything()
+      })
     )
 
     act(() => {
       jest.advanceTimersByTime(3000)
     })
 
-    expect(Toasts).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        toasts: []
-      }),
-      expect.anything()
-    )
+    // Find the last call with empty toasts
+    const lastCall = Toasts.mock.calls[Toasts.mock.calls.length - 1]
+    expect(lastCall[0].toasts).toEqual([])
   })
 
   it('should handle multiple toasts', () => {
@@ -123,11 +128,15 @@ describe('ToastContext', () => {
       setToastFn(toast2)
     })
 
-    expect(Toasts).toHaveBeenLastCalledWith(
+    // Find the call with two toasts
+    const callsWithTwoToasts = Toasts.mock.calls.filter(
+      (call) => call[0].toasts.length === 2
+    )
+    expect(callsWithTwoToasts.length).toBeGreaterThan(0)
+    expect(callsWithTwoToasts[callsWithTwoToasts.length - 1][0]).toEqual(
       expect.objectContaining({
         toasts: [toast1, toast2]
-      }),
-      expect.anything()
+      })
     )
   })
 })

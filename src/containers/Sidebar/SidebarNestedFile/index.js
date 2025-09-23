@@ -17,7 +17,8 @@ import { useRecordMenuItems } from '../../../hooks/useRecordMenuItems'
  *  folderId: string,
  *  isNew: boolean,
  *  name: string
- *  id: string
+ *  id: string,
+ *  level?: number
  * }} props
  */
 export const SidebarNestedFile = ({
@@ -26,13 +27,14 @@ export const SidebarNestedFile = ({
   folderId,
   color = colors.white.mode1,
   isNew = false,
-  id
+  id,
+  level = 0
 }) => {
   const { navigate, data } = useRouter()
 
   const [isNewPopupMenuOpen, setIsNewPopupMenuOpen] = useState(false)
 
-  const { popupItems } = useRecordMenuItems()
+  const { defaultItems } = useRecordMenuItems()
 
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
@@ -54,7 +56,7 @@ export const SidebarNestedFile = ({
   }
 
   return html`
-    <${NestedFileContainer}>
+    <${NestedFileContainer} isRootScope=${level === 1}>
       ${isNew
         ? html`
             <${PopupMenu}
@@ -64,19 +66,19 @@ export const SidebarNestedFile = ({
               setIsOpen=${setIsNewPopupMenuOpen}
               content=${html`
                 <${CreateNewCategoryPopupContent}
-                  menuItems=${popupItems}
+                  menuItems=${defaultItems}
                   onClick=${handleMenuItemClick}
                 />
               `}
             >
               <${NestedFile} color=${color} onClick=${handleNewClick}>
-                <${icon} color=${colors.primary400.mode1} size="14" />
+                <${icon} color=${colors.primary400.mode1} size="24" />
                 ${name}
               <//>
             <//>
           `
         : html` <${NestedFile} color=${color} onClick=${handleFileClick}>
-            <${icon} size="14" />
+            <${icon} size="24" />
             ${name}
           <//>`}
     <//>

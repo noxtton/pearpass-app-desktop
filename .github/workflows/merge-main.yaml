@@ -35,6 +35,8 @@ jobs:
         run: |
           npm run lingui:extract
           npm run lingui:compile
+      - name: Prune dev dependencies
+        run: npm prune --omit=dev
       - name: "Stage to channel"
         run: |
           echo "CHANNEL_LINK: ${CHANNEL_LINK}"

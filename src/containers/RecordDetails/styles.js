@@ -12,7 +12,7 @@ export const RecordInfo = styled.div`
 `
 
 export const Title = styled.div`
-  color: ${({ theme }) => theme.colors.white.option2};
+  color: ${({ theme }) => theme.colors.white.dark};
   font-family: 'Inter';
   font-size: 16px;
   font-weight: 700;
@@ -22,7 +22,7 @@ export const FolderWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-  color: ${({ theme }) => theme.colors.grey200.option2};
+  color: ${({ theme }) => theme.colors.grey200.dark};
   font-family: 'Inter';
   font-size: 12px;
   font-weight: 400;

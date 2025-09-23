@@ -4,21 +4,16 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
+import { useUserData, useVaults } from 'pearpass-lib-vault'
+
+import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
+import { AlertBox } from '../../../components/AlertBox'
+import { useGlobalLoading } from '../../../context/LoadingContext'
+import { useRouter } from '../../../context/RouterContext'
 import {
   ButtonPrimary,
   PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
-import { useUserData, useVaults } from 'pearpass-lib-vault'
-
-import {
-  ButtonWrapper,
-  CardContainer,
-  CardTitle,
-  Description,
-  Title
-} from './styles'
-import { useGlobalLoading } from '../../../context/LoadingContext'
-import { useRouter } from '../../../context/RouterContext'
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const CardUnlockPearPass = () => {
@@ -72,23 +67,25 @@ export const CardUnlockPearPass = () => {
         password: i18n._('Invalid password')
       })
 
-      logger.error('Error unlocking PearPass:', error)
+      logger.error('useGetMultipleFiles', 'Error unlocking PearPass:', error)
     }
   }
 
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Unlock PearPass')}<//>
-
-        <${Description}>
-          ${i18n._('Unlock PearPass with your master password')}
-        <//>
+        <${Title}> ${i18n._('Enter your Master password')}<//>
       <//>
 
       <${PearPassPasswordField}
         placeholder=${i18n._('Master password')}
         ...${register('password')}
+      />
+
+      <${AlertBox}
+        message=${i18n._(
+          'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
+        )}
       />
 
       <${ButtonWrapper}>

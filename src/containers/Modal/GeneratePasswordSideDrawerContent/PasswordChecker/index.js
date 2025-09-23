@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { HighlightString, NoticeText } from 'pearpass-lib-ui-react-components'
 import { isPasswordSafe } from 'pearpass-utils-password-check'
 
+import { HighlightString, NoticeText } from '../../../../lib-react-components'
 import { PasswordWrapper } from '../styles'
 /**
  * @param {{
@@ -19,8 +19,10 @@ export const PasswordChecker = ({ pass }) => {
   const result = isPasswordSafe(pass)
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass} />
-    ${!result.isSafe
+    ${result.strength === 'vulnerable'
       ? html` <${NoticeText} text=${i18n._('Vulnerable')} type="error" />`
-      : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
+      : result.strength === 'weak'
+        ? html` <${NoticeText} text=${i18n._('Weak')} type="warning" />`
+        : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
   <//>`
 }

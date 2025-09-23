@@ -4,7 +4,7 @@ import { render } from '@testing-library/react'
 
 import { ButtonPlusCreateNew } from './index'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   PlusIcon: () => 'PlusIcon',
   XIcon: () => 'XIcon'
 }))

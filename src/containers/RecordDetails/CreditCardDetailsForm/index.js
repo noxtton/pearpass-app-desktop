@@ -3,6 +3,14 @@ import React, { useEffect } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
+
+import { FormGroup } from '../../../components/FormGroup'
+import { FormWrapper } from '../../../components/FormWrapper'
+import { InputFieldNote } from '../../../components/InputFieldNote'
+import { ATTACHMENTS_FIELD_KEY } from '../../../constants/formFields'
+import { useToast } from '../../../context/ToastContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
 import {
   CalendarIcon,
   CopyIcon,
@@ -11,15 +19,7 @@ import {
   NineDotsIcon,
   PasswordField,
   UserIcon
-} from 'pearpass-lib-ui-react-components'
-
-import { FormGroup } from '../../../components/FormGroup'
-import { FormWrapper } from '../../../components/FormWrapper'
-import { InputFieldNote } from '../../../components/InputFieldNote'
-import { ATTACHMENT_FIELD_KEY } from '../../../constants/formFields'
-import { useToast } from '../../../context/ToastContext'
-import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
-import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+} from '../../../lib-react-components'
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
@@ -80,19 +80,19 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
   const { value: list, registerItem } = registerArray('customFields')
 
   useGetMultipleFiles({
-    fieldNames: [ATTACHMENT_FIELD_KEY],
+    fieldNames: [ATTACHMENTS_FIELD_KEY],
     updateValues: setValue,
     initialRecord
   })
 
-  const handleCopy = (value) => {
+  const handleCopy = (value, stripSpaces = false) => {
     if (!value?.length) {
       return
     }
 
-    copyToClipboard(value)
+    const textToCopy = stripSpaces ? value.replace(/\s/g, '') : value
+    copyToClipboard(textToCopy)
   }
-
   useEffect(() => {
     setValues(initialValues)
   }, [initialValues, setValues])
@@ -119,16 +119,17 @@ export const CreditCardDetailsForm = ({ initialRecord, selectedFolder }) => {
             placeholder="1234 1234 1234 1234 "
             variant="outline"
             icon=${CreditCardIcon}
-            onClick=${handleCopy}
+            onClick=${(value) => handleCopy(value, true)}
             isDisabled
             ...${register('number')}
+            value=${values.number.replace(/(.{4})/g, '$1 ').trim()}
           />
         `}
         ${!!values?.expireDate?.length &&
         html`
           <${InputField}
             label=${i18n._('Date of expire')}
-            placeholder="MM/YY"
+            placeholder="MM YY"
             variant="outline"
             icon=${CalendarIcon}
             onClick=${handleCopy}

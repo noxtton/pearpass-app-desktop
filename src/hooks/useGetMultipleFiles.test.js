@@ -83,6 +83,7 @@ describe('useGetMultipleFiles', () => {
 
     await waitFor(() => {
       expect(logger.error).toHaveBeenCalledWith(
+        'useGetMultipleFiles',
         'Error retrieving files:',
         expect.any(Error)
       )

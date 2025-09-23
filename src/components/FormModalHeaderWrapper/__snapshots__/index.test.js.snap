@@ -4,10 +4,10 @@ exports[`FormModalHeaderWrapper renders children and buttons correctly 1`] = `
 <div>
    
   <div
-    class="sc-blHHSb kcPVdE"
+    class="sc-bRKDuR dGUPt"
   >
     <div
-      class="sc-gtLWhw ebBSjY"
+      class="sc-hvigdm dEdrNg"
     >
        
       <div
@@ -18,7 +18,7 @@ exports[`FormModalHeaderWrapper renders children and buttons correctly 1`] = `
        
     </div>
     <div
-      class="sc-egkSDF jvCnot"
+      class="sc-fhHczv cpmIbm"
     >
        
       <div
@@ -36,16 +36,16 @@ exports[`FormModalHeaderWrapper renders with empty content 1`] = `
 <div>
    
   <div
-    class="sc-blHHSb kcPVdE"
+    class="sc-bRKDuR dGUPt"
   >
     <div
-      class="sc-gtLWhw ebBSjY"
+      class="sc-hvigdm dEdrNg"
     >
        
        
     </div>
     <div
-      class="sc-egkSDF jvCnot"
+      class="sc-fhHczv cpmIbm"
     >
        
        
@@ -58,10 +58,10 @@ exports[`FormModalHeaderWrapper renders without buttons 1`] = `
 <div>
    
   <div
-    class="sc-blHHSb kcPVdE"
+    class="sc-bRKDuR dGUPt"
   >
     <div
-      class="sc-gtLWhw ebBSjY"
+      class="sc-hvigdm dEdrNg"
     >
        
       <div
@@ -72,7 +72,7 @@ exports[`FormModalHeaderWrapper renders without buttons 1`] = `
        
     </div>
     <div
-      class="sc-egkSDF jvCnot"
+      class="sc-fhHczv cpmIbm"
     >
        
        
@@ -85,16 +85,16 @@ exports[`FormModalHeaderWrapper renders without children 1`] = `
 <div>
    
   <div
-    class="sc-blHHSb kcPVdE"
+    class="sc-bRKDuR dGUPt"
   >
     <div
-      class="sc-gtLWhw ebBSjY"
+      class="sc-hvigdm dEdrNg"
     >
        
        
     </div>
     <div
-      class="sc-egkSDF jvCnot"
+      class="sc-fhHczv cpmIbm"
     >
        
       <div

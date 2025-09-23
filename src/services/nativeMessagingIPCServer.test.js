@@ -11,7 +11,7 @@ import {
   isNativeMessagingIPCRunning,
   getIPCSocketPath
 } from './nativeMessagingIPCServer.js'
-import { log } from '../utils/nativeMessagingLogger.js'
+import { logger } from '../utils/logger.js'
 
 // Mock dependencies
 jest.mock('os', () => ({
@@ -19,6 +19,13 @@ jest.mock('os', () => ({
   platform: jest.fn(),
   tmpdir: jest.fn(() => '/tmp')
 }))
+
+// Mock Pear.config.storage
+global.Pear = {
+  config: {
+    storage: '/mock/pear/storage'
+  }
+}
 
 jest.mock('pear-ipc', () => ({
   Server: jest.fn().mockImplementation(function (options) {
@@ -30,8 +37,108 @@ jest.mock('pear-ipc', () => ({
   })
 }))
 
-jest.mock('../utils/nativeMessagingLogger.js', () => ({
-  log: jest.fn()
+jest.mock('../utils/logger.js', () => ({
+  logger: {
+    log: jest.fn(),
+    error: jest.fn(),
+    info: jest.fn(),
+    debug: jest.fn(),
+    debugMode: true
+  }
+}))
+
+// Mock the new handler modules
+jest.mock('./handlers/SecurityHandlers', () => ({
+  SecurityHandlers: jest.fn().mockImplementation(function (client) {
+    this.client = client
+    this.nmGetAppIdentity = jest.fn().mockResolvedValue({
+      ed25519PublicKey: 'mock-ed25519-key',
+      x25519PublicKey: 'mock-x25519-key',
+      fingerprint: 'mock-fingerprint'
+    })
+    this.nmBeginHandshake = jest.fn().mockResolvedValue({
+      sessionId: 'mock-session-id',
+      appEphemeralPubB64: 'mock-ephemeral-key',
+      signatureB64: 'mock-signature'
+    })
+    this.nmFinishHandshake = jest.fn().mockResolvedValue({ ok: true })
+    this.nmCloseSession = jest.fn().mockResolvedValue({ ok: true })
+    this.checkAvailability = jest.fn().mockResolvedValue({
+      available: true,
+      status: 'running',
+      message: 'Desktop app is running'
+    })
+    this.nmResetPairing = jest.fn().mockResolvedValue({
+      ok: true,
+      clearedSessions: 0,
+      newIdentity: {
+        ed25519PublicKey: 'new-mock-ed25519-key',
+        x25519PublicKey: 'new-mock-x25519-key',
+        creationDate: new Date().toISOString()
+      }
+    })
+  })
+}))
+
+jest.mock('./handlers/EncryptionHandlers', () => ({
+  EncryptionHandlers: jest.fn().mockImplementation(function (client) {
+    this.client = client
+    this.encryptionInit = jest.fn().mockResolvedValue({ initialized: true })
+    this.encryptionGetStatus = jest.fn().mockResolvedValue({ status: true })
+    this.encryptionGet = jest.fn().mockResolvedValue({ data: 'encrypted-data' })
+    this.encryptionAdd = jest.fn().mockResolvedValue({ success: true })
+    this.hashPassword = jest.fn().mockResolvedValue('hashed-password')
+    this.encryptVaultKeyWithHashedPassword = jest
+      .fn()
+      .mockResolvedValue('encrypted-key')
+    this.encryptVaultWithKey = jest.fn().mockResolvedValue('encrypted-vault')
+    this.getDecryptionKey = jest.fn().mockResolvedValue('decryption-key')
+    this.decryptVaultKey = jest.fn().mockResolvedValue('decrypted-key')
+  })
+}))
+
+jest.mock('./handlers/VaultHandlers', () => ({
+  VaultHandlers: jest.fn().mockImplementation(function (client) {
+    this.client = client
+    this.vaultsInit = jest.fn().mockResolvedValue({ initialized: true })
+    this.vaultsGetStatus = jest.fn().mockResolvedValue({ status: true })
+    this.vaultsGet = jest.fn().mockResolvedValue({ data: {} })
+    this.vaultsList = jest.fn().mockResolvedValue({ data: [] })
+    this.vaultsAdd = jest.fn().mockResolvedValue({ success: true })
+    this.vaultsClose = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultInit = jest.fn().mockResolvedValue({ success: true })
+    this.loadVaultMetadata = jest.fn().mockResolvedValue()
+    this.activeVaultGetStatus = jest.fn().mockResolvedValue({ status: true })
+    this.activeVaultGet = jest.fn().mockResolvedValue({ data: {} })
+    this.activeVaultList = jest.fn().mockResolvedValue({ data: [] })
+    this.activeVaultAdd = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultRemove = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultClose = jest.fn().mockResolvedValue({ success: true })
+    this.activeVaultCreateInvite = jest
+      .fn()
+      .mockResolvedValue({ invite: 'mock-invite' })
+    this.activeVaultDeleteInvite = jest
+      .fn()
+      .mockResolvedValue({ success: true })
+    this.pairActiveVault = jest.fn().mockResolvedValue({ success: true })
+    this.initListener = jest.fn().mockResolvedValue({ success: true })
+    this.closeVault = jest.fn().mockResolvedValue({ success: true })
+    this.cancelPairActiveVault = jest.fn().mockResolvedValue({ success: true })
+  })
+}))
+
+jest.mock('./handlers/SecureRequestHandler', () => ({
+  SecureRequestHandler: jest
+    .fn()
+    .mockImplementation(function (client, registry) {
+      this.client = client
+      this.methodRegistry = registry
+      this.handle = jest.fn().mockResolvedValue({
+        nonceB64: 'mock-nonce',
+        ciphertextB64: 'mock-ciphertext',
+        seq: 1
+      })
+    })
 }))
 
 const mockPearpassClient = {
@@ -59,9 +166,10 @@ const mockPearpassClient = {
   encryptVaultWithKey: jest.fn(),
   getDecryptionKey: jest.fn(),
   decryptVaultKey: jest.fn(),
-  pair: jest.fn(),
+  pairActiveVault: jest.fn(),
   initListener: jest.fn(),
-  close: jest.fn()
+  close: jest.fn(),
+  cancelPairActiveVault: jest.fn()
 }
 
 describe('nativeMessagingIPCServer', () => {
@@ -98,7 +206,7 @@ describe('nativeMessagingIPCServer', () => {
       expect(serverInstance.server).toBeNull()
       expect(serverInstance.isRunning).toBe(false)
       expect(serverInstance.socketPath).toBe(
-        '/tmp/pearpass-native-messaging.sock'
+        join('/tmp', 'pearpass-native-messaging.sock')
       )
     })
 
@@ -109,14 +217,12 @@ describe('nativeMessagingIPCServer', () => {
         expect(IPC.Server).toHaveBeenCalledTimes(1)
         expect(serverInstance.server.ready).toHaveBeenCalledTimes(1)
         expect(serverInstance.isRunning).toBe(true)
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Starting native messaging IPC server...'
         )
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           `Native messaging IPC server started successfully on ${serverInstance.socketPath}`
         )
       })
@@ -126,9 +232,8 @@ describe('nativeMessagingIPCServer', () => {
         await serverInstance.start()
 
         expect(IPC.Server).not.toHaveBeenCalled()
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'IPC server is already running'
         )
       })
@@ -144,32 +249,85 @@ describe('nativeMessagingIPCServer', () => {
         const newServer = new NativeMessagingIPCServer(mockPearpassClient)
         await expect(newServer.start()).rejects.toThrow(error)
         expect(newServer.isRunning).toBe(false)
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.error).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           `Failed to start IPC server: ${error.message}`
         )
       })
 
-      it('should correctly wire up handlers to the pearpass client', async () => {
+      it('should correctly wire up secure handlers to the pearpass client', async () => {
         await serverInstance.start()
         const handlers = IPC.Server.mock.calls[0][0].handlers
 
-        await handlers.encryptionInit()
-        expect(mockPearpassClient.encryptionInit).toHaveBeenCalled()
+        // Test that security handlers are available
+        expect(handlers.nmGetAppIdentity).toBeDefined()
+        expect(handlers.nmBeginHandshake).toBeDefined()
+        expect(handlers.nmFinishHandshake).toBeDefined()
+        expect(handlers.nmSecureRequest).toBeDefined()
+        expect(handlers.nmCloseSession).toBeDefined()
 
-        const getParams = { key: 'testKey' }
-        await handlers.encryptionGet(getParams)
-        expect(mockPearpassClient.encryptionGet).toHaveBeenCalledWith(
-          getParams.key
-        )
+        // Test encryption bootstrap handlers
+        expect(handlers.encryptionInit).toBeDefined()
+        expect(handlers.encryptionGetStatus).toBeDefined()
 
-        const addParams = { key: 'testKey', data: 'testData' }
-        await handlers.encryptionAdd(addParams)
-        expect(mockPearpassClient.encryptionAdd).toHaveBeenCalledWith(
-          addParams.key,
-          addParams.data
-        )
+        // Test availability check handler
+        expect(handlers.checkAvailability).toBeDefined()
+        const availability = await handlers.checkAvailability()
+        expect(availability).toEqual({
+          available: true,
+          status: 'running',
+          message: 'Desktop app is running'
+        })
+
+        // Test that sensitive handlers are NOT directly exposed
+        // They should only be accessible via nmSecureRequest
+        expect(handlers.encryptionGet).toBeUndefined()
+        expect(handlers.encryptionAdd).toBeUndefined()
+        expect(handlers.vaultsList).toBeUndefined()
+        expect(handlers.activeVaultList).toBeUndefined()
+      })
+
+      it('should call nmGetAppIdentity handler correctly', async () => {
+        await serverInstance.start()
+        const handlers = IPC.Server.mock.calls[0][0].handlers
+
+        const result = await handlers.nmGetAppIdentity()
+        expect(result).toEqual({
+          ed25519PublicKey: 'mock-ed25519-key',
+          x25519PublicKey: 'mock-x25519-key',
+          fingerprint: 'mock-fingerprint'
+        })
+      })
+
+      it('should call nmBeginHandshake handler correctly', async () => {
+        await serverInstance.start()
+        const handlers = IPC.Server.mock.calls[0][0].handlers
+
+        const result = await handlers.nmBeginHandshake({
+          extEphemeralPubB64: 'test-key'
+        })
+        expect(result).toEqual({
+          sessionId: 'mock-session-id',
+          appEphemeralPubB64: 'mock-ephemeral-key',
+          signatureB64: 'mock-signature'
+        })
+      })
+
+      it('should call nmSecureRequest handler correctly', async () => {
+        await serverInstance.start()
+        const handlers = IPC.Server.mock.calls[0][0].handlers
+
+        const result = await handlers.nmSecureRequest({
+          sessionId: 'test-session',
+          nonceB64: 'test-nonce',
+          ciphertextB64: 'test-ciphertext',
+          seq: 1
+        })
+        expect(result).toEqual({
+          nonceB64: 'mock-nonce',
+          ciphertextB64: 'mock-ciphertext',
+          seq: 1
+        })
       })
     })
 
@@ -183,23 +341,20 @@ describe('nativeMessagingIPCServer', () => {
         expect(server.close).toHaveBeenCalledTimes(1)
         expect(serverInstance.isRunning).toBe(false)
         expect(serverInstance.server).toBeNull()
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Stopping native messaging IPC server...'
         )
-        expect(log).toHaveBeenCalledWith(
+        expect(logger.info).toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Native messaging IPC server stopped'
         )
       })
 
       it('should not do anything if the server is not running', async () => {
         await serverInstance.stop()
-        expect(log).not.toHaveBeenCalledWith(
+        expect(logger.info).not.toHaveBeenCalledWith(
           'IPC-SERVER',
-          'INFO',
           'Stopping native messaging IPC server...'
         )
       })
@@ -222,9 +377,8 @@ describe('nativeMessagingIPCServer', () => {
       const instance1 = await startNativeMessagingIPC(mockPearpassClient)
       const instance2 = await startNativeMessagingIPC(mockPearpassClient)
       expect(instance1).toBe(instance2)
-      expect(log).toHaveBeenCalledWith(
+      expect(logger.info).toHaveBeenCalledWith(
         'IPC-SERVER',
-        'INFO',
         'Native messaging IPC server is already running'
       )
     })
@@ -239,9 +393,8 @@ describe('nativeMessagingIPCServer', () => {
 
     it('stopNativeMessagingIPC should do nothing if not running', async () => {
       await stopNativeMessagingIPC()
-      expect(log).toHaveBeenCalledWith(
+      expect(logger.info).toHaveBeenCalledWith(
         'IPC-SERVER',
-        'INFO',
         'Native messaging IPC server is not running'
       )
     })
@@ -254,7 +407,7 @@ describe('nativeMessagingIPCServer', () => {
     it('getIPCSocketPath should return a default path when not running', () => {
       platform.mockReturnValue('linux')
       expect(getIPCSocketPath()).toBe(
-        '/tmp/pearpass-native-messaging.sock.sock'
+        join('/tmp', 'pearpass-native-messaging.sock')
       )
     })
   })

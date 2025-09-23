@@ -3,10 +3,10 @@
 exports[`FormGroup renders with children and title when isCollapse is true 1`] = `
 <div>
   <div
-    class="sc-blHHSb flsssz"
+    class="sc-bRKDuR cXOCuC"
   >
     <div
-      class="sc-gtLWhw fuhZVU"
+      class="sc-hvigdm jgQtOE"
     >
       <div
         data-testid="arrow-up-icon"
@@ -17,7 +17,7 @@ exports[`FormGroup renders with children and title when isCollapse is true 1`] =
     </div>
      
     <div
-      class="sc-egkSDF dXFjag"
+      class="sc-fhHczv drNeBr"
     >
        
       <div

@@ -4,17 +4,17 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  InputField,
-  ButtonLittle,
-  FolderIcon
-} from 'pearpass-lib-ui-react-components'
 import { useCreateFolder, useFolders } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { HeaderWrapper } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
+import {
+  InputField,
+  ButtonLittle,
+  SaveIcon
+} from '../../../lib-react-components'
 
 /**
  * @param {{
@@ -80,7 +80,7 @@ export const CreateFolderModalContent = ({ onCreate, initialValues }) => {
         onClose=${closeModal}
         headerChildren=${html`
           <${HeaderWrapper}>
-            <${ButtonLittle} startIcon=${FolderIcon} type="submit">
+            <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${!!initialValues ? i18n._('Save') : i18n._('Create folder')}
             <//>
           <//>

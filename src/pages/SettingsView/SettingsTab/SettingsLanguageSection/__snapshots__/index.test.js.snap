@@ -3,23 +3,21 @@
 exports[`SettingsLanguageSection matches snapshot 1`] = `
 <div>
   <div
-    class="sc-blHHSb dmyuKp"
+    class="sc-bRKDuR biDtcp"
   >
     <div
-      class="sc-gtLWhw gJBAZB"
+      class="sc-hvigdm dmLLrp"
     >
       <span
-        class="sc-egkSDF cHIHMO"
+        class="sc-fhHczv eLwglV"
       />
     </div>
-    <div
-      class="sc-fAUdSK kDtfPL"
-    >
+    <div>
       <div
-        class="sc-Rjrgp dIDLbO"
+        class="sc-gsJsQu kRzqpM"
       >
         <div
-          class="sc-fufdwm gsKsLG"
+          class="sc-jwTyAe eJfDtf"
         >
           <span>
              
@@ -27,16 +25,14 @@ exports[`SettingsLanguageSection matches snapshot 1`] = `
           </span>
           <svg
             fill="none"
-            height="14"
-            viewBox="0 0 15 15"
-            width="14"
+            height="24"
+            viewBox="0 0 25 25"
+            width="24"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M0.76416 4.10742L6.91416 10.2574C6.95905 10.3053 7.01327 10.3434 7.07347 10.3694C7.13366 10.3955 7.19856 10.4089 7.26416 10.4089C7.32976 10.4089 7.39466 10.3955 7.45485 10.3694C7.51505 10.3434 7.56927 10.3053 7.61416 10.2574L13.7642 4.10742"
-              stroke="#F6F6F6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              d="M3.19236 8.1636L4.25586 7.1001L12.5001 15.3443L20.7444 7.1001L21.8079 8.1636L12.5001 17.4713L3.19236 8.1636Z"
+              fill="#F6F6F6"
             />
           </svg>
         </div>

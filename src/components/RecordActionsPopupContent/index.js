@@ -36,7 +36,7 @@ export const RecordActionsPopupContent = ({
             onClick?.()
           }}
         >
-          <${RECORD_ACTION_ICON_BY_TYPE[item.type]} size="14" />
+          <${RECORD_ACTION_ICON_BY_TYPE[item.type]} size="24" />
 
           <p>${item.name}</p>
         <//>

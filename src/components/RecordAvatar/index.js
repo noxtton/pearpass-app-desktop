@@ -1,17 +1,22 @@
+import { useMemo } from 'react'
+
 import { html } from 'htm/react'
-import { CheckIcon, StarIcon } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
+import { getDefaultFavicon } from 'pearpass-lib-vault'
 
 import {
   AvatarAlt,
   AvatarContainer,
+  AvatarImage,
   FavoriteIcon,
   SelectedAvatarContainer
 } from './styles'
+import { CheckIcon, StarIcon } from '../../lib-react-components'
+import { extractDomainName } from '../../utils/extractDomainName'
 
 /**
  * @param {{
- *  avatarSrc: string,
+ *  websiteDomain: string,
  *  initials: string,
  *  size: 'md' | 'sm',
  *  isSelected: boolean,
@@ -20,15 +25,25 @@ import {
  * }} props
  */
 export const RecordAvatar = ({
-  avatarSrc,
+  websiteDomain,
   initials,
   size = 'md',
   isSelected = false,
   isFavorite = false,
   color
 }) => {
+  const avatarSrc = useMemo(() => {
+    if (!websiteDomain) {
+      return null
+    }
+
+    const website = extractDomainName(websiteDomain)
+    const avatarBuffer = getDefaultFavicon(website) || null
+    return avatarBuffer ? URL.createObjectURL(new Blob([avatarBuffer])) : null
+  }, [websiteDomain])
+
   const avatar = avatarSrc
-    ? html`<img src=${avatarSrc} />`
+    ? html`<${AvatarImage} src=${avatarSrc} />`
     : html`<${AvatarAlt} color=${color} size=${size}> ${initials} <//>`
 
   if (isSelected) {
@@ -41,7 +56,7 @@ export const RecordAvatar = ({
     ${avatar}
     ${isFavorite &&
     html` <${FavoriteIcon}>
-      <${StarIcon} width="9" height="9" color=${colors.primary400.mode1} />
+      <${StarIcon} size="18" fill=${true} color=${colors.primary400.mode1} />
     <//>`}
   <//>`
 }

@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { CheckIcon } from 'pearpass-lib-ui-react-components'
 
 import { MenuCard, MenuItem } from './styles'
+import { CheckIcon } from '../../lib-react-components'
 
 /**
  * @param {{
@@ -32,12 +32,12 @@ export const RecordSortActionsPopupContent = ({
             onClick=${(e) => handleMenuItemClick(e, item.type)}
           >
             <div>
-              <${item.icon} size="14" />
+              <${item.icon} size="24" />
 
               ${item.name}
             </div>
 
-            ${selectedType === item.type && html`<${CheckIcon} size="14" />`}
+            ${selectedType === item.type && html`<${CheckIcon} size="24" />`}
           <//>
         `
       )}

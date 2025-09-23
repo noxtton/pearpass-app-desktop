@@ -9,7 +9,7 @@ export const Label = styled.div.withConfig({
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 7px;
   cursor: pointer;
   white-space: nowrap;
 
@@ -18,7 +18,7 @@ export const Label = styled.div.withConfig({
       return css`
         opacity: 0;
         pointer-events: none;
-        padding: 5px;
+        padding: 4px 10px;
       `
     }
   }}
@@ -36,7 +36,7 @@ export const Wrapper = styled.div.withConfig({
   border: 1px solid
     ${({ theme, isOpen }) =>
       isOpen ? theme.colors.primary400.mode1 : theme.colors.grey100.mode1};
-  padding: 5px;
+  padding: 4px 10px;
   top: 0;
   left: 0;
   position: absolute;

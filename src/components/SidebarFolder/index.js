@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 
 import { html } from 'htm/react'
+import { colors } from 'pearpass-lib-ui-theme-provider'
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   FolderIcon,
   KebabMenuIcon,
   PlusIcon
-} from 'pearpass-lib-ui-react-components'
-import { colors } from 'pearpass-lib-ui-theme-provider'
-
+} from '../../lib-react-components'
 import { EditFolderPopupContent } from '../EditFolderPopupContent'
 import { PopupMenu } from '../PopupMenu'
 import {
@@ -63,7 +63,7 @@ export const SidebarFolder = ({
             ${!isRoot &&
             html`
               <${Icon ?? FolderIcon}
-                size="14"
+                size="24"
                 color=${isActive ? colors.primary400.mode1 : undefined}
               />
             `}
@@ -86,7 +86,7 @@ export const SidebarFolder = ({
         ${isRoot &&
         html`
           <${AddIconWrapper} onClick=${() => onAddClick()}>
-            <${PlusIcon} color=${colors.primary400.option2} size="14" />
+            <${PlusIcon} color=${colors.primary400.mode1} size="24" />
           <//>
         `}
       <//>

@@ -1,11 +1,11 @@
 import { html } from 'htm/react'
-import { ArrowDownIcon, ArrowUpIcon } from 'pearpass-lib-ui-react-components'
 
 import { Label } from './styles'
+import { ArrowDownIcon, ArrowUpIcon } from '../../../lib-react-components'
 
 /**
  * @param {{
- *    selectedItem?: { name: string },
+ *    selectedItem?: { label: string },
  *    isOpen: boolean,
  *    setIsOpen?: (isOpen: boolean) => void,
  *    placeholder: string
@@ -18,7 +18,7 @@ export const SelectLabel = ({
   placeholder
 }) => html`
   <${Label} onClick=${() => setIsOpen?.(!isOpen)}>
-    <span> ${selectedItem?.name || placeholder} </span>
-    <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="14" />
+    <span> ${selectedItem?.label || placeholder} </span>
+    <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="24" />
   <//>
 `

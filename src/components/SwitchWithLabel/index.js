@@ -1,13 +1,14 @@
 import { html } from 'htm/react'
-import { Switch } from 'pearpass-lib-ui-react-components'
 
-import { Label, Wrapper } from './styles'
+import { ContentWrapper, Description, Label, Wrapper } from './styles'
+import { Switch } from '../../lib-react-components'
 
 /**
  * @param {{
  *  isOn?: boolean,
  *  onChange?: (isOn: boolean) => void
  *  label?: string,
+ *  description?: string,
  *  isLabelBold?: boolean
  *  isSwitchFirst?: boolean
  *  stretch?: boolean
@@ -17,6 +18,7 @@ export const SwitchWithLabel = ({
   isOn,
   onChange,
   label,
+  description,
   isLabelBold,
   isSwitchFirst = false,
   stretch = true
@@ -31,8 +33,10 @@ export const SwitchWithLabel = ({
       stretch=${stretch}
       onClick=${toggleSwitch}
     >
-      <${Label} isBold=${isLabelBold}> ${label} <//>
-
+      <${ContentWrapper}>
+        <${Label} isBold=${isLabelBold}> ${label} <//>
+        ${description && html`<${Description}> ${description} <//>`}
+      <//>
       <${Switch} isOn=${isOn} />
     <//>
   `

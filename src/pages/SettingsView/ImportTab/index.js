@@ -8,13 +8,14 @@ import {
   parsePearPassData,
   parseProtonPassData
 } from 'pearpass-lib-data-import'
-import { LockIcon } from 'pearpass-lib-ui-react-components'
 import { useCreateRecord } from 'pearpass-lib-vault'
 
 import { ContentContainer, Description, ImportOptionsContainer } from './styles'
 import { readFileContent } from './utils/readFileContent'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ImportDataOption } from '../../../components/ImportDataOption'
+import { useToast } from '../../../context/ToastContext'
+import { LockIcon } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 const importOptions = [
@@ -73,6 +74,7 @@ const isAllowedType = (fileType, accepts) =>
 
 export const ImportTab = () => {
   const { i18n } = useLingui()
+  const { setToast } = useToast()
 
   const { createRecord } = useCreateRecord()
 
@@ -116,8 +118,15 @@ export const ImportTab = () => {
       }
 
       await Promise.all(result.map((record) => createRecord(record)))
+      setToast({
+        message: i18n._('Data imported successfully')
+      })
     } catch (error) {
-      logger.error('Error reading file:', error.message || error)
+      logger.error(
+        'useGetMultipleFiles',
+        'Error reading file:',
+        error.message || error
+      )
     }
   }
 

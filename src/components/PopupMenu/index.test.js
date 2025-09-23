@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { render, fireEvent, waitFor, act } from '@testing-library/react'
 
 import { PopupMenu } from './index'
 import { TRANSITION_DURATION } from './styles'
@@ -56,7 +56,9 @@ describe('PopupMenu Component', () => {
     })
 
     fireEvent.click(getByText('Toggle Menu'))
-    jest.advanceTimersByTime(TRANSITION_DURATION)
+    act(() => {
+      jest.advanceTimersByTime(TRANSITION_DURATION)
+    })
     await waitFor(() => {
       const menuContentClosed = getByText('Menu Content')
       const menuCardClosed = menuContentClosed.parentElement
@@ -87,7 +89,9 @@ describe('PopupMenu Component', () => {
 
     fireEvent.mouseDown(getByText('Outside Element'))
 
-    jest.advanceTimersByTime(TRANSITION_DURATION)
+    act(() => {
+      jest.advanceTimersByTime(TRANSITION_DURATION)
+    })
     await waitFor(() => {
       const menuContent = getByText('Menu Content')
       const menuCard = menuContent.parentElement
@@ -111,7 +115,9 @@ describe('PopupMenu Component', () => {
     expect(window.getComputedStyle(menuCard).opacity).toBe('0')
     expect(window.getComputedStyle(menuCard).visibility).toBe('visible')
 
-    jest.advanceTimersByTime(TRANSITION_DURATION)
+    act(() => {
+      jest.advanceTimersByTime(TRANSITION_DURATION)
+    })
     await waitFor(() => {
       expect(window.getComputedStyle(menuCard).visibility).toBe('hidden')
     })
@@ -134,7 +140,9 @@ describe('PopupMenu Component', () => {
 
     fireEvent(window, new Event('resize'))
 
-    jest.advanceTimersByTime(TRANSITION_DURATION)
+    act(() => {
+      jest.advanceTimersByTime(TRANSITION_DURATION)
+    })
     await waitFor(() => {
       const menuContent = getByText('Menu Content')
       const menuCard = menuContent.parentElement

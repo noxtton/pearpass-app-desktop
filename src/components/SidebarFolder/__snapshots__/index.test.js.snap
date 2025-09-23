@@ -3,10 +3,10 @@
 exports[`SidebarFolder Component renders correctly with default props 1`] = `
 <div>
   <div
-    class="sc-blHHSb clFnCF"
+    class="sc-bRKDuR jXuaON"
   >
     <div
-      class="sc-gtLWhw icecpz"
+      class="sc-hvigdm iJNIxL"
     >
       <div>
         <div
@@ -14,7 +14,7 @@ exports[`SidebarFolder Component renders correctly with default props 1`] = `
         />
       </div>
       <div
-        class="sc-egkSDF bdOrFv"
+        class="sc-fhHczv fxKndE"
       >
         <div
           data-testid="mock-icon"
@@ -22,7 +22,7 @@ exports[`SidebarFolder Component renders correctly with default props 1`] = `
           Icon
         </div>
         <span
-          class="sc-dntaoT jdbOaK"
+          class="sc-dTvVRJ kGsHFg"
         >
           Test Folder
         </span>

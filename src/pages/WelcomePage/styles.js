@@ -2,16 +2,18 @@ import styled from 'styled-components'
 
 export const PageContainer = styled.div`
   width: 100%;
-  margin-top: 202px;
+  height: 100%;
+  z-index: 100;
   display: flex;
   align-items: center;
+  justify-content: center;
 `
 
 export const Title = styled.p`
   width: 638px;
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Humble Nostalgia';
-  font-size: 109px;
+  font-size: clamp(1rem, 8vw, 10rem);
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -23,11 +25,15 @@ export const CardVaultActions = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: ${({ theme }) => theme.colors.grey500.mode1};
-  border: 1px solid ${({ theme }) => theme.colors.grey400.mode1};
+  background: ${({ theme }) => theme.colors.grey400.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   border-radius: 20px;
   padding: 20px;
-  z-index: 1;
+  z-index: 100;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `
 
 export const ActionCardTitle = styled.p`
@@ -49,9 +55,11 @@ export const Actions = styled.div`
 `
 
 export const PearHand = styled.img`
+  width: 100%;
+`
+
+export const ImageContainer = styled.div`
   position: absolute;
-  width: 700;
-  height: 800px;
-  right: 0;
+  right: -5%;
   z-index: 0;
 `

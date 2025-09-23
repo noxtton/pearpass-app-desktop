@@ -16,7 +16,7 @@ describe('SelectItem Component', () => {
   test('renders correctly with item name', () => {
     const { getByText, container } = render(
       <ThemeProvider>
-        <SelectItem item={{ name: 'English' }} onClick={mockOnClick} />
+        <SelectItem item={{ label: 'English' }} onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -27,7 +27,7 @@ describe('SelectItem Component', () => {
   test('calls onClick when clicked', () => {
     const { getByText } = render(
       <ThemeProvider>
-        <SelectItem item={{ name: 'English' }} onClick={mockOnClick} />
+        <SelectItem item={{ label: 'English' }} onClick={mockOnClick} />
       </ThemeProvider>
     )
 
@@ -38,7 +38,7 @@ describe('SelectItem Component', () => {
   test('renders correctly with a different item name', () => {
     const { getByText, container } = render(
       <ThemeProvider>
-        <SelectItem item={{ name: 'Spanish' }} onClick={mockOnClick} />
+        <SelectItem item={{ label: 'Spanish' }} onClick={mockOnClick} />
       </ThemeProvider>
     )
 

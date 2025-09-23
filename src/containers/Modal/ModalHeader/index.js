@@ -1,8 +1,7 @@
 import { html } from 'htm/react'
-import { XIcon } from 'pearpass-lib-ui-react-components'
-import { colors } from 'pearpass-lib-ui-theme-provider'
 
-import { CloseIconWrapper, Header, HeaderChildrenWrapper } from './styles'
+import { Header, HeaderChildrenWrapper } from './styles'
+import { ButtonRoundIcon, XIcon } from '../../../lib-react-components'
 
 /**
  * @param {{
@@ -14,8 +13,6 @@ export const ModalHeader = ({ onClose, children }) => html`
   <${Header}>
     <${HeaderChildrenWrapper}> ${children} <//>
 
-    <${CloseIconWrapper} onClick=${onClose}>
-      <${XIcon} size="20" color=${colors.primary400.option2} />
-    <//>
+    <${ButtonRoundIcon} onClick=${onClose} startIcon=${XIcon} />
   <//>
 `

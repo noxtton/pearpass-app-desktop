@@ -6,7 +6,7 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import '@testing-library/jest-dom'
 import { SwitchWithLabel } from './index'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   Switch: ({ isOn }) => (
     <div data-testid="switch" data-is-on={isOn}>
       Switch Component

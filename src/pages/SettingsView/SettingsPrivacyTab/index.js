@@ -1,115 +1,73 @@
-import os from 'os'
-import path from 'path'
-
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  Switch,
-  InputField,
-  ButtonSecondary
-} from 'pearpass-lib-ui-react-components'
 
-import { InputWrapper, SwitchList, SwitchWrapper } from './styles'
-import { ButtonWrapper } from './styles'
+import { SwitchList, SwitchWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
-import { createOrGetPearpassClient } from '../../../services/createOrGetPearpassClient'
-import {
-  isNativeMessagingIPCRunning,
-  startNativeMessagingIPC,
-  stopNativeMessagingIPC
-} from '../../../services/nativeMessagingIPCServer'
-import {
-  getNativeMessagingEnabled,
-  setNativeMessagingEnabled
-} from '../../../services/nativeMessagingPreferences'
-import { setupNativeMessaging } from '../../../utils/nativeMessagingSetup'
+import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
+import { RuleSelector } from '../../../containers/Modal/GeneratePasswordSideDrawerContent/RuleSelector'
+import { useConnectExtension } from '../../../hooks/useConnectExtension'
+import { Switch } from '../../../lib-react-components'
 import { Description } from '../ExportTab/styles'
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
-  const [isBrowserExtensionEnabled, setIsBrowserExtensionEnabled] =
-    useState(false)
-  const [extensionId, setExtensionId] = useState('')
-  const [isSettingUp, setIsSettingUp] = useState(false)
-  const [setupMessage, setSetupMessage] = useState('')
-  const [showSetupForm, setShowSetupForm] = useState(false)
+  const { isBrowserExtensionEnabled, toggleBrowserExtension } =
+    useConnectExtension()
 
-  const handleSetupExtension = async () => {
-    if (!extensionId.trim()) {
-      setSetupMessage(i18n._('Please enter the extension ID'))
-      return
-    }
-
-    setIsSettingUp(true)
-    setSetupMessage('')
-
-    try {
-      const executablePathExtension = os.platform() === 'win32' ? '.bat' : ''
-      const executablePath = path.join(
-        process.cwd(),
-        'src',
-        'scripts',
-        `pearpass-native-host-executable${executablePathExtension}`
-      )
-
-      // Setup native messaging for the extension
-      const result = await setupNativeMessaging(
-        extensionId.trim(),
-        executablePath
-      )
-
-      if (result.success) {
-        // Start native messaging IPC server
-        const client = createOrGetPearpassClient()
-        await startNativeMessagingIPC(client)
-        setNativeMessagingEnabled(true)
-        setIsBrowserExtensionEnabled(true)
-        setShowSetupForm(false)
-        setSetupMessage(i18n._('Extension connected successfully!'))
-      } else {
-        setSetupMessage(result.message || i18n._('Setup failed'))
-      }
-    } catch (error) {
-      setSetupMessage(i18n._('Error: ') + error.message)
-    } finally {
-      setIsSettingUp(false)
-    }
-  }
-
-  const handleStopNativeMessaging = async () => {
-    await stopNativeMessagingIPC()
-    setNativeMessagingEnabled(false)
-    setIsBrowserExtensionEnabled(false)
-  }
-
-  const toggleBrowserExtension = async (isOn) => {
-    if (isOn) {
-      setShowSetupForm(true)
-      return
-    }
-
-    await handleStopNativeMessaging()
-    setShowSetupForm(false)
-    setExtensionId('')
-    setSetupMessage('')
-  }
+  const [selectedRules, setSelectedRules] = useState({
+    copyToClipboard: false
+  })
 
   useEffect(() => {
-    const enabled = getNativeMessagingEnabled()
-    const isRunning = isNativeMessagingIPCRunning()
+    const getCopyToClipboardSetting = () => {
+      const isEnabled = localStorage.getItem(
+        LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
+      )
 
-    if (enabled && isRunning) {
-      setIsBrowserExtensionEnabled(true)
+      setSelectedRules({
+        copyToClipboard: isEnabled === 'true'
+      })
     }
+
+    getCopyToClipboardSetting()
   }, [])
 
+  const ruleOptions = useMemo(() => {
+    const options = [
+      {
+        name: 'copyToClipboard',
+        label: i18n._('Copy to clipboard'),
+        description: i18n._(
+          'When clicking a password you copy that into your clipboard'
+        )
+      }
+    ]
+
+    return options
+  }, [i18n])
+
+  const handleSetRules = (newRules) => {
+    if (newRules.copyToClipboard !== selectedRules.copyToClipboard) {
+      if (newRules.copyToClipboard) {
+        localStorage.setItem(
+          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED,
+          'true'
+        )
+      } else {
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED)
+      }
+    }
+
+    setSelectedRules({ ...newRules })
+  }
+
   return html`
-    <${CardSingleSetting} title=${i18n._('Browser Extension')}>
+    <${CardSingleSetting} title=${i18n._('Personalization')}>
       <${Description}>
         ${i18n._(
-          'Connect your browser extension to enable secure communication with PearPass.'
+          'Here you can choose your privacy settings and personalize your experience'
         )}
       <//>
 
@@ -119,67 +77,16 @@ export const SettingsPrivacyTab = () => {
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
           ><//>
-          ${i18n._('Enable Browser Extension Integration')}
+          ${i18n._('Active Browser extension')}
         <//>
+        <${RuleSelector}
+          rules=${ruleOptions}
+          selectedRules=${selectedRules}
+          isSwitchFirst
+          stretch=${false}
+          setRules=${handleSetRules}
+        />
       <//>
     <//>
-
-    ${showSetupForm &&
-    html`
-      <${CardSingleSetting} title=${i18n._('Connect Browser Extension')}>
-        <${Description}>
-          ${i18n._(
-            'Enter the extension ID - You can find it in extension settings'
-          )}
-        <//>
-        <${InputWrapper}>
-          <${InputField}
-            placeholder=${i18n._('Extension ID...')}
-            value=${extensionId}
-            onChange=${(e) => setExtensionId(e)}
-            disabled=${isSettingUp}
-          />
-        <//>
-
-        <div>
-          <${ButtonWrapper}>
-            <${ButtonSecondary}
-              onClick=${handleSetupExtension}
-              disabled=${isSettingUp || !extensionId.trim()}
-            >
-              ${isSettingUp
-                ? i18n._('Setting up...')
-                : i18n._('Connect Extension')}
-            <//>
-          <//>
-        </div>
-
-        ${setupMessage &&
-        html` <div style=${{ marginTop: '8px' }}>${setupMessage}</div>`}
-      <//>
-    `}
-    ${isBrowserExtensionEnabled &&
-    !showSetupForm &&
-    html`
-      <${CardSingleSetting} title=${i18n._('Connection Status')}>
-        <${Description}>
-          ${i18n._(
-            'Browser extension is connected and can communicate with PearPass securely.'
-          )}
-        <//>
-        <div>
-          <${ButtonWrapper}>
-            <${ButtonSecondary}
-              onClick=${() => {
-                setShowSetupForm(true)
-                setSetupMessage('')
-              }}
-            >
-              ${i18n._('Connect Different Extension')}
-            <//>
-          <//>
-        </div>
-      <//>
-    `}
   `
 }

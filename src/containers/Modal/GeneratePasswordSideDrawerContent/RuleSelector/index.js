@@ -9,10 +9,18 @@ import { SwitchWithLabel } from '../../../../components/SwitchWithLabel'
  *  name: string
  *  }>
  *  setRules: () => void,
- *  selectedRules
+ *  selectedRules: Record<string, boolean>,
+ *  isSwitchFirst?: boolean,
+ *  stretch?: boolean
  * }} props
  */
-export const RuleSelector = ({ rules, selectedRules, setRules }) => {
+export const RuleSelector = ({
+  rules,
+  selectedRules,
+  setRules,
+  isSwitchFirst = false,
+  stretch = true
+}) => {
   const isAllRuleSelected = Object.values(selectedRules).every(
     (value) => value === true
   )
@@ -35,9 +43,12 @@ export const RuleSelector = ({ rules, selectedRules, setRules }) => {
     (rule) =>
       html`<${SwitchWithLabel}
         label=${rule.label}
+        description=${rule.description}
+        isSwitchFirst=${isSwitchFirst}
         isOn=${selectedRules[rule.name] || isAllRuleSelected}
         onChange=${() => handleSwitchToggle(rule.name)}
         isLabelBold
+        stretch=${stretch}
       />`
   )} `
 }

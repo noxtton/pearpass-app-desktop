@@ -1,12 +1,12 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { PlusIcon } from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { NestedFoldersWrapper } from './styles'
 import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
+import { PlusIcon } from '../../../lib-react-components'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 
@@ -65,6 +65,7 @@ export const SidebarNestedFolders = ({
         id=${item.id}
         name=${item.name}
         key=${item.name + item.id + 'file'}
+        level=${level}
       />
     `
   }
@@ -111,6 +112,7 @@ export const SidebarNestedFolders = ({
             name=${i18n._('New')}
             isNew=${true}
             color=${colors.primary400.mode1}
+            level=${level + 1}
           />
         `}
       `}

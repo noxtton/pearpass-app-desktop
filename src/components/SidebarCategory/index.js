@@ -1,4 +1,5 @@
 import { html } from 'htm/react'
+import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
   CategoryButton,
@@ -35,7 +36,11 @@ export const SidebarCategory = ({
   >
     <${CategoryDescription} size=${size}>
       <${CategoryIconWrapper} isSelected=${isSelected} color=${color}>
-        <${icon} />
+        <${icon}
+          color=${isSelected ? colors.black.mode1 : color}
+          fill=${true}
+          size="24px"
+        />
       <//>
 
       <span>${categoryName}</span>

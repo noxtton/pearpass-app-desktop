@@ -1,7 +1,7 @@
 import { html } from 'htm/react'
-import { FolderIcon } from 'pearpass-lib-ui-react-components'
 
-import { DropDownItem, FolderIconWrapper } from '../styles'
+import { FolderIcon } from '../../../lib-react-components'
+import { DropDownItem } from '../styles'
 
 /**
  * @param {{
@@ -11,9 +11,7 @@ import { DropDownItem, FolderIconWrapper } from '../styles'
  */
 export const MenuDropdownItem = ({ item, onClick }) => html`
   <${DropDownItem} onClick=${() => onClick?.()}>
-    <${FolderIconWrapper}>
-      <${item.icon ?? FolderIcon} size="14" color=${item.color ?? undefined} />
-    <//>
+    <${item.icon ?? FolderIcon} size="24" color=${item.color ?? undefined} />
 
     ${item.name}
   <//>

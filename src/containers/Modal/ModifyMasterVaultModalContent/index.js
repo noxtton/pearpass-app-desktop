@@ -2,11 +2,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 import { useUserData } from 'pearpass-lib-vault'
 import { isPasswordSafe } from 'pearpass-utils-password-check'
 
@@ -20,6 +15,11 @@ import {
   ModalTitle
 } from './styles'
 import { useLoadingContext } from '../../../context/LoadingContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
 export const ModifyMasterVaultModalContent = () => {
@@ -52,7 +52,7 @@ export const ModifyMasterVaultModalContent = () => {
   const onSubmit = async (values) => {
     const result = isPasswordSafe(values.newPassword, { errors: errors })
 
-    if (!result.isSafe && result.errors.length > 0) {
+    if (result.strength !== 'strong' && result.errors.length > 0) {
       setErrors({
         newPassword: result.errors.join(', ')
       })
@@ -81,7 +81,11 @@ export const ModifyMasterVaultModalContent = () => {
       closeModal()
     } catch (error) {
       setIsLoading(false)
-      logger.error('Error updating master password:', error)
+      logger.error(
+        'ModifyMasterVaultModalContent',
+        'Error updating master password:',
+        error
+      )
       setErrors({
         currentPassword: i18n._('Invalid password')
       })

@@ -2,19 +2,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonLittle,
-  ButtonSingleInput,
-  CalendarIcon,
-  CreditCardIcon,
-  DeleteIcon,
-  ImageIcon,
-  InputField,
-  NineDotsIcon,
-  PasswordField,
-  SaveIcon,
-  UserIcon
-} from 'pearpass-lib-ui-react-components'
 import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
@@ -29,9 +16,21 @@ import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
+import {
+  ButtonLittle,
+  ButtonSingleInput,
+  CalendarIcon,
+  CreditCardIcon,
+  DeleteIcon,
+  ImageIcon,
+  InputField,
+  NineDotsIcon,
+  PasswordField,
+  SaveIcon,
+  UserIcon
+} from '../../../../lib-react-components'
 import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
 import { handleFileSelect } from '../../../../utils/handleFileSelect'
-import { isFavorite } from '../../../../utils/isFavorite'
 import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { ModalContent } from '../../ModalContent'
@@ -151,8 +150,8 @@ export const CreateOrEditCreditCardModalContent = ({
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.CREDIT_CARD,
-      folder: isFavorite(values.folder) ? undefined : values.folder,
-      isFavorite: isFavorite(values.folder),
+      folder: values.folder,
+      isFavorite: initialRecord?.isFavorite,
       data: {
         title: values.title,
         name: values.name,
@@ -204,6 +203,10 @@ export const CreateOrEditCreditCardModalContent = ({
           })}
       />`
     )
+  }
+
+  const handleNumericInputChange = (value, field) => {
+    setValue(field, value.replace(/\D/g, ''))
   }
 
   return html`
@@ -260,11 +263,13 @@ export const CreateOrEditCreditCardModalContent = ({
             variant="outline"
             icon=${CreditCardIcon}
             ...${register('number')}
+            value=${values.number.replace(/(.{4})/g, '$1 ').trim()}
+            onChange=${(value) => handleNumericInputChange(value, 'number')}
           />
 
           <${InputField}
             label=${i18n._('Date of expire')}
-            placeholder="MM/YY"
+            placeholder="MM YY"
             variant="outline"
             icon=${CalendarIcon}
             value=${values.expireDate}
@@ -277,6 +282,8 @@ export const CreateOrEditCreditCardModalContent = ({
             variant="outline"
             icon=${CreditCardIcon}
             ...${register('securityCode')}
+            onChange=${(value) =>
+              handleNumericInputChange(value, 'securityCode')}
           />
 
           <${PasswordField}
@@ -285,6 +292,7 @@ export const CreateOrEditCreditCardModalContent = ({
             variant="outline"
             icon=${NineDotsIcon}
             ...${register('pinCode')}
+            onChange=${(value) => handleNumericInputChange(value, 'pinCode')}
           />
         <//>
 

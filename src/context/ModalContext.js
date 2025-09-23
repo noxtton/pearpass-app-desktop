@@ -10,6 +10,16 @@ import { SideDrawer } from '../containers/Modal/SideDrawer'
 
 const ModalContext = createContext()
 
+const getTopModal = (modalStack) => modalStack[modalStack.length - 1]
+
+const DEFAULT_MODAL_PARAMS = {
+  hasOverlay: true,
+  overlayType: 'default',
+  modalType: 'default',
+  closable: true,
+  replace: false
+}
+
 /**
  * @param {{
  *  children: import('react').ReactNode
@@ -21,19 +31,28 @@ export const ModalProvider = ({ children }) => {
   const isOpen = !!modalStack.length
 
   const setModal = (content, params) => {
-    setModalStack((prevState) => [
-      ...prevState,
-      {
-        content,
-        id: generateUniqueId(),
-        isOpen: true,
-        params: {
-          hasOverlay: params?.hasOverlay ?? true,
-          overlayType: params?.overlayType ?? 'default',
-          modalType: params?.modalType ?? 'default'
-        }
+    setModalStack((prevState) => {
+      if (params?.replace) {
+        return [
+          {
+            content,
+            id: generateUniqueId(),
+            isOpen: true,
+            params: { ...DEFAULT_MODAL_PARAMS, ...params }
+          }
+        ]
       }
-    ])
+
+      return [
+        ...prevState,
+        {
+          content,
+          id: generateUniqueId(),
+          isOpen: true,
+          params: { ...DEFAULT_MODAL_PARAMS, ...params }
+        }
+      ]
+    })
   }
 
   const closeModal = () => {
@@ -60,7 +79,10 @@ export const ModalProvider = ({ children }) => {
   useEffect(() => {
     const handleKeydown = (event) => {
       if (event.key === 'Escape' && isOpen) {
-        closeModal()
+        const topModal = getTopModal(modalStack)
+        if (topModal?.params?.closable !== false) {
+          void closeModal()
+        }
       }
     }
 
@@ -79,7 +101,7 @@ export const ModalProvider = ({ children }) => {
           <${ModalWrapper} key=${id}>
             ${params.hasOverlay &&
             html`<${Overlay}
-              onClick=${closeModal}
+              onClick=${params?.closable ? closeModal : undefined}
               type=${params.overlayType}
               isOpen=${isOpen}
             /> `}

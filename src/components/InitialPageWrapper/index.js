@@ -2,42 +2,34 @@ import { html } from 'htm/react'
 
 import {
   Background,
+  BottomGradient,
+  ContentWrapper,
   LeftSpotlightWrapper,
   LogoContainer,
-  MiddleSmallSpotlightWrapper,
   PageContent,
-  RightSpotlightWrapper
+  PearPass
 } from './styles'
 import { LogoLock } from '../../svgs/LogoLock'
-import { SpotLightLeft } from '../../svgs/SpotlightLeft'
-import { SpotlightMiddle } from '../../svgs/SpotlightMiddle'
-import { SpotlightRight } from '../../svgs/SpotlightRight'
 
 /**
  * @param {{
  *  children: import('react').ReactNode
+ *  isAuthScreen: boolean
  * }} props
  */
-export const InitialPageWrapper = ({ children }) => html`
-  <${Background}>
-    <${LeftSpotlightWrapper}>
-      <${SpotLightLeft} />
-    <//>
+export const InitialPageWrapper = ({ children, isAuthScreen = false }) => html`
+  <${Background} isAuthScreen=${isAuthScreen}>
+    <${LeftSpotlightWrapper} isAuthScreen=${isAuthScreen} />
 
-    <${MiddleSmallSpotlightWrapper}>
-      <${SpotlightMiddle} width="500" />
-    <//>
-
-    <${RightSpotlightWrapper}>
-      <${SpotlightRight} />
-    <//>
-
-    <${PageContent}>
+    <${PageContent} isAuthScreen=${isAuthScreen}>
       <${LogoContainer}>
-        <${LogoLock} />
+        <${LogoLock} width="42" height="57" />
+        <${PearPass}>PearPass<//>
       <//>
 
-      ${children}
+      <${ContentWrapper}> ${children} <//>
     <//>
+
+    <${BottomGradient} isAuthScreen=${isAuthScreen} />
   <//>
 `

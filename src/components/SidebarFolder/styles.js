@@ -4,14 +4,12 @@ export const NestedFoldersContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2px 4px;
-  margin-bottom: 6px;
 `
 
 export const NestedItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 7px;
   cursor: pointer;
   flex: 1;
 `

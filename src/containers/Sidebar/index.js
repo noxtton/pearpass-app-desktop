@@ -4,13 +4,6 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { matchPatternToValue } from 'pear-apps-utils-pattern-search'
 import {
-  ButtonThin,
-  ExitIcon,
-  SettingsIcon,
-  StarIcon,
-  UserSecurityIcon
-} from 'pearpass-lib-ui-react-components'
-import {
   closeAllInstances,
   useFolders,
   useVault,
@@ -22,6 +15,7 @@ import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
   FoldersWrapper,
   LogoWrapper,
+  PearPass,
   SettingsContainer,
   SettingsSeparator,
   sideBarContent,
@@ -35,6 +29,13 @@ import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
+import {
+  ButtonThin,
+  ExitIcon,
+  SettingsIcon,
+  StarIcon,
+  UserSecurityIcon
+} from '../../lib-react-components'
 import { LogoLock } from '../../svgs/LogoLock'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
@@ -57,9 +58,13 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     variables: { searchPattern: searchValue }
   })
 
-  const { data: vaultsData, resetState, refetch } = useVaults()
+  const {
+    data: vaultsData,
+    resetState,
+    refetch: refetchMasterVault
+  } = useVaults()
 
-  const { data: vaultData } = useVault({ shouldSkip: true })
+  const { data: vaultData } = useVault()
 
   const vaults = useMemo(
     () => vaultsData?.filter((vault) => vault.id !== vaultData?.id),
@@ -157,13 +162,14 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   }
 
   useEffect(() => {
-    refetch()
+    refetchMasterVault()
   }, [])
 
   return html`
     <${SidebarWrapper} size=${sidebarSize}>
       <${LogoWrapper} onClick=${openMainView}>
-        <${LogoLock} width="126" height="26" />
+        <${LogoLock} width="20" height="26" />
+        <${PearPass}>PearPass<//>
       <//>
 
       <${sideBarContent}>
@@ -192,14 +198,14 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
       <${SidebarSettings}>
         <${SettingsContainer} onClick=${handleSettingsClick}>
-          <${SettingsIcon} size="14" />
+          <${SettingsIcon} size="24" />
           ${i18n._('Settings')}
         <//>
 
         <${SettingsSeparator} />
 
         <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
-          ${i18n._('Add Device')}
+          ${i18n._('Add a Device')}
         <//>
 
         <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>

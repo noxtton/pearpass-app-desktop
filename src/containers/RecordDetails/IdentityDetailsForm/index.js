@@ -3,21 +3,21 @@ import React, { useEffect } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
+
+import { FormGroup } from '../../../components/FormGroup'
+import { FormWrapper } from '../../../components/FormWrapper'
+import { InputFieldNote } from '../../../components/InputFieldNote'
+import { ATTACHMENTS_FIELD_KEY } from '../../../constants/formFields'
+import { useToast } from '../../../context/ToastContext'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
 import {
   CopyIcon,
   EmailIcon,
   InputField,
   PhoneIcon,
   UserIcon
-} from 'pearpass-lib-ui-react-components'
-
-import { FormGroup } from '../../../components/FormGroup'
-import { FormWrapper } from '../../../components/FormWrapper'
-import { InputFieldNote } from '../../../components/InputFieldNote'
-import { ATTACHMENT_FIELD_KEY } from '../../../constants/formFields'
-import { useToast } from '../../../context/ToastContext'
-import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
-import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
+} from '../../../lib-react-components'
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 import { ImagesField } from '../../ImagesField'
@@ -108,7 +108,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
 
   useGetMultipleFiles({
     fieldNames: [
-      ATTACHMENT_FIELD_KEY,
+      ATTACHMENTS_FIELD_KEY,
       'passportPicture',
       'idCardPicture',
       'drivingLicensePicture'

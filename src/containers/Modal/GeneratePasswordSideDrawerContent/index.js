@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ButtonLittle } from 'pearpass-lib-ui-react-components'
 import {
   generatePassphrase,
   generatePassword
@@ -16,7 +15,9 @@ import { PassphraseGenerator } from './PassphraseGenerator/index.'
 import { PasswordChecker } from './PasswordChecker'
 import { PasswordGenerator } from './PasswordGenerator'
 import { HeaderButtonWrapper, RadioWrapper, Wrapper } from './styles'
+import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
+import { ButtonLittle, CopyIcon } from '../../../lib-react-components'
 
 /**
  * @param {{
@@ -26,7 +27,15 @@ import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
-  const { copyToClipboard } = useCopyToClipboard()
+  const { setToast } = useToast()
+  const { copyToClipboard } = useCopyToClipboard({
+    onCopy: () => {
+      setToast({
+        message: i18n._('Copied to clipboard'),
+        icon: CopyIcon
+      })
+    }
+  })
 
   const [selectedOption, setSelectedOption] = useState('password')
   const [selectedRules, setSelectedRules] = useState({

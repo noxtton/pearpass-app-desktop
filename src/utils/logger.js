@@ -1,21 +1,78 @@
-export class Logger {
-  constructor({ debugMode }) {
-    this.debugMode = debugMode || false
+/** @typedef {import('pear-interface')} */
+
+class Logger {
+  constructor({ debugMode = false } = {}) {
+    this.debugMode = debugMode
   }
 
-  log(...messages) {
-    if (!this.debugMode) {
+  /**
+   * Log a message with component and level
+   * @param {'INFO'|'ERROR'|'DEBUG'|'WARN'} level - Log level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  _print(level, component, message) {
+    if (!this.debugMode) return
+
+    const timestamp = new Date().toISOString()
+    const formatted = `${timestamp} [${level}] [${component}]`
+
+    if (level === 'ERROR') {
+      // eslint-disable-next-line no-console
+      console.error(formatted, message)
       return
     }
 
-    console.log(messages)
+    // eslint-disable-next-line no-console
+    console.log(formatted, message)
   }
 
-  error(...messages) {
-    console.error(messages)
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  log(component, ...args) {
+    this._print('LOG', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  debug(component, ...args) {
+    this._print('DEBUG', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  info(component, ...args) {
+    this._print('INFO', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  warn(component, ...args) {
+    this._print('WARN', component, ...args)
+  }
+
+  /**
+   * Log a message with component and level
+   * @param {string} component - Component name
+   * @param {any[]} message - Log message
+   */
+  error(component, ...args) {
+    this._print('ERROR', component, ...args)
   }
 }
 
 export const logger = new Logger({
-  debugMode: true
+  debugMode: Pear.config.tier === 'dev'
 })

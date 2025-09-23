@@ -1,7 +1,7 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { ArrowDownIcon, ArrowUpIcon } from 'pearpass-lib-ui-react-components'
 
+import { ArrowDownIcon, ArrowUpIcon } from '../../../lib-react-components'
 import { MenuDropdownItem } from '../MenuDropdownItem'
 import { Label } from '../styles'
 
@@ -23,7 +23,7 @@ export const MenuDropdownLabel = ({
 
   return html`
     <${Label} isHidden=${isHidden} onClick=${() => setIsOpen?.(!isOpen)}>
-      <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="14" />
+      <${isOpen ? ArrowUpIcon : ArrowDownIcon} size="24" />
 
       ${selectedItem?.name
         ? html` <${MenuDropdownItem} item=${selectedItem} /> `

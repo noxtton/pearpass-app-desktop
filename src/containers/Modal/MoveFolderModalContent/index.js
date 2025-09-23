@@ -2,17 +2,17 @@ import React from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import {
-  ButtonFolder,
-  ButtonSingleInput,
-  NewFolderIcon
-} from 'pearpass-lib-ui-react-components'
 import { useRecords, useFolders } from 'pearpass-lib-vault'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
 import { FolderList, HeaderWrapper } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
+import {
+  ButtonFolder,
+  ButtonSingleInput,
+  NewFolderIcon
+} from '../../../lib-react-components'
 import { CreateFolderModalContent } from '../CreateFolderModalContent'
 
 /**

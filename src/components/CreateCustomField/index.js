@@ -2,16 +2,16 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+
+import { ArrowIconWrapper, DropDown, Label, Wrapper } from './styles'
+import { useOutsideClick } from '../../hooks/useOutsideClick'
 import {
   ArrowDownIcon,
   ArrowUpIcon,
   CommonFileIcon,
   PlusIcon,
   ButtonFilter
-} from 'pearpass-lib-ui-react-components'
-
-import { ArrowIconWrapper, DropDown, Label, Wrapper } from './styles'
-import { useOutsideClick } from '../../hooks/useOutsideClick'
+} from '../../lib-react-components'
 
 const OPTIONS = [
   // {

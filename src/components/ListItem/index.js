@@ -1,11 +1,4 @@
 import { html } from 'htm/react'
-import {
-  BrushIcon,
-  CheckIcon,
-  DeleteIcon,
-  LockCircleIcon,
-  ShareIcon
-} from 'pearpass-lib-ui-react-components'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import {
@@ -17,6 +10,13 @@ import {
   ListItemInfo,
   ListItemName
 } from './styles'
+import {
+  BrushIcon,
+  CheckIcon,
+  DeleteIcon,
+  LockCircleIcon,
+  ShareIcon
+} from '../../lib-react-components'
 
 export const ListItem = ({
   itemName,
@@ -31,13 +31,13 @@ export const ListItem = ({
     <${ListItemInfo}>
       ${isSelected
         ? html` <${SelectedListItemIconContainer}>
-            <${CheckIcon} size="21" color=${colors.black.mode1} />
+            <${CheckIcon} size="24" color=${colors.black.mode1} />
           <//>`
-        : html`<${LockCircleIcon} size="21" />`}
+        : html`<${LockCircleIcon} size="24" />`}
 
       <${ListItemDescription}>
         <${ListItemName}>${itemName}<//>
-        <${ListItemDate}> ${itemDateText}<//>
+        ${itemDateText && html`<${ListItemDate}> ${itemDateText}<//>`}
       <//>
     <//>
 

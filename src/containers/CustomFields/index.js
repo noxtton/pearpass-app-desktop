@@ -1,10 +1,10 @@
 import React from 'react'
 
 import { html } from 'htm/react'
-import { ButtonLittle, DeleteIcon } from 'pearpass-lib-ui-react-components'
 
 import { FormGroup } from '../../components/FormGroup'
 import { InputFieldNote } from '../../components/InputFieldNote'
+import { ButtonRoundIcon, DeleteIcon } from '../../lib-react-components'
 
 /**
  * @param {{
@@ -36,8 +36,7 @@ export const CustomFields = ({
               isDisabled=${areInputsDisabled}
               additionalItems=${!areInputsDisabled &&
               html`
-                <${ButtonLittle}
-                  variant="secondary"
+                <${ButtonRoundIcon}
                   startIcon=${DeleteIcon}
                   onClick=${() => removeItem?.(index)}
                 />

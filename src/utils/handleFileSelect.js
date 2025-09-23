@@ -25,6 +25,6 @@ export const handleFileSelect = ({ files, fieldName, setValue, values }) => {
       ])
     })
     .catch((e) => {
-      logger.error('Error reading file:', e)
+      logger.error('useGetMultipleFiles', 'Error reading file:', e)
     })
 }

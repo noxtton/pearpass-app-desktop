@@ -1,264 +1,364 @@
-import { tmpdir, platform } from 'os'
-import { join } from 'path'
-
 import IPC from 'pear-ipc'
 
-import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions.js'
-import { log } from '../utils/nativeMessagingLogger.js'
+import { COMMAND_DEFINITIONS } from '../shared/commandDefinitions'
+import { logger } from '../utils/logger'
+import { EncryptionHandlers } from './handlers/EncryptionHandlers'
+import { SecureRequestHandler } from './handlers/SecureRequestHandler'
+import { SecurityHandlers } from './handlers/SecurityHandlers'
+import { VaultHandlers } from './handlers/VaultHandlers'
+import { MethodRegistry } from './ipc/MethodRegistry'
+import { SocketManager, getIpcPath } from './ipc/SocketManager'
+
+// Re-export for backward compatibility
+export { getIpcPath }
 
 /**
- * Returns cross-platform IPC path:
- *  Unix domain socket in os.tmpdir()
- *  Windows named pipe under \\?\pipe\
- */
-export const getIpcPath = (socketName) => {
-  if (platform() === 'win32') {
-    return `\\\\?\\pipe\\${socketName}`
-  }
-  return join(tmpdir(), `${socketName}.sock`)
-}
-
-/**
- * Native Messaging IPC Server
- * This server runs in the main desktop app and handles requests from the native messaging bridge
+ * IPC server for native messaging bridge communication
  */
 export class NativeMessagingIPCServer {
+  /**
+   * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} pearpassClient
+   */
   constructor(pearpassClient) {
+    /** @type {import('pearpass-lib-vault-mobile').PearpassVaultClient} */
     this.client = pearpassClient
+    /** @type {import('pear-ipc').Server|null} */
     this.server = null
+    /** @type {boolean} */
     this.isRunning = false
-    this.socketPath = getIpcPath('pearpass-native-messaging')
+    /** @type {SocketManager} */
+    this.socketManager = new SocketManager('pearpass-native-messaging')
+    /** @type {string} */
+    this.socketPath = this.socketManager.getPath()
+
+    // Create wrapper function for IPC activity
+    const ipcActivityWrapper =
+      (handler) =>
+      async (...args) => {
+        this.emitIPCActivity()
+        return handler(...args)
+      }
+
+    /** @type {MethodRegistry} */
+    this.methodRegistry = new MethodRegistry(ipcActivityWrapper)
+    /** @type {MethodRegistry} */
+    this.secureMethodRegistry = new MethodRegistry(ipcActivityWrapper)
+    /** @type {Map<string, number>} */
+    this.clientRequestCounts = new Map()
+
+    // Initialize handlers
+    this.setupHandlers()
   }
 
+  /**
+   * Setup all method handlers
+   */
+  setupHandlers() {
+    // Security handlers
+    const securityHandlers = new SecurityHandlers(this.client)
+    const encryptionHandlers = new EncryptionHandlers(this.client)
+    const vaultHandlers = new VaultHandlers(this.client)
+
+    // Register security methods (always available)
+    this.methodRegistry.register(
+      'nmGetAppIdentity',
+      securityHandlers.nmGetAppIdentity.bind(securityHandlers)
+    )
+    this.methodRegistry.register(
+      'nmBeginHandshake',
+      securityHandlers.nmBeginHandshake.bind(securityHandlers)
+    )
+    this.methodRegistry.register(
+      'nmFinishHandshake',
+      securityHandlers.nmFinishHandshake.bind(securityHandlers)
+    )
+    this.methodRegistry.register(
+      'nmCloseSession',
+      securityHandlers.nmCloseSession.bind(securityHandlers)
+    )
+    this.methodRegistry.register(
+      'nmResetPairing',
+      securityHandlers.nmResetPairing.bind(securityHandlers)
+    )
+    this.methodRegistry.register(
+      'checkAvailability',
+      securityHandlers.checkAvailability.bind(securityHandlers)
+    )
+
+    // Register encryption bootstrap methods
+    this.methodRegistry.register(
+      'encryptionInit',
+      encryptionHandlers.encryptionInit.bind(encryptionHandlers)
+    )
+    this.methodRegistry.register(
+      'encryptionGetStatus',
+      encryptionHandlers.encryptionGetStatus.bind(encryptionHandlers)
+    )
+
+    // Register secure channel handler
+    const secureRequestHandler = new SecureRequestHandler(
+      this.client,
+      this.secureMethodRegistry
+    )
+    this.methodRegistry.register(
+      'nmSecureRequest',
+      secureRequestHandler.handle.bind(secureRequestHandler),
+      { logLevel: 'DEBUG' }
+    )
+
+    // Register methods accessible through secure channel
+    this.registerSecureMethods(encryptionHandlers, vaultHandlers)
+  }
+
+  /**
+   * Emit IPC activity event to reset inactivity timer
+   */
+  emitIPCActivity() {
+    if (global.window) {
+      logger.debug('IPC-SERVER', 'Emitting IPC activity event')
+      global.window.dispatchEvent(new Event('ipc-activity'))
+    }
+  }
+
+  /**
+   * Register methods that are only accessible through the secure channel
+   */
+  registerSecureMethods(encryptionHandlers, vaultHandlers) {
+    // Encryption methods
+    this.secureMethodRegistry.register(
+      'encryptionInit',
+      encryptionHandlers.encryptionInit.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'encryptionGetStatus',
+      encryptionHandlers.encryptionGetStatus.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'encryptionGet',
+      encryptionHandlers.encryptionGet.bind(encryptionHandlers),
+      { logLevel: 'DEBUG' }
+    )
+    this.secureMethodRegistry.register(
+      'encryptionAdd',
+      encryptionHandlers.encryptionAdd.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'hashPassword',
+      encryptionHandlers.hashPassword.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'encryptVaultKeyWithHashedPassword',
+      encryptionHandlers.encryptVaultKeyWithHashedPassword.bind(
+        encryptionHandlers
+      )
+    )
+    this.secureMethodRegistry.register(
+      'encryptVaultWithKey',
+      encryptionHandlers.encryptVaultWithKey.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'getDecryptionKey',
+      encryptionHandlers.getDecryptionKey.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'decryptVaultKey',
+      encryptionHandlers.decryptVaultKey.bind(encryptionHandlers),
+      { logLevel: 'DEBUG' }
+    )
+
+    // Vault methods
+    this.secureMethodRegistry.register(
+      'vaultsInit',
+      vaultHandlers.vaultsInit.bind(vaultHandlers),
+      { logLevel: 'DEBUG' }
+    )
+    this.secureMethodRegistry.register(
+      'vaultsGetStatus',
+      vaultHandlers.vaultsGetStatus.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'vaultsGet',
+      vaultHandlers.vaultsGet.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'vaultsList',
+      vaultHandlers.vaultsList.bind(vaultHandlers),
+      { requiresStatus: ['encryption', 'vaults'], logLevel: 'DEBUG' }
+    )
+    this.secureMethodRegistry.register(
+      'vaultsAdd',
+      vaultHandlers.vaultsAdd.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'vaultsClose',
+      vaultHandlers.vaultsClose.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultInit',
+      vaultHandlers.activeVaultInit.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultGetStatus',
+      vaultHandlers.activeVaultGetStatus.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultGet',
+      vaultHandlers.activeVaultGet.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultList',
+      vaultHandlers.activeVaultList.bind(vaultHandlers),
+      {
+        requiresStatus: ['encryption', 'vaults', 'activeVault'],
+        logLevel: 'DEBUG'
+      }
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultAdd',
+      vaultHandlers.activeVaultAdd.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultRemove',
+      vaultHandlers.activeVaultRemove.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultClose',
+      vaultHandlers.activeVaultClose.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultCreateInvite',
+      vaultHandlers.activeVaultCreateInvite.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultDeleteInvite',
+      vaultHandlers.activeVaultDeleteInvite.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'pairActiveVault',
+      vaultHandlers.pairActiveVault.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'initListener',
+      vaultHandlers.initListener.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'closeVault',
+      vaultHandlers.closeVault.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'cancelPairActiveVault',
+      vaultHandlers.cancelPairActiveVault.bind(vaultHandlers)
+    )
+  }
+
+  /**
+   * @returns {Promise<void>}
+   */
   async start() {
     if (this.isRunning) {
-      log('IPC-SERVER', 'INFO', 'IPC server is already running')
+      logger.info('IPC-SERVER', 'IPC server is already running')
       return
     }
 
     try {
-      log('IPC-SERVER', 'INFO', 'Starting native messaging IPC server...')
+      logger.info('IPC-SERVER', 'Starting native messaging IPC server...')
 
-      // Use centralized command definitions
-      const methods = COMMAND_DEFINITIONS
+      // Clean up any existing socket file
+      await this.socketManager.cleanupSocket()
 
-      // Create handlers for each method
-      const handlers = {
-        encryptionInit: async () => {
-          await this.client.encryptionInit()
-          return { initialized: true }
-        },
-
-        encryptionGetStatus: async () =>
-          await this.client.encryptionGetStatus(),
-
-        encryptionGet: async (params) =>
-          await this.client.encryptionGet(params.key),
-
-        encryptionAdd: async (params) => {
-          await this.client.encryptionAdd(params.key, params.data)
-          return { success: true }
-        },
-
-        vaultsInit: async (params) => {
-          await this.client.vaultsInit(params.encryptionKey)
-          return { initialized: true }
-        },
-
-        vaultsGetStatus: async () => await this.client.vaultsGetStatus(),
-
-        vaultsGet: async (params) => await this.client.vaultsGet(params.key),
-
-        vaultsList: async (params) =>
-          await this.client.vaultsList(params.filterKey),
-
-        vaultsAdd: async (params) => {
-          await this.client.vaultsAdd(params.key, params.vault)
-          return { success: true }
-        },
-
-        vaultsClose: async () => {
-          await this.client.vaultsClose()
-          return { success: true }
-        },
-
-        activeVaultInit: async (params) =>
-          await this.client.activeVaultInit({
-            id: params.id,
-            encryptionKey: params.encryptionKey
-          }),
-
-        activeVaultGetStatus: async () =>
-          await this.client.activeVaultGetStatus(),
-
-        activeVaultGet: async (params) =>
-          await this.client.activeVaultGet(params.key),
-
-        activeVaultList: async (params) =>
-          await this.client.activeVaultList(params.filterKey),
-
-        activeVaultAdd: async (params) => {
-          await this.client.activeVaultAdd(params.key, params.data)
-          return { success: true }
-        },
-
-        activeVaultRemove: async (params) => {
-          await this.client.activeVaultRemove(params.key)
-          return { success: true }
-        },
-
-        activeVaultClose: async () => {
-          await this.client.activeVaultClose()
-          return { success: true }
-        },
-
-        activeVaultCreateInvite: async () =>
-          await this.client.activeVaultCreateInvite(),
-
-        activeVaultDeleteInvite: async () => {
-          await this.client.activeVaultDeleteInvite()
-          return { success: true }
-        },
-
-        hashPassword: async (params) =>
-          await this.client.hashPassword(params.password),
-
-        encryptVaultKeyWithHashedPassword: async (params) =>
-          await this.client.encryptVaultKeyWithHashedPassword(
-            params.hashedPassword
-          ),
-
-        encryptVaultWithKey: async (params) =>
-          await this.client.encryptVaultWithKey(
-            params.hashedPassword,
-            params.key
-          ),
-
-        getDecryptionKey: async (params) => {
-          log(
-            'IPC-SERVER',
-            'INFO',
-            `Getting decryption key with params: ${JSON.stringify(params)}`
-          )
-          const result = await this.client.getDecryptionKey({
-            salt: params.salt,
-            password: params.password
-          })
-          log('IPC-SERVER', 'INFO', `Decryption key result: ${result}`)
-          return result
-        },
-
-        decryptVaultKey: async (params) =>
-          await this.client.decryptVaultKey({
-            ciphertext: params.ciphertext,
-            nonce: params.nonce,
-            hashedPassword: params.hashedPassword
-          }),
-
-        pair: async (params) => await this.client.pair(params.inviteCode),
-
-        initListener: async (params) => {
-          await this.client.initListener({ vaultId: params.vaultId })
-          return { success: true }
-        },
-
-        closeVault: async () => {
-          await this.client.close()
-          return { success: true }
-        }
+      // Build handlers from registry
+      const handlers = {}
+      for (const [name, handler] of this.methodRegistry.handlers) {
+        handlers[name] = handler
       }
+
+      logger.info(
+        'IPC-SERVER',
+        `Registered ${this.methodRegistry.getMethodNames().length} handlers`
+      )
 
       // Create IPC server
       this.server = new IPC.Server({
         socketPath: this.socketPath,
-        methods: methods,
+        methods: COMMAND_DEFINITIONS,
         handlers: handlers
       })
 
       // Handle new client connections
       this.server.on('client', (client) => {
-        log('IPC-SERVER', 'INFO', `New IPC client connected: ${client.id}`)
+        logger.info('IPC-SERVER', `New IPC client connected: ${client.id}`)
 
-        // Track client request count
-        let requestCount = 0
-
-        // Listen for method calls
-        const originalEmit = client.emit.bind(client)
-        client.emit = function (event, ...args) {
-          if (event.startsWith('method:')) {
-            requestCount++
-            log(
-              'IPC-SERVER',
-              'INFO',
-              `Client ${client.id} calling ${event} (request #${requestCount})`
-            )
-          }
-          return originalEmit(event, ...args)
-        }
+        // Initialize request count for this client
+        this.clientRequestCounts.set(client.id, 0)
 
         client.on('close', () => {
-          log(
+          const requestCount = this.clientRequestCounts.get(client.id) || 0
+          logger.info(
             'IPC-SERVER',
-            'INFO',
             `IPC client disconnected: ${client.id} after ${requestCount} requests`
           )
+          this.clientRequestCounts.delete(client.id)
         })
 
         client.on('error', (error) => {
-          log(
+          logger.error(
             'IPC-SERVER',
-            'INFO',
             `IPC client error (${client.id}): ${error.message}`
           )
         })
       })
 
       this.server.on('error', (error) => {
-        log('IPC-SERVER', 'INFO', `IPC server error: ${error.message}`)
+        logger.error('IPC-SERVER', `IPC server error: ${error.message}`)
       })
 
       // Start listening
       await this.server.ready()
 
       this.isRunning = true
-      log(
+      logger.info(
         'IPC-SERVER',
-        'INFO',
         `Native messaging IPC server started successfully on ${this.socketPath}`
       )
     } catch (error) {
-      log('IPC-SERVER', 'INFO', `Failed to start IPC server: ${error.message}`)
+      logger.error('IPC-SERVER', `Failed to start IPC server: ${error.message}`)
       throw error
     }
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async stop() {
     if (!this.isRunning) {
       return
     }
 
-    log('IPC-SERVER', 'INFO', 'Stopping native messaging IPC server...')
+    logger.info('IPC-SERVER', 'Stopping native messaging IPC server...')
 
     if (this.server) {
       await this.server.close()
       this.server = null
     }
 
+    // Clean up socket file
+    await this.socketManager.cleanupSocket()
+
     this.isRunning = false
-    log('IPC-SERVER', 'INFO', 'Native messaging IPC server stopped')
+    logger.info('IPC-SERVER', 'Native messaging IPC server stopped')
   }
 }
 
+/** @type {NativeMessagingIPCServer|null} */
 let ipcServerInstance = null
 
 /**
- * Start the native messaging IPC server
  * @param {import('pearpass-lib-vault-mobile').PearpassVaultClient} pearpassClient
  * @returns {Promise<NativeMessagingIPCServer>}
  */
-export async function startNativeMessagingIPC(pearpassClient) {
+export const startNativeMessagingIPC = async (pearpassClient) => {
   if (ipcServerInstance?.isRunning) {
-    log('IPC-SERVER', 'INFO', 'Native messaging IPC server is already running')
+    logger.info('IPC-SERVER', 'Native messaging IPC server is already running')
     return ipcServerInstance
   }
 
@@ -269,11 +369,11 @@ export async function startNativeMessagingIPC(pearpassClient) {
 }
 
 /**
- * Stop the native messaging IPC server
+ * @returns {Promise<void>}
  */
-export async function stopNativeMessagingIPC() {
+export const stopNativeMessagingIPC = async () => {
   if (!ipcServerInstance?.isRunning) {
-    log('IPC-SERVER', 'INFO', 'Native messaging IPC server is not running')
+    logger.info('IPC-SERVER', 'Native messaging IPC server is not running')
     return
   }
 
@@ -282,13 +382,13 @@ export async function stopNativeMessagingIPC() {
 }
 
 /**
- * Check if native messaging IPC is running
+ * @returns {boolean}
  */
 export const isNativeMessagingIPCRunning = () =>
   ipcServerInstance?.isRunning || false
 
 /**
- * Get the socket path for the IPC server
+ * @returns {string}
  */
 export const getIPCSocketPath = () =>
-  ipcServerInstance?.socketPath ?? getIpcPath('pearpass-native-messaging.sock')
+  ipcServerInstance?.socketPath ?? getIpcPath('pearpass-native-messaging')

@@ -6,7 +6,7 @@ import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import { SidebarSearch } from './index'
 import '@testing-library/jest-dom'
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   SearchIcon: () => <div data-testid="search-icon">SearchIcon</div>
 }))
 

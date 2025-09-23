@@ -3,7 +3,10 @@ import { PearpassVaultClient } from 'pearpass-lib-vault-mobile'
 import { createOrGetPearpassClient } from './createOrGetPearpassClient'
 
 jest.mock('pearpass-lib-vault-mobile', () => ({
-  PearpassVaultClient: jest.fn()
+  PearpassVaultClient: jest.fn(),
+  workletLogger: {
+    setLogOutput: jest.fn()
+  }
 }))
 
 describe('createOrGetPearpassClient', () => {

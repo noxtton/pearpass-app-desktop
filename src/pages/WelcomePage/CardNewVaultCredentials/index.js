@@ -4,23 +4,25 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
-import {
-  ButtonPrimary,
-  ButtonSecondary,
-  PearPassInputField,
-  PearPassPasswordField
-} from 'pearpass-lib-ui-react-components'
 import { useCreateVault, useVault } from 'pearpass-lib-vault'
 
 import {
   ButtonWrapper,
   CardTitle,
+  FieldWrapper,
   Form,
   InputsContainer,
+  Label,
   Title
 } from './styles'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  PearPassInputField,
+  PearPassPasswordField
+} from '../../../lib-react-components'
 import { getDeviceName } from '../../../utils/getDeviceName'
 import { logger } from '../../../utils/logger'
 
@@ -76,31 +78,43 @@ export const CardNewVaultCredentials = () => {
     } catch (error) {
       setIsLoading(false)
 
-      logger.error(error)
+      logger.error(
+        'useGetMultipleFiles',
+        'Error creating master password:',
+        error
+      )
     }
   }
 
   return html`
     <${Form} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Enter Name and Password for new Vault')} <//>
+        <${Title}> ${i18n._('Create new Vault')} <//>
       <//>
 
       <${InputsContainer}>
-        <${PearPassInputField}
-          placeholder=${i18n._('Enter Name')}
-          ...${register('name')}
-        />
+        <${FieldWrapper}>
+          <${Label} for="name"> ${i18n._('Vault name')} <//>
+          <${PearPassInputField}
+            placeholder=${i18n._('Enter Name')}
+            ...${register('name')}
+          />
+        <//>
+        <${FieldWrapper}>
+          <${Label} for="name"> ${i18n._('Create password (optional)')} <//>
+          <${PearPassPasswordField}
+            placeholder=${i18n._('Enter Password')}
+            ...${register('password')}
+          />
+        <//>
 
-        <${PearPassPasswordField}
-          placeholder=${i18n._('Enter Password')}
-          ...${register('password')}
-        />
-
-        <${PearPassPasswordField}
-          placeholder=${i18n._('Confirm Password')}
-          ...${register('passwordConfirm')}
-        />
+        <${FieldWrapper}>
+          <${Label} for="name"> ${i18n._('Confirm Password')} <//>
+          <${PearPassPasswordField}
+            placeholder=${i18n._('Confirm Password')}
+            ...${register('passwordConfirm')}
+          />
+        <//>
       <//>
 
       <${ButtonWrapper}>

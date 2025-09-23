@@ -25,7 +25,7 @@ jest.mock('../EditFolderPopupContent', () => ({
   )
 }))
 
-jest.mock('pearpass-lib-ui-react-components', () => ({
+jest.mock('../../lib-react-components', () => ({
   ArrowDownIcon: () => <div data-testid="mock-arrow-icon"></div>,
   ArrowUpIcon: () => <div data-testid="mock-arrowUp-icon"></div>,
   FolderIcon: () => <div data-testid="mock-folder-icon"></div>,
