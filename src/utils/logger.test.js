@@ -1,5 +1,9 @@
 import { logger } from './logger'
 
+globalThis.Pear = {
+  config: { tier: 'dev' }
+}
+
 describe('Logger.log', () => {
   let originalDebugMode
   let consoleLogSpy

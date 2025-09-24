@@ -77,7 +77,7 @@ export const Intro = () => {
               >`
             ]}
             content=${html`<${LogoImage}
-              src="assets/images/intro_lock_3D.png"
+              src="assets/images/intro_lock_3D.webp"
             />`}
           />
         `

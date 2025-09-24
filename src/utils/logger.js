@@ -1,3 +1,5 @@
+/** @typedef {import('pear-interface')} */
+
 class Logger {
   constructor({ debugMode = false } = {}) {
     this.debugMode = debugMode
@@ -72,5 +74,5 @@ class Logger {
 }
 
 export const logger = new Logger({
-  debugMode: true
+  debugMode: Pear.config.tier === 'dev'
 })
