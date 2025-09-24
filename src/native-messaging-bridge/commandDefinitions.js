@@ -52,7 +52,7 @@ const COMMAND_DEFINITIONS = [
   // Pairing and misc commands
   { id: 1025, name: 'pairActiveVault' },
   { id: 1026, name: 'initListener' },
-  { id: 1027, name: 'closeVault' },
+  { id: 1027, name: 'closeAllInstances' },
   { id: 1028, name: 'cancelPairActiveVault' }
 ]
 

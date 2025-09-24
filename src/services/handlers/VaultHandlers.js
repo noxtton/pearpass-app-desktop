@@ -164,8 +164,8 @@ export class VaultHandlers {
     return { success: true }
   }
 
-  async closeVault() {
-    await this.client.close()
+  async closeAllInstances() {
+    await this.client.closeAllInstances()
     return { success: true }
   }
 
