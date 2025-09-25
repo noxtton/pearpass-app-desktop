@@ -1,5 +1,8 @@
+import { useEffect } from 'react'
+
 import { html } from 'htm/react'
 
+import { useRouter } from '../../context/RouterContext'
 import { usePearUpdate } from '../../hooks/usePearUpdate'
 import { useSimulatedLoading } from '../../hooks/useSimulatedLoading'
 import { Routes } from '../Routes'
@@ -12,6 +15,19 @@ export const App = () => {
 
   useInactivity()
   const { isLoading } = useRedirect()
+
+  const { navigate } = useRouter()
+
+  useEffect(() => {
+    const handleExtensionExit = async () => {
+      navigate('welcome', { state: 'masterPassword' })
+    }
+
+    window.addEventListener('extension-exit', handleExtensionExit)
+    return () => {
+      window.removeEventListener('extension-exit', handleExtensionExit)
+    }
+  }, [navigate])
 
   return html` <${Routes} isLoading=${isLoading || isSimulatedLoading} /> `
 }
