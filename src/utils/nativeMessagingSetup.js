@@ -6,7 +6,7 @@ import path from 'path'
 import { logger } from './logger'
 import { META_URL } from '../constants/meta'
 
-const MANIFEST_NAME = 'com.pearpass.vault'
+const MANIFEST_NAME = 'com.noxtton.pearpass'
 
 const promisify =
   (fn) =>

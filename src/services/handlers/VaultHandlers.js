@@ -164,8 +164,38 @@ export class VaultHandlers {
     return { success: true }
   }
 
-  async closeVault() {
-    await this.client.close()
+  async closeAllInstances() {
+    let wasAuthenticated
+
+    try {
+      const status = await this.client.vaultsGetStatus()
+
+      wasAuthenticated = status?.status
+    } catch (e) {
+      logger.error(
+        'VAULT-HANDLER',
+        'ERROR',
+        `Error checking vault status before closing instances: ${e.message}`
+      )
+      wasAuthenticated = false
+    }
+
+    // close all instances
+    await this.client.closeAllInstances()
+
+    // If desktop was authenticated emit an event to navigate to master password screen
+    if (wasAuthenticated) {
+      logger.log(
+        'VAULT-HANDLER',
+        'INFO',
+        'Desktop was authenticated, navigating to master password screen after extension exit'
+      )
+
+      if (global.window) {
+        global.window.dispatchEvent(new CustomEvent('extension-exit'))
+      }
+    }
+
     return { success: true }
   }
 
