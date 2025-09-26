@@ -4,7 +4,7 @@ import { useVaults } from 'pearpass-lib-vault'
 
 import { useRouter } from '../../../context/RouterContext'
 
-export const UseOnExtensionExit = () => {
+export const useOnExtensionExit = () => {
   const { navigate } = useRouter()
   const { resetState } = useVaults()
 

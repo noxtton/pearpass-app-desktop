@@ -2,7 +2,7 @@ import React from 'react'
 
 import { render } from '@testing-library/react'
 
-const { UseOnExtensionExit } = require('./useOnExtensionExit')
+const { useOnExtensionExit } = require('./useOnExtensionExit')
 
 const mockNavigate = jest.fn()
 const mockResetState = jest.fn()
@@ -34,7 +34,7 @@ describe('UseOnExtensionExit', () => {
 
   it('should add and remove extension-exit listener on mount/unmount', () => {
     function TestComponent() {
-      UseOnExtensionExit()
+      useOnExtensionExit()
       return null
     }
 
@@ -62,7 +62,7 @@ describe('UseOnExtensionExit', () => {
     })
 
     function TestComponent() {
-      UseOnExtensionExit()
+      useOnExtensionExit()
       return null
     }
 
