@@ -48,6 +48,12 @@ export const useRecordMenuItems = () => {
       color: RECORD_COLOR_BY_TYPE.note
     },
     {
+      name: i18n._('Wi-Fi'),
+      type: RECORD_TYPES.WIFI_PASSWORD,
+      icon: RECORD_ICON_BY_TYPE.wifiPassword,
+      color: RECORD_COLOR_BY_TYPE.wifiPassword
+    },
+    {
       name: i18n._('Custom'),
       type: RECORD_TYPES.CUSTOM,
       icon: RECORD_ICON_BY_TYPE.custom,

@@ -7,5 +7,6 @@ export const RECORD_COLOR_BY_TYPE = {
   creditCard: colors.categoryCreditCard.dark,
   note: colors.categoryNote.dark,
   custom: colors.categoryCustom.dark,
-  password: colors.categoryPassword.dark
+  password: colors.categoryPassword.dark,
+  wifiPassword: colors.categoryWifiPassword.dark
 }

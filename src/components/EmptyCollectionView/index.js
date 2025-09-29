@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
 
 import {
   CollectionsContainer,
@@ -18,14 +19,15 @@ export const EmptyCollectionView = () => {
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
 
   const createCollectionOptions = [
-    { text: i18n._('Create a login'), type: 'login' },
-    { text: i18n._('Create an identity'), type: 'identity' },
+    { text: i18n._('Create a login'), type: RECORD_TYPES.LOGIN },
+    { text: i18n._('Create an identity'), type: RECORD_TYPES.IDENTITY },
     {
       text: i18n._('Create a credit card'),
-      type: 'creditCard'
+      type: RECORD_TYPES.CREDIT_CARD
     },
-    { text: i18n._('Create a note'), type: 'note' },
-    { text: i18n._('Create a custom element'), type: 'custom' }
+    { text: i18n._('Create a note'), type: RECORD_TYPES.NOTE },
+    { text: i18n._('Save a Wi-fi'), type: RECORD_TYPES.WIFI_PASSWORD },
+    { text: i18n._('Create a custom element'), type: RECORD_TYPES.CUSTOM }
   ]
 
   return html`

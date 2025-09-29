@@ -12,7 +12,8 @@ import {
   OutlineInputWrapper,
   NoticeWrapper,
   InputAreaWrapper,
-  InputOverlay
+  InputOverlay,
+  InsideWrapper
 } from './styles'
 import { NoticeText } from '../NoticeText'
 
@@ -25,6 +26,7 @@ import { NoticeText } from '../NoticeText'
  *  label?: string,
  *  error?: string,
  *  additionalItems?: import('react').ReactNode,
+ *  belowInputContent?: import('react').ReactNode,
  *  placeholder?: string,
  *  isDisabled?: boolean,
  *  onClick?: (value: string) => void,
@@ -41,6 +43,7 @@ export const InputField = ({
   label,
   error,
   additionalItems,
+  belowInputContent,
   placeholder,
   isDisabled,
   onClick,
@@ -49,6 +52,8 @@ export const InputField = ({
   overlay,
   autoFocus
 }) => {
+  console.log(belowInputContent)
+
   const inputRef = useRef(null)
 
   const [isFocused, setIsFocused] = useState(false)
@@ -85,40 +90,43 @@ export const InputField = ({
 
   return html`
     <${getStyedWrapperByVariant()} onClick=${() => handleClick()}>
-      ${!!icon && html` <${IconWrapper}> <${icon} size="24" /> <//>`}
+      <${InsideWrapper}>
+        ${!!icon && html` <${IconWrapper}> <${icon} size="24" /> <//>`}
 
-      <${MainWrapper}>
-        <${Label}> ${label} <//>
+        <${MainWrapper}>
+          <${Label}> ${label} <//>
 
-        <${InputAreaWrapper}>
-          <${Input}
-            ref=${inputRef}
-            value=${value}
-            onChange=${handleChange}
-            placeholder=${placeholder}
-            disabled=${isDisabled}
-            onFocus=${() => setIsFocused(true)}
-            onBlur=${() => setIsFocused(false)}
-            type=${type}
-            hasOverlay=${!!overlay && !isFocused}
-            autoFocus=${autoFocus}
-          />
+          <${InputAreaWrapper}>
+            <${Input}
+              ref=${inputRef}
+              value=${value}
+              onChange=${handleChange}
+              placeholder=${placeholder}
+              disabled=${isDisabled}
+              onFocus=${() => setIsFocused(true)}
+              onBlur=${() => setIsFocused(false)}
+              type=${type}
+              hasOverlay=${!!overlay && !isFocused}
+              autoFocus=${autoFocus}
+            />
 
-          ${!isFocused && html`<${InputOverlay}> ${overlay} <//>`}
+            ${!isFocused && html`<${InputOverlay}> ${overlay} <//>`}
+          <//>
+
+          ${!!error?.length &&
+          html` <${NoticeWrapper}>
+            <${NoticeText} text=${error} type="error" />
+          <//>`}
         <//>
 
-        ${!!error?.length &&
-        html` <${NoticeWrapper}>
-          <${NoticeText} text=${error} type="error" />
-        <//>`}
+        ${!!additionalItems &&
+        html`
+          <${AdditionalItems} onMouseDown=${(e) => e.stopPropagation()}>
+            ${additionalItems}
+          <//>
+        `}
       <//>
-
-      ${!!additionalItems &&
-      html`
-        <${AdditionalItems} onMouseDown=${(e) => e.stopPropagation()}>
-          ${additionalItems}
-        <//>
-      `}
+      ${!!belowInputContent && belowInputContent}
     <//>
   `
 }

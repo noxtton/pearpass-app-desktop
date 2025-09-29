@@ -53,7 +53,8 @@ describe('useRecordMenuItems', () => {
     expect(result.current.menuItems[2].type).toBe(RECORD_TYPES.IDENTITY)
     expect(result.current.menuItems[3].type).toBe(RECORD_TYPES.CREDIT_CARD)
     expect(result.current.menuItems[4].type).toBe(RECORD_TYPES.NOTE)
-    expect(result.current.menuItems[5].type).toBe(RECORD_TYPES.CUSTOM)
+    expect(result.current.menuItems[5].type).toBe(RECORD_TYPES.WIFI_PASSWORD)
+    expect(result.current.menuItems[6].type).toBe(RECORD_TYPES.CUSTOM)
   })
 
   it('should include icons and colors in default items', () => {

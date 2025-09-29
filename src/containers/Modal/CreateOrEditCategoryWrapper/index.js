@@ -1,12 +1,14 @@
 import { useState } from 'react'
 
 import { html } from 'htm/react'
+import { RECORD_TYPES } from 'pearpass-lib-vault'
 
 import { CreateOrEditCreditCardModalContent } from './CreateOrEditCreditCardModalContent'
 import { CreateOrEditCustomModalContent } from './CreateOrEditCustomModalContent'
 import { CreateOrEditIdentityModalContent } from './CreateOrEditIdentityModalContent'
 import { CreateOrEditLoginModalContent } from './CreateOrEditLoginModalContent'
 import { CreateOrEditNoteModalContent } from './CreateOrEditNoteModalContent'
+import { CreateOrEditWifiModalContent } from './CreateOrEditWifiModalContent'
 
 export const CreateOrEditCategoryWrapper = ({
   initialRecord,
@@ -15,7 +17,7 @@ export const CreateOrEditCategoryWrapper = ({
 }) => {
   const [currentRecordType, setCurrentRecordType] = useState(recordType)
 
-  if (currentRecordType === 'login') {
+  if (currentRecordType === RECORD_TYPES.LOGIN) {
     return html`<${CreateOrEditLoginModalContent}
       initialRecord=${initialRecord}
       selectedFolder=${selectedFolder}
@@ -23,7 +25,7 @@ export const CreateOrEditCategoryWrapper = ({
     />`
   }
 
-  if (currentRecordType === 'creditCard') {
+  if (currentRecordType === RECORD_TYPES.CREDIT_CARD) {
     return html`<${CreateOrEditCreditCardModalContent}
       initialRecord=${initialRecord}
       selectedFolder=${selectedFolder}
@@ -31,7 +33,7 @@ export const CreateOrEditCategoryWrapper = ({
     />`
   }
 
-  if (currentRecordType === 'identity') {
+  if (currentRecordType === RECORD_TYPES.IDENTITY) {
     return html`<${CreateOrEditIdentityModalContent}
       initialRecord=${initialRecord}
       selectedFolder=${selectedFolder}
@@ -39,7 +41,7 @@ export const CreateOrEditCategoryWrapper = ({
     />`
   }
 
-  if (currentRecordType === 'note') {
+  if (currentRecordType === RECORD_TYPES.NOTE) {
     return html`<${CreateOrEditNoteModalContent}
       initialRecord=${initialRecord}
       selectedFolder=${selectedFolder}
@@ -47,7 +49,15 @@ export const CreateOrEditCategoryWrapper = ({
     />`
   }
 
-  if (currentRecordType === 'custom') {
+  if (currentRecordType === RECORD_TYPES.WIFI_PASSWORD) {
+    return html`<${CreateOrEditWifiModalContent}
+      initialRecord=${initialRecord}
+      selectedFolder=${selectedFolder}
+      onTypeChange=${setCurrentRecordType}
+    />`
+  }
+
+  if (currentRecordType === RECORD_TYPES.CUSTOM) {
     return html`<${CreateOrEditCustomModalContent}
       initialRecord=${initialRecord}
       selectedFolder=${selectedFolder}
