@@ -10,8 +10,10 @@ import { SettingsTab } from './SettingsTab'
 import { SettingsVaultsTab } from './SettingsVaultsTab'
 import {
   ContentContainer,
+  Link,
   NavBar,
   TabContainer,
+  TabFooter,
   Tabs,
   TabTitle,
   Wrapper
@@ -79,7 +81,17 @@ export const SettingsView = () => {
           <//>
         <//>
 
-        <${TabContainer}> ${renderActiveTab(activeTab)} <//>
+        <${TabContainer}>
+          ${renderActiveTab(activeTab)}
+          <${TabFooter}>
+            <${Link} href="https://pass.pears.com/application-terms-of-use/">
+              ${i18n._('Terms of Use')}
+            <//>
+            <${Link} href="https://pass.pears.com/application-privacy/">
+              ${i18n._('Privacy Statement')}
+            <//>
+          <//>
+        <//>
       <//>
     <//>
   `
