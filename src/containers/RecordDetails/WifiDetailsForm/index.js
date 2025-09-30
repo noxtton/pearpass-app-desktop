@@ -11,7 +11,11 @@ import { ATTACHMENTS_FIELD_KEY } from '../../../constants/formFields'
 import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
-import { CopyIcon, KeyIcon, PasswordField } from '../../../lib-react-components'
+import {
+  CopyIcon,
+  PasswordField,
+  PasswordIcon
+} from '../../../lib-react-components'
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 import { WifiPasswordQRCode } from '../../WifiPasswordQRCode'
@@ -97,7 +101,7 @@ export const WifiDetailsForm = ({ initialRecord, selectedFolder }) => {
               />
             `}
             variant="outline"
-            icon=${KeyIcon}
+            icon=${PasswordIcon}
             onClick=${handleCopy}
             isDisabled
             ...${register('password')}
