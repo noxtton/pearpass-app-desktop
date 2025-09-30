@@ -109,7 +109,6 @@ export const CardNewVaultCredentials = () => {
         <${AccordionTrigger} isOpen=${isAccordionOpen}>
           <${Label} for="name"> ${i18n._('Create password (optional)')} <//>
           <${ButtonRoundIcon}
-            iconSize="12"
             onClick=${() => setIsAccordionOpen(!isAccordionOpen)}
             startIcon=${SmallArrowIcon}
           />
