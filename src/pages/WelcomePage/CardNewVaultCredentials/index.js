@@ -7,6 +7,8 @@ import { Validator } from 'pear-apps-utils-validator'
 import { useCreateVault, useVault } from 'pearpass-lib-vault'
 
 import {
+  AccordionContent,
+  AccordionTrigger,
   ButtonWrapper,
   CardTitle,
   FieldWrapper,
@@ -19,16 +21,20 @@ import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
 import {
   ButtonPrimary,
+  ButtonRoundIcon,
   ButtonSecondary,
   PearPassInputField,
   PearPassPasswordField
 } from '../../../lib-react-components'
+import { SmallArrowIcon } from '../../../lib-react-components/icons/SmallArrowIcon'
 import { getDeviceName } from '../../../utils/getDeviceName'
 import { logger } from '../../../utils/logger'
 
 export const CardNewVaultCredentials = () => {
   const { i18n } = useLingui()
   const { navigate, currentPage } = useRouter()
+
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -100,20 +106,29 @@ export const CardNewVaultCredentials = () => {
             ...${register('name')}
           />
         <//>
-        <${FieldWrapper}>
+        <${AccordionTrigger} isOpen=${isAccordionOpen}>
           <${Label} for="name"> ${i18n._('Create password (optional)')} <//>
-          <${PearPassPasswordField}
-            placeholder=${i18n._('Enter Password')}
-            ...${register('password')}
+          <${ButtonRoundIcon}
+            iconSize="12"
+            onClick=${() => setIsAccordionOpen(!isAccordionOpen)}
+            startIcon=${SmallArrowIcon}
           />
         <//>
+        <${AccordionContent} isOpen=${isAccordionOpen}>
+          <${FieldWrapper}>
+            <${PearPassPasswordField}
+              placeholder=${i18n._('Enter Password')}
+              ...${register('password')}
+            />
+          <//>
 
-        <${FieldWrapper}>
-          <${Label} for="name"> ${i18n._('Confirm Password')} <//>
-          <${PearPassPasswordField}
-            placeholder=${i18n._('Confirm Password')}
-            ...${register('passwordConfirm')}
-          />
+          <${FieldWrapper}>
+            <${Label} for="name"> ${i18n._('Confirm Password')} <//>
+            <${PearPassPasswordField}
+              placeholder=${i18n._('Confirm Password')}
+              ...${register('passwordConfirm')}
+            />
+          <//>
         <//>
       <//>
 
