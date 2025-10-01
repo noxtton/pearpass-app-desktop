@@ -52,8 +52,6 @@ export const InputField = ({
   overlay,
   autoFocus
 }) => {
-  console.log(belowInputContent)
-
   const inputRef = useRef(null)
 
   const [isFocused, setIsFocused] = useState(false)
