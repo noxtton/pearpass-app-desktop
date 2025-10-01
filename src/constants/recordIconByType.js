@@ -7,6 +7,7 @@ import {
   PasswordIcon,
   UserIcon
 } from '../lib-react-components'
+import { WifiIcon } from '../lib-react-components/icons/WifiIcon'
 
 export const RECORD_ICON_BY_TYPE = {
   all: KeyIcon,
@@ -15,5 +16,6 @@ export const RECORD_ICON_BY_TYPE = {
   creditCard: CreditCardIcon,
   note: NoteIcon,
   custom: LockIcon,
-  password: PasswordIcon
+  password: PasswordIcon,
+  wifiPassword: WifiIcon
 }
