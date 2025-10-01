@@ -53,3 +53,24 @@ export const ButtonWrapper = styled.div`
   gap: 25px;
   align-self: center;
 `
+
+export const AccordionTrigger = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > button {
+    transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0)')};
+    transition: transform 0.3s ease;
+  }
+`
+
+export const AccordionContent = styled.div`
+  display: flex;
+  max-height: ${({ isOpen }) => (isOpen ? '200px' : '0')};
+  overflow: hidden;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  transition: max-height 0.3s ease;
+`

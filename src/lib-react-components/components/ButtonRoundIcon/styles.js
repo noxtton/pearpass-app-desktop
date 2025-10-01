@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 export const Button = styled.button`
   display: inline-flex;
+  width: 30px;
+  height: 30px;
   padding: 4px;
   justify-content: center;
   align-items: center;
