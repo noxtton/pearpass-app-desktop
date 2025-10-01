@@ -57,7 +57,7 @@ exports[`PasswordField Component matches snapshot for default variant 1`] = `
       class="sc-fVHBlr knsjwD"
     >
       <button
-        class="sc-lgpSej fdqPPt"
+        class="sc-lgpSej bcPAmE"
         type="button"
       >
         <svg
@@ -135,7 +135,7 @@ exports[`PasswordField Component matches snapshot for outline variant 1`] = `
       class="sc-fVHBlr knsjwD"
     >
       <button
-        class="sc-lgpSej fdqPPt"
+        class="sc-lgpSej bcPAmE"
         type="button"
       >
         <svg
