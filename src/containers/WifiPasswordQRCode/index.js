@@ -30,12 +30,7 @@ export const WifiPasswordQRCode = ({
     password,
     encryptionType = 'WPA',
     isHidden = false
-  ) => {
-    const encodedSSID = encodeURIComponent(ssid)
-    const encodedPassword = encodeURIComponent(password)
-
-    return `WIFI:T:${encryptionType};S:${encodedSSID};P:${encodedPassword};H:${isHidden};;`
-  }
+  ) => `WIFI:T:${encryptionType};S:${ssid};P:${password};H:${isHidden};;`
 
   useEffect(() => {
     if (ssid && password) {
