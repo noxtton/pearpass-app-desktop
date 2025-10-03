@@ -11,28 +11,19 @@ import { FormModalHeaderWrapper } from '../../../../components/FormModalHeaderWr
 import { FormWrapper } from '../../../../components/FormWrapper'
 import { InputFieldNote } from '../../../../components/InputFieldNote'
 import { RecordTypeMenu } from '../../../../components/RecordTypeMenu'
-import { ATTACHMENTS_FIELD_KEY } from '../../../../constants/formFields'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
-import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
 import {
   ButtonLittle,
-  ButtonSingleInput,
-  DeleteIcon,
-  ImageIcon,
   InputField,
   SaveIcon
 } from '../../../../lib-react-components'
 import { CubeIcon } from '../../../../lib-react-components/icons/CubeIcon'
-import { getFilteredAttachmentsById } from '../../../../utils/getFilteredAttachmentsById'
-import { handleFileSelect } from '../../../../utils/handleFileSelect'
-import { AttachmentField } from '../../../AttachmentField'
 import { CustomFields } from '../../../CustomFields'
 import { PassPhrase } from '../../../PassPhrase'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
-import { UploadFilesModalContent } from '../../UploadImageModalContent'
 
 /**
  * @param {{
@@ -45,7 +36,6 @@ import { UploadFilesModalContent } from '../../UploadImageModalContent'
  *        type: string
  *        name: string
  *      }[]
- *    attachments: { id: string, name: string}[]
  *     }
  *    }
  *  selectedFolder?: string
@@ -58,7 +48,7 @@ export const CreateOrEditPassPhraseModalContent = ({
   onTypeChange
 }) => {
   const { i18n } = useLingui()
-  const { closeModal, setModal } = useModal()
+  const { closeModal } = useModal()
   const { setToast } = useToast()
 
   const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
@@ -94,13 +84,7 @@ export const CreateOrEditPassPhraseModalContent = ({
         note: Validator.string().required(i18n._('Note is required'))
       })
     ),
-    folder: Validator.string(),
-    attachments: Validator.array().items(
-      Validator.object({
-        id: Validator.string(),
-        name: Validator.string().required()
-      })
-    )
+    folder: Validator.string()
   })
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
@@ -109,8 +93,7 @@ export const CreateOrEditPassPhraseModalContent = ({
       passPhrase: initialRecord?.data?.passPhrase ?? '',
       note: initialRecord?.data?.note ?? '',
       customFields: initialRecord?.data?.customFields ?? [],
-      folder: selectedFolder ?? initialRecord?.folder,
-      attachments: initialRecord?.attachments ?? []
+      folder: selectedFolder ?? initialRecord?.folder
     },
     validate: (values) => schema.validate(values)
   })
@@ -122,12 +105,6 @@ export const CreateOrEditPassPhraseModalContent = ({
     removeItem
   } = registerArray('customFields')
 
-  useGetMultipleFiles({
-    fieldNames: [ATTACHMENTS_FIELD_KEY],
-    updateValues: setValue,
-    initialRecord
-  })
-
   const onSubmit = (values) => {
     const data = {
       type: RECORD_TYPES.PASS_PHRASE,
@@ -137,8 +114,7 @@ export const CreateOrEditPassPhraseModalContent = ({
         title: values.title,
         passPhrase: values.passPhrase,
         note: values.note,
-        customFields: values.customFields,
-        attachments: values.attachments
+        customFields: values.customFields
       }
     }
 
@@ -154,21 +130,6 @@ export const CreateOrEditPassPhraseModalContent = ({
     }
   }
 
-  const handleFileLoad = () => {
-    setModal(
-      html`<${UploadFilesModalContent}
-        type=${'file'}
-        onFilesSelected=${(files) =>
-          handleFileSelect({
-            files,
-            fieldName: ATTACHMENTS_FIELD_KEY,
-            setValue,
-            values
-          })}
-      />`
-    )
-  }
-
   return html`
     <${ModalContent}
       onSubmit=${handleSubmit(onSubmit)}
@@ -176,9 +137,6 @@ export const CreateOrEditPassPhraseModalContent = ({
       headerChildren=${html`
         <${FormModalHeaderWrapper}
           buttons=${html`
-            <${ButtonLittle} startIcon=${ImageIcon} onClick=${handleFileLoad}>
-              ${i18n._('Load file')}
-            <//>
             <${ButtonLittle} startIcon=${SaveIcon} type="submit">
               ${i18n._('Save')}
             <//>
@@ -216,36 +174,6 @@ export const CreateOrEditPassPhraseModalContent = ({
         <${FormGroup}>
           <${InputFieldNote} ...${register('note')} />
         <//>
-
-        ${values.attachments.length > 0 &&
-        html`
-          <${FormGroup}>
-            ${values.attachments.map(
-              (attachment) =>
-                html`<${AttachmentField}
-                  key=${attachment.id || attachment.tempId}
-                  attachment=${attachment}
-                  label=${i18n._('File')}
-                  additionalItems=${html`
-                    <${ButtonSingleInput}
-                      startIcon=${DeleteIcon}
-                      onClick=${() =>
-                        setValue(
-                          ATTACHMENTS_FIELD_KEY,
-                          getFilteredAttachmentsById(
-                            values.attachments,
-                            attachment
-                          )
-                        )}
-                    >
-                      ${i18n._('Delete File')}
-                    <//>
-                  `}
-                />`
-            )}
-          <//>
-        `}
-
         <${CustomFields}
           customFields=${list}
           register=${registerItem}
