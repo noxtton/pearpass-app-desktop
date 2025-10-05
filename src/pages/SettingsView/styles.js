@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 1px 0px;
+  padding: 30px 22px;
+  align-self: stretch;
+  background: ${({ theme }) => theme.colors.grey400.mode1};
 `
 
 export const NavBar = styled.div`
