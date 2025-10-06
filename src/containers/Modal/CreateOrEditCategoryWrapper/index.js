@@ -8,6 +8,7 @@ import { CreateOrEditCustomModalContent } from './CreateOrEditCustomModalContent
 import { CreateOrEditIdentityModalContent } from './CreateOrEditIdentityModalContent'
 import { CreateOrEditLoginModalContent } from './CreateOrEditLoginModalContent'
 import { CreateOrEditNoteModalContent } from './CreateOrEditNoteModalContent'
+import { CreateOrEditPassPhraseModalContent } from './CreateOrEditPassPhraseModalContent'
 import { CreateOrEditWifiModalContent } from './CreateOrEditWifiModalContent'
 
 export const CreateOrEditCategoryWrapper = ({
@@ -51,6 +52,14 @@ export const CreateOrEditCategoryWrapper = ({
 
   if (currentRecordType === RECORD_TYPES.WIFI_PASSWORD) {
     return html`<${CreateOrEditWifiModalContent}
+      initialRecord=${initialRecord}
+      selectedFolder=${selectedFolder}
+      onTypeChange=${setCurrentRecordType}
+    />`
+  }
+
+  if (currentRecordType === RECORD_TYPES.PASS_PHRASE) {
+    return html`<${CreateOrEditPassPhraseModalContent}
       initialRecord=${initialRecord}
       selectedFolder=${selectedFolder}
       onTypeChange=${setCurrentRecordType}
