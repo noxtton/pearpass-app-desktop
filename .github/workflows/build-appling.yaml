@@ -22,8 +22,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y curl ca-certificates build-essential git clang llvm lld pkg-config libgtk-4-dev clang-tools fuse file
-          npm install --global bare-make
-          npm install
+          npm install --global bare-make cmake-pear
 
       - name: Build Linux AppImage
         run: |
@@ -61,8 +60,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install --global bare-make
-          npm install
+          npm install --global bare-make cmake-pear
 
       - name: Install the Apple certificate and provisioning profile
         env:
