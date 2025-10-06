@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@tetherto'
 
       - name: Install dependencies
         run: |
@@ -24,6 +26,8 @@ jobs:
           sudo apt-get install -y curl ca-certificates build-essential git clang llvm lld pkg-config libgtk-4-dev clang-tools fuse file
           npm install --global bare-make
           npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Build Linux AppImage
         run: |
@@ -58,11 +62,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@tetherto'
 
       - name: Install dependencies
         run: |
           npm install --global bare-make
           npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Install the Apple certificate and provisioning profile
         env:
