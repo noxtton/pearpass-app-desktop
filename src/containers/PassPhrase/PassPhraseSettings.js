@@ -1,5 +1,6 @@
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { PASSPHRASE_TYPE_OPTIONS } from 'pearpass-lib-constants'
 
 import {
   PassPraseSettingsContainer,
@@ -9,7 +10,6 @@ import {
 } from './styles'
 import { RadioSelect } from '../../components/RadioSelect'
 import { SwitchWithLabel } from '../../components/SwitchWithLabel'
-import { PASSPHRASE_TYPE_OPTIONS } from '../../constants/passPhrase'
 
 /**
  * @param {{

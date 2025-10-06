@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import {
+  PASSPHRASE_WORD_COUNTS,
+  VALID_WORD_COUNTS,
+  DEFAULT_SELECTED_TYPE
+} from 'pearpass-lib-constants'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
 import { PassPhraseSettings } from './PassPhraseSettings'
@@ -16,11 +21,6 @@ import {
   ErrorText
 } from './styles'
 import { BadgeTextItem } from '../../components/BadgeTextItem'
-import {
-  PASSPHRASE_WORD_COUNTS,
-  VALID_WORD_COUNTS,
-  DEFAULT_SELECTED_TYPE
-} from '../../constants/passPhrase'
 import { useToast } from '../../context/ToastContext'
 import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
 import { usePasteFromClipboard } from '../../hooks/usePasteFromClipboard'

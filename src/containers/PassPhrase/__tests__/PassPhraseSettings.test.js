@@ -1,10 +1,10 @@
 import React from 'react'
 
 import { render, screen, fireEvent } from '@testing-library/react'
+import { PASSPHRASE_WORD_COUNTS } from 'pearpass-lib-constants'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
 import '@testing-library/jest-dom'
 
-import { PASSPHRASE_WORD_COUNTS } from '../../../constants/passPhrase'
 import { PassPhraseSettings } from '../PassPhraseSettings'
 
 jest.mock('../styles', () => ({

@@ -1,4 +1,3 @@
-import { colors } from 'pearpass-lib-ui-theme-provider'
 import styled from 'styled-components'
 
 export const PassPraseSettingsContainer = styled.div`
@@ -37,8 +36,8 @@ export const SwitchWrapper = styled.div`
 `
 
 export const Container = styled.div`
-  background-color: ${colors.grey400?.mode1};
-  border: 1px solid ${colors.grey100?.mode1};
+  background-color: ${({ theme }) => theme.colors.grey400?.mode1};
+  border: 1px solid ${({ theme }) => theme.colors.grey100?.mode1};
   border-radius: 10px;
   padding: 10px;
   display: flex;
@@ -54,7 +53,7 @@ export const PassPhraseHeader = styled.div`
 `
 
 export const HeaderText = styled.span`
-  color: ${colors.white?.mode1};
+  color: ${({ theme }) => theme.colors.white?.mode1};
   font-family: Inter;
   font-size: 12px;
   font-weight: 400;
@@ -66,7 +65,7 @@ export const CopyPasteButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: ${({ isPaste }) => (isPaste ? '10px' : '5px')};
-  color: ${colors.primary400?.mode1};
+  color: ${({ theme }) => theme.colors.primary400?.mode1};
   background: transparent;
   border: none;
   cursor: pointer;
@@ -75,7 +74,7 @@ export const CopyPasteButton = styled.button`
 `
 
 export const CopyPasteText = styled.span`
-  color: ${colors.primary400?.mode1};
+  color: ${({ theme }) => theme.colors.primary400?.mode1};
   font-family: Inter;
   font-size: 14px;
   text-align: center;
@@ -98,7 +97,7 @@ export const ErrorContainer = styled.div`
 `
 
 export const ErrorText = styled.span`
-  color: ${colors.categoryIdentity.mode1};
+  color: ${({ theme }) => theme.colors.categoryIdentity.mode1};
   font-family: Inter;
   font-size: 10px;
   font-weight: 500;
