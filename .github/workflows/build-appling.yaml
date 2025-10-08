@@ -2,6 +2,11 @@ name: Build Appling
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag'
+        required: true
+        type: string
 
 jobs:
   linux:
@@ -136,17 +141,17 @@ jobs:
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_OUTPUT
 
-      - uses: L-Super/create-dmg-actions@v1.0.3
+      - name: Create DMG
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
-        with:
-          dmg_name: 'installer'
-          src_dir: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
+        run: |
+          npm install --global create-dmg
+          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=0FBAF04EEFAB7158EA793100FF2731E91E330A88
 
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-macos-${{ matrix.arch }}.dmg
-          path: ${{ github.workspace }}/installer*.dmg
+          path: ${{ github.workspace }}/PearPass*.dmg
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
@@ -165,4 +170,5 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.event.inputs.tag }}
           files: artifacts/*
