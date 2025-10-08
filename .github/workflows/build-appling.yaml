@@ -16,6 +16,9 @@ jobs:
         with:
           sparse-checkout: |
             CMakeLists.txt
+            assets/darwin
+            assets/linux
+            assets/win32
           sparse-checkout-cone-mode: false
 
 
@@ -66,6 +69,9 @@ jobs:
         with:
           sparse-checkout: |
             CMakeLists.txt
+            assets/darwin
+            assets/linux
+            assets/win32
           sparse-checkout-cone-mode: false
 
       - uses: actions/setup-node@v4
