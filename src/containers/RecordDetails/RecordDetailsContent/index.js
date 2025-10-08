@@ -6,6 +6,7 @@ import { CustomDetailsForm } from '../CustomDetailsForm'
 import { IdentityDetailsForm } from '../IdentityDetailsForm'
 import { LoginRecordDetailsForm } from '../LoginRecordDetailsForm'
 import { NoteDetailsForm } from '../NoteDetailsForm'
+import { PassPhraseDetailsForm } from '../PassPhraseDetailsForm'
 import { WifiDetailsForm } from '../WifiDetailsForm'
 
 /**
@@ -49,6 +50,12 @@ export const RecordDetailsContent = ({ record, selectedFolder }) => {
   }
   if (record?.type === RECORD_TYPES.WIFI_PASSWORD) {
     return html`<${WifiDetailsForm}
+      initialRecord=${record}
+      selectedFolder=${selectedFolder}
+    />`
+  }
+  if (record?.type === RECORD_TYPES.PASS_PHRASE) {
+    return html`<${PassPhraseDetailsForm}
       initialRecord=${record}
       selectedFolder=${selectedFolder}
     />`

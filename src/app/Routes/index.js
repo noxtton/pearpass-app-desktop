@@ -29,28 +29,18 @@ export const Routes = ({ isLoading }) => {
     return html` <${WelcomePage} /> `
   }
 
-  if (['vault', 'settings'].includes(currentPage)) {
+  if (currentPage === 'settings') {
+    return html` <${SettingsView} /> `
+  }
+
+  if (currentPage === 'vault') {
     return html`
       <${LayoutWithSidebar}
-        mainView=${getMainView(currentPage)}
+        mainView=${html`<${MainView} />`}
         sideView=${getSideView(currentPage, data)}
       />
     `
   }
-}
-
-const MAIN_VIEW_BY_PAGE = {
-  vault: MainView,
-  settings: SettingsView
-}
-
-/**
- * @param {string} currentPage
- * @returns {import('react').ReactNode}
- */
-function getMainView(currentPage) {
-  const Component = MAIN_VIEW_BY_PAGE[currentPage]
-  return Component ? html`<${Component} />` : null
 }
 
 /**

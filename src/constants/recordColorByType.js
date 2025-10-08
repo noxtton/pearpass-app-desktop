@@ -8,5 +8,6 @@ export const RECORD_COLOR_BY_TYPE = {
   note: colors.categoryNote.dark,
   custom: colors.categoryCustom.dark,
   password: colors.categoryPassword.dark,
-  wifiPassword: colors.categoryWifiPassword.dark
+  wifiPassword: colors.categoryWifiPassword.dark,
+  passPhrase: colors.categoryPassPhrase.dark
 }

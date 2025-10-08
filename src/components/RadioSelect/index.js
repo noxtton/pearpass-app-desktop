@@ -8,25 +8,43 @@ import { ButtonRadio } from '../../lib-react-components'
  *  title: string,
  *  options: { label: string, value: string }[],
  *  selectedOption: string,
- *  onChange: (value: string) => void
+ *  onChange: (value: string) => void,
+ *  optionStyle?: object,
+ *  titleStyle?: object,
+ *  buttonType?: 'button' | 'submit',
+ *  disabled?: boolean
  * }} props
  */
-export const RadioSelect = ({ title, options, selectedOption, onChange }) => {
+export const RadioSelect = ({
+  title,
+  options,
+  selectedOption,
+  onChange,
+  optionStyle,
+  titleStyle,
+  buttonType = 'button',
+  disabled = false
+}) => {
   const handleChange = (value) => {
     onChange(value)
   }
 
   return html`
     <${RadioSelectWrapper}>
-      <${Title}>${title}<//>
+      <${Title} style=${titleStyle}>${title}<//>
 
       ${options.map(
         (option) => html`
           <${RadioOption}
             key=${option.value}
             onClick=${() => handleChange(option.value)}
+            style=${optionStyle}
           >
-            <${ButtonRadio} isActive=${selectedOption === option.value} />
+            <${ButtonRadio}
+              type=${buttonType}
+              isActive=${selectedOption === option.value}
+              disabled=${disabled}
+            />
             ${option.label}
           <//>
         `

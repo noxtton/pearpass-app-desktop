@@ -25,8 +25,9 @@ export const EmptyCollectionView = () => {
       text: i18n._('Create a credit card'),
       type: RECORD_TYPES.CREDIT_CARD
     },
-    { text: i18n._('Create a note'), type: RECORD_TYPES.NOTE },
     { text: i18n._('Save a Wi-fi'), type: RECORD_TYPES.WIFI_PASSWORD },
+    { text: i18n._('Save a PassPhrase'), type: RECORD_TYPES.PASS_PHRASE },
+    { text: i18n._('Create a note'), type: RECORD_TYPES.NOTE },
     { text: i18n._('Create a custom element'), type: RECORD_TYPES.CUSTOM }
   ]
 
