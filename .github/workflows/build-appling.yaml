@@ -19,6 +19,7 @@ jobs:
             assets/darwin
             assets/linux
             assets/win32
+            assets/splash.png
           sparse-checkout-cone-mode: false
 
 
@@ -53,9 +54,10 @@ jobs:
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v4
+        if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-linux-${{ matrix.arch }}.AppImage
-          path: ${{ env.APPIMAGE_PATH }}
+          path: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
 
   macos:
     runs-on: macos-14
@@ -72,6 +74,7 @@ jobs:
             assets/darwin
             assets/linux
             assets/win32
+            assets/splash.png
           sparse-checkout-cone-mode: false
 
       - uses: actions/setup-node@v4
@@ -125,7 +128,8 @@ jobs:
       - name: Find App file
         id: find_file
         run: |
-          APPIMAGE_PATH=$(find $GITHUB_WORKSPACE -name "*.app" -type f | head -n 1)
+          # find the .app bundle (it's a directory)
+          APPIMAGE_PATH=$(find "$GITHUB_WORKSPACE" -name "*.app" -type d | head -n 1)
           echo "APPIMAGE_PATH=$APPIMAGE_PATH" >> $GITHUB_OUTPUT
           echo "Found app at: $APPIMAGE_PATH"
 
@@ -133,9 +137,10 @@ jobs:
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_OUTPUT
 
       - uses: actions/upload-artifact@v4
+        if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-macos-${{ matrix.arch }}.app
-          path: ${{ env.APPIMAGE_PATH }}
+          path: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
