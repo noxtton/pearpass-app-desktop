@@ -136,11 +136,17 @@ jobs:
           TIMESTAMP=$(date +%Y%m%d-%H%M%S)
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_OUTPUT
 
+      - uses: L-Super/create-dmg-actions@v1.0.3
+        if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
+        with:
+          dmg_name: 'installer'
+          src_dir: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
+
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
-          name: pearpass-macos-${{ matrix.arch }}.app
-          path: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
+          name: pearpass-macos-${{ matrix.arch }}.dmg
+          path: ${{ github.workspace }}/installer*.dmg
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
@@ -150,7 +156,7 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
-    needs: [linux]
+    needs: [linux, macos]
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v5
