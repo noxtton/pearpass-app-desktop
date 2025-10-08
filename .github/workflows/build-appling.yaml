@@ -19,6 +19,7 @@ jobs:
             assets/darwin
             assets/linux
             assets/win32
+            assets/splash.png
           sparse-checkout-cone-mode: false
 
 
@@ -72,6 +73,7 @@ jobs:
             assets/darwin
             assets/linux
             assets/win32
+            assets/splash.png
           sparse-checkout-cone-mode: false
 
       - uses: actions/setup-node@v4
