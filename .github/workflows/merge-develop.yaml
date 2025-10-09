@@ -20,6 +20,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Checkout submodules
         run: |
+          git submodule deinit --force .
           git submodule update --init --recursive
       - name: Setup Node.js
         uses: actions/setup-node@v4
