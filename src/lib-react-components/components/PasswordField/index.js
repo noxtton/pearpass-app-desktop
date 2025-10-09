@@ -23,11 +23,13 @@ import {
  *  error: string,
  *  passType: 'password' | 'passphrase',
  *  additionalItems: import('react').ReactNode,
+ *  belowInputContent: import('react').ReactNode,
  *  placeholder: string,
  *  isDisabled: boolean,
  *  hasStrongness: boolean,
  *  onClick: () => void,
  *  variant?: 'default' | 'outline'
+ *  icon: import('react').ReactNode,
  * }} props
  */
 export const PasswordField = ({
@@ -37,11 +39,13 @@ export const PasswordField = ({
   error,
   passType = 'password',
   additionalItems,
+  belowInputContent,
   placeholder,
   isDisabled,
   hasStrongness = false,
   onClick,
-  variant = 'default'
+  variant = 'default',
+  icon
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
@@ -77,7 +81,7 @@ export const PasswordField = ({
   return html`
     <${InputField}
       label=${label || 'Password'}
-      icon=${KeyIcon}
+      icon=${icon || KeyIcon}
       isDisabled=${isDisabled}
       value=${value}
       overlay=${isPasswordVisible
@@ -88,6 +92,7 @@ export const PasswordField = ({
       placeholder=${placeholder}
       error=${error}
       variant=${variant}
+      belowInputContent=${belowInputContent}
       additionalItems=${html`
         <${React.Fragment}>
           ${!!hasStrongness && getPasswordStrongness()}

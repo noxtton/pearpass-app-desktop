@@ -119,7 +119,8 @@ export const CreateOrEditLoginModalContent = ({
         id: Validator.string(),
         name: Validator.string().required()
       })
-    )
+    ),
+    passwordUpdatedAt: Validator.number()
   })
 
   const { register, handleSubmit, registerArray, values, setValue } = useForm({
@@ -172,7 +173,8 @@ export const CreateOrEditLoginModalContent = ({
           .filter((website) => !!website?.website?.trim().length)
           .map((website) => addHttps(website.website)),
         customFields: values.customFields,
-        attachments: values.attachments
+        attachments: values.attachments,
+        passwordUpdatedAt: initialRecord?.data?.passwordUpdatedAt
       }
     }
 

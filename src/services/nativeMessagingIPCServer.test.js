@@ -5,11 +5,11 @@ import IPC from 'pear-ipc'
 
 import {
   getIpcPath,
+  getIPCSocketPath,
+  isNativeMessagingIPCRunning,
   NativeMessagingIPCServer,
   startNativeMessagingIPC,
-  stopNativeMessagingIPC,
-  isNativeMessagingIPCRunning,
-  getIPCSocketPath
+  stopNativeMessagingIPC
 } from './nativeMessagingIPCServer.js'
 import { logger } from '../utils/logger.js'
 
@@ -122,7 +122,7 @@ jest.mock('./handlers/VaultHandlers', () => ({
       .mockResolvedValue({ success: true })
     this.pairActiveVault = jest.fn().mockResolvedValue({ success: true })
     this.initListener = jest.fn().mockResolvedValue({ success: true })
-    this.closeVault = jest.fn().mockResolvedValue({ success: true })
+    this.closeAllInstances = jest.fn().mockResolvedValue({ success: true })
     this.cancelPairActiveVault = jest.fn().mockResolvedValue({ success: true })
   })
 }))
@@ -168,7 +168,7 @@ const mockPearpassClient = {
   decryptVaultKey: jest.fn(),
   pairActiveVault: jest.fn(),
   initListener: jest.fn(),
-  close: jest.fn(),
+  closeAllInstances: jest.fn(),
   cancelPairActiveVault: jest.fn()
 }
 

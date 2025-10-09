@@ -42,11 +42,24 @@ export const useRecordMenuItems = () => {
       color: RECORD_COLOR_BY_TYPE.creditCard
     },
     {
+      name: i18n._('Wi-Fi'),
+      type: RECORD_TYPES.WIFI_PASSWORD,
+      icon: RECORD_ICON_BY_TYPE.wifiPassword,
+      color: RECORD_COLOR_BY_TYPE.wifiPassword
+    },
+    {
+      name: i18n._('PassPhrase'),
+      type: RECORD_TYPES.PASS_PHRASE,
+      icon: RECORD_ICON_BY_TYPE.passPhrase,
+      color: RECORD_COLOR_BY_TYPE.passPhrase
+    },
+    {
       name: i18n._('Note'),
       type: RECORD_TYPES.NOTE,
       icon: RECORD_ICON_BY_TYPE.note,
       color: RECORD_COLOR_BY_TYPE.note
     },
+
     {
       name: i18n._('Custom'),
       type: RECORD_TYPES.CUSTOM,
