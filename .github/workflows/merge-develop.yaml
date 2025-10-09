@@ -28,23 +28,21 @@ jobs:
           node-version: "22.x"
       - uses: actions/setup-node@v4
         with:
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@tetherto'
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@tetherto"
       - name: Install worker dependencies
         run: |
-          npm ci --install-links --legacy-peer-deps
+          npm install --install-links
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NOXTTON_BOT_PAT }}
       - name: Extract translations
         run: |
           npm run lingui:extract
           npm run lingui:compile
-      - name: Prune dev dependencies
-        run: npm prune --omit=dev --legacy-peer-deps
       - name: "Stage to channel"
         run: |
           echo "CHANNEL_LINK: ${CHANNEL_LINK}"
-          pear stage --ignore .git --no-ask ${CHANNEL_LINK}
+          pear stage --ignore .git --no-ask ${CHANNEL_LINK} .
       - name: "Release latest version"
         run: |
           pear release ${CHANNEL_LINK}
