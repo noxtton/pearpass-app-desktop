@@ -6,7 +6,7 @@ project(pear_appling C CXX ASM)
 
 add_pear_appling(
   pear_appling
-  KEY "8mzabhx3kbpq88eqy7wiuu1csjqqkry19c3di8nixu5rgt6cmupy"
+  KEY 8mzabhx3kbpq88eqy7wiuu1csjqqkry19c3di8nixu5rgt6cmupy
   NAME "PearPass"
   VERSION 1.0.0
   AUTHOR "Tether Data S.A. de C.V."
