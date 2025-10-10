@@ -46,8 +46,6 @@
     "@lingui/macro": "5.1.2",
     "@lingui/react": "5.1.2",
     "@rive-app/react-canvas": "4.22.1",
-    "@reduxjs/toolkit": "2.5.0",
-    "react-redux": "9.1.2",
     "buffer": "6.0.3",
     "dotenv": "17.2.1",
     "htm": "3.1.1",
