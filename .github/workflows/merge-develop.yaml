@@ -32,7 +32,7 @@ jobs:
           scope: "@tetherto"
       - name: Install worker dependencies
         run: |
-          npm install
+          npm install --install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NOXTTON_BOT_PAT }}
       - name: Extract translations
