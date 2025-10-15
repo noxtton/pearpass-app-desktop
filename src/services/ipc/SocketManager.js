@@ -1,8 +1,10 @@
-import { unlink } from 'fs/promises'
+import fs from 'fs'
 import { platform, tmpdir } from 'os'
 import { join } from 'path'
 
 import { logger } from '../../utils/logger'
+
+const { unlink } = fs.promises
 
 /**
  * Manages IPC socket creation and cleanup
