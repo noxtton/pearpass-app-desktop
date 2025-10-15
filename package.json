@@ -1,10 +1,13 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.44",
-  "main": "index.html",
+  "version": "0.0.45",
   "pear": {
     "name": "pearpass-app-desktop",
-    "type": "desktop",
+    "pre": "pear-electron/pre",
+    "routes": ".",
+    "unrouted": [
+      "/node_modules/pearpass-lib-vault-mobile/src/worklet/app.js"
+    ],
     "gui": {
       "backgroundColor": "#1F2430",
       "minWidth": "1080",
@@ -15,7 +18,12 @@
     "links": [
       "https://hooks.slack.com/services/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",
       "https://docs.google.com/forms/d/e/1FAIpQLScLltvRe64VzMDRzOVjGtHWZ3KafLC2zzvkEoJfTzJkFd67OA/*"
-    ]
+    ],
+    "stage": {
+      "entrypoints": [
+        "/node_modules/pearpass-lib-vault-mobile/src/worklet/app.js"
+      ]
+    }
   },
   "type": "module",
   "license": "Apache-2.0",
@@ -58,7 +66,10 @@
     "pear-apps-utils-pattern-search": "file:packages/pear-apps-utils-pattern-search",
     "pear-apps-utils-qr": "file:packages/pear-apps-utils-qr",
     "pear-apps-utils-validator": "file:packages/pear-apps-utils-validator",
+    "pear-bridge": "1.2.4",
+    "pear-electron": "1.7.25-rc.0",
     "pear-ipc": "6.4.0",
+    "pear-run": "1.0.5",
     "pearpass-lib-constants": "file:packages/pearpass-lib-constants",
     "pearpass-lib-data-export": "file:packages/pearpass-lib-data-export",
     "pearpass-lib-data-import": "file:packages/pearpass-lib-data-import",
