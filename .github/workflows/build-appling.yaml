@@ -151,17 +151,16 @@ jobs:
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         run: |
           npm install --global create-dmg
-          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=0FBAF04EEFAB7158EA793100FF2731E91E330A88
-          DMG_PATH=$(find "$GITHUB_WORKSPACE" -name "*.dmg" -type d | head -n 1)
-          xcrun notarytool submit --keychain-profile "pearpass" --wait "$DMG_PATH"
-          xcrun stapler staple "$DMG_PATH"
-          xcrun stapler validate "$DMG_PATH"
+          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=0FBAF04EEFAB7158EA793100FF2731E91E330A88 --no-version-in-filename
+          xcrun notarytool submit --keychain-profile "pearpass" --wait "${{ github.workspace }}/PearPass.dmg"
+          xcrun stapler staple "${{ github.workspace }}/PearPass.dmg"
+          xcrun stapler validate "${{ github.workspace }}/PearPass.dmg"
 
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-macos-${{ matrix.arch }}.dmg
-          path: ${{ github.workspace }}/PearPass*.dmg
+          path: ${{ github.workspace }}/PearPass.dmg
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
