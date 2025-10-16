@@ -197,39 +197,51 @@ export const cleanupNativeMessaging = async () => {
  */
 export const killNativeMessagingHostProcesses = async () => {
   try {
-    const { platform, executableFileName, executablePath } =
+    const { platform, executablePath, wrapperFileName } =
       getNativeHostExecutableInfo()
 
     if (platform === 'win32') {
-      // Attempt to terminate any process whose command line contains our executable
-      const cmd = `wmic process where "CommandLine like '%${executableFileName.replace(/"/g, '"')}%'" call terminate`
-      try {
-        await execAsync(cmd)
-      } catch {
-        // Ignore errors on Windows; fallback not implemented
+      // Windows: Kill by command line patterns since process.title doesn't work on Windows
+      // Look for our wrapper script and the native-messaging directory in the command line
+      const killTargets = [
+        wrapperFileName,
+        'pearpass-native-host',
+        path.basename(path.dirname(executablePath)) // 'native-messaging' directory name
+      ]
+      
+      for (const target of killTargets) {
+        try {
+          // Use wmic to find and kill processes containing our patterns
+          const cmd = `wmic process where "CommandLine like '%${target.replace(/"/g, '"')}%'" call terminate`
+          await execAsync(cmd)
+          logger.info('NATIVE-MESSAGING-KILL', `Windows: Killed processes matching: ${target}`)
+        } catch {
+          // Process might not exist, continue
+        }
       }
-      return
-    }
-
-    // macOS/Linux: try by absolute path first, then by filename as a fallback
-    try {
-      await execAsync(`pkill -f "${executablePath}"`)
-      logger.info(
-        'NATIVE-MESSAGING-KILL',
-        `Killed host processes matching: ${executablePath}`
-      )
-    } catch {
-      // ignore if none found
-    }
-
-    try {
-      await execAsync(`pkill -f "${executableFileName}"`)
-      logger.info(
-        'NATIVE-MESSAGING-KILL',
-        `Killed host processes matching: ${executableFileName}`
-      )
-    } catch {
-      // ignore if none found
+      
+      // Alternative Windows method using taskkill
+      try {
+        await execAsync('taskkill /F /IM node.exe /FI "WINDOWTITLE eq pearpass-native-messaging-host"')
+        logger.info('NATIVE-MESSAGING-KILL', 'Windows: Killed via window title')
+      } catch {
+        // Ignore if no matching process
+      }
+    } else {
+      // macOS/Linux: Use process title which works reliably on these platforms
+      try {
+        await execAsync('pkill -f "pearpass-native-messaging-host"')
+        logger.info(
+          'NATIVE-MESSAGING-KILL',
+          'Killed native messaging host process by title'
+        )
+      } catch (error) {
+        // Process might not be running, which is fine
+        logger.info(
+          'NATIVE-MESSAGING-KILL',
+          'No native messaging host process found to kill'
+        )
+      }
     }
   } catch (error) {
     logger.error(
@@ -307,6 +319,9 @@ export const setupNativeMessaging = async (extensionId) => {
 
 const path = require('path')
 const fs = require('fs')
+
+// Set process title for easier identification
+process.title = 'pearpass-native-messaging-host'
 
 // Set script directory as working directory
 process.chdir(__dirname)

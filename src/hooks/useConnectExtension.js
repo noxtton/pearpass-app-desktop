@@ -66,7 +66,7 @@ export const useConnectExtension = () => {
         await startNativeMessagingIPC(client)
         setNativeMessagingEnabled(true)
         setIsBrowserExtensionEnabled(true)
-        setToast({ message: i18n._('Extension connected successfully!') })
+        setToast({ message: i18n._('PearPass ready for extension connection.') })
       } else {
         setToast({ message: result.message || i18n._('Setup failed') })
       }
