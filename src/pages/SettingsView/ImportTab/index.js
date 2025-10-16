@@ -117,6 +117,13 @@ export const ImportTab = () => {
           )
       }
 
+      if (result.length === 0) {
+        setToast({
+          message: i18n._('No records found to import!')
+        })
+        return
+      }
+
       await Promise.all(result.map((record) => createRecord(record)))
       setToast({
         message: i18n._('Data imported successfully')
