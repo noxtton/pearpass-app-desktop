@@ -22,12 +22,12 @@ export const SettingsPrivacyTab = () => {
   )
 
   const [selectedRules, setSelectedRules] = useState(() => {
-    const isEnabled = localStorage.getItem(
-      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
+    const isDisabled = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED
     )
 
     return {
-      copyToClipboard: isEnabled === 'true'
+      copyToClipboard: isDisabled !== 'true'
     }
   })
 
