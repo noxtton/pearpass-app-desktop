@@ -7,6 +7,7 @@ import {
   sendSlackFeedback
 } from 'pear-apps-lib-feedback'
 
+import { SettingsBlindPeersSection } from './SettingsBlindPeersSection'
 import { SettingsDevicesSection } from './SettingsDevicesSection'
 import { SettingsLanguageSection } from './SettingsLanguageSection'
 import { SettingsPasswordsSection } from './SettingsPasswordsSection'
@@ -119,6 +120,8 @@ export const SettingsTab = () => {
       textAreaPlaceholder=${i18n._('Write your issue...')}
       textAreaOnChange=${setMessage}
     />
+
+    <${SettingsBlindPeersSection} />
 
     <${SettingsDevicesSection} />
 

@@ -5,7 +5,7 @@ import { ButtonRadio } from '../../lib-react-components'
 
 /**
  * @param {{
- *  title: string,
+ *  title?: string,
  *  options: { label: string, value: string }[],
  *  selectedOption: string,
  *  onChange: (value: string) => void,
@@ -31,8 +31,7 @@ export const RadioSelect = ({
 
   return html`
     <${RadioSelectWrapper}>
-      <${Title} style=${titleStyle}>${title}<//>
-
+      ${title && html`<${Title} style=${titleStyle}>${title}<//>`}
       ${options.map(
         (option) => html`
           <${RadioOption}
