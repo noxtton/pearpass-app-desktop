@@ -294,9 +294,17 @@ export const setupNativeMessaging = async (extensionId) => {
           await fs.writeFile(tarPath, Buffer.from(archiveBuffer))
 
           // Extract the archive
-          await execAsync(
-            `cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`
-          )
+          if (platform === 'win32') {
+            // Windows: Use PowerShell commands that work reliably
+            await execAsync(
+              `powershell -Command "cd '${scriptsDir}'; tar -xzf bridge.tar.gz; Remove-Item bridge.tar.gz"`
+            )
+          } else {
+            // Unix: Use standard shell commands
+            await execAsync(
+              `cd "${scriptsDir}" && tar -xzf bridge.tar.gz && rm bridge.tar.gz`
+            )
+          }
           logger.info(
             'NATIVE-MESSAGING-SETUP',
             'Bridge module extracted successfully'
