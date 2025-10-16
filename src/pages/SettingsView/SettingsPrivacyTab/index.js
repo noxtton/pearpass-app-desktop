@@ -48,12 +48,12 @@ export const SettingsPrivacyTab = () => {
   const handleSetRules = (newRules) => {
     if (newRules.copyToClipboard !== selectedRules.copyToClipboard) {
       if (newRules.copyToClipboard) {
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED)
+      } else {
         localStorage.setItem(
-          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED,
+          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED,
           'true'
         )
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED)
       }
     }
 
