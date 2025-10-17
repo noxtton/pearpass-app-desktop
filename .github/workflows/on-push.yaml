@@ -66,7 +66,7 @@ jobs:
                 CURRENT_STATUS="$STATUS"
               fi
               
-              if [ "$STATUS" = "seeding" ]; then
+              if [ "$STATUS" = "seeding" ] && [ "$CURRENT_STATUS" != "seeding" ]; then
                 echo "Build is seeding! Extracting details..."
                 VERSION=$(echo "$STATUS_OUTPUT" | jq -r '.stage.version')
                 KEY=$(echo "$STATUS_OUTPUT" | jq -r '.stage.key')
