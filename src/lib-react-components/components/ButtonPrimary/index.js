@@ -15,8 +15,6 @@ export const ButtonPrimary = ({
   size = 'md',
   onClick,
   type = 'button'
-}) => {
-  return html`
-    <${Button} size=${size} onClick=${onClick} type=${type}> ${children} <//>
-  `
-}
+}) => html`
+  <${Button} size=${size} onClick=${onClick} type=${type}> ${children} <//>
+`

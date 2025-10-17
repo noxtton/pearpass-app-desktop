@@ -9,8 +9,6 @@ import { CompoundFieldComponent } from './styles'
  * }} props
  */
 
-export const CompoundField = ({ children, isDisabled }) => {
-  return html`
-    <${CompoundFieldComponent} isDisabled=${isDisabled}> ${children} <//>
-  `
-}
+export const CompoundField = ({ children, isDisabled }) => html`
+  <${CompoundFieldComponent} isDisabled=${isDisabled}> ${children} <//>
+`

@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 30px 22px;
+  padding: 30px 22px 0;
   align-self: stretch;
   background: ${({ theme }) => theme.colors.grey400.mode1};
 `
@@ -31,7 +31,6 @@ export const NavBar = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
   max-width: 750px;
   flex: 1 1 0;
 `
@@ -59,6 +58,7 @@ export const TabContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 30px 0;
   gap: 24px;
   flex: 1 1 0;
   overflow: auto;

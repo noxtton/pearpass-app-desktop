@@ -19,11 +19,9 @@ export const ButtonThin = ({
   variant = 'black',
   type = 'button',
   onClick
-}) => {
-  return html`
-    <${Button} variant=${variant} onClick=${onClick} type=${type}>
-      ${startIcon && html`<${startIcon} size="24" />`} ${children}
-      ${endIcon && html`<${endIcon} size="24" />`}
-    <//>
-  `
-}
+}) => html`
+  <${Button} variant=${variant} onClick=${onClick} type=${type}>
+    ${startIcon && html`<${startIcon} size="24" />`} ${children}
+    ${endIcon && html`<${endIcon} size="24" />`}
+  <//>
+`

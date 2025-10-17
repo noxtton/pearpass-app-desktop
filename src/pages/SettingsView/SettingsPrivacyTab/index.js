@@ -22,12 +22,12 @@ export const SettingsPrivacyTab = () => {
   )
 
   const [selectedRules, setSelectedRules] = useState(() => {
-    const isEnabled = localStorage.getItem(
-      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
+    const isDisabled = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED
     )
 
     return {
-      copyToClipboard: isEnabled === 'true'
+      copyToClipboard: isDisabled !== 'true'
     }
   })
 
@@ -48,12 +48,12 @@ export const SettingsPrivacyTab = () => {
   const handleSetRules = (newRules) => {
     if (newRules.copyToClipboard !== selectedRules.copyToClipboard) {
       if (newRules.copyToClipboard) {
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED)
+      } else {
         localStorage.setItem(
-          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED,
+          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED,
           'true'
         )
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED)
       }
     }
 
