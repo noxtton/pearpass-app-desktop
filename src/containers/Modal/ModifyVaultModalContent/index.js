@@ -28,7 +28,12 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
   const { i18n } = useLingui()
   const { closeModal } = useModal()
 
-  const { isVaultProtected, updateVault, refetch: refetchVault } = useVault()
+  const {
+    isVaultProtected,
+    updateUnprotectedVault,
+    updateProtectedVault,
+    refetch: refetchVault
+  } = useVault()
 
   const [isProtected, setIsProtected] = useState(false)
   const { setIsLoading } = useLoadingContext()
@@ -69,11 +74,18 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
     try {
       setIsLoading(true)
 
-      await updateVault(vaultId, {
-        name: values.name,
-        password: values.newPassword,
-        currentPassword: isProtected ? values.currentPassword : undefined
-      })
+      if (isProtected) {
+        await updateProtectedVault(vaultId, {
+          name: values.name,
+          password: values.newPassword,
+          currentPassword: values.currentPassword
+        })
+      } else {
+        await updateUnprotectedVault(vaultId, {
+          name: values.name,
+          password: values.newPassword
+        })
+      }
 
       setIsLoading(false)
 
