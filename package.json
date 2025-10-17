@@ -22,6 +22,7 @@
   "scripts": {
     "dev": "pear run -d .",
     "test": "jest",
+    "build:pear": "lingui extract && lingui compile",
     "build-bridge-package": "node src/scripts/build-bridge-package.js",
     "lint": "eslint --fix .",
     "lingui:extract": "lingui extract",
