@@ -155,7 +155,7 @@ jobs:
       
       - name: Notarize DMG
         run: |
-          xcrun notarytool submit --wait "${{ github.workspace }}/PearPass.dmg"
+          xcrun notarytool submit "${{ github.workspace }}/PearPass.dmg" --keychain-profile "pearpass" --wait
 
       - name: Staple DMG
         run: |
