@@ -201,31 +201,15 @@ export const killNativeMessagingHostProcesses = async () => {
       getNativeHostExecutableInfo()
 
     if (platform === 'win32') {
-      // Windows: Kill by command line patterns since process.title doesn't work on Windows
-      // Look for our wrapper script and the native-messaging directory in the command line
-      const killTargets = [
-        wrapperFileName,
-        'pearpass-native-host',
-        path.basename(path.dirname(executablePath)) // 'native-messaging' directory name
-      ]
-      
-      for (const target of killTargets) {
-        try {
-          // Use wmic to find and kill processes containing our patterns
-          const cmd = `wmic process where "CommandLine like '%${target.replace(/"/g, '"')}%'" call terminate`
-          await execAsync(cmd)
-          logger.info('NATIVE-MESSAGING-KILL', `Windows: Killed processes matching: ${target}`)
-        } catch {
-          // Process might not exist, continue
-        }
-      }
-      
-      // Alternative Windows method using taskkill
+      // Windows: Kill by command line pattern using wmic
+      // The pattern 'pearpass-native-host' catches both the batch file and Node.js wrapper process
       try {
-        await execAsync('taskkill /F /IM node.exe /FI "WINDOWTITLE eq pearpass-native-messaging-host"')
-        logger.info('NATIVE-MESSAGING-KILL', 'Windows: Killed via window title')
-      } catch {
-        // Ignore if no matching process
+        const cmd = `wmic process where "CommandLine like '%pearpass-native-host%'" call terminate`
+        await execAsync(cmd)
+        logger.info('NATIVE-MESSAGING-KILL', 'Windows: Killed native messaging host processes via wmic')
+      } catch (error) {
+        // Process might not exist, which is fine
+        logger.info('NATIVE-MESSAGING-KILL', `Windows: No native messaging processes found to kill: ${error.message}`)
       }
     } else {
       // macOS/Linux: Use process title which works reliably on these platforms
