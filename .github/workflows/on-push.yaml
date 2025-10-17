@@ -16,6 +16,14 @@ jobs:
         with:
           fetch-depth: 0  # Fetch full history to get commit SHA
       
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install hp-rpc-cli
+        run: npm install -g hp-rpc-cli
+      
       - name: Set up environment variables
         run: |
           echo "REPO_URL=${{ github.server_url }}/${{ github.repository }}" >> $GITHUB_ENV
@@ -37,8 +45,10 @@ jobs:
       - name: Poll build status
         run: |
           BUILD_ID="${{ steps.build.outputs.build_id }}"
+          echo "Polling status for build ID: $BUILD_ID"
           
           while true; do
+            echo "Checking status..."
             STATUS_OUTPUT=$(hp-rpc-cli -s ${{ secrets.WORKER_PUBKEY }} -m status -d "{\"id\":\"$BUILD_ID\"}" -t 100000)
             
             # Parse status
@@ -46,7 +56,7 @@ jobs:
             echo "Current status: $STATUS"
             
             if [ "$STATUS" = "seeding" ]; then
-              echo "Build is seeding!"
+              echo "Build is seeding! Extracting details..."
               VERSION=$(echo "$STATUS_OUTPUT" | jq -r '.stage.version')
               KEY=$(echo "$STATUS_OUTPUT" | jq -r '.stage.key')
               
@@ -66,12 +76,12 @@ jobs:
               echo "=========================================="
               break
             elif [ "$STATUS" = "failed" ]; then
-              echo "❌ Build failed"
+              echo "❌ Build failed with status: $STATUS"
               exit 1
             else
               # Only show status if we haven't reached seeding yet
               if [ "$SEEDING_REACHED" != "true" ]; then
-                echo "Build status: $STATUS"
+                echo "Build status: $STATUS - continuing to poll..."
               fi
             fi
             
