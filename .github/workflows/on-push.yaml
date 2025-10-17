@@ -44,39 +44,57 @@ jobs:
       - name: Poll build status
         run: |
           BUILD_ID="${{ steps.build.outputs.build_id }}"
+          CURRENT_STATUS=""
+          CONSECUTIVE_FAILURES=0
+          MAX_FAILURES=5
           
           while true; do
-            STATUS_OUTPUT=$(hp-rpc-cli -s ${{ secrets.WORKER_PUBKEY }} -m status -d "{\"id\":\"$BUILD_ID\"}" -t 100000)
-            # Parse status
-            STATUS=$(echo "$STATUS_OUTPUT" | jq -r '.status')
+            # Run status command and ignore failures
+            STATUS_OUTPUT=$(hp-rpc-cli -s ${{ secrets.WORKER_PUBKEY }} -m status -d "{\"id\":\"$BUILD_ID\"}" -t 100000 2>/dev/null || echo "")
             
-            if [ "$STATUS" = "seeding" ]; then
-              echo "Build is seeding! Extracting details..."
-              VERSION=$(echo "$STATUS_OUTPUT" | jq -r '.stage.version')
-              KEY=$(echo "$STATUS_OUTPUT" | jq -r '.stage.key')
+            # Only proceed if we got valid output
+            if [ -n "$STATUS_OUTPUT" ]; then
+              # Reset failure counter on successful response
+              CONSECUTIVE_FAILURES=0
               
-              echo "=========================================="
-              echo "Build Details:"
-              echo "ID: $BUILD_ID"
-              echo "Version: $VERSION"
-              echo "Key: $KEY"
-              echo "=========================================="
+              # Parse status
+              STATUS=$(echo "$STATUS_OUTPUT" | jq -r '.status' 2>/dev/null || echo "")
               
-              # Set flag to suppress further output until completion/failure
-              SEEDING_REACHED=true
+              # Only display if status has changed
+              if [ "$STATUS" != "$CURRENT_STATUS" ]; then
+                echo "Status changed: $CURRENT_STATUS → $STATUS"
+                CURRENT_STATUS="$STATUS"
+              fi
               
-            elif [ "$STATUS" = "complete" ]; then
-              echo "=========================================="
-              echo "✅ Build completed successfully!"
-              echo "=========================================="
-              break
-            elif [ "$STATUS" = "failed" ]; then
-              echo "❌ Build failed"
-              exit 1
+              if [ "$STATUS" = "seeding" ]; then
+                echo "Build is seeding! Extracting details..."
+                VERSION=$(echo "$STATUS_OUTPUT" | jq -r '.stage.version')
+                KEY=$(echo "$STATUS_OUTPUT" | jq -r '.stage.key')
+                
+                echo "=========================================="
+                echo "Build Details:"
+                echo "ID: $BUILD_ID"
+                echo "Version: $VERSION"
+                echo "Key: $KEY"
+                echo "=========================================="
+                
+              elif [ "$STATUS" = "complete" ]; then
+                echo "=========================================="
+                echo "✅ Build completed successfully!"
+                echo "=========================================="
+                exit 0
+              elif [ "$STATUS" = "failed" ]; then
+                echo "❌ Build failed"
+                exit 1
+              fi
             else
-              # Only show status if we haven't reached seeding yet
-              if [ "$SEEDING_REACHED" != "true" ]; then
-                echo "Build status: $STATUS"
+              # Command failed, increment failure counter
+              CONSECUTIVE_FAILURES=$((CONSECUTIVE_FAILURES + 1))
+              
+              # Fail job if too many consecutive failures
+              if [ "$CONSECUTIVE_FAILURES" -ge "$MAX_FAILURES" ]; then
+                echo "❌ Too many consecutive failures ($MAX_FAILURES), failing job"
+                exit 1
               fi
             fi
             
