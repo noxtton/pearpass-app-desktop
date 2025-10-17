@@ -19,15 +19,13 @@ export const ButtonSingleInput = ({
   rounded = 'default',
   type = 'button',
   onClick
-}) => {
-  return html`
-    <${Button}
-      onClick=${onClick}
-      variant=${variant}
-      rounded=${rounded}
-      type=${type}
-    >
-      ${startIcon && html`<${startIcon} size="24" />`} ${children}
-    <//>
-  `
-}
+}) => html`
+  <${Button}
+    onClick=${onClick}
+    variant=${variant}
+    rounded=${rounded}
+    type=${type}
+  >
+    ${startIcon && html`<${startIcon} size="24" />`} ${children}
+  <//>
+`

@@ -21,12 +21,10 @@ export const getIconProps = ({
   width,
   color = colors.white.mode1,
   fill = false
-}) => {
-  return {
-    size: size,
-    height: height || size,
-    width: width || size,
-    color: color,
-    fill
-  }
-}
+}) => ({
+  size: size,
+  height: height || size,
+  width: width || size,
+  color: color,
+  fill
+})

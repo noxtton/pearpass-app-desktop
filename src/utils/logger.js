@@ -74,5 +74,5 @@ class Logger {
 }
 
 export const logger = new Logger({
-  debugMode: Pear.config.tier === 'dev'
+  debugMode: !Pear.config.key
 })

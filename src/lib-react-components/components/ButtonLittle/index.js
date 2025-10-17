@@ -17,15 +17,13 @@ export const ButtonLittle = ({
   variant = 'primary',
   type = 'button',
   onClick
-}) => {
-  return html`
-    <${Button}
-      type=${type}
-      variant=${variant}
-      onClick=${onClick}
-      isIconOnly=${!children}
-    >
-      ${startIcon && html`<${startIcon} size="24px" />`} ${children}
-    <//>
-  `
-}
+}) => html`
+  <${Button}
+    type=${type}
+    variant=${variant}
+    onClick=${onClick}
+    isIconOnly=${!children}
+  >
+    ${startIcon && html`<${startIcon} size="24px" />`} ${children}
+  <//>
+`

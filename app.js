@@ -34,7 +34,7 @@ i18n.activate('en')
 const pipe = createOrGetPipe()
 
 const client = createOrGetPearpassClient(pipe, storage, {
-  debugMode: Pear.config.tier === 'dev'
+  debugMode: !Pear.config.key
 })
 
 setPearpassVaultClient(client)

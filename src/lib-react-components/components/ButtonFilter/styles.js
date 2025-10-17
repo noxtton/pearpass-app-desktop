@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components'
 
-const getDisabledGradient = (theme) => {
-  return `linear-gradient(0deg, rgba(5, 11, 6, 0.40) 0%, rgba(5, 11, 6, 0.40) 100%), ${theme.colors.secondary200.mode1};`
-}
+const getDisabledGradient = (theme) =>
+  `linear-gradient(0deg, rgba(5, 11, 6, 0.40) 0%, rgba(5, 11, 6, 0.40) 100%), ${theme.colors.secondary200.mode1};`
 
 export const Button = styled.div.withConfig({
   shouldForwardProp: (prop) => !['isDisabled'].includes(prop)

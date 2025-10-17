@@ -18,15 +18,8 @@ export const ButtonSecondary = ({
   onClick,
   type = 'button',
   disabled = false
-}) => {
-  return html`
-    <${Button}
-      size=${size}
-      onClick=${onClick}
-      type=${type}
-      disabled=${disabled}
-    >
-      ${children}
-    <//>
-  `
-}
+}) => html`
+  <${Button} size=${size} onClick=${onClick} type=${type} disabled=${disabled}>
+    ${children}
+  <//>
+`

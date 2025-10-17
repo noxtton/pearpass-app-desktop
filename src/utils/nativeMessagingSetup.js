@@ -206,10 +206,16 @@ export const killNativeMessagingHostProcesses = async () => {
       try {
         const cmd = `wmic process where "CommandLine like '%pearpass-native-host%'" call terminate`
         await execAsync(cmd)
-        logger.info('NATIVE-MESSAGING-KILL', 'Windows: Killed native messaging host processes via wmic')
+        logger.info(
+          'NATIVE-MESSAGING-KILL',
+          'Windows: Killed native messaging host processes via wmic'
+        )
       } catch (error) {
         // Process might not exist, which is fine
-        logger.info('NATIVE-MESSAGING-KILL', `Windows: No native messaging processes found to kill: ${error.message}`)
+        logger.info(
+          'NATIVE-MESSAGING-KILL',
+          `Windows: No native messaging processes found to kill: ${error.message}`
+        )
       }
     } else {
       // macOS/Linux: Use process title which works reliably on these platforms
