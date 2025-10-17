@@ -1,4 +1,3 @@
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import {
   parse1PasswordData,
@@ -15,6 +14,7 @@ import { readFileContent } from './utils/readFileContent'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { ImportDataOption } from '../../../components/ImportDataOption'
 import { useToast } from '../../../context/ToastContext'
+import { useTranslation } from '../../../hooks/useTranslation'
 import { LockIcon } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
@@ -73,7 +73,7 @@ const isAllowedType = (fileType, accepts) =>
   })
 
 export const ImportTab = () => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const { setToast } = useToast()
 
   const { createRecord } = useCreateRecord()
@@ -119,14 +119,14 @@ export const ImportTab = () => {
 
       if (result.length === 0) {
         setToast({
-          message: i18n._('No records found to import!')
+          message: t('No records found to import!')
         })
         return
       }
 
       await Promise.all(result.map((record) => createRecord(record)))
       setToast({
-        message: i18n._('Data imported successfully')
+        message: t('Data imported successfully')
       })
     } catch (error) {
       logger.error(
@@ -137,10 +137,10 @@ export const ImportTab = () => {
     }
   }
 
-  return html` <${CardSingleSetting} title=${i18n._('Import')}>
+  return html` <${CardSingleSetting} title=${t('Import')}>
     <${ContentContainer}>
       <${Description}>
-        ${i18n._(
+        ${t(
           'Here you can import different file, export your data and then upload it here'
         )}
       <//>
