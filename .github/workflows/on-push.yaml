@@ -35,7 +35,6 @@ jobs:
         run: |
           echo "Starting build process..."
           BUILD_OUTPUT=$(hp-rpc-cli -s ${{ secrets.WORKER_PUBKEY }} -m build -d '{"repo":"${{ env.REPO_URL }}","branch":"${{ env.BRANCH_NAME }}","commit":"${{ env.COMMIT_SHA }}"}' -t 100000)
-          echo "Build output: $BUILD_OUTPUT"
           
           # Parse JSON to extract ID
           BUILD_ID=$(echo "$BUILD_OUTPUT" | jq -r '.id')
@@ -45,15 +44,11 @@ jobs:
       - name: Poll build status
         run: |
           BUILD_ID="${{ steps.build.outputs.build_id }}"
-          echo "Polling status for build ID: $BUILD_ID"
           
           while true; do
-            echo "Checking status..."
             STATUS_OUTPUT=$(hp-rpc-cli -s ${{ secrets.WORKER_PUBKEY }} -m status -d "{\"id\":\"$BUILD_ID\"}" -t 100000)
-            
             # Parse status
             STATUS=$(echo "$STATUS_OUTPUT" | jq -r '.status')
-            echo "Current status: $STATUS"
             
             if [ "$STATUS" = "seeding" ]; then
               echo "Build is seeding! Extracting details..."
@@ -70,18 +65,18 @@ jobs:
               # Set flag to suppress further output until completion/failure
               SEEDING_REACHED=true
               
-            elif [ "$STATUS" = "completed" ]; then
+            elif [ "$STATUS" = "complete" ]; then
               echo "=========================================="
               echo "✅ Build completed successfully!"
               echo "=========================================="
               break
             elif [ "$STATUS" = "failed" ]; then
-              echo "❌ Build failed with status: $STATUS"
+              echo "❌ Build failed"
               exit 1
             else
               # Only show status if we haven't reached seeding yet
               if [ "$SEEDING_REACHED" != "true" ]; then
-                echo "Build status: $STATUS - continuing to poll..."
+                echo "Build status: $STATUS"
               fi
             fi
             
