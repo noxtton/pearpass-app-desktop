@@ -151,7 +151,7 @@ jobs:
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         run: |
           npm install --global create-dmg
-          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=0FBAF04EEFAB7158EA793100FF2731E91E330A88 --no-version-in-filename
+          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458 --no-version-in-filename
       
       - name: Notarize DMG
         run: |
