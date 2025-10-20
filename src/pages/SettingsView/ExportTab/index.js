@@ -5,7 +5,7 @@ import { html } from 'htm/react'
 import {
   authoriseCurrentProtectedVault,
   getVaultById,
-  getVaultEncryption,
+  getCurrentProtectedVaultEncryption,
   listRecords,
   useVault,
   useVaults
@@ -107,7 +107,8 @@ export const ExportTab = () => {
 
   const handleExport = async () => {
     const currentVaultId = currentVault?.id
-    const currentEncryption = await getVaultEncryption(currentVaultId)
+    const currentEncryption =
+      await getCurrentProtectedVaultEncryption(currentVaultId)
 
     if (selectedProtectedVault) {
       setModal(
