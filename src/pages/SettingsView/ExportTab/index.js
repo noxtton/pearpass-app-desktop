@@ -8,7 +8,8 @@ import {
   getCurrentProtectedVaultEncryption,
   listRecords,
   useVault,
-  useVaults
+  useVaults,
+  getMasterEncryption
 } from 'pearpass-lib-vault'
 
 import { ActionsContainer, ContentContainer, Description } from './styles'
@@ -68,9 +69,16 @@ export const ExportTab = () => {
       await authoriseCurrentProtectedVault(password)
     }
 
-    const vault = await getVaultById(selectedProtectedVault.id, {
-      password: password
-    })
+    let vault
+
+    try {
+      vault = await getVaultById(selectedProtectedVault.id, {
+        password: password
+      })
+    } catch (error) {
+      await refetchVault(currentVaultId, currentEncryption)
+      throw error
+    }
 
     const records = (await listRecords()) ?? []
 
@@ -107,8 +115,10 @@ export const ExportTab = () => {
 
   const handleExport = async () => {
     const currentVaultId = currentVault?.id
-    const currentEncryption =
-      await getCurrentProtectedVaultEncryption(currentVaultId)
+    const isCurrentVaultProtected = await isVaultProtected(currentVaultId)
+    const currentEncryption = isCurrentVaultProtected
+      ? await getCurrentProtectedVaultEncryption(currentVaultId)
+      : await getMasterEncryption()
 
     if (selectedProtectedVault) {
       setModal(
