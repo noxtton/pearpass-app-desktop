@@ -33,7 +33,6 @@
     "build:pear": "lingui extract && lingui compile",
     "build-bridge-package": "node src/scripts/build-bridge-package.js",
     "lint": "eslint --fix .",
-    "build:pear": "lingui extract && lingui compile",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile"
   },
@@ -49,7 +48,8 @@
     "cmake-pear": "2.0.0",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
-    "pear-interface": "1.0.0"
+    "pear-interface": "1.0.0",
+    "tether-dev-docs": "git+https://github.com/tetherto/tether-dev-docs.git"
   },
   "dependencies": {
     "@lingui/core": "5.1.2",
@@ -73,17 +73,19 @@
     "pear-electron": "1.7.25-rc.0",
     "pear-ipc": "6.4.0",
     "pear-run": "1.0.5",
-    "pearpass-lib-constants": "git+https://github.com/tetherto/pearpass-lib-constants.git",
-    "pearpass-lib-data-export": "git+https://github.com/tetherto/pearpass-lib-data-export.git",
-    "pearpass-lib-data-import": "git+https://github.com/tetherto/pearpass-lib-data-import.git",
-    "pearpass-lib-ui-theme-provider": "git+https://github.com/tetherto/pearpass-lib-ui-theme-provider.git",
-    "pearpass-lib-vault": "git+https://github.com/tetherto/pearpass-lib-vault.git",
-    "pearpass-lib-vault-mobile": "git+https://github.com/tetherto/pearpass-lib-vault-mobile.git",
-    "pearpass-utils-password-check": "git+https://github.com/tetherto/pearpass-utils-password-check.git",
-    "pearpass-utils-password-generator": "git+https://github.com/tetherto/pearpass-utils-password-generator.git",
+    "pearpass-lib-constants": "git+https://github.com/tetherto/pearpass-lib-constants.git#dev",
+    "pearpass-lib-data-export": "git+https://github.com/tetherto/pearpass-lib-data-export.git#dev",
+    "pearpass-lib-data-import": "git+https://github.com/tetherto/pearpass-lib-data-import.git#dev",
+    "pearpass-lib-ui-theme-provider": "git+https://github.com/tetherto/pearpass-lib-ui-theme-provider.git#dev",
+    "pearpass-lib-vault": "git+https://github.com/tetherto/pearpass-lib-vault.git#dev",
+    "pearpass-lib-vault-mobile": "git+https://github.com/tetherto/pearpass-lib-vault-mobile.git#dev",
+    "pearpass-utils-password-check": "git+https://github.com/tetherto/pearpass-utils-password-check.git#dev",
+    "pearpass-utils-password-generator": "git+https://github.com/tetherto/pearpass-utils-password-generator.git#dev",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "styled-components": "6.1.19",
+    "styled-components": "6.1.19"
+  },
+  "overrides": {
     "tether-dev-docs": "git+https://github.com/tetherto/tether-dev-docs.git"
   }
 }
