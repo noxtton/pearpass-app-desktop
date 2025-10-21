@@ -13,26 +13,26 @@ import { logger } from '../utils/logger'
  * }}
  */
 export const useCopyToClipboard = ({ onCopy } = {}) => {
-  const [isCopyToClipboardEnabled, setIsCopyToClipboardEnabled] =
+  const [isCopyToClipboardDisabled, setIsCopyToClipboardDisabled] =
     useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const timeoutRef = useRef()
 
   useEffect(() => {
-    const checkCopyToClipboardEnabled = () => {
-      const isEnabled = localStorage.getItem(
-        LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
+    const checkCopyToClipboardDisabled = () => {
+      const isDisabled = localStorage.getItem(
+        LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED
       )
 
-      setIsCopyToClipboardEnabled(isEnabled === 'true')
+      setIsCopyToClipboardDisabled(isDisabled === 'true')
     }
 
-    checkCopyToClipboardEnabled()
+    checkCopyToClipboardDisabled()
   }, [])
 
   const copyToClipboard = React.useCallback(
     (text) => {
-      if (!isCopyToClipboardEnabled) {
+      if (isCopyToClipboardDisabled) {
         return false
       }
 
@@ -64,7 +64,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
 
       return true
     },
-    [isCopyToClipboardEnabled]
+    [isCopyToClipboardDisabled]
   )
 
   return { isCopied, copyToClipboard }

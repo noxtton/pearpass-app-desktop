@@ -12,7 +12,7 @@ export const usePearUpdate = () => {
   const modalShownRef = useRef(false)
 
   const showUpdateRequiredModal = () => {
-    if (modalShownRef.current || Pear.config.tier === 'dev') {
+    if (modalShownRef.current || !Pear.config.key) {
       return
     }
 
@@ -37,7 +37,7 @@ export const usePearUpdate = () => {
       return
     }
 
-    if (Pear.config.tier === 'dev') {
+    if (!Pear.config.key) {
       Pear.reload()
       return
     }

@@ -110,7 +110,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         isOpenInitially: expandedFolders.includes('favorites'),
         children:
           favorites?.records?.map((record) => ({
-            name: record?.data.title,
+            name: record?.data?.title,
             id: record?.id,
             icon: RECORD_ICON_BY_TYPE[record?.type]
           })) ?? []
@@ -134,7 +134,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
             }))
           })),
           ...(noFolder?.records?.map((record) => ({
-            name: record?.data.title,
+            name: record?.data?.title,
             id: record?.id,
             icon: RECORD_ICON_BY_TYPE[record?.type]
           })) ?? [])

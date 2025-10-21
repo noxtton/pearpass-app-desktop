@@ -18,14 +18,18 @@ jobs:
     runs-on: ["self-hosted", "Linux", "large"]
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout submodules
+        run: |
+          git submodule deinit --force .
+          git submodule update --init --recursive
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "22.x"
       - uses: actions/setup-node@v4
         with:
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@tetherto'
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@tetherto"
       - name: Install worker dependencies
         run: |
           npm install --install-links
@@ -35,13 +39,12 @@ jobs:
         run: |
           npm run lingui:extract
           npm run lingui:compile
-      - name: Prune dev dependencies
-        run: npm prune --omit=dev
+      # - name: Prune dev dependencies
+      #   run: npm prune --omit=dev
       - name: "Stage to channel"
         run: |
           echo "CHANNEL_LINK: ${CHANNEL_LINK}"
-          pear stage --ignore .git --no-ask ${CHANNEL_LINK}
+          pear stage --ignore .git --no-ask ${CHANNEL_LINK} .
       - name: "Release latest version"
         run: |
           pear release ${CHANNEL_LINK}
-          

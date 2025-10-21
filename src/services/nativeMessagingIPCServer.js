@@ -242,8 +242,8 @@ export class NativeMessagingIPCServer {
       vaultHandlers.initListener.bind(vaultHandlers)
     )
     this.secureMethodRegistry.register(
-      'closeVault',
-      vaultHandlers.closeVault.bind(vaultHandlers)
+      'closeAllInstances',
+      vaultHandlers.closeAllInstances.bind(vaultHandlers)
     )
     this.secureMethodRegistry.register(
       'cancelPairActiveVault',

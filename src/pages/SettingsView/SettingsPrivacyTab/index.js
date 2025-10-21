@@ -1,38 +1,35 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { SwitchList, SwitchWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { RuleSelector } from '../../../containers/Modal/GeneratePasswordSideDrawerContent/RuleSelector'
 import { useConnectExtension } from '../../../hooks/useConnectExtension'
 import { Switch } from '../../../lib-react-components'
+import { isPasswordChangeReminderDisabled } from '../../../utils/isPasswordChangeReminderDisabled'
 import { Description } from '../ExportTab/styles'
 
 export const SettingsPrivacyTab = () => {
   const { i18n } = useLingui()
   const { isBrowserExtensionEnabled, toggleBrowserExtension } =
     useConnectExtension()
+  const [isPasswordReminderDisabled, setIsPasswordReminderDisabled] = useState(
+    isPasswordChangeReminderDisabled()
+  )
 
-  const [selectedRules, setSelectedRules] = useState({
-    copyToClipboard: false
-  })
+  const [selectedRules, setSelectedRules] = useState(() => {
+    const isDisabled = localStorage.getItem(
+      LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED
+    )
 
-  useEffect(() => {
-    const getCopyToClipboardSetting = () => {
-      const isEnabled = localStorage.getItem(
-        LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED
-      )
-
-      setSelectedRules({
-        copyToClipboard: isEnabled === 'true'
-      })
+    return {
+      copyToClipboard: isDisabled !== 'true'
     }
-
-    getCopyToClipboardSetting()
-  }, [])
+  })
 
   const ruleOptions = useMemo(() => {
     const options = [
@@ -51,16 +48,31 @@ export const SettingsPrivacyTab = () => {
   const handleSetRules = (newRules) => {
     if (newRules.copyToClipboard !== selectedRules.copyToClipboard) {
       if (newRules.copyToClipboard) {
+        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED)
+      } else {
         localStorage.setItem(
-          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED,
+          LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED,
           'true'
         )
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED)
       }
     }
 
     setSelectedRules({ ...newRules })
+  }
+
+  const handlePasswordChangeReminder = (isEnabled) => {
+    if (!isEnabled) {
+      localStorage.setItem(
+        LOCAL_STORAGE_KEYS.PASSWORD_CHANGE_REMINDER_ENABLED,
+        'false'
+      )
+    } else {
+      localStorage.removeItem(
+        LOCAL_STORAGE_KEYS.PASSWORD_CHANGE_REMINDER_ENABLED
+      )
+    }
+
+    setIsPasswordReminderDisabled(!isEnabled)
   }
 
   return html`
@@ -72,12 +84,20 @@ export const SettingsPrivacyTab = () => {
       <//>
 
       <${SwitchList}>
+        <${SwitchWithLabel}
+          isOn=${!isPasswordReminderDisabled}
+          onChange=${(isOn) => handlePasswordChangeReminder(isOn)}
+          label=${i18n._('Reminders')}
+          isSwitchFirst
+          stretch=${false}
+          description=${i18n._('Enable the reminders to change your passwords')}
+        />
         <${SwitchWrapper}>
           <${Switch}
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
           ><//>
-          ${i18n._('Active Browser extension')}
+          ${i18n._('Activate browser extension')}
         <//>
         <${RuleSelector}
           rules=${ruleOptions}

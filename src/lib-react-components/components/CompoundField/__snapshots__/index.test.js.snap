@@ -2,7 +2,7 @@
 
 exports[`CompoundField Component matches snapshot when disabled 1`] = `
 <div
-  class="sc-bRKDuR ghUVIL"
+  class="sc-bRKDuR ewMQvK"
 >
    
   Compound Field Content
@@ -12,7 +12,7 @@ exports[`CompoundField Component matches snapshot when disabled 1`] = `
 
 exports[`CompoundField Component matches snapshot when not disabled 1`] = `
 <div
-  class="sc-bRKDuR jBAAXu"
+  class="sc-bRKDuR jgDyKn"
 >
    
   Compound Field Content
