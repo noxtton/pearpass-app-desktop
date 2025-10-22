@@ -42,7 +42,7 @@ try {
   console.log('\nBuild complete! Generated executables:')
   console.log('  - index-linux (Linux ARM64)')
   console.log('  - index-macos (macOS ARM64)')
-  console.log('  - index-win.exe (Windows ARM64)')
+  console.log('  - index-win (Windows ARM64)')
   console.log(`\nExecutables saved to: ${OUTPUT_DIR}`)
 } catch (err) {
   console.error('Failed to build executables:', err.message)

@@ -1,6 +1,6 @@
-const fs = require('fs')
-const os = require('os')
-const path = require('path')
+const fs = require('bare-fs')
+const os = require('bare-os')
+const path = require('bare-path')
 
 const DEBUG_MODE = false
 
