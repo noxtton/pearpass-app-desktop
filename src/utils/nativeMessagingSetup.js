@@ -10,10 +10,10 @@ const MANIFEST_NAME = 'com.pears.pass'
 
 const promisify =
   (fn) =>
-  (...args) =>
-    new Promise((resolve, reject) => {
-      fn(...args, (err, res) => (err ? reject(err) : resolve(res)))
-    })
+    (...args) =>
+      new Promise((resolve, reject) => {
+        fn(...args, (err, res) => (err ? reject(err) : resolve(res)))
+      })
 const execAsync = promisify(child_process.exec)
 
 /**
@@ -30,8 +30,8 @@ export const getNativeHostExecutableInfo = () => {
       executableFileName = 'pearpass-native-host'
       break
     case 'win32':
-      sourceExecutableName = 'index-win-x64.exe'
-      executableFileName = 'pearpass-native-host.exe'
+      sourceExecutableName = 'index-win-x64'
+      executableFileName = 'pearpass-native-host'
       break
     case 'linux':
       sourceExecutableName = 'index-linux-x64'
