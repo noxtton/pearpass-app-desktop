@@ -35,7 +35,7 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 20
           npm install --global bare-make
-          npm install
+          npm install --legacy-peer-deps
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
@@ -81,7 +81,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --global bare-make
-          npm install
+          npm install --legacy-peer-deps
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
