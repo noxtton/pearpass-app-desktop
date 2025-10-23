@@ -58,7 +58,7 @@ jobs:
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-linux-${{ matrix.arch }}.AppImage
-          path: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
+          path: "${{ steps.find_file.outputs.APPIMAGE_PATH }}"
 
   macos:
     runs-on: macos-14
@@ -138,25 +138,29 @@ jobs:
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_OUTPUT
 
       - name: Create DMG and notarize
+        id: create_dmg
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         run: |
           npm install --global create-dmg
-          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458 --no-version-in-filename
+          create-dmg "${{ steps.find_file.outputs.APPIMAGE_PATH }}" --identity=959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458 --no-version-in-filename
+          DMG=$(find "$GITHUB_WORKSPACE" -name "*.dmg" -type d | head -n 1)
+          echo "DMG=$DMG" >> $GITHUB_OUTPUT
+          echo "Found dmg at: $DMG"
       
       - name: Notarize DMG
         run: |
-          xcrun notarytool submit "${{ github.workspace }}/PearPass.dmg" --keychain-profile "pearpass" --wait
+          xcrun notarytool submit "Pearpass.dmg" --keychain-profile "pearpass" --wait
 
       - name: Staple DMG
         run: |
-          xcrun stapler staple "${{ github.workspace }}/PearPass.dmg"
-          xcrun stapler validate "${{ github.workspace }}/PearPass.dmg"
+          xcrun stapler staple "Pearpass.dmg"
+          xcrun stapler validate "Pearpass.dmg"
 
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-macos-${{ matrix.arch }}.dmg
-          path: ${{ github.workspace }}/PearPass.dmg
+          path: "${{ github.workspace }}/appling/Pearpass.dmg"
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
