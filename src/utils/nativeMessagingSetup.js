@@ -43,7 +43,7 @@ export const getNativeHostExecutableInfo = () => {
 
   const storageDir = path.join(Pear.config.storage, 'native-messaging')
   const executablePath = path.join(storageDir, executableFileName)
-  const executablesUrlPath = 'src/native-messaging-bridge/dist' // Directory where executables are stored
+  const executablesUrlPath = 'assets/native-messaging-bridge' // Directory where executables are stored
 
   return {
     platform,
