@@ -15,19 +15,11 @@ jobs:
       matrix:
         arch:
           - x64
-          # - arm64
+    defaults:
+      run:
+        working-directory: ./appling
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            CMakeLists.txt
-            assets/darwin
-            assets/linux
-            assets/win32
-            assets/splash.png
-          sparse-checkout-cone-mode: false
-
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -37,9 +29,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl ca-certificates build-essential git clang llvm lld pkg-config libgtk-4-dev clang-tools fuse file
+          sudo apt-get install -y curl ca-certificates build-essential git libgtk-4-dev pkg-config fuse file
+          # sudo apt-get install -y clang pkg-config libgtk-4-dev clang-tools fuse file
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
           npm install --global bare-make
-          npm install cmake-pear
+          npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
@@ -71,17 +67,11 @@ jobs:
         arch:
           - x64
           - arm64
+    defaults:
+      run:
+        working-directory: ./appling
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            CMakeLists.txt
-            assets/darwin
-            assets/linux
-            assets/win32
-            assets/splash.png
-          sparse-checkout-cone-mode: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -91,7 +81,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --global bare-make
-          npm install cmake-pear
+          npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
