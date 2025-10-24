@@ -30,8 +30,8 @@ export const getNativeHostExecutableInfo = () => {
       executableFileName = 'pearpass-native-host'
       break
     case 'win32':
-      sourceExecutableName = 'index-win-x64.exe'
-      executableFileName = 'pearpass-native-host.exe'
+      sourceExecutableName = 'index-win-x64'
+      executableFileName = 'pearpass-native-host'
       break
     case 'linux':
       sourceExecutableName = 'index-linux-x64'
@@ -43,7 +43,7 @@ export const getNativeHostExecutableInfo = () => {
 
   const storageDir = path.join(Pear.config.storage, 'native-messaging')
   const executablePath = path.join(storageDir, executableFileName)
-  const executablesUrlPath = 'src/native-messaging-bridge/dist' // Directory where executables are stored
+  const executablesUrlPath = 'appling/assets/native-messaging-bridge' // Directory where executables are stored
 
   return {
     platform,

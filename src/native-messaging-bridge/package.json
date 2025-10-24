@@ -8,7 +8,7 @@
     "start": "node index.js",
     "bundle:darwin": "bare-pack --platform darwin --arch arm64 index.js -o dist/index-macos-arm64",
     "bundle:linux": "bare-pack --platform linux --arch x64 index.js -o dist/index-linux-x64",
-    "bundle:win32": "bare-pack --platform win32 --arch x64 index.js -o dist/index-win-x64.exe",
+    "bundle:win32": "bare-pack --platform win32 --arch x64 index.js -o dist/index-win-x64",
     "bundle:all": "npm run bundle:darwin && npm run bundle:linux && npm run bundle:win32"
   },
   "dependencies": {
