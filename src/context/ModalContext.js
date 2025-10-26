@@ -1,4 +1,11 @@
-import { createContext, useState, useContext, useEffect } from 'react'
+import {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+  useMemo
+} from 'react'
 
 import { html } from 'htm/react'
 import { generateUniqueId } from 'pear-apps-utils-generate-unique-id'
@@ -30,7 +37,8 @@ export const ModalProvider = ({ children }) => {
 
   const isOpen = !!modalStack.length
 
-  const setModal = (content, params) => {
+  // Use useCallback to create stable function references
+  const setModal = useCallback((content, params) => {
     setModalStack((prevState) => {
       if (params?.replace) {
         return [
@@ -53,9 +61,9 @@ export const ModalProvider = ({ children }) => {
         }
       ]
     })
-  }
+  }, [])
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     setModalStack((prevState) => {
       const newStack = [...prevState]
 
@@ -74,7 +82,7 @@ export const ModalProvider = ({ children }) => {
         return newStack
       })
     }, BASE_TRANSITION_DURATION)
-  }
+  }, [])
 
   useEffect(() => {
     const handleKeydown = (event) => {
@@ -93,8 +101,14 @@ export const ModalProvider = ({ children }) => {
     }
   }, [isOpen])
 
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = useMemo(
+    () => ({ isOpen, setModal, closeModal }),
+    [isOpen, setModal, closeModal]
+  )
+
   return html`
-    <${ModalContext.Provider} value=${{ isOpen, setModal, closeModal }}>
+    <${ModalContext.Provider} value=${contextValue}>
       ${children}
       ${modalStack?.map(
         ({ content, id, isOpen, params }) => html`

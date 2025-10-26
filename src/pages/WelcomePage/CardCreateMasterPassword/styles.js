@@ -86,32 +86,14 @@ export const RadioText = styled.span`
   line-height: normal;
 `
 
-export const RadioTextBold = styled.span`
+export const RadioTextBold = styled.a`
   cursor: pointer;
   font-weight: 600;
+  color: ${({ theme }) => theme.colors.white.mode1};
   text-decoration-line: underline;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
   text-decoration-thickness: auto;
   text-underline-offset: auto;
   text-underline-position: from-font;
-`
-
-export const TermsOfUseContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: center;
-  align-items: center;
-  width: 50vw;
-`
-
-export const CloseButtonContainer = styled.div`
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `

@@ -11,14 +11,12 @@ import {
   ButtonWrapper,
   CardContainer,
   CardTitle,
-  CloseButtonContainer,
   Description,
   InputGroup,
   InputLabel,
   RadioGroup,
   RadioText,
   RadioTextBold,
-  TermsOfUseContainer,
   Title
 } from './styles'
 import { AlertBox } from '../../../components/AlertBox'
@@ -28,9 +26,7 @@ import { useRouter } from '../../../context/RouterContext'
 import {
   ButtonPrimary,
   ButtonRadio,
-  ButtonRoundIcon,
-  PearPassPasswordField,
-  XIcon
+  PearPassPasswordField
 } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
 
@@ -39,7 +35,6 @@ export const CardCreateMasterPassword = () => {
   const { currentPage, navigate } = useRouter()
   const [isAgreed, setIsAgreed] = useState(false)
   const [termsOfUseError, setTermsOfUseError] = useState(false)
-  const [isTermsOfUseOpen, setIsTermsOfUseOpen] = useState(false)
 
   const errors = {
     minLength: i18n._(`Password must be at least 8 characters long`),
@@ -132,26 +127,6 @@ export const CardCreateMasterPassword = () => {
     }
   }
 
-  if (isTermsOfUseOpen) {
-    return html`
-      <${TermsOfUseContainer}>
-        <${CloseButtonContainer} onClick=${() => setIsTermsOfUseOpen(false)}>
-          <${ButtonRoundIcon} startIcon=${XIcon} />
-        <//>
-        <${CardTitle}> ${i18n._('PearPass Terms of Use')} <//>
-        <iframe
-          src="/assets/pearpass-tou-30-07-25.html"
-          style=${{
-            width: '100%',
-            height: '50vh',
-            border: 'none'
-          }}
-          title="Terms of Use"
-        />
-      <//>
-    `
-  }
-
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
@@ -187,10 +162,7 @@ export const CardCreateMasterPassword = () => {
           <${RadioText}>
             ${i18n._('I have read and agree to the')} ${' '}
             <${RadioTextBold}
-              onClick=${(e) => {
-                e.stopPropagation()
-                setIsTermsOfUseOpen(true)
-              }}
+              href="https://pass.pears.com/application-terms-of-use/"
             >
               ${i18n._('PearPass Application Terms of Use.')}
             <//>

@@ -10,6 +10,12 @@ export const ModalTitle = styled.h2`
   line-height: normal;
 `
 
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`
+
 export const Content = styled.div`
   display: flex;
   flex-direction: column;

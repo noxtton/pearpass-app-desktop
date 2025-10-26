@@ -11,6 +11,7 @@ import { useToast } from '../../../context/ToastContext'
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { useGetMultipleFiles } from '../../../hooks/useGetMultipleFiles'
 import { CopyIcon, TextArea } from '../../../lib-react-components'
+import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 
 /**
@@ -90,7 +91,20 @@ export const NoteDetailsForm = ({ initialRecord, selectedFolder }) => {
           />
         `}
       <//>
-
+      ${values?.attachments?.length > 0 &&
+      html`
+        <${FormGroup}>
+          ${values.attachments.map(
+            (attachment) => html`
+              <${AttachmentField}
+                key=${attachment.id}
+                label=${i18n._('File')}
+                attachment=${attachment}
+              />
+            `
+          )}
+        <//>
+      `}
       <${CustomFields}
         areInputsDisabled=${true}
         customFields=${list}

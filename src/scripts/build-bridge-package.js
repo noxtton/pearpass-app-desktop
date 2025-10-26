@@ -13,13 +13,19 @@ console.log('Building native messaging bridge package...')
 
 // Create tar.gz archive directly from source directory
 try {
+  console.log('Installing dependencies...')
+  execSync('npm install --production', { cwd: SOURCE_DIR, stdio: 'inherit' })
+
+  // eslint-disable-next-line no-console
+  console.log('Creating archive...')
   execSync(`tar -czf ${ARCHIVE_NAME} -C ${SOURCE_DIR} .`, { stdio: 'inherit' })
+
   // eslint-disable-next-line no-console
-  console.log(`\n✓ Build complete!`)
+  console.log('Build complete')
   // eslint-disable-next-line no-console
-  console.log(`  Archive: ${ARCHIVE_NAME}`)
+  console.log(`Archive: ${ARCHIVE_NAME}`)
 } catch (err) {
   // eslint-disable-next-line no-console
-  console.error('Failed to create archive:', err.message)
+  console.error('Failed to build bridge package:', err.message)
   process.exit(1)
 }

@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 1px 0px;
+  padding: 30px 22px 0;
+  align-self: stretch;
+  background: ${({ theme }) => theme.colors.grey400.mode1};
 `
 
 export const NavBar = styled.div`
@@ -28,7 +31,6 @@ export const NavBar = styled.div`
 export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
   max-width: 750px;
   flex: 1 1 0;
 `
@@ -56,7 +58,35 @@ export const TabContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 30px 0;
   gap: 24px;
   flex: 1 1 0;
   overflow: auto;
+`
+
+export const TabFooter = styled.div`
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: end;
+  padding-bottom: 10px;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+`
+
+export const Link = styled.a`
+  color: ${({ theme }) => theme.colors.primary200.mode1};
+  font-family: 'Inter';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-decoration: none;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary300.mode1};
+  }
 `

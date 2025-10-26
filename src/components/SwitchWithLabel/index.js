@@ -12,6 +12,7 @@ import { Switch } from '../../lib-react-components'
  *  isLabelBold?: boolean
  *  isSwitchFirst?: boolean
  *  stretch?: boolean
+ *  disabled?: boolean
  * }} props
  */
 export const SwitchWithLabel = ({
@@ -21,10 +22,13 @@ export const SwitchWithLabel = ({
   description,
   isLabelBold,
   isSwitchFirst = false,
-  stretch = true
+  stretch = true,
+  disabled = false
 }) => {
   const toggleSwitch = () => {
-    onChange?.(!isOn)
+    if (!disabled) {
+      onChange?.(!isOn)
+    }
   }
 
   return html`

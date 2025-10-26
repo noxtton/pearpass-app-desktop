@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const InputWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 10px;
   width: 100%;
@@ -44,6 +45,15 @@ export const DefaultInputWrapper = styled(InputWrapper)`
     padding-top: 10px;
     border-top: 1px solid ${({ theme }) => theme.colors.grey100.mode1};
   }
+`
+
+export const InsideWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  position: relative;
 `
 
 export const IconWrapper = styled.div`

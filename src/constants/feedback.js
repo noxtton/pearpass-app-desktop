@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-const isDev = Pear.config.tier === 'dev'
+const isDev = !Pear.config.key
 
 export const SLACK_WEBHOOK_URL_PATH = isDev
   ? process.env.TEST_SLACK_WEBHOOK_URL_PATH

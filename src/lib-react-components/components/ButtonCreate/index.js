@@ -18,17 +18,15 @@ export const ButtonCreate = ({
   children,
   type = 'button',
   onClick
-}) => {
-  return html`
-    <${ButtonContainer} onClick=${() => onClick()} type=${type}>
-      <${IconWrapper}>
-        ${startIcon &&
-        html`<${startIcon} color=${colors.black.mode1} size="24" />`}
-      <//>
-      ${children}
-      <${IconWrapper}>
-        ${endIcon && html`<${endIcon} color=${colors.black.mode1} size="24" />`}
-      <//>
+}) => html`
+  <${ButtonContainer} onClick=${() => onClick()} type=${type}>
+    <${IconWrapper}>
+      ${startIcon &&
+      html`<${startIcon} color=${colors.black.mode1} size="24" />`}
     <//>
-  `
-}
+    ${children}
+    <${IconWrapper}>
+      ${endIcon && html`<${endIcon} color=${colors.black.mode1} size="24" />`}
+    <//>
+  <//>
+`

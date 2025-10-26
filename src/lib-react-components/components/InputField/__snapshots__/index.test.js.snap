@@ -2,32 +2,36 @@
 
 exports[`InputField Component matches snapshot for default variant 1`] = `
 <div
-  class="sc-bRKDuR sc-fhHczv iOaRpJ dGaGUo"
+  class="sc-bRKDuR sc-fhHczv iUcaPP dGaGUo"
 >
   <div
-    class="sc-dTvVRJ hVneZG"
+    class="sc-ggWZvA jlOnfN"
   >
-    <span
-      class="sc-jwTyAe dtOwXm"
-    >
-       
-      Label
-       
-    </span>
     <div
-      class="sc-hjsuWn gthjoT"
+      class="sc-jwTyAe hXRaZK"
     >
-      <input
-        class="sc-jJLAfE bFdZm"
-        placeholder="Enter text"
-        type="text"
-        value="snapshot test"
-      />
-      <div
-        class="sc-hwkwBN fvJWSM"
+      <span
+        class="sc-hjsuWn iagtKj"
       >
          
+        Label
          
+      </span>
+      <div
+        class="sc-jJLAfE gttYtk"
+      >
+        <input
+          class="sc-hwkwBN bSMYob"
+          placeholder="Enter text"
+          type="text"
+          value="snapshot test"
+        />
+        <div
+          class="sc-kNOymR iQIqLX"
+        >
+           
+           
+        </div>
       </div>
     </div>
   </div>
@@ -36,32 +40,36 @@ exports[`InputField Component matches snapshot for default variant 1`] = `
 
 exports[`InputField Component matches snapshot for outline variant 1`] = `
 <div
-  class="sc-bRKDuR sc-hvigdm iOaRpJ iAaque"
+  class="sc-bRKDuR sc-hvigdm iUcaPP iAaque"
 >
   <div
-    class="sc-dTvVRJ hVneZG"
+    class="sc-ggWZvA jlOnfN"
   >
-    <span
-      class="sc-jwTyAe dtOwXm"
-    >
-       
-      Outline Label
-       
-    </span>
     <div
-      class="sc-hjsuWn gthjoT"
+      class="sc-jwTyAe hXRaZK"
     >
-      <input
-        class="sc-jJLAfE bFdZm"
-        placeholder="Enter text"
-        type="text"
-        value="outline snapshot"
-      />
-      <div
-        class="sc-hwkwBN fvJWSM"
+      <span
+        class="sc-hjsuWn iagtKj"
       >
          
+        Outline Label
          
+      </span>
+      <div
+        class="sc-jJLAfE gttYtk"
+      >
+        <input
+          class="sc-hwkwBN bSMYob"
+          placeholder="Enter text"
+          type="text"
+          value="outline snapshot"
+        />
+        <div
+          class="sc-kNOymR iQIqLX"
+        >
+           
+           
+        </div>
       </div>
     </div>
   </div>

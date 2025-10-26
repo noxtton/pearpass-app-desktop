@@ -12,4 +12,6 @@ export const CompoundFieldComponent = styled.div.withConfig({
     border-color: ${({ theme, isDisabled }) =>
       isDisabled ? theme.colors.grey100.dark : theme.colors.primary300.mode1};
   }
+  max-height: 100%;
+  overflow-y: auto;
 `
