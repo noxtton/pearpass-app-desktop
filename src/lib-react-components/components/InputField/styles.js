@@ -97,17 +97,18 @@ const getInputColor = ({ theme, type, hasOverlay }) => {
 }
 
 export const Input = styled.input.withConfig({
-  shouldForwardProp: (prop) => !['hasOverlay'].includes(prop)
+  shouldForwardProp: (prop) => !['hasOverlay', 'isDisabled'].includes(prop)
 })`
   color: ${({ theme, type, hasOverlay }) =>
     getInputColor({ theme, type, hasOverlay })};
   font-family: 'Inter';
   font-size: 16px;
   font-weight: 700;
-  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
   caret-color: ${({ theme, hasOverlay }) =>
     hasOverlay ? theme.colors.primary400.mode1 : ''};
   width: 100%;
+  user-select: ${({ isDisabled }) => (isDisabled ? 'none' : 'auto')};
+  cursor: ${({ isDisabled }) => (isDisabled ? 'default' : 'text')};
 
   &::selection {
     color: ${({ hasOverlay }) => (hasOverlay ? 'transparent' : '')};
