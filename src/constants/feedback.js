@@ -1,5 +1,3 @@
-import 'dotenv/config'
-
 const isDev = !Pear.config.key
 
 export const SLACK_WEBHOOK_URL_PATH = isDev
