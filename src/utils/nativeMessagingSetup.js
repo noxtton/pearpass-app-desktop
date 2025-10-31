@@ -6,14 +6,14 @@ import path from 'path'
 import { logger } from './logger'
 import { META_URL } from '../constants/meta'
 
-const MANIFEST_NAME = 'com.noxtton.pearpass'
+const MANIFEST_NAME = 'com.pears.pass'
 
 const promisify =
   (fn) =>
-  (...args) =>
-    new Promise((resolve, reject) => {
-      fn(...args, (err, res) => (err ? reject(err) : resolve(res)))
-    })
+    (...args) =>
+      new Promise((resolve, reject) => {
+        fn(...args, (err, res) => (err ? reject(err) : resolve(res)))
+      })
 const execAsync = promisify(child_process.exec)
 
 /**
