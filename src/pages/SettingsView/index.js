@@ -5,7 +5,7 @@ import { html } from 'htm/react'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'
-import { SettingsPrivacyTab } from './SettingsPrivacyTab'
+import { SettingsAdvancedTab } from './SettingsAdvancedTab'
 import { SettingsTab } from './SettingsTab'
 import { SettingsVaultsTab } from './SettingsVaultsTab'
 import {
@@ -77,7 +77,7 @@ export const SettingsView = () => {
             onClick=${() => handleActiveTabChange('privacy')}
             isActive=${activeTab === 'privacy'}
           >
-            ${i18n._('Privacy')}
+            ${i18n._('Advanced')}
           <//>
         <//>
 
@@ -111,7 +111,7 @@ const renderActiveTab = (activeTab) => {
     case 'export':
       return html`<${ExportTab} />`
     case 'privacy':
-      return html`<${SettingsPrivacyTab} />`
+      return html`<${SettingsAdvancedTab} />`
     default:
       return null
   }

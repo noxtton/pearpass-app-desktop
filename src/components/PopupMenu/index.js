@@ -20,6 +20,7 @@ import { toSentenceCase } from '../../utils/toSentenceCase'
  *  content: import('react').ReactNode,
  *  children: import('react').ReactNode,
  *  direction: 'top' | 'bottom' | 'left' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft'
+ *  displayOnHover?: boolean
  * }} props
  */
 export const PopupMenu = ({
@@ -27,7 +28,8 @@ export const PopupMenu = ({
   setIsOpen,
   children,
   content,
-  direction = 'bottomLeft'
+  direction = 'bottomLeft',
+  displayOnHover = false
 }) => {
   const boxRef = useRef(null)
 
@@ -35,6 +37,10 @@ export const PopupMenu = ({
 
   const handleClose = React.useCallback(() => {
     setIsOpen(false)
+  }, [setIsOpen])
+
+  const handleOpen = React.useCallback(() => {
+    setIsOpen(true)
   }, [setIsOpen])
 
   const wrapperRef = useOutsideClick({
@@ -222,8 +228,14 @@ export const PopupMenu = ({
   }, [isOpen])
 
   return html`
-    <${MenuWrapper} ref=${wrapperRef}>
-      <${MenuTrigger} onClick=${handleToggle}>${children}<//>
+    <${MenuWrapper}
+      ref=${wrapperRef}
+      onMouseEnter=${displayOnHover ? handleOpen : undefined}
+      onMouseLeave=${displayOnHover ? handleClose : undefined}
+    >
+      <${MenuTrigger} onClick=${displayOnHover ? undefined : handleToggle}>
+        ${children}
+      <//>
 
       <${MenuCard}
         ref=${boxRef}

@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
+import { SettingsBlindPeersSection } from './SettingsBlindPeersSection'
 import { SwitchList, SwitchWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
@@ -13,7 +14,7 @@ import { Switch } from '../../../lib-react-components'
 import { isPasswordChangeReminderDisabled } from '../../../utils/isPasswordChangeReminderDisabled'
 import { Description } from '../ExportTab/styles'
 
-export const SettingsPrivacyTab = () => {
+export const SettingsAdvancedTab = () => {
   const { i18n } = useLingui()
   const { isBrowserExtensionEnabled, toggleBrowserExtension } =
     useConnectExtension()
@@ -76,7 +77,7 @@ export const SettingsPrivacyTab = () => {
   }
 
   return html`
-    <${CardSingleSetting} title=${i18n._('Personalization')}>
+    <${CardSingleSetting} title=${i18n._('Custom settings')}>
       <${Description}>
         ${i18n._(
           'Here you can choose your privacy settings and personalize your experience'
@@ -108,5 +109,7 @@ export const SettingsPrivacyTab = () => {
         />
       <//>
     <//>
+
+    <${SettingsBlindPeersSection} />
   `
 }
