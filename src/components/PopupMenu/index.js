@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { html } from 'htm/react'
 
 import {
   MenuCard,
-  MenuWrapper,
   MenuTrigger,
+  MenuWrapper,
   TRANSITION_DURATION
 } from './styles'
 import { getHorizontal } from './utils/getHorizontal'
@@ -35,11 +35,11 @@ export const PopupMenu = ({
 
   const [shouldRender, setShouldRender] = useState(false)
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setIsOpen(false)
   }, [setIsOpen])
 
-  const handleOpen = React.useCallback(() => {
+  const handleOpen = useCallback(() => {
     setIsOpen(true)
   }, [setIsOpen])
 
@@ -49,11 +49,11 @@ export const PopupMenu = ({
     }
   })
 
-  const handleToggle = React.useCallback(() => {
+  const handleToggle = useCallback(() => {
     setIsOpen(!isOpen)
   }, [isOpen, setIsOpen])
 
-  const { newDirection, newPositions } = React.useMemo(() => {
+  const { newDirection, newPositions } = useMemo(() => {
     const {
       right = 0,
       left = 0,
@@ -115,7 +115,7 @@ export const PopupMenu = ({
     }
   }, [boxRef, direction, shouldRender])
 
-  const contentOrigin = React.useMemo(() => {
+  const contentOrigin = useMemo(() => {
     if (!wrapperRef.current) {
       return { top: 0, left: 0 }
     }
@@ -230,10 +230,10 @@ export const PopupMenu = ({
   return html`
     <${MenuWrapper}
       ref=${wrapperRef}
-      onMouseEnter=${displayOnHover ? handleOpen : undefined}
-      onMouseLeave=${displayOnHover ? handleClose : undefined}
+      onMouseEnter=${displayOnHover && handleOpen}
+      onMouseLeave=${displayOnHover && handleClose}
     >
-      <${MenuTrigger} onClick=${displayOnHover ? undefined : handleToggle}>
+      <${MenuTrigger} onClick=${!displayOnHover && handleToggle}>
         ${children}
       <//>
 

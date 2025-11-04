@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
+import { TERMS_OF_USE, PRIVACY_POLICY } from 'pearpass-lib-constants'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'
@@ -84,12 +85,8 @@ export const SettingsView = () => {
         <${TabContainer}>
           ${renderActiveTab(activeTab)}
           <${TabFooter}>
-            <${Link} href="https://pass.pears.com/application-terms-of-use/">
-              ${i18n._('Terms of Use')}
-            <//>
-            <${Link} href="https://pass.pears.com/application-privacy/">
-              ${i18n._('Privacy Statement')}
-            <//>
+            <${Link} href=${TERMS_OF_USE}> ${i18n._('Terms of Use')} <//>
+            <${Link} href=${PRIVACY_POLICY}> ${i18n._('Privacy Statement')} <//>
           <//>
         <//>
       <//>

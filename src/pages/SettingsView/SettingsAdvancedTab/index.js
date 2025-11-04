@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { SettingsBlindPeersSection } from './SettingsBlindPeersSection'
@@ -10,12 +9,14 @@ import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { RuleSelector } from '../../../containers/Modal/GeneratePasswordSideDrawerContent/RuleSelector'
 import { useConnectExtension } from '../../../hooks/useConnectExtension'
+import { useTranslation } from '../../../hooks/useTranslation'
 import { Switch } from '../../../lib-react-components'
 import { isPasswordChangeReminderDisabled } from '../../../utils/isPasswordChangeReminderDisabled'
 import { Description } from '../ExportTab/styles'
 
 export const SettingsAdvancedTab = () => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
+
   const { isBrowserExtensionEnabled, toggleBrowserExtension } =
     useConnectExtension()
   const [isPasswordReminderDisabled, setIsPasswordReminderDisabled] = useState(
@@ -36,15 +37,15 @@ export const SettingsAdvancedTab = () => {
     const options = [
       {
         name: 'copyToClipboard',
-        label: i18n._('Copy to clipboard'),
-        description: i18n._(
+        label: t('Copy to clipboard'),
+        description: t(
           'When clicking a password you copy that into your clipboard'
         )
       }
     ]
 
     return options
-  }, [i18n])
+  }, [t])
 
   const handleSetRules = (newRules) => {
     if (newRules.copyToClipboard !== selectedRules.copyToClipboard) {
@@ -77,9 +78,9 @@ export const SettingsAdvancedTab = () => {
   }
 
   return html`
-    <${CardSingleSetting} title=${i18n._('Custom settings')}>
+    <${CardSingleSetting} title=${t('Custom settings')}>
       <${Description}>
-        ${i18n._(
+        ${t(
           'Here you can choose your privacy settings and personalize your experience'
         )}
       <//>
@@ -88,17 +89,17 @@ export const SettingsAdvancedTab = () => {
         <${SwitchWithLabel}
           isOn=${!isPasswordReminderDisabled}
           onChange=${(isOn) => handlePasswordChangeReminder(isOn)}
-          label=${i18n._('Reminders')}
+          label=${t('Reminders')}
           isSwitchFirst
           stretch=${false}
-          description=${i18n._('Enable the reminders to change your passwords')}
+          description=${t('Enable the reminders to change your passwords')}
         />
         <${SwitchWrapper}>
           <${Switch}
             isOn=${isBrowserExtensionEnabled}
             onChange=${(isOn) => toggleBrowserExtension(isOn)}
           ><//>
-          ${i18n._('Activate browser extension')}
+          ${t('Activate browser extension')}
         <//>
         <${RuleSelector}
           rules=${ruleOptions}
