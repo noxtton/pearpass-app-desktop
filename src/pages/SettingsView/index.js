@@ -1,8 +1,7 @@
 import { useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { TERMS_OF_USE, PRIVACY_POLICY } from 'pearpass-lib-constants'
+import { PRIVACY_POLICY, TERMS_OF_USE } from 'pearpass-lib-constants'
 
 import { ExportTab } from './ExportTab'
 import { ImportTab } from './ImportTab'
@@ -20,10 +19,11 @@ import {
   Wrapper
 } from './styles'
 import { useRouter } from '../../context/RouterContext'
+import { useTranslation } from '../../hooks/useTranslation'
 import { BackIcon, ButtonRoundIcon } from '../../lib-react-components'
 
 export const SettingsView = () => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const { navigate } = useRouter()
 
   const handleGoBack = () => {
@@ -41,7 +41,7 @@ export const SettingsView = () => {
       <${NavBar}>
         <${ButtonRoundIcon} onClick=${handleGoBack} startIcon=${BackIcon} />
 
-        ${i18n._('Settings')}
+        ${t('Settings')}
       <//>
 
       <${ContentContainer}>
@@ -50,43 +50,43 @@ export const SettingsView = () => {
             onClick=${() => handleActiveTabChange('general')}
             isActive=${activeTab === 'general'}
           >
-            ${i18n._('General')}
+            ${t('General')}
           <//>
 
           <${TabTitle}
             onClick=${() => handleActiveTabChange('vaults')}
             isActive=${activeTab === 'vaults'}
           >
-            ${i18n._('Vaults')}
+            ${t('Vaults')}
           <//>
 
           <${TabTitle}
             onClick=${() => handleActiveTabChange('import')}
             isActive=${activeTab === 'import'}
           >
-            ${i18n._('Import')}
+            ${t('Import')}
           <//>
 
           <${TabTitle}
             onClick=${() => handleActiveTabChange('export')}
             isActive=${activeTab === 'export'}
           >
-            ${i18n._('Export')}
+            ${t('Export')}
           <//>
 
           <${TabTitle}
             onClick=${() => handleActiveTabChange('privacy')}
             isActive=${activeTab === 'privacy'}
           >
-            ${i18n._('Advanced')}
+            ${t('Advanced')}
           <//>
         <//>
 
         <${TabContainer}>
           ${renderActiveTab(activeTab)}
           <${TabFooter}>
-            <${Link} href=${TERMS_OF_USE}> ${i18n._('Terms of Use')} <//>
-            <${Link} href=${PRIVACY_POLICY}> ${i18n._('Privacy Statement')} <//>
+            <${Link} href=${TERMS_OF_USE}> ${t('Terms of Use')} <//>
+            <${Link} href=${PRIVACY_POLICY}> ${t('Privacy Statement')} <//>
           <//>
         <//>
       <//>

@@ -51,9 +51,7 @@ exports[`SettingsBlindPeersSection matches snapshot 1`] = `
               </button>
             </div>
           </div>
-          <a
-            href="https://pearpass.com/docs/advanced/blind-peering"
-          >
+          <a>
             <div
               data-testid="outside-link-icon"
             >

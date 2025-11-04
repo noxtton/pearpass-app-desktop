@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { html } from 'htm/react'
-import { BLIND_PEER_TYPE } from 'pearpass-lib-constants'
+import { BLIND_PEER_TYPE, BLIND_PEERS_LEARN_MORE } from 'pearpass-lib-constants'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useBlindMirrors } from 'pearpass-lib-vault'
 
@@ -143,9 +143,7 @@ export const SettingsBlindPeersSection = () => {
                     'In both cases, all data stays fully encrypted, ensuring safe, non-intrusive replication and better data consistency.'
                   )}
                 <//>
-                <${LearnMoreLink}
-                  href="https://pearpass.com/docs/advanced/blind-peering"
-                >
+                <${LearnMoreLink} href=${BLIND_PEERS_LEARN_MORE}>
                   <${OutsideLinkIcon} color=${colors.primary400.mode1} />
                   ${t('Learn more about blind peering.')}
                 <//>
@@ -171,9 +169,7 @@ export const SettingsBlindPeersSection = () => {
           selectedRules=${blindPeersRules}
           setRules=${handleSetBlindPeersRules}
         />
-        <${LearnMoreLink}
-          href="https://pearpass.com/docs/advanced/blind-peering"
-        >
+        <${LearnMoreLink} href=${BLIND_PEERS_LEARN_MORE}>
           <${OutsideLinkIcon} color=${colors.primary400.mode1} />
           ${t('Learn more about blind peering.')}
         <//>
