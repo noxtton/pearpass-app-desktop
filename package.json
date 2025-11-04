@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.48",
+  "version": "0.0.49",
   "pear": {
     "name": "pearpass-app-desktop",
     "pre": "pear-electron/pre",

@@ -100,12 +100,13 @@ export const InputField = ({
               value=${value}
               onChange=${handleChange}
               placeholder=${placeholder}
-              disabled=${isDisabled}
+              readOnly=${isDisabled}
               onFocus=${() => setIsFocused(true)}
               onBlur=${() => setIsFocused(false)}
               type=${type}
               hasOverlay=${!!overlay && !isFocused}
               autoFocus=${autoFocus}
+              isDisabled=${isDisabled}
             />
 
             ${!isFocused && html`<${InputOverlay}> ${overlay} <//>`}
