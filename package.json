@@ -31,10 +31,14 @@
     "dev": "pear run -d .",
     "test": "jest",
     "build:pear": "lingui extract && lingui compile",
-    "build-bridge-package": "node src/scripts/build-bridge-package.js",
+    "build-bridge-package": "node scripts/build-bridge-package.js",
     "lint": "eslint --fix .",
     "lingui:extract": "lingui extract",
-    "lingui:compile": "lingui compile"
+    "lingui:compile": "lingui compile",
+    "bundle-bridge:darwin": "bare-pack --platform darwin --arch arm64 packages/pearpass-lib-native-messaging-bridge/src/bridge.js -o appling/assets/native-messaging-bridge/index-macos-arm64",
+    "bundle-bridge:linux": "bare-pack --platform linux --arch x64 packages/pearpass-lib-native-messaging-bridge/src/bridge.js -o appling/assets/native-messaging-bridge/index-linux-x64",
+    "bundle-bridge:win32": "bare-pack --platform win32 --arch x64 packages/pearpass-lib-native-messaging-bridge/src/bridge.js -o appling/assets/native-messaging-bridge/index-win-x64",
+    "bundle-bridge:all": "npm run bundle-bridge:darwin && npm run bundle-bridge:linux && npm run bundle-bridge:win32"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",
@@ -44,8 +48,8 @@
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.2.0",
     "@vercel/ncc": "0.38.3",
-    "@yao-pkg/pkg": "6.9.0",
     "babel-jest": "29.7.0",
+    "bare-pack": "1.4.8",
     "cmake-pear": "2.0.0",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",

@@ -4,9 +4,10 @@ import os from 'os'
 import path from 'path'
 
 import { logger } from './logger'
-import { META_URL } from '../constants/meta'
 
 const MANIFEST_NAME = 'com.noxtton.pearpass'
+const PEAR_BRIDGE_APP_SEED =
+  'pear://bnaffnpuntoh6k4ry1ssar3jjjdya3sf7xpr5ectf7beobcn1cky'
 
 const promisify =
   (fn) =>
@@ -17,25 +18,22 @@ const promisify =
 const execAsync = promisify(child_process.exec)
 
 /**
- * Returns platform-specific paths and file names for the native host executable
- * @returns {{ platform: string, executableFileName: string, executablePath: string, sourceExecutableName: string, executablesUrlPath: string }}
+ * Returns platform-specific paths and file names for the native host executable (wrapper)
+ * @returns {{ platform: string, executableFileName: string, executablePath: string }}
  */
 export const getNativeHostExecutableInfo = () => {
   const platform = os.platform()
-  let sourceExecutableName, executableFileName
+  let executableFileName
 
   switch (platform) {
     case 'darwin':
-      sourceExecutableName = 'index-macos-arm64'
-      executableFileName = 'pearpass-native-host'
+      executableFileName = 'pearpass-native-host.sh'
       break
     case 'win32':
-      sourceExecutableName = 'index-win-x64'
-      executableFileName = 'pearpass-native-host'
+      executableFileName = 'pearpass-native-host.cmd'
       break
     case 'linux':
-      sourceExecutableName = 'index-linux-x64'
-      executableFileName = 'pearpass-native-host'
+      executableFileName = 'pearpass-native-host.sh'
       break
     default:
       throw new Error(`Unsupported platform: ${platform}`)
@@ -43,14 +41,93 @@ export const getNativeHostExecutableInfo = () => {
 
   const storageDir = path.join(Pear.config.storage, 'native-messaging')
   const executablePath = path.join(storageDir, executableFileName)
-  const executablesUrlPath = 'appling/assets/native-messaging-bridge' // Directory where executables are stored
 
   return {
     platform,
     executableFileName,
-    executablePath,
-    sourceExecutableName,
-    executablesUrlPath
+    executablePath
+  }
+}
+
+/**
+ * Generates a wrapper executable (shell script on Unix, cmd file on Windows)
+ * @param {string} executablePath - Path to write the wrapper
+ * @returns {Promise<{success: boolean, message: string}>}
+ */
+export const generateNativeHostExecutable = async (executablePath) => {
+  try {
+    const platform = os.platform()
+    const bridgePath = path.dirname(executablePath)
+    let content
+
+    if (platform === 'darwin') {
+      const pearPath = path.join(
+        os.homedir(),
+        'Library',
+        'Application Support',
+        'pear',
+        'bin',
+        'pear'
+      )
+      content = `#!/bin/bash
+# PearPass Native Messaging Host for macOS
+# Launches the native host using pear run
+
+cd "${bridgePath}"
+exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
+`
+    } else if (platform === 'linux') {
+      const pearPath = path.join(os.homedir(), '.config', 'pear', 'bin', 'pear')
+      content = `#!/bin/bash
+# PearPass Native Messaging Host for Linux
+# Launches the native host using pear run
+
+cd "${bridgePath}"
+exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
+`
+    } else if (platform === 'win32') {
+      const pearPath = path.join(
+        os.homedir(),
+        'AppData',
+        'Roaming',
+        'pear',
+        'bin',
+        'pear.cmd'
+      )
+      content = `@echo off
+REM PearPass Native Messaging Host for Windows
+REM Launches the native host using pear run
+
+cd /d "${bridgePath}"
+"${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
+`
+    } else {
+      throw new Error(`Unsupported platform: ${platform}`)
+    }
+
+    await fs.writeFile(executablePath, content, 'utf8')
+    if (platform !== 'win32') {
+      await fs.chmod(executablePath, 0o755)
+    }
+
+    logger.info(
+      'NATIVE-MESSAGING-SETUP',
+      `Generated native messaging executable at: ${executablePath}`
+    )
+
+    return {
+      success: true,
+      message: 'Native messaging executable generated successfully'
+    }
+  } catch (error) {
+    logger.error(
+      'NATIVE-MESSAGING-SETUP',
+      `Failed to generate executable: ${error.message}`
+    )
+    return {
+      success: false,
+      message: `Failed to generate executable: ${error.message}`
+    }
   }
 }
 
@@ -215,37 +292,38 @@ export const cleanupNativeMessaging = async () => {
  */
 export const killNativeMessagingHostProcesses = async () => {
   try {
-    const { platform, executableFileName } = getNativeHostExecutableInfo()
+    const { platform } = getNativeHostExecutableInfo()
 
     if (platform === 'win32') {
-      // Windows: Kill by executable name
+      // Windows: Kill the pear-runtime.exe process running our native messaging bridge
+      // The parent cmd.exe (spawned by Chrome) will automatically terminate when its child is killed
       try {
-        const cmd = `taskkill /F /IM "${executableFileName}" 2>nul || echo No process found`
-        await execAsync(cmd)
+        // Use PowerShell to find processes with the unique bridge seed in their command line
+        const psCmd = `powershell -NoProfile -Command "Get-WmiObject Win32_Process | Where-Object {\$_.CommandLine -like '*${PEAR_BRIDGE_APP_SEED}*'} | ForEach-Object { taskkill /PID \$_.ProcessId /F }"`
+        await execAsync(psCmd)
         logger.info(
           'NATIVE-MESSAGING-KILL',
           'Windows: Killed native messaging host processes'
         )
       } catch (error) {
-        // Process might not exist, which is fine
         logger.info(
           'NATIVE-MESSAGING-KILL',
           `Windows: No native messaging processes found to kill: ${error.message}`
         )
       }
     } else {
-      // macOS/Linux: Kill by executable name
+      // macOS/Linux: Kill by the bridge seed in the command line
+      // The wrapper script uses 'exec' so the process name becomes 'pear run <seed>'
       try {
-        await execAsync(`pkill -f "${executableFileName}"`)
+        await execAsync(`pkill -f "${PEAR_BRIDGE_APP_SEED}"`)
         logger.info(
           'NATIVE-MESSAGING-KILL',
-          'Killed native messaging host process by name'
+          'Killed native messaging host process by bridge seed'
         )
       } catch (error) {
-        // Process might not be running, which is fine
         logger.info(
           'NATIVE-MESSAGING-KILL',
-          'No native messaging host process found to kill'
+          `No native messaging host process found to kill: ${error.message}`
         )
       }
     }
@@ -265,59 +343,15 @@ export const killNativeMessagingHostProcesses = async () => {
 export const setupNativeMessaging = async (extensionId) => {
   try {
     // Determine platform-specific executable path and names
-    const {
-      platform,
-      executablePath,
-      sourceExecutableName,
-      executablesUrlPath
-    } = getNativeHostExecutableInfo()
+    const { platform, executablePath } = getNativeHostExecutableInfo()
 
     // Ensure directory for executable exists
     await fs.mkdir(path.dirname(executablePath), { recursive: true })
 
-    // Fetch the pre-compiled executable for this platform
-    try {
-      const currentModuleUrl = new URL(META_URL)
-
-      // Construct URL for the platform-specific executable
-      const executableUrl = new URL(
-        `${executablesUrlPath}/${sourceExecutableName}`,
-        currentModuleUrl.origin
-      ).href
-
-      logger.info(
-        'NATIVE-MESSAGING-SETUP',
-        `Fetching native messaging executable from: ${executableUrl}`
-      )
-
-      const executableResponse = await fetch(executableUrl)
-      if (!executableResponse.ok) {
-        throw new Error(
-          `Failed to fetch executable: ${executableResponse.status} ${executableResponse.statusText}`
-        )
-      }
-
-      logger.info(
-        'NATIVE-MESSAGING-SETUP',
-        'Downloading and installing executable...'
-      )
-
-      const executableBuffer = await executableResponse.arrayBuffer()
-      await fs.writeFile(executablePath, Buffer.from(executableBuffer))
-
-      // Set executable permissions on Unix systems
-      if (platform !== 'win32') {
-        await fs.chmod(executablePath, 0o755)
-      }
-
-      logger.info(
-        'NATIVE-MESSAGING-SETUP',
-        `Native messaging executable installed successfully at: ${executablePath}`
-      )
-    } catch (err) {
-      throw new Error(
-        `Failed to install native messaging executable: ${err.message}`
-      )
+    // Generate the native messaging executable wrapper
+    const execResult = await generateNativeHostExecutable(executablePath)
+    if (!execResult.success) {
+      throw new Error(execResult.message)
     }
 
     // Create native messaging manifest
