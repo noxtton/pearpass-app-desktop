@@ -6,9 +6,6 @@ on:
       - main
       - dev
 
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,7 +16,6 @@ jobs:
         with:
           fetch-depth: 0  # Fetch full history to get commit SHA
           submodules: true
-          token: ${{ secrets.PAT_TOKEN }}
       
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -92,13 +88,6 @@ jobs:
                 exit 0
               elif [ "$STATUS" = "failed" ]; then
                 echo "❌ Build failed"
-                echo "Full status output:"
-                echo "$STATUS_OUTPUT" | jq '.' || echo "$STATUS_OUTPUT"
-                # Try to extract error message if available
-                ERROR_MSG=$(echo "$STATUS_OUTPUT" | jq -r '.error // .message // "No error message available"' 2>/dev/null)
-                if [ -n "$ERROR_MSG" ] && [ "$ERROR_MSG" != "null" ]; then
-                  echo "Error message: $ERROR_MSG"
-                fi
                 exit 1
               fi
               CURRENT_STATUS="$STATUS"
