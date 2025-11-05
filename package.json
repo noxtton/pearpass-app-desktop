@@ -22,6 +22,10 @@
     "stage": {
       "entrypoints": [
         "/node_modules/pearpass-lib-vault-mobile/src/worklet/app.js"
+      ],
+      "ignore": [
+        ".github/**",
+        "appling/**"
       ]
     }
   },
