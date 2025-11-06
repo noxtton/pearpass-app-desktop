@@ -18,6 +18,8 @@ import { messages } from './src/locales/en/messages.mjs'
 import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
 import { createOrGetPipe } from './src/services/createOrGetPipe'
 import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
+import './src/utils/disableConsoleInProd'
+import { lockConsoleMethods } from './src/utils/disableConsoleInProd'
 import { logger } from './src/utils/logger'
 import { setFontsAndResetCSS } from './styles'
 
@@ -89,3 +91,8 @@ root.render(html`
     <//>
   <//>
 `)
+
+// After app is initialized, lock console to prevent reassignment in DevTools
+try {
+  lockConsoleMethods()
+} catch {}
