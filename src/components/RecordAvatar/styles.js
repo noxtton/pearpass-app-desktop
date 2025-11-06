@@ -13,6 +13,7 @@ export const AvatarContainer = styled.div`
   border-radius: ${({ size }) => (size === 'sm' ? '7px' : '10px')};
   background: ${({ theme }) => theme.colors.secondary400.mode1};
   min-width: 0;
+  flex-shrink: 0;
 `
 
 export const AvatarAlt = styled.div`

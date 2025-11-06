@@ -3,7 +3,7 @@
 exports[`Record Component renders Record component correctly when not selected 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ggWZvA dYaJKP"
+    class="sc-ggWZvA icnNFY"
   >
     <div
       class="sc-dTvVRJ icGHDn"
@@ -56,7 +56,7 @@ exports[`Record Component renders Record component correctly when not selected 1
 exports[`Record Component renders Record component correctly when selected 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ggWZvA hfeWdK"
+    class="sc-ggWZvA fwyZFR"
   >
     <div
       class="sc-dTvVRJ icGHDn"
@@ -82,7 +82,7 @@ exports[`Record Component renders Record component correctly when selected 1`] =
 exports[`Record Component toggles action menu when kebab icon is clicked (snapshot test): after toggle 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ggWZvA jiFAaO"
+    class="sc-ggWZvA QGdUN"
   >
     <div
       class="sc-dTvVRJ icGHDn"
@@ -135,7 +135,7 @@ exports[`Record Component toggles action menu when kebab icon is clicked (snapsh
 exports[`Record Component toggles action menu when kebab icon is clicked (snapshot test): initial state 1`] = `
 <DocumentFragment>
   <div
-    class="sc-ggWZvA dYaJKP"
+    class="sc-ggWZvA icnNFY"
   >
     <div
       class="sc-dTvVRJ icGHDn"

@@ -6,7 +6,7 @@ export const RecordWrapper = styled.div.withConfig({
   width: 100%;
   height: auto;
   display: flex;
-  height: 45px;
+  min-height: 45px;
   padding: 5px 10px;
   justify-content: space-between;
   align-items: center;
