@@ -33,14 +33,14 @@ i18n.activate('en')
 // Initialize the vault client
 const pipe = createOrGetPipe()
 
-const isProduction =
-  (typeof Pear !== 'undefined' && !!Pear.config?.key) ||
-  (typeof process !== 'undefined' &&
-    process.env &&
-    process.env.NODE_ENV === 'production')
+// const isProduction =
+//   (typeof Pear !== 'undefined' && !!Pear.config?.key) ||
+//   (typeof process !== 'undefined' &&
+//     process.env &&
+//     process.env.NODE_ENV === 'production')
 
 const client = createOrGetPearpassClient(pipe, storage, {
-  debugMode: !isProduction
+  debugMode: false
 })
 
 setPearpassVaultClient(client)
