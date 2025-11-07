@@ -18,8 +18,6 @@ import { messages } from './src/locales/en/messages.mjs'
 import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
 import { createOrGetPipe } from './src/services/createOrGetPipe'
 import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
-import './src/utils/disableConsoleInProd'
-import { lockConsoleMethods } from './src/utils/disableConsoleInProd'
 import { logger } from './src/utils/logger'
 import { setFontsAndResetCSS } from './styles'
 
@@ -35,8 +33,14 @@ i18n.activate('en')
 // Initialize the vault client
 const pipe = createOrGetPipe()
 
+const isProduction =
+  (typeof Pear !== 'undefined' && !!Pear.config?.key) ||
+  (typeof process !== 'undefined' &&
+    process.env &&
+    process.env.NODE_ENV === 'production')
+
 const client = createOrGetPearpassClient(pipe, storage, {
-  debugMode: !Pear.config.key
+  debugMode: !isProduction
 })
 
 setPearpassVaultClient(client)
@@ -91,8 +95,3 @@ root.render(html`
     <//>
   <//>
 `)
-
-// After app is initialized, lock console to prevent reassignment in DevTools
-try {
-  lockConsoleMethods()
-} catch {}
