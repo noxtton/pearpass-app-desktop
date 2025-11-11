@@ -15,19 +15,30 @@ jobs:
       matrix:
         arch:
           - x64
-          # - arm64
+    defaults:
+      run:
+        working-directory: ./appling
+    env:
+      SLACK_WEBHOOK_URL_PATH: ${{ secrets.SLACK_WEBHOOK_URL_PATH }}
+      GOOGLE_FORM_KEY: ${{ secrets.GOOGLE_FORM_KEY }}
+      GOOGLE_FORM_MAPPING_TIMESTAMP: ${{ secrets.GOOGLE_FORM_MAPPING_TIMESTAMP }}
+      GOOGLE_FORM_MAPPING_TOPIC: ${{ secrets.GOOGLE_FORM_MAPPING_TOPIC }}
+      GOOGLE_FORM_MAPPING_APP: ${{ secrets.GOOGLE_FORM_MAPPING_APP }}
+      GOOGLE_FORM_MAPPING_OPERATING_SYSTEM: ${{ secrets.GOOGLE_FORM_MAPPING_OPERATING_SYSTEM }}
+      GOOGLE_FORM_MAPPING_DEVICE_MODEL: ${{ secrets.GOOGLE_FORM_MAPPING_DEVICE_MODEL }}
+      GOOGLE_FORM_MAPPING_MESSAGE: ${{ secrets.GOOGLE_FORM_MAPPING_MESSAGE }}
+      GOOGLE_FORM_MAPPING_APP_VERSION: ${{ secrets.GOOGLE_FORM_MAPPING_APP_VERSION }}
+      TEST_SLACK_WEBHOOK_URL_PATH: ${{ secrets.TEST_SLACK_WEBHOOK_URL_PATH }}
+      TEST_GOOGLE_FORM_KEY: ${{ secrets.TEST_GOOGLE_FORM_KEY }}
+      TEST_GOOGLE_FORM_MAPPING_TIMESTAMP: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_TIMESTAMP }}
+      TEST_GOOGLE_FORM_MAPPING_TOPIC: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_TOPIC }}
+      TEST_GOOGLE_FORM_MAPPING_APP: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_APP }}
+      TEST_GOOGLE_FORM_MAPPING_OPERATING_SYSTEM: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_OPERATING_SYSTEM }}
+      TEST_GOOGLE_FORM_MAPPING_DEVICE_MODEL: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_DEVICE_MODEL }}
+      TEST_GOOGLE_FORM_MAPPING_MESSAGE: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_MESSAGE }}
+      TEST_GOOGLE_FORM_MAPPING_APP_VERSION: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_APP_VERSION }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            CMakeLists.txt
-            assets/darwin
-            assets/linux
-            assets/win32
-            assets/splash.png
-          sparse-checkout-cone-mode: false
-
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -37,9 +48,13 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y curl ca-certificates build-essential git clang llvm lld pkg-config libgtk-4-dev clang-tools fuse file
+          sudo apt-get install -y curl ca-certificates build-essential git libgtk-4-dev pkg-config fuse file
+          # sudo apt-get install -y clang pkg-config libgtk-4-dev clang-tools fuse file
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
           npm install --global bare-make
-          npm install cmake-pear
+          npm install --legacy-peer-deps
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
@@ -62,7 +77,7 @@ jobs:
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-linux-${{ matrix.arch }}.AppImage
-          path: ${{ steps.find_file.outputs.APPIMAGE_PATH }}
+          path: "${{ steps.find_file.outputs.APPIMAGE_PATH }}"
 
   macos:
     runs-on: macos-14
@@ -71,17 +86,30 @@ jobs:
         arch:
           - x64
           - arm64
+    defaults:
+      run:
+        working-directory: ./appling
+    env:
+      SLACK_WEBHOOK_URL_PATH: ${{ secrets.SLACK_WEBHOOK_URL_PATH }}
+      GOOGLE_FORM_KEY: ${{ secrets.GOOGLE_FORM_KEY }}
+      GOOGLE_FORM_MAPPING_TIMESTAMP: ${{ secrets.GOOGLE_FORM_MAPPING_TIMESTAMP }}
+      GOOGLE_FORM_MAPPING_TOPIC: ${{ secrets.GOOGLE_FORM_MAPPING_TOPIC }}
+      GOOGLE_FORM_MAPPING_APP: ${{ secrets.GOOGLE_FORM_MAPPING_APP }}
+      GOOGLE_FORM_MAPPING_OPERATING_SYSTEM: ${{ secrets.GOOGLE_FORM_MAPPING_OPERATING_SYSTEM }}
+      GOOGLE_FORM_MAPPING_DEVICE_MODEL: ${{ secrets.GOOGLE_FORM_MAPPING_DEVICE_MODEL }}
+      GOOGLE_FORM_MAPPING_MESSAGE: ${{ secrets.GOOGLE_FORM_MAPPING_MESSAGE }}
+      GOOGLE_FORM_MAPPING_APP_VERSION: ${{ secrets.GOOGLE_FORM_MAPPING_APP_VERSION }}
+      TEST_SLACK_WEBHOOK_URL_PATH: ${{ secrets.TEST_SLACK_WEBHOOK_URL_PATH }}
+      TEST_GOOGLE_FORM_KEY: ${{ secrets.TEST_GOOGLE_FORM_KEY }}
+      TEST_GOOGLE_FORM_MAPPING_TIMESTAMP: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_TIMESTAMP }}
+      TEST_GOOGLE_FORM_MAPPING_TOPIC: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_TOPIC }}
+      TEST_GOOGLE_FORM_MAPPING_APP: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_APP }}
+      TEST_GOOGLE_FORM_MAPPING_OPERATING_SYSTEM: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_OPERATING_SYSTEM }}
+      TEST_GOOGLE_FORM_MAPPING_DEVICE_MODEL: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_DEVICE_MODEL }}
+      TEST_GOOGLE_FORM_MAPPING_MESSAGE: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_MESSAGE }}
+      TEST_GOOGLE_FORM_MAPPING_APP_VERSION: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_APP_VERSION }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            CMakeLists.txt
-            assets/darwin
-            assets/linux
-            assets/win32
-            assets/splash.png
-          sparse-checkout-cone-mode: false
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -91,7 +119,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install --global bare-make
-          npm install cmake-pear
+          npm install --legacy-peer-deps
         env:
           NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
@@ -148,25 +176,29 @@ jobs:
           echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_OUTPUT
 
       - name: Create DMG and notarize
+        id: create_dmg
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         run: |
           npm install --global create-dmg
-          create-dmg ${{ steps.find_file.outputs.APPIMAGE_PATH }} --identity=0FBAF04EEFAB7158EA793100FF2731E91E330A88 --no-version-in-filename
+          create-dmg "${{ steps.find_file.outputs.APPIMAGE_PATH }}" --identity=959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458 --no-version-in-filename
+          DMG=$(find "$GITHUB_WORKSPACE" -name "*.dmg" -type d | head -n 1)
+          echo "DMG=$DMG" >> $GITHUB_OUTPUT
+          echo "Found dmg at: $DMG"
       
       - name: Notarize DMG
         run: |
-          xcrun notarytool submit --wait "${{ github.workspace }}/PearPass.dmg"
+          xcrun notarytool submit "Pearpass.dmg" --keychain-profile "pearpass" --wait
 
       - name: Staple DMG
         run: |
-          xcrun stapler staple "${{ github.workspace }}/PearPass.dmg"
-          xcrun stapler validate "${{ github.workspace }}/PearPass.dmg"
+          xcrun stapler staple "Pearpass.dmg"
+          xcrun stapler validate "Pearpass.dmg"
 
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
           name: pearpass-macos-${{ matrix.arch }}.dmg
-          path: ${{ github.workspace }}/PearPass.dmg
+          path: "${{ github.workspace }}/appling/Pearpass.dmg"
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}

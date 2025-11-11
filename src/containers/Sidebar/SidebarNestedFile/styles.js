@@ -13,4 +13,8 @@ export const NestedFile = styled.div`
   gap: 10px;
   color: ${({ color }) => color};
   cursor: pointer;
+
+  & > svg {
+    flex-shrink: 0;
+  }
 `
