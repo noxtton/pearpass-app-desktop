@@ -230,8 +230,8 @@ export const PopupMenu = ({
   return html`
     <${MenuWrapper}
       ref=${wrapperRef}
-      onMouseEnter=${displayOnHover && handleOpen}
-      onMouseLeave=${displayOnHover && handleClose}
+      onMouseEnter=${displayOnHover ? handleOpen : undefined}
+      onMouseLeave=${displayOnHover ? handleClose : undefined}
     >
       <${MenuTrigger} onClick=${!displayOnHover && handleToggle}>
         ${children}

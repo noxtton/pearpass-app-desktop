@@ -57,6 +57,7 @@ export const getNativeHostExecutableInfo = () => {
 export const generateNativeHostExecutable = async (executablePath) => {
   try {
     const platform = os.platform()
+    const arch = os.arch()
     const bridgePath = path.dirname(executablePath)
     let content
 
@@ -66,8 +67,11 @@ export const generateNativeHostExecutable = async (executablePath) => {
         'Library',
         'Application Support',
         'pear',
+        'current',
+        'by-arch',
+        `${platform}-${arch}`,
         'bin',
-        'pear'
+        'pear-runtime'
       )
       content = `#!/bin/bash
 # PearPass Native Messaging Host for macOS
@@ -77,7 +81,16 @@ cd "${bridgePath}"
 exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
 `
     } else if (platform === 'linux') {
-      const pearPath = path.join(os.homedir(), '.config', 'pear', 'bin', 'pear')
+      const pearPath = path.join(
+        os.homedir(),
+        '.config',
+        'pear',
+        'current',
+        'by-arch',
+        `${platform}-${arch}`,
+        'bin',
+        'pear-runtime'
+      )
       content = `#!/bin/bash
 # PearPass Native Messaging Host for Linux
 # Launches the native host using pear run
@@ -91,8 +104,11 @@ exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
         'AppData',
         'Roaming',
         'pear',
+        'current',
+        'by-arch',
+        `${platform}-${arch}`,
         'bin',
-        'pear.cmd'
+        'pear-runtime.exe'
       )
       content = `@echo off
 REM PearPass Native Messaging Host for Windows
