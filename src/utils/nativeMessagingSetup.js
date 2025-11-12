@@ -5,7 +5,7 @@ import path from 'path'
 
 import { logger } from './logger'
 
-const MANIFEST_NAME = 'com.noxtton.pearpass'
+const MANIFEST_NAME = 'com.pears.pass'
 const PEAR_BRIDGE_APP_SEED =
   'pear://bnaffnpuntoh6k4ry1ssar3jjjdya3sf7xpr5ectf7beobcn1cky'
 
