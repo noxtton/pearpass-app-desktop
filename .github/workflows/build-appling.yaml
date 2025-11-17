@@ -1,6 +1,10 @@
 name: Build Appling
 
 on:
+  push:
+    branches:
+      - main
+      - dev
   workflow_dispatch:
     inputs:
       tag:
@@ -11,6 +15,8 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.meta.outputs.VERSION }}
     strategy:
       matrix:
         arch:
@@ -78,6 +84,16 @@ jobs:
         with:
           name: pearpass-linux-${{ matrix.arch }}.AppImage
           path: "${{ steps.find_file.outputs.APPIMAGE_PATH }}"
+
+      - name: Read version & enforce semantic versioning
+        id: meta
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: version ($VERSION) must be MAJOR.MINOR.PATCH." >&2
+            exit 1
+          fi
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
 
   macos:
     runs-on: macos-14
@@ -209,6 +225,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: [linux, macos]
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v5
@@ -217,5 +234,6 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag }}
+          tag_name: v${{ needs.linux.outputs.version }}
+          name: PearPass-Desktop-v${{ needs.linux.outputs.version }}
           files: artifacts/*
