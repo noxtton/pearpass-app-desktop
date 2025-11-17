@@ -41,6 +41,7 @@ jobs:
 
   linux:
     runs-on: ubuntu-22.04
+    needs: [version]
     strategy:
       matrix:
         arch:
@@ -107,11 +108,12 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
-          name: pearpass-linux-${{ matrix.arch }}.AppImage
+          name: PearPass-Desktop-Linux-${{ matrix.arch }}-v${{ needs.version.outputs.version }}.AppImage
           path: "${{ steps.find_file.outputs.APPIMAGE_PATH }}"
 
   macos:
     runs-on: macos-14
+    needs: [version]
     strategy:
       matrix:
         arch:
@@ -228,7 +230,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
-          name: pearpass-macos-${{ matrix.arch }}.dmg
+          name: PearPass-Desktop-MacOS-${{ matrix.arch }}-v${{ needs.version.outputs.version }}.dmg
           path: "${{ github.workspace }}/appling/Pearpass.dmg"
 
       - name: Clean up keychain and provisioning profile
