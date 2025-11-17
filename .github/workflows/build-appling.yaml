@@ -1,6 +1,10 @@
 name: Build Appling
 
 on:
+  push:
+    branches:
+      - main
+      - dev
   workflow_dispatch:
     inputs:
       tag:
@@ -9,8 +13,35 @@ on:
         type: string
 
 jobs:
+  version:
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.meta.outputs.VERSION }}
+    strategy:
+      matrix:
+        arch:
+          - x64
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read & validate version
+        id: meta
+        run: |
+          set -euo pipefail
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION"
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Error: package.json version ('$VERSION') is not semantic versioning (MAJOR.MINOR.PATCH)."
+            exit 1
+          fi
+          TAG="v$VERSION"
+          echo "TAG=$TAG"
+          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+
   linux:
     runs-on: ubuntu-22.04
+    needs: [version]
     strategy:
       matrix:
         arch:
@@ -39,6 +70,7 @@ jobs:
       TEST_GOOGLE_FORM_MAPPING_APP_VERSION: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_APP_VERSION }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -76,11 +108,12 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
-          name: pearpass-linux-${{ matrix.arch }}.AppImage
+          name: PearPass-Desktop-Linux-${{ matrix.arch }}-v${{ needs.version.outputs.version }}.AppImage
           path: "${{ steps.find_file.outputs.APPIMAGE_PATH }}"
 
   macos:
     runs-on: macos-14
+    needs: [version]
     strategy:
       matrix:
         arch:
@@ -197,7 +230,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: ${{ steps.find_file.outputs.APPIMAGE_PATH != '' }}
         with:
-          name: pearpass-macos-${{ matrix.arch }}.dmg
+          name: PearPass-Desktop-MacOS-${{ matrix.arch }}-v${{ needs.version.outputs.version }}.dmg
           path: "${{ github.workspace }}/appling/Pearpass.dmg"
 
       - name: Clean up keychain and provisioning profile
@@ -209,6 +242,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     needs: [linux, macos]
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v5
@@ -217,5 +251,6 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.event.inputs.tag }}
+          tag_name: v${{ needs.version.outputs.version }}
+          name: PearPass-Desktop-v${{ needs.version.outputs.version }}
           files: artifacts/*
