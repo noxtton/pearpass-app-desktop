@@ -13,10 +13,32 @@ on:
         type: string
 
 jobs:
-  linux:
+  version:
     runs-on: ubuntu-22.04
     outputs:
       version: ${{ steps.meta.outputs.VERSION }}
+    strategy:
+      matrix:
+        arch:
+          - x64
+    steps:
+      - name: Read & validate version
+          id: meta
+          run: |
+            set -euo pipefail
+            VERSION=$(jq -r '.version' package.json)
+            echo "VERSION=$VERSION"
+            if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo "❌ Error: package.json version ('$VERSION') is not semantic versioning (MAJOR.MINOR.PATCH)."
+              exit 1
+            fi
+            TAG="v$VERSION"
+            echo "TAG=$TAG"
+            echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
+            echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
+
+  linux:
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         arch:
@@ -45,21 +67,6 @@ jobs:
       TEST_GOOGLE_FORM_MAPPING_APP_VERSION: ${{ secrets.TEST_GOOGLE_FORM_MAPPING_APP_VERSION }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Read & validate version
-        id: meta
-        run: |
-          set -euo pipefail
-          VERSION=$(jq -r '.version' package.json)
-          echo "VERSION=$VERSION"
-          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "❌ Error: package.json version ('$VERSION') is not semantic versioning (MAJOR.MINOR.PATCH)."
-            exit 1
-          fi
-          TAG="v$VERSION"
-          echo "TAG=$TAG"
-          echo "VERSION=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
 
       - uses: actions/setup-node@v4
         with:
@@ -240,6 +247,6 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ needs.linux.outputs.version }}
-          name: PearPass-Desktop-v${{ needs.linux.outputs.version }}
+          tag_name: v${{ needs.version.outputs.version }}
+          name: PearPass-Desktop-v${{ needs.version.outputs.version }}
           files: artifacts/*
