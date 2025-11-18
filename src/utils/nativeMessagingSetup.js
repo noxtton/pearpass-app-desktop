@@ -4,7 +4,10 @@ import os from 'os'
 import path from 'path'
 
 import { logger } from './logger'
-import { MANIFEST_NAME, NATIVE_MESSAGING_BRIDGE_PEAR_LINK } from "../../packages/pearpass-lib-constants/src/index.js";
+import {
+  MANIFEST_NAME,
+  NATIVE_MESSAGING_BRIDGE_PEAR_LINK
+} from '../../packages/pearpass-lib-constants/src/index.js'
 
 const promisify =
   (fn) =>
