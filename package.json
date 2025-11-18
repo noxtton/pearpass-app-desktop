@@ -25,7 +25,8 @@
       ],
       "ignore": [
         ".github/**",
-        "appling/**"
+        "appling/**",
+        ".git/**"
       ]
     }
   },
