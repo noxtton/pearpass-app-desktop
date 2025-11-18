@@ -52,8 +52,8 @@ export const BlindPeersModalContent = ({ onConfirm, onClose }) => {
   } = registerArray(BLIND_PEERS_FORM_NAME)
 
   const radioOptions = [
-    { label: t('Default Blind Peers'), value: DEFAULT },
-    { label: t('Add your Personal Blind Peers'), value: PERSONAL }
+    { label: t('Automatic blind peers'), value: DEFAULT },
+    { label: t('Manual blind peers'), value: PERSONAL }
   ]
 
   const handleOptionChange = (option) => {

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
+import { PROTECTED_VAULT_ENABLED } from 'pearpass-lib-constants'
 import { useVault } from 'pearpass-lib-vault'
 
 import { RadioSelect } from '../../../components/RadioSelect'
@@ -46,10 +47,16 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
   const [selectedOption, setSelectedOption] = useState(UPDATE_MODE.NAME)
   const { setIsLoading } = useLoadingContext()
 
-  const radioOptions = [
-    { label: t('Change Vault Name'), value: UPDATE_MODE.NAME },
-    { label: t('Change Vault Password'), value: UPDATE_MODE.PASSWORD }
-  ]
+  const radioOptions = useMemo(
+    () =>
+      PROTECTED_VAULT_ENABLED
+        ? [
+            { label: t('Change Vault Name'), value: UPDATE_MODE.NAME },
+            { label: t('Change Vault Password'), value: UPDATE_MODE.PASSWORD }
+          ]
+        : [],
+    [t, PROTECTED_VAULT_ENABLED]
+  )
 
   const getInitialValues = (option) => {
     if (option === UPDATE_MODE.PASSWORD) {
@@ -177,6 +184,7 @@ export const ModifyVaultModalContent = ({ vaultId, vaultName }) => {
           <//>
         `}
         ${isProtected &&
+        PROTECTED_VAULT_ENABLED &&
         html`
           <${InputWrapper}>
             <${InputLabel}> ${t('Insert old password')} <//>

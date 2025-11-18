@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { html } from 'htm/react'
 
 import {
   MenuCard,
-  MenuWrapper,
   MenuTrigger,
+  MenuWrapper,
   TRANSITION_DURATION
 } from './styles'
 import { getHorizontal } from './utils/getHorizontal'
@@ -20,6 +20,7 @@ import { toSentenceCase } from '../../utils/toSentenceCase'
  *  content: import('react').ReactNode,
  *  children: import('react').ReactNode,
  *  direction: 'top' | 'bottom' | 'left' | 'right' | 'topRight' | 'topLeft' | 'bottomRight' | 'bottomLeft'
+ *  displayOnHover?: boolean
  * }} props
  */
 export const PopupMenu = ({
@@ -27,14 +28,19 @@ export const PopupMenu = ({
   setIsOpen,
   children,
   content,
-  direction = 'bottomLeft'
+  direction = 'bottomLeft',
+  displayOnHover = false
 }) => {
   const boxRef = useRef(null)
 
   const [shouldRender, setShouldRender] = useState(false)
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setIsOpen(false)
+  }, [setIsOpen])
+
+  const handleOpen = useCallback(() => {
+    setIsOpen(true)
   }, [setIsOpen])
 
   const wrapperRef = useOutsideClick({
@@ -43,11 +49,11 @@ export const PopupMenu = ({
     }
   })
 
-  const handleToggle = React.useCallback(() => {
+  const handleToggle = useCallback(() => {
     setIsOpen(!isOpen)
   }, [isOpen, setIsOpen])
 
-  const { newDirection, newPositions } = React.useMemo(() => {
+  const { newDirection, newPositions } = useMemo(() => {
     const {
       right = 0,
       left = 0,
@@ -109,7 +115,7 @@ export const PopupMenu = ({
     }
   }, [boxRef, direction, shouldRender])
 
-  const contentOrigin = React.useMemo(() => {
+  const contentOrigin = useMemo(() => {
     if (!wrapperRef.current) {
       return { top: 0, left: 0 }
     }
@@ -222,8 +228,14 @@ export const PopupMenu = ({
   }, [isOpen])
 
   return html`
-    <${MenuWrapper} ref=${wrapperRef}>
-      <${MenuTrigger} onClick=${handleToggle}>${children}<//>
+    <${MenuWrapper}
+      ref=${wrapperRef}
+      onMouseEnter=${displayOnHover ? handleOpen : undefined}
+      onMouseLeave=${displayOnHover ? handleClose : undefined}
+    >
+      <${MenuTrigger} onClick=${!displayOnHover && handleToggle}>
+        ${children}
+      <//>
 
       <${MenuCard}
         ref=${boxRef}

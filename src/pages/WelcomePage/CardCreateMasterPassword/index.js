@@ -4,6 +4,7 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
+import { TERMS_OF_USE } from 'pearpass-lib-constants'
 import { useUserData } from 'pearpass-lib-vault'
 import { isPasswordSafe } from 'pearpass-utils-password-check'
 
@@ -161,9 +162,7 @@ export const CardCreateMasterPassword = () => {
           <${ButtonRadio} isActive=${isAgreed} />
           <${RadioText}>
             ${i18n._('I have read and agree to the')} ${' '}
-            <${RadioTextBold}
-              href="https://pass.pears.com/application-terms-of-use/"
-            >
+            <${RadioTextBold} href=${TERMS_OF_USE}>
               ${i18n._('PearPass Application Terms of Use.')}
             <//>
           <//>
