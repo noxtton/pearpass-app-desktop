@@ -15,9 +15,11 @@ import { ATTACHMENTS_FIELD_KEY } from '../../../../constants/formFields'
 import { useGlobalLoading } from '../../../../context/LoadingContext'
 import { useModal } from '../../../../context/ModalContext'
 import { useToast } from '../../../../context/ToastContext'
+import { useCreateOrEditRecord } from '../../../../hooks/useCreateOrEditRecord'
 import { useGetMultipleFiles } from '../../../../hooks/useGetMultipleFiles'
 import {
   ButtonLittle,
+  ButtonRoundIcon,
   ButtonSingleInput,
   DeleteIcon,
   ImageIcon,
@@ -60,6 +62,7 @@ export const CreateOrEditWifiModalContent = ({
 }) => {
   const { i18n } = useLingui()
   const { closeModal, setModal } = useModal()
+  const { handleCreateOrEditRecord } = useCreateOrEditRecord()
   const { setToast } = useToast()
 
   const { createRecord, isLoading: isCreateLoading } = useCreateRecord({
@@ -216,6 +219,16 @@ export const CreateOrEditWifiModalContent = ({
             label=${i18n._('Wi-Fi Password')}
             placeholder=${i18n._('Insert Wi-Fi Password')}
             variant="outline"
+            additionalItems=${html`
+              <${ButtonRoundIcon}
+                startIcon=${PasswordIcon}
+                onClick=${() =>
+                  handleCreateOrEditRecord({
+                    recordType: 'password',
+                    setValue: (value) => setValue('password', value)
+                  })}
+              />
+            `}
             ...${register('password')}
           />
         <//>
