@@ -13,7 +13,7 @@ add_pear_appling(
   AUTHOR "Tether Data S.A. de C.V."
   DESCRIPTION "A secure, decentralized and fully local password manager"
 
-  MACOS_IDENTIFIER com.noxtton.pearpass
+  MACOS_IDENTIFIER com.pears.pass
   MACOS_CATEGORY public.app-category.productivity
   MACOS_SIGNING_IDENTITY "959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458"
 
