@@ -41,13 +41,13 @@ export const GeneratePasswordSideDrawerContent = ({ onPasswordInsert }) => {
   const [selectedRules, setSelectedRules] = useState({
     password: {
       specialCharacters: true,
-      characters: 5
+      characters: 8
     },
     passphrase: {
       capitalLetters: true,
       symbols: true,
       numbers: true,
-      words: 6
+      words: 8
     }
   })
 
