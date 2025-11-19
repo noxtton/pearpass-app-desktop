@@ -6,8 +6,8 @@ project(pear_appling C CXX ASM)
 
 add_pear_appling(
   pear_appling
-  ID "uxtenkisc9kxiudmtyksza6bhtmp89fu6hd8girbyinkycofpcry"
-  LINK "pear://uxtenkisc9kxiudmtyksza6bhtmp89fu6hd8girbyinkycofpcry"
+  ID "niekhhqxqb3shrjy5dgefih5oo614n9cb1qwsb97xkn3cbs589do"
+  LINK "pear://niekhhqxqb3shrjy5dgefih5oo614n9cb1qwsb97xkn3cbs589do"
   NAME "PearPass"
   VERSION 1.0.0
   AUTHOR "Tether Data S.A. de C.V."
