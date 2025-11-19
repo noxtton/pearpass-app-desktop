@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "pear": {
     "name": "pearpass-app-desktop",
     "pre": "pear-electron/pre",
@@ -59,7 +59,7 @@
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "pear-interface": "1.0.0"
-   },
+  },
   "dependencies": {
     "@lingui/core": "5.1.2",
     "@lingui/format-json": "5.1.2",
