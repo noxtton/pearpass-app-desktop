@@ -334,7 +334,7 @@ export const CreateOrEditIdentityModalContent = ({
               onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
-          html` <${RecordTypeMenu}
+            html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.IDENTITY}
               onRecordSelect=${(record) => onTypeChange(record?.type)}
             />`}
@@ -490,7 +490,7 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('passportPicture')}
             pictures=${values.passportPicture}
             onRemove=${(index) =>
-                handleAttachmentRemove('passportPicture', index)}
+              handleAttachmentRemove('passportPicture', index)}
           />
         <//>
 
@@ -537,7 +537,7 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('idCardPicture')}
             pictures=${values.idCardPicture}
             onRemove=${(index) =>
-      handleAttachmentRemove('idCardPicture', index)}
+              handleAttachmentRemove('idCardPicture', index)}
           />
         <//>
 
@@ -584,16 +584,16 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('drivingLicensePicture')}
             pictures=${values.drivingLicensePicture}
             onRemove=${(index) =>
-      handleAttachmentRemove('drivingLicensePicture', index)}
+              handleAttachmentRemove('drivingLicensePicture', index)}
           />
         <//>
 
         ${values.attachments.length > 0 &&
-       html`
+        html`
           <${FormGroup}>
             ${values.attachments.map(
-          (attachment, index) =>
-             html`<${AttachmentField}
+            (attachment, index) =>
+              html`<${AttachmentField}
                   attachment=${attachment}
                   label=${i18n._('File')}
                   additionalItems=${html`
@@ -606,7 +606,7 @@ export const CreateOrEditIdentityModalContent = ({
                     <//>
                   `}
                 />`
-         )}
+          )}
           <//>
         `}
 
