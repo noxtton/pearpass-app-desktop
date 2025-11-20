@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { html } from 'htm/react'
-import { isPassphraseSafe, isPasswordSafe } from 'pearpass-utils-password-check'
+import { getStrengthConfig, isPassphraseSafe, isPasswordSafe } from 'pearpass-utils-password-check'
 
 import { PasswordStrongnessWrapper } from './styles'
 import {
@@ -12,8 +12,16 @@ import {
   InputField,
   EyeClosedIcon,
   HighlightString,
-  ButtonRoundIcon
+  ButtonRoundIcon,
+  ErrorIcon
 } from '../../index'
+import { useLingui } from '@lingui/react'
+
+const PASSWORD_STRENGTH_ICONS = {
+  error: ErrorIcon,
+  warning: YellowErrorIcon,
+  success: OkayIcon
+}
 
 /**
  * @param {{
@@ -47,6 +55,7 @@ export const PasswordField = ({
   variant = 'default',
   icon
 }) => {
+  const { i18n } = useLingui()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   const handleChange = (value) => {
@@ -54,26 +63,26 @@ export const PasswordField = ({
   }
 
   const getPasswordStrongness = () => {
-    if (!value?.length) {
+    if (value.trim() === '') {
       return null
     }
 
-    const result =
+    const res =
       passType === 'password' ? isPasswordSafe(value) : isPassphraseSafe(value)
 
-    if (result?.isSafe) {
-      return html`
-        <${PasswordStrongnessWrapper} isStrong>
-          <${OkayIcon} />
-          Strong
-        <//>
-      `
+    const config = getStrengthConfig(res.strength)
+
+    if (!config) {
+      return null
     }
 
+    const { text, type } = config
+    const icon = PASSWORD_STRENGTH_ICONS[type]
+
     return html`
-      <${PasswordStrongnessWrapper}>
-        <${YellowErrorIcon} />
-        Weak
+      <${PasswordStrongnessWrapper} strength=${res.strength}>
+        <${icon} />
+        ${i18n._(text)}
       <//>
     `
   }
