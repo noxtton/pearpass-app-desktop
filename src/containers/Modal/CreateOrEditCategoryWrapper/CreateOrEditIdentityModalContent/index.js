@@ -38,6 +38,7 @@ import { ImagesField } from '../../../ImagesField'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
 import { UploadFilesModalContent } from '../../UploadImageModalContent'
+import { DATE_FORMAT } from 'pearpass-lib-constants'
 
 /**
  * @param {{
@@ -333,7 +334,7 @@ export const CreateOrEditIdentityModalContent = ({
               onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
-            html` <${RecordTypeMenu}
+      html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.IDENTITY}
               onRecordSelect=${(record) => onTypeChange(record?.type)}
             />`}
@@ -446,7 +447,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Date of issue')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('passportDateOfIssue')}
@@ -454,7 +455,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Expiry Date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('passportExpiryDate')}
@@ -470,7 +471,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Date of birth')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('passportDob')}
@@ -489,7 +490,7 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('passportPicture')}
             pictures=${values.passportPicture}
             onRemove=${(index) =>
-              handleAttachmentRemove('passportPicture', index)}
+      handleAttachmentRemove('passportPicture', index)}
           />
         <//>
 
@@ -509,7 +510,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Creation date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('idCardDateOfIssue')}
@@ -517,7 +518,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Expiry date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('idCardExpiryDate')}
@@ -536,7 +537,7 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('idCardPicture')}
             pictures=${values.idCardPicture}
             onRemove=${(index) =>
-              handleAttachmentRemove('idCardPicture', index)}
+      handleAttachmentRemove('idCardPicture', index)}
           />
         <//>
 
@@ -556,7 +557,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Creation date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('drivingLicenseDateOfIssue')}
@@ -564,7 +565,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Expiry date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('drivingLicenseExpiryDate')}
@@ -583,29 +584,29 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('drivingLicensePicture')}
             pictures=${values.drivingLicensePicture}
             onRemove=${(index) =>
-              handleAttachmentRemove('drivingLicensePicture', index)}
+      handleAttachmentRemove('drivingLicensePicture', index)}
           />
         <//>
 
         ${values.attachments.length > 0 &&
-        html`
+    html`
           <${FormGroup}>
             ${values.attachments.map(
-              (attachment, index) =>
-                html`<${AttachmentField}
+      (attachment, index) =>
+        html`<${AttachmentField}
                   attachment=${attachment}
                   label=${i18n._('File')}
                   additionalItems=${html`
                     <${ButtonSingleInput}
                       startIcon=${DeleteIcon}
                       onClick=${() =>
-                        handleAttachmentRemove(ATTACHMENTS_FIELD_KEY, index)}
+              handleAttachmentRemove(ATTACHMENTS_FIELD_KEY, index)}
                     >
                       ${i18n._('Delete File')}
                     <//>
                   `}
                 />`
-            )}
+    )}
           <//>
         `}
 
