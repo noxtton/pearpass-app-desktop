@@ -334,7 +334,7 @@ export const CreateOrEditIdentityModalContent = ({
               onFolderSelect=${(folder) => setValue('folder', folder?.name)}
             />
             ${!initialRecord &&
-      html` <${RecordTypeMenu}
+          html` <${RecordTypeMenu}
               selectedRecord=${RECORD_TYPES.IDENTITY}
               onRecordSelect=${(record) => onTypeChange(record?.type)}
             />`}
@@ -490,7 +490,7 @@ export const CreateOrEditIdentityModalContent = ({
             onAdd=${() => handleFileLoad('passportPicture')}
             pictures=${values.passportPicture}
             onRemove=${(index) =>
-      handleAttachmentRemove('passportPicture', index)}
+                handleAttachmentRemove('passportPicture', index)}
           />
         <//>
 
@@ -589,24 +589,24 @@ export const CreateOrEditIdentityModalContent = ({
         <//>
 
         ${values.attachments.length > 0 &&
-    html`
+       html`
           <${FormGroup}>
             ${values.attachments.map(
-      (attachment, index) =>
-        html`<${AttachmentField}
+          (attachment, index) =>
+             html`<${AttachmentField}
                   attachment=${attachment}
                   label=${i18n._('File')}
                   additionalItems=${html`
                     <${ButtonSingleInput}
                       startIcon=${DeleteIcon}
                       onClick=${() =>
-              handleAttachmentRemove(ATTACHMENTS_FIELD_KEY, index)}
+                        handleAttachmentRemove(ATTACHMENTS_FIELD_KEY, index)}
                     >
                       ${i18n._('Delete File')}
                     <//>
                   `}
                 />`
-    )}
+         )}
           <//>
         `}
 
