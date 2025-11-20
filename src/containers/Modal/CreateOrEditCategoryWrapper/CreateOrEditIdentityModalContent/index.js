@@ -592,8 +592,8 @@ export const CreateOrEditIdentityModalContent = ({
         html`
           <${FormGroup}>
             ${values.attachments.map(
-            (attachment, index) =>
-              html`<${AttachmentField}
+              (attachment, index) =>
+                html`<${AttachmentField}
                   attachment=${attachment}
                   label=${i18n._('File')}
                   additionalItems=${html`
@@ -606,7 +606,7 @@ export const CreateOrEditIdentityModalContent = ({
                     <//>
                   `}
                 />`
-          )}
+            )}
           <//>
         `}
 
