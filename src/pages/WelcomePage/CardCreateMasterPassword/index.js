@@ -6,7 +6,7 @@ import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import { TERMS_OF_USE } from 'pearpass-lib-constants'
 import { useUserData } from 'pearpass-lib-vault'
-import { isPasswordSafe } from 'pearpass-utils-password-check'
+import { isPasswordSafe, PASSWORD_STRENGTH } from 'pearpass-utils-password-check'
 
 import {
   ButtonWrapper,
@@ -76,7 +76,7 @@ export const CardCreateMasterPassword = () => {
 
     const result = isPasswordSafe(values.password, { errors: errors })
 
-    if (result.strength !== 'strong' && result.errors.length > 0) {
+    if (result.strength !== PASSWORD_STRENGTH.SAFE && result.errors.length > 0) {
       setErrors({
         password: result.errors[0]
       })
