@@ -63,7 +63,7 @@ export const PasswordField = ({
   }
 
   const getPasswordStrongness = () => {
-    if (value.trim() === '') {
+    if (!value?.length) {
       return null
     }
 
