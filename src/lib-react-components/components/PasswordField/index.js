@@ -16,7 +16,6 @@ import {
   ButtonRoundIcon,
   ErrorIcon
 } from '../../index'
-import { useLingui } from '@lingui/react'
 
 const PASSWORD_STRENGTH_ICONS = {
   error: ErrorIcon,
