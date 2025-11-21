@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { html } from 'htm/react'
 import { getStrengthConfig, isPassphraseSafe, isPasswordSafe } from 'pearpass-utils-password-check'
+import { useTranslation } from '../../../hooks/useTranslation'
 
 import { PasswordStrongnessWrapper } from './styles'
 import {
@@ -55,7 +56,7 @@ export const PasswordField = ({
   variant = 'default',
   icon
 }) => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   const handleChange = (value) => {
@@ -82,7 +83,7 @@ export const PasswordField = ({
     return html`
       <${PasswordStrongnessWrapper} strength=${res.strength}>
         <${icon} />
-        ${i18n._(text)}
+        ${t(text)}
       <//>
     `
   }
