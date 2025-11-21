@@ -35,10 +35,6 @@
     "lint": "eslint --fix .",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
-    "bundle-bridge:darwin": "bare-pack --platform darwin --arch arm64 packages/pearpass-lib-native-messaging-bridge/src/bridge.js -o appling/assets/native-messaging-bridge/index-macos-arm64",
-    "bundle-bridge:linux": "bare-pack --platform linux --arch x64 packages/pearpass-lib-native-messaging-bridge/src/bridge.js -o appling/assets/native-messaging-bridge/index-linux-x64",
-    "bundle-bridge:win32": "bare-pack --platform win32 --arch x64 packages/pearpass-lib-native-messaging-bridge/src/bridge.js -o appling/assets/native-messaging-bridge/index-win-x64",
-    "bundle-bridge:all": "npm run bundle-bridge:darwin && npm run bundle-bridge:linux && npm run bundle-bridge:win32",
     "update-submodules": "bash scripts/update-submodules.sh"
   },
   "devDependencies": {
