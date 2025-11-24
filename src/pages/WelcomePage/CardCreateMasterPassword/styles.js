@@ -97,3 +97,27 @@ export const RadioTextBold = styled.a`
   text-underline-offset: auto;
   text-underline-position: from-font;
 `
+
+export const RequirementsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.grey100.mode1};
+  font-family: 'Inter';
+  font-size: 14px;
+  line-height: normal;
+`
+
+export const BulletList = styled.ul`
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: disc;
+`
+
+export const BulletItem = styled.li`
+  font-size: 14px;
+`
+
+export const NoteText = styled.p`
+  font-size: 14px;
+`
