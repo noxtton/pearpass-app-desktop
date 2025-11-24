@@ -6,14 +6,14 @@ project(pear_appling C CXX ASM)
 
 add_pear_appling(
   pear_appling
-  ID "niekhhqxqb3shrjy5dgefih5oo614n9cb1qwsb97xkn3cbs589do"
-  LINK "pear://niekhhqxqb3shrjy5dgefih5oo614n9cb1qwsb97xkn3cbs589do"
+  ID "uxtenkisc9kxiudmtyksza6bhtmp89fu6hd8girbyinkycofpcry"
+  LINK "pear://uxtenkisc9kxiudmtyksza6bhtmp89fu6hd8girbyinkycofpcry"
   NAME "PearPass"
   VERSION 1.0.0
   AUTHOR "Tether Data S.A. de C.V."
   DESCRIPTION "A secure, decentralized and fully local password manager"
 
-  MACOS_IDENTIFIER com.pears.pass
+  MACOS_IDENTIFIER com.noxtton.pearpass
   MACOS_CATEGORY public.app-category.productivity
   MACOS_SIGNING_IDENTITY "959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458"
 
