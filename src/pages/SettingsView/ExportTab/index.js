@@ -15,14 +15,18 @@ import {
 import { ActionsContainer, ContentContainer, Description } from './styles'
 import { handleExportCSVPerVault } from './utils/exportCsvPerVault'
 import { handleExportJsonPerVaultTest } from './utils/exportJsonPerVault'
+import { AuthenticationCard } from '../../../components/AuthenticationCard'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
+import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { ListItem } from '../../../components/ListItem'
 import { RadioSelect } from '../../../components/RadioSelect'
 import { SwitchWithLabel } from '../../../components/SwitchWithLabel'
+import { ModalContent } from '../../../containers/Modal/ModalContent'
 import { VaultPasswordFormModalContent } from '../../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../../context/ModalContext'
 import { ButtonSecondary } from '../../../lib-react-components'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated'
+import { AlertBox } from "../../../components/AlertBox/index.js";
 
 export const ExportTab = () => {
   const { closeModal, setModal } = useModal()
@@ -135,14 +139,38 @@ export const ExportTab = () => {
         />`
       )
     } else if (selectedVaults.length > 0) {
-      const vaultsToExport = await Promise.all(
-        selectedVaults.map(
-          async (vaultId) => await fetchUnprotectedVault(vaultId)
-        )
-      )
+      setModal(
+        html`
+          <${ModalContent}
+            onClose=${closeModal}
+            headerChildren=${html`
+              <${FormModalHeaderWrapper}> <//>
+            `}
+          >
+            <${AuthenticationCard}
+              title=${i18n._('Enter Your Master Password')}
+              buttonLabel=${i18n._('Confirm')}
+              descriptionComponent=${html`<${AlertBox}
+                message=${i18n._(
+                        'Confirm your master password to export your vault data.'
+                )}
+              />`}
+              style=${{ width: '100%' }}
+              onSuccess=${async () => {
+                const vaultsToExport = await Promise.all(
+                  selectedVaults.map(
+                    async (vaultId) => await fetchUnprotectedVault(vaultId)
+                  )
+                )
 
-      refetchVault(currentVaultId, currentEncryption)
-      handleSubmitExport(vaultsToExport)
+                refetchVault(currentVaultId, currentEncryption)
+                handleSubmitExport(vaultsToExport)
+                closeModal()
+              }}
+            />
+          <//>
+        `
+      )
     }
   }
 

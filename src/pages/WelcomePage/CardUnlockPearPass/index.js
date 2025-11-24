@@ -1,96 +1,31 @@
-import { useState } from 'react'
-
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { useForm } from 'pear-apps-lib-ui-react-hooks'
-import { Validator } from 'pear-apps-utils-validator'
-import { useUserData, useVaults } from 'pearpass-lib-vault'
+import { useVaults } from 'pearpass-lib-vault'
 
-import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
 import { AlertBox } from '../../../components/AlertBox'
-import { useGlobalLoading } from '../../../context/LoadingContext'
+import { AuthenticationCard } from '../../../components/AuthenticationCard'
 import { useRouter } from '../../../context/RouterContext'
-import {
-  ButtonPrimary,
-  PearPassPasswordField
-} from '../../../lib-react-components'
-import { logger } from '../../../utils/logger'
 
 export const CardUnlockPearPass = () => {
   const { i18n } = useLingui()
   const { currentPage, navigate } = useRouter()
-
-  const [isLoading, setIsLoading] = useState(false)
-
-  useGlobalLoading({ isLoading })
-
-  const schema = Validator.object({
-    password: Validator.string().required(i18n._('Password is required'))
-  })
-
-  const { logIn } = useUserData()
-
   const { initVaults } = useVaults()
 
-  const { register, handleSubmit, setErrors } = useForm({
-    initialValues: { password: '' },
-    validate: (values) => schema.validate(values)
-  })
-
-  const onSubmit = async (values) => {
-    if (isLoading) {
-      return
-    }
-
-    if (!values.password) {
-      setErrors({
-        password: i18n._('Password is required')
-      })
-
-      return
-    }
-
-    try {
-      setIsLoading(true)
-
-      await logIn({ password: values.password })
-
-      await initVaults({ password: values.password })
-
-      setIsLoading(false)
-
-      navigate(currentPage, { state: 'vaults' })
-    } catch (error) {
-      setIsLoading(false)
-
-      setErrors({
-        password: i18n._('Invalid password')
-      })
-
-      logger.error('useGetMultipleFiles', 'Error unlocking PearPass:', error)
-    }
+  const handleSuccess = async (password) => {
+    await initVaults({ password })
+    navigate(currentPage, { state: 'vaults' })
   }
 
   return html`
-    <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
-      <${CardTitle}>
-        <${Title}> ${i18n._('Enter your Master password')}<//>
-      <//>
-
-      <${PearPassPasswordField}
-        placeholder=${i18n._('Master password')}
-        ...${register('password')}
-      />
-
-      <${AlertBox}
+    <${AuthenticationCard}
+      title=${i18n._('Enter your Master password')}
+      buttonLabel=${i18n._('Continue')}
+      descriptionComponent=${html`<${AlertBox}
         message=${i18n._(
           'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
         )}
-      />
-
-      <${ButtonWrapper}>
-        <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
-      <//>
-    <//>
+      />`}
+      onSuccess=${handleSuccess}
+    />
   `
 }
