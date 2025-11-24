@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
@@ -18,7 +17,11 @@ import {
   RadioGroup,
   RadioText,
   RadioTextBold,
-  Title
+  Title,
+  RequirementsContainer,
+  BulletList,
+  BulletItem,
+  NoteText
 } from './styles'
 import { AlertBox } from '../../../components/AlertBox'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
@@ -30,19 +33,20 @@ import {
   PearPassPasswordField
 } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
+import { useTranslation } from '../../../hooks/useTranslation'
 
 export const CardCreateMasterPassword = () => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const { currentPage, navigate } = useRouter()
   const [isAgreed, setIsAgreed] = useState(false)
   const [termsOfUseError, setTermsOfUseError] = useState(false)
 
   const errors = {
-    minLength: i18n._(`Password must be at least 8 characters long`),
-    hasLowerCase: i18n._('Password must contain at least one lowercase letter'),
-    hasUpperCase: i18n._('Password must contain at least one uppercase letter'),
-    hasNumbers: i18n._('Password must contain at least one number'),
-    hasSymbols: i18n._('Password must contain at least one special character')
+    minLength: t(`Password must be at least 8 characters long`),
+    hasLowerCase: t('Password must contain at least one lowercase letter'),
+    hasUpperCase: t('Password must contain at least one uppercase letter'),
+    hasNumbers: t('Password must contain at least one number'),
+    hasSymbols: t('Password must contain at least one special character')
   }
 
   const [isLoading, setIsLoading] = useState(false)
@@ -52,8 +56,8 @@ export const CardCreateMasterPassword = () => {
   const { createMasterPassword } = useUserData()
 
   const schema = Validator.object({
-    password: Validator.string().required(i18n._('Password is required')),
-    passwordConfirm: Validator.string().required(i18n._('Password is required'))
+    password: Validator.string().required(t('Password is required')),
+    passwordConfirm: Validator.string().required(t('Password is required'))
   })
 
   const { register, handleSubmit, setErrors, setValue } = useForm({
@@ -63,6 +67,38 @@ export const CardCreateMasterPassword = () => {
     },
     validate: (values) => schema.validate(values)
   })
+
+  const { onChange: onPasswordChange, ...passwordRegisterProps } =
+    register('password')
+
+  const handlePasswordChange = (val) => {
+    onPasswordChange(val)
+
+    if (!val) {
+      setErrors({})
+      return
+    }
+
+    validateMasterPassword(val)
+  }
+
+  const validateMasterPassword = (password) => {
+    const result = isPasswordSafe(password, { errors: errors })
+
+    if (
+      result.strength !== PASSWORD_STRENGTH.SAFE &&
+      result.errors.length > 0
+    ) {
+      setErrors({
+        password: result.errors[0]
+      })
+
+      return false
+    }
+
+    setErrors({})
+    return true
+  }
 
   const onSubmit = async (values) => {
     if (isLoading) {
@@ -74,20 +110,16 @@ export const CardCreateMasterPassword = () => {
       return
     }
 
-    const result = isPasswordSafe(values.password, { errors: errors })
+    const isValid = validateMasterPassword(values.password)
 
-    if (result.strength !== PASSWORD_STRENGTH.SAFE && result.errors.length > 0) {
-      setErrors({
-        password: result.errors[0]
-      })
-
+    if (!isValid) {
       setValue('passwordConfirm', '')
       return
     }
 
     if (values.password !== values.passwordConfirm) {
       setErrors({
-        passwordConfirm: i18n._('Passwords do not match')
+        passwordConfirm: t('Passwords do not match')
       })
 
       return
@@ -105,7 +137,7 @@ export const CardCreateMasterPassword = () => {
       setIsLoading(false)
 
       setErrors({
-        password: i18n._('Error creating master password')
+        password: t('Error creating master password')
       })
 
       logger.error(
@@ -131,46 +163,68 @@ export const CardCreateMasterPassword = () => {
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)}>
       <${CardTitle}>
-        <${Title}> ${i18n._('Create Master Password')} <//>
+        <${Title}> ${t('Create Master Password')} <//>
 
         <${Description}>
-          ${i18n._(
-            'The first thing to do is create a Master password to secure your account. You’ll use this password to access PearPass. '
-          )}
+          ${t(
+    'The first thing to do is create a Master password to secure your account. You’ll use this password to access PearPass. '
+  )}
         <//>
       <//>
 
       <${InputGroup}>
-        <${InputLabel}> ${i18n._('Master Password')} <//>
-        <${PearPassPasswordField} ...${register('password')} />
+        <${InputLabel}> ${t('Master Password')} <//>
+        <${PearPassPasswordField}
+          ...${passwordRegisterProps}
+          onChange=${handlePasswordChange}
+          />
       <//>
 
       <${InputGroup}>
-        <${InputLabel}> ${i18n._('Confirm Master Password')} <//>
+        <${InputLabel}> ${t('Confirm Master Password')} <//>
         <${PearPassPasswordField} ...${register('passwordConfirm')} />
       <//>
 
+      <${RequirementsContainer}>
+        <span>
+          ${t(
+    'Your password must be at least 8 characters long and include at least one of each:'
+  )}
+        </span>
+        <${BulletList}>
+          <${BulletItem}>${t('Uppercase Letter (A-Z)')}<//>
+          <${BulletItem}>${t('Lowercase Letter (a-z)')}<//>
+          <${BulletItem}>${t('Number (0-9)')}<//>
+          <${BulletItem}>
+            ${t('Special Character (! @ # $...)')}
+          <//>
+        <//>
+        <${NoteText}>
+          ${t('Note: Avoid common words and personal information.')}
+        <//>
+      <//>
+
       <${AlertBox}
-        message=${i18n._(
-          'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
-        )}
+        message=${t(
+    'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
+  )}
       />
 
       <${InputGroup}>
-        <${InputLabel}> ${i18n._('PearPass Terms of Use')} <//>
+        <${InputLabel}> ${t('PearPass Terms of Use')} <//>
         <${RadioGroup} onClick=${handleTOUToggle} isError=${termsOfUseError}>
           <${ButtonRadio} isActive=${isAgreed} />
           <${RadioText}>
-            ${i18n._('I have read and agree to the')} ${' '}
+            ${t('I have read and agree to the')} ${' '}
             <${RadioTextBold} href=${TERMS_OF_USE}>
-              ${i18n._('PearPass Application Terms of Use.')}
+              ${t('PearPass Application Terms of Use.')}
             <//>
           <//>
         <//>
       <//>
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} type="submit"> ${i18n._('Continue')} <//>
+        <${ButtonPrimary} type="submit"> ${t('Continue')} <//>
       <//>
     <//>
   `
