@@ -1,6 +1,6 @@
 {
   "name": "pearpass-app-desktop",
-  "version": "0.0.51",
+  "version": "0.0.53",
   "pear": {
     "name": "pearpass-app-desktop",
     "pre": "pear-electron/pre",
@@ -22,6 +22,11 @@
     "stage": {
       "entrypoints": [
         "/node_modules/pearpass-lib-vault-mobile/src/worklet/app.js"
+      ],
+      "ignore": [
+        ".github/**",
+        "appling/**",
+        ".git/**"
       ]
     }
   },
@@ -59,6 +64,7 @@
     "@lingui/react": "5.1.2",
     "@rive-app/react-canvas": "4.22.1",
     "buffer": "6.0.3",
+    "compact-encoding": "2.18.0",
     "dotenv": "17.2.1",
     "htm": "3.1.1",
     "jszip": "3.10.1",
