@@ -3,7 +3,7 @@ import { html } from 'htm/react'
 import { useVaults } from 'pearpass-lib-vault'
 
 import { AlertBox } from '../../../components/AlertBox'
-import { AuthenticationCard } from '../../../components/AuthenticationCard'
+import { AuthenticationCard } from '../../../containers/AuthenticationCard'
 import { useRouter } from '../../../context/RouterContext'
 
 export const CardUnlockPearPass = () => {

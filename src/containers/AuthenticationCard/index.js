@@ -1,16 +1,28 @@
 import { useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import { useUserData } from 'pearpass-lib-vault'
 
-import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles'
-import { useGlobalLoading } from '../../context/LoadingContext'
-import { ButtonPrimary, PearPassPasswordField } from '../../lib-react-components'
-import { logger } from '../../utils/logger'
+import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles.js'
+import { useGlobalLoading } from '../../context/LoadingContext.js'
+import { ButtonPrimary, PearPassPasswordField } from '../../lib-react-components/index.js'
+import { logger } from '../../utils/logger.js'
+import { useTranslation } from "../../hooks/useTranslation.js";
 
+/**
+ * Authentication card component that provides master password input form for authentication.
+ * Validates the master password and calls the onSuccess callback upon successful authentication.
+ * 
+ * @param {Object} props - Component props
+ * @param {string} props.title - The title displayed at the top of the card
+ * @param {string} props.buttonLabel - The label text for the submit button
+ * @param {React.ReactNode} [props.descriptionComponent] - Optional component to display additional description or content below the password field
+ * @param {Function} [props.onSuccess] - Optional callback function invoked after successful authentication, receives the password as an argument
+ * @param {Object} [props.style] - Optional CSS styles to apply to the card container
+ * @returns {React.ReactElement} The authentication card component
+ */
 export const AuthenticationCard = ({
   title,
   buttonLabel,
@@ -18,14 +30,14 @@ export const AuthenticationCard = ({
   onSuccess,
   style
 }) => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
 
   const [isLoading, setIsLoading] = useState(false)
 
   useGlobalLoading({ isLoading })
 
   const schema = Validator.object({
-    password: Validator.string().required(i18n._('Password is required'))
+    password: Validator.string().required(t('Password is required'))
   })
 
   const { logIn } = useUserData()
@@ -42,7 +54,7 @@ export const AuthenticationCard = ({
 
     if (!values.password) {
       setErrors({
-        password: i18n._('Password is required')
+        password: t('Password is required')
       })
 
       return
@@ -60,7 +72,7 @@ export const AuthenticationCard = ({
       setIsLoading(false)
 
       setErrors({
-        password: i18n._('Invalid password')
+        password: t('Invalid password')
       })
 
       logger.error('AuthenticationCard', 'Error unlocking with master password:', error)
@@ -74,7 +86,7 @@ export const AuthenticationCard = ({
       <//>
 
       <${PearPassPasswordField}
-        placeholder=${i18n._('Master password')}
+        placeholder=${t('Master password')}
         ...${register('password')}
       />
 

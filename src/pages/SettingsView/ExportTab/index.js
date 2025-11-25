@@ -15,7 +15,7 @@ import {
 import { ActionsContainer, ContentContainer, Description } from './styles'
 import { handleExportCSVPerVault } from './utils/exportCsvPerVault'
 import { handleExportJsonPerVaultTest } from './utils/exportJsonPerVault'
-import { AuthenticationCard } from '../../../components/AuthenticationCard'
+import { AuthenticationCard } from '../../../containers/AuthenticationCard'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import { FormModalHeaderWrapper } from '../../../components/FormModalHeaderWrapper'
 import { ListItem } from '../../../components/ListItem'
