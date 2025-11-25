@@ -21,6 +21,7 @@ import {
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 import { ImagesField } from '../../ImagesField'
+import { DATE_FORMAT } from 'pearpass-lib-constants'
 
 /**
  * @param {{
@@ -325,7 +326,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
             html`
               <${InputField}
                 label=${i18n._('Date of issue')}
-                placeholder="DD.MM.YYYY"
+                placeholder=${DATE_FORMAT}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
@@ -336,7 +337,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
             html`
               <${InputField}
                 label=${i18n._('Expiry date')}
-                placeholder="DD.MM.YYYY"
+                placeholder=${DATE_FORMAT}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
@@ -358,7 +359,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
             html`
               <${InputField}
                 label=${i18n._('Date of birth')}
-                placeholder="DD.MM.YYYY"
+                placeholder=${DATE_FORMAT}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
@@ -403,7 +404,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
             html`
               <${InputField}
                 label=${i18n._('Creation date')}
-                placeholder="DD.MM.YYYY"
+                placeholder=${DATE_FORMAT}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
@@ -414,7 +415,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
             html`
               <${InputField}
                 label=${i18n._('Expiry date')}
-                placeholder="DD.MM.YYYY"
+                placeholder=${DATE_FORMAT}
                 variant="outline"
                 onClick=${handleCopy}
                 isDisabled
@@ -458,7 +459,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           html`
             <${InputField}
               label=${i18n._('Creation date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               onClick=${handleCopy}
               isDisabled
@@ -469,7 +470,7 @@ export const IdentityDetailsForm = ({ initialRecord, selectedFolder }) => {
           html`
             <${InputField}
               label=${i18n._('Expiry date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               onClick=${handleCopy}
               isDisabled

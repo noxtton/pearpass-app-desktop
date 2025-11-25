@@ -3,7 +3,7 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import { useUserData } from 'pearpass-lib-vault'
-import { isPasswordSafe } from 'pearpass-utils-password-check'
+import { isPasswordSafe, PASSWORD_STRENGTH } from 'pearpass-utils-password-check'
 
 import { useModal } from '../../../context/ModalContext'
 import { ModalContent } from '../ModalContent'
@@ -52,7 +52,7 @@ export const ModifyMasterVaultModalContent = () => {
   const onSubmit = async (values) => {
     const result = isPasswordSafe(values.newPassword, { errors: errors })
 
-    if (result.strength !== 'strong' && result.errors.length > 0) {
+    if (result.strength !== PASSWORD_STRENGTH.SAFE && result.errors.length > 0) {
       setErrors({
         newPassword: result.errors.join(', ')
       })

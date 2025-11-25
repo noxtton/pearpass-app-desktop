@@ -44,6 +44,14 @@ Go to the cloned directory
 ```bash
 cd pearpass-app-desktop
 ```
+To update all submodules to the latest `main` branch, use the provided script.
+```bash
+npm run update-submodules
+```
+In case of specific remote use:
+```bash
+npm run update-submodules -- [remote-name]
+```
 Install npm modules
 ```bash
 npm install

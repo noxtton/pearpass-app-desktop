@@ -38,6 +38,7 @@ import { ImagesField } from '../../../ImagesField'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
 import { UploadFilesModalContent } from '../../UploadImageModalContent'
+import { DATE_FORMAT } from 'pearpass-lib-constants'
 
 /**
  * @param {{
@@ -446,7 +447,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Date of issue')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('passportDateOfIssue')}
@@ -454,7 +455,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Expiry Date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('passportExpiryDate')}
@@ -470,7 +471,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Date of birth')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('passportDob')}
@@ -509,7 +510,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Creation date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('idCardDateOfIssue')}
@@ -517,7 +518,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Expiry date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('idCardExpiryDate')}
@@ -556,7 +557,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Creation date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('drivingLicenseDateOfIssue')}
@@ -564,7 +565,7 @@ export const CreateOrEditIdentityModalContent = ({
 
             <${InputField}
               label=${i18n._('Expiry date')}
-              placeholder="DD.MM.YYYY"
+              placeholder=${DATE_FORMAT}
               variant="outline"
               icon=${CalendarIcon}
               ...${register('drivingLicenseExpiryDate')}
