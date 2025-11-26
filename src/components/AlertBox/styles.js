@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   padding: 10px;
-  align-items: flex-start;
+  align-items: ${({ $isMultiLine }) => $isMultiLine ? 'flex-start' : 'center'};
   gap: 8px;
   border-radius: 10px;
   border: 1px solid
@@ -28,6 +28,7 @@ export const Message = styled.div`
   font-family: 'Inter';
   font-size: 14px;
   font-weight: 500;
+  line-height: 1.4;
 `
 
 export const IconWrapper = styled.div`
