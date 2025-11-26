@@ -78,6 +78,12 @@ export const ImportTab = () => {
 
   const { createRecord } = useCreateRecord()
 
+  const onError = (error) => {
+    setToast({
+      message: error.message
+    })
+  }
+
   const handleFileChange = async ({ files, type, accepts }) => {
     const file = files[0]
     if (!file) return
@@ -124,7 +130,7 @@ export const ImportTab = () => {
         return
       }
 
-      await Promise.all(result.map((record) => createRecord(record)))
+      await Promise.all(result.map((record) => createRecord(record, onError)))
       setToast({
         message: t('Data imported successfully')
       })

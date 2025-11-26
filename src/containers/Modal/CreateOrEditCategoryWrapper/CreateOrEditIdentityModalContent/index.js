@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
+import { DATE_FORMAT } from 'pearpass-lib-constants'
 import { RECORD_TYPES, useCreateRecord, useRecords } from 'pearpass-lib-vault'
 
 import { CreateCustomField } from '../../../../components/CreateCustomField'
@@ -38,7 +39,6 @@ import { ImagesField } from '../../../ImagesField'
 import { ModalContent } from '../../ModalContent'
 import { DropdownsWrapper } from '../../styles'
 import { UploadFilesModalContent } from '../../UploadImageModalContent'
-import { DATE_FORMAT } from 'pearpass-lib-constants'
 
 /**
  * @param {{
@@ -117,6 +117,12 @@ export const CreateOrEditIdentityModalContent = ({
   const isLoading = isCreateLoading || isUpdateLoading
 
   useGlobalLoading({ isLoading })
+
+  const onError = (error) => {
+    setToast({
+      message: error.message
+    })
+  }
 
   const schema = Validator.object({
     title: Validator.string().required(i18n._('Title is required')),
@@ -277,14 +283,17 @@ export const CreateOrEditIdentityModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecords([
-        {
-          ...initialRecord,
-          ...data
-        }
-      ])
+      updateRecords(
+        [
+          {
+            ...initialRecord,
+            ...data
+          }
+        ],
+        onError
+      )
     } else {
-      createRecord(data)
+      createRecord(data, onError)
     }
   }
 

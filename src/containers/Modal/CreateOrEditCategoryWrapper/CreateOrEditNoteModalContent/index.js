@@ -77,6 +77,11 @@ export const CreateOrEditNoteModalContent = ({
       })
     }
   })
+  const onError = (error) => {
+    setToast({
+      message: error.message
+    })
+  }
 
   const isLoading = isCreateLoading || isUpdateLoading
 
@@ -137,14 +142,17 @@ export const CreateOrEditNoteModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecords([
-        {
-          ...initialRecord,
-          ...data
-        }
-      ])
+      updateRecords(
+        [
+          {
+            ...initialRecord,
+            ...data
+          }
+        ],
+        onError
+      )
     } else {
-      createRecord(data)
+      createRecord(data, onError)
     }
   }
 

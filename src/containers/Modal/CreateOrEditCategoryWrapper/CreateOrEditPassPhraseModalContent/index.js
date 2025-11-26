@@ -70,7 +70,11 @@ export const CreateOrEditPassPhraseModalContent = ({
       })
     }
   })
-
+  const onError = (error) => {
+    setToast({
+      message: error.message
+    })
+  }
   const isLoading = isCreateLoading || isUpdateLoading
 
   useGlobalLoading({ isLoading })
@@ -119,14 +123,17 @@ export const CreateOrEditPassPhraseModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecords([
-        {
-          ...initialRecord,
-          ...data
-        }
-      ])
+      updateRecords(
+        [
+          {
+            ...initialRecord,
+            ...data
+          }
+        ],
+        onError
+      )
     } else {
-      createRecord(data)
+      createRecord(data, onError)
     }
   }
 

@@ -94,6 +94,11 @@ export const CreateOrEditLoginModalContent = ({
     }
   })
 
+  const onError = (error) => {
+    setToast({
+      message: error.message
+    })
+  }
   const isLoading = isCreateLoading || isUpdateLoading
 
   useGlobalLoading({ isLoading })
@@ -179,14 +184,17 @@ export const CreateOrEditLoginModalContent = ({
     }
 
     if (initialRecord) {
-      updateRecords([
-        {
-          ...initialRecord,
-          ...data
-        }
-      ])
+      updateRecords(
+        [
+          {
+            ...initialRecord,
+            ...data
+          }
+        ],
+        onError
+      )
     } else {
-      createRecord(data)
+      createRecord(data, onError)
     }
   }
 
