@@ -56,14 +56,24 @@ export const SettingsBlindPeersSection = () => {
     getBlindMirrors()
   }, [])
 
-  const handleBlindMirrorsRequest = async (callback, errorMessage) => {
+  const handleBlindMirrorsRequest = async ({
+    callback,
+    errorMessage,
+    successMessage
+  }) => {
     try {
       setIsLoading(true)
       await callback()
       setBlindPeersRules({ blindPeers: !blindPeersRules.blindPeers })
+
+      if (successMessage) {
+        setToast({
+          message: successMessage
+        })
+      }
     } catch {
       setToast({
-        message: t(errorMessage)
+        message: errorMessage
       })
     } finally {
       setIsLoading(false)
@@ -73,18 +83,22 @@ export const SettingsBlindPeersSection = () => {
   const handleBlindPeersConfirm = async (data) => {
     if (data.blindPeerType === BLIND_PEER_TYPE.PERSONAL) {
       if (data.blindPeers?.length) {
-        await handleBlindMirrorsRequest(
-          () => addBlindMirrors(data.blindPeers),
-          'Error adding blind mirrors'
-        )
-      } else return
+        await handleBlindMirrorsRequest({
+          callback: () => addBlindMirrors(data.blindPeers),
+          errorMessage: t('Error adding blind mirrors'),
+          successMessage: t('Manual Blind Peers enabled successfully')
+        })
+      } else {
+        return
+      }
     }
 
     if (data.blindPeerType === BLIND_PEER_TYPE.DEFAULT) {
-      await handleBlindMirrorsRequest(
-        addDefaultBlindMirrors,
-        'Error adding default blind mirrors'
-      )
+      await handleBlindMirrorsRequest({
+        callback: addDefaultBlindMirrors,
+        errorMessage: t('Error adding blind mirrors'),
+        successMessage: t('Automatic Blind Peers enabled successfully')
+      })
     }
 
     closeModal()
@@ -104,10 +118,10 @@ export const SettingsBlindPeersSection = () => {
     }
 
     if (newRules.blindPeers === false) {
-      await handleBlindMirrorsRequest(
-        removeAllBlindMirrors,
-        'Error removing blind mirrors'
-      )
+      await handleBlindMirrorsRequest({
+        callback: removeAllBlindMirrors,
+        errorMessage: t('Error removing blind mirrors')
+      })
     }
   }
 
