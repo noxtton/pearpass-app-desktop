@@ -85,7 +85,7 @@ export const SettingsBlindPeersSection = () => {
       if (data.blindPeers?.length) {
         await handleBlindMirrorsRequest({
           callback: () => addBlindMirrors(data.blindPeers),
-          errorMessage: t('Error adding blind mirrors'),
+          errorMessage: t('Error adding Blind Peers'),
           successMessage: t('Manual Blind Peers enabled successfully')
         })
       } else {
@@ -96,7 +96,7 @@ export const SettingsBlindPeersSection = () => {
     if (data.blindPeerType === BLIND_PEER_TYPE.DEFAULT) {
       await handleBlindMirrorsRequest({
         callback: addDefaultBlindMirrors,
-        errorMessage: t('Error adding blind mirrors'),
+        errorMessage: t('Error adding Blind Peers'),
         successMessage: t('Automatic Blind Peers enabled successfully')
       })
     }
