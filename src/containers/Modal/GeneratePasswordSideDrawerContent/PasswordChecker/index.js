@@ -1,7 +1,7 @@
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
-import { isPasswordSafe } from 'pearpass-utils-password-check'
+import { checkPasswordStrength } from 'pearpass-utils-password-check'
 
+import { useTranslation } from '../../../../hooks/useTranslation'
 import { HighlightString, NoticeText } from '../../../../lib-react-components'
 import { PasswordWrapper } from '../styles'
 /**
@@ -14,15 +14,16 @@ import { PasswordWrapper } from '../styles'
  * }} props
  */
 export const PasswordChecker = ({ pass }) => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
 
-  const result = isPasswordSafe(pass)
+  const { success, strengthText, strengthType } = checkPasswordStrength(pass)
+
+  if (!success) {
+    return null
+  }
+
   return html` <${PasswordWrapper}>
     <${HighlightString} text=${pass} />
-    ${result.strength === 'vulnerable'
-      ? html` <${NoticeText} text=${i18n._('Vulnerable')} type="error" />`
-      : result.strength === 'weak'
-        ? html` <${NoticeText} text=${i18n._('Weak')} type="warning" />`
-        : html` <${NoticeText} text=${i18n._('Safe')} type="success" />`}
+    <${NoticeText} text=${t(strengthText)} type=${strengthType} />
   <//>`
 }

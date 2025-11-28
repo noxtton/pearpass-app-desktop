@@ -1,13 +1,13 @@
 import React from 'react'
 
 jest.mock('pearpass-utils-password-check', () => ({
-  isPasswordSafe: jest.fn(),
-  isPassphraseSafe: jest.fn()
+  checkPasswordStrength: jest.fn(),
+  checkPassphraseStrength: jest.fn()
 }))
 
 import { render, fireEvent } from '@testing-library/react'
 import { ThemeProvider } from 'pearpass-lib-ui-theme-provider'
-import { isPasswordSafe } from 'pearpass-utils-password-check'
+import { checkPasswordStrength } from 'pearpass-utils-password-check'
 
 import { PasswordField } from './index'
 import '@testing-library/jest-dom'
@@ -81,7 +81,7 @@ describe('PasswordField Component', () => {
   })
 
   test('displays password strongness as "Strong" when safe', () => {
-    isPasswordSafe.mockReturnValue({ isSafe: true })
+    checkPasswordStrength.mockReturnValue({ isSafe: true })
 
     const { getByText } = setup({
       value: 'safePassword',
@@ -95,7 +95,7 @@ describe('PasswordField Component', () => {
   })
 
   test('displays password strongness as "Weak" when not safe', () => {
-    isPasswordSafe.mockReturnValue({ isSafe: false })
+    checkPasswordStrength.mockReturnValue({ isSafe: false })
 
     const { getByText } = setup({
       value: 'weak',

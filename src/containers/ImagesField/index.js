@@ -1,3 +1,5 @@
+import { useEffect, useMemo } from 'react'
+
 import { html } from 'htm/react'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 
@@ -19,6 +21,22 @@ import { DisplayPictureModalContent } from '../Modal/DisplayPictureModalContent'
 export const ImagesField = ({ title, pictures = [], onAdd, onRemove }) => {
   const { setModal } = useModal()
 
+  const pictureUrls = useMemo(
+    () =>
+      pictures.map((picture) => ({
+        url: URL.createObjectURL(new Blob([picture.buffer])),
+        name: picture.name
+      })),
+    [pictures]
+  )
+
+  useEffect(
+    () => () => {
+      pictureUrls.forEach((p) => URL.revokeObjectURL(p.url))
+    },
+    [pictureUrls]
+  )
+
   const handlePictureClick = (url, name) => {
     setModal(html`<${DisplayPictureModalContent} url=${url} name=${name} />`)
   }
@@ -35,14 +53,13 @@ export const ImagesField = ({ title, pictures = [], onAdd, onRemove }) => {
         <${Title}>${title}<//>
       <//>
       <${Body}>
-        ${pictures?.map((picture, idx) => {
-          const url = URL.createObjectURL(new Blob([picture.buffer]))
-          return html`
+        ${pictureUrls?.map(
+          (picture, idx) => html`
             <${ImageContainer}
-              onClick=${() => handlePictureClick(url, picture.name)}
+              onClick=${() => handlePictureClick(picture.url, picture.name)}
               key=${idx}
             >
-              <${Photo} src=${url} alt="attachment" />
+              <${Photo} src=${picture.url} alt="attachment" />
 
               ${onRemove &&
               html`<${DeleteOverlay}>
@@ -52,7 +69,7 @@ export const ImagesField = ({ title, pictures = [], onAdd, onRemove }) => {
               <//>`}
             <//>
           `
-        })}
+        )}
         ${!!onAdd &&
         html` <${AddContainer} onClick=${onAdd}>
           <${PlusIcon} color=${colors.primary400.mode1} />

@@ -4,10 +4,10 @@ import os from 'os'
 import path from 'path'
 
 import { logger } from './logger'
-
-const MANIFEST_NAME = 'com.pears.pass'
-const PEAR_BRIDGE_APP_SEED =
-  'pear://bnaffnpuntoh6k4ry1ssar3jjjdya3sf7xpr5ectf7beobcn1cky'
+import {
+  MANIFEST_NAME,
+  NATIVE_MESSAGING_BRIDGE_PEAR_LINK
+} from '../../packages/pearpass-lib-constants/src/index.js'
 
 const promisify =
   (fn) =>
@@ -57,6 +57,7 @@ export const getNativeHostExecutableInfo = () => {
 export const generateNativeHostExecutable = async (executablePath) => {
   try {
     const platform = os.platform()
+    const arch = os.arch()
     const bridgePath = path.dirname(executablePath)
     let content
 
@@ -66,24 +67,36 @@ export const generateNativeHostExecutable = async (executablePath) => {
         'Library',
         'Application Support',
         'pear',
+        'current',
+        'by-arch',
+        `${platform}-${arch}`,
         'bin',
-        'pear'
+        'pear-runtime'
       )
       content = `#!/bin/bash
 # PearPass Native Messaging Host for macOS
 # Launches the native host using pear run
 
 cd "${bridgePath}"
-exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
+exec "${pearPath}" run --trusted ${NATIVE_MESSAGING_BRIDGE_PEAR_LINK}
 `
     } else if (platform === 'linux') {
-      const pearPath = path.join(os.homedir(), '.config', 'pear', 'bin', 'pear')
+      const pearPath = path.join(
+        os.homedir(),
+        '.config',
+        'pear',
+        'current',
+        'by-arch',
+        `${platform}-${arch}`,
+        'bin',
+        'pear-runtime'
+      )
       content = `#!/bin/bash
 # PearPass Native Messaging Host for Linux
 # Launches the native host using pear run
 
 cd "${bridgePath}"
-exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
+exec "${pearPath}" run --trusted ${NATIVE_MESSAGING_BRIDGE_PEAR_LINK}
 `
     } else if (platform === 'win32') {
       const pearPath = path.join(
@@ -91,15 +104,18 @@ exec "${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
         'AppData',
         'Roaming',
         'pear',
+        'current',
+        'by-arch',
+        `${platform}-${arch}`,
         'bin',
-        'pear.cmd'
+        'pear-runtime.exe'
       )
       content = `@echo off
 REM PearPass Native Messaging Host for Windows
 REM Launches the native host using pear run
 
 cd /d "${bridgePath}"
-"${pearPath}" run --trusted ${PEAR_BRIDGE_APP_SEED}
+"${pearPath}" run --trusted ${NATIVE_MESSAGING_BRIDGE_PEAR_LINK}
 `
     } else {
       throw new Error(`Unsupported platform: ${platform}`)
@@ -299,7 +315,7 @@ export const killNativeMessagingHostProcesses = async () => {
       // The parent cmd.exe (spawned by Chrome) will automatically terminate when its child is killed
       try {
         // Use PowerShell to find processes with the unique bridge seed in their command line
-        const psCmd = `powershell -NoProfile -Command "Get-WmiObject Win32_Process | Where-Object {\$_.CommandLine -like '*${PEAR_BRIDGE_APP_SEED}*'} | ForEach-Object { taskkill /PID \$_.ProcessId /F }"`
+        const psCmd = `powershell -NoProfile -Command "Get-WmiObject Win32_Process | Where-Object {\$_.CommandLine -like '*${NATIVE_MESSAGING_BRIDGE_PEAR_LINK}*'} | ForEach-Object { taskkill /PID \$_.ProcessId /F }"`
         await execAsync(psCmd)
         logger.info(
           'NATIVE-MESSAGING-KILL',
@@ -315,7 +331,7 @@ export const killNativeMessagingHostProcesses = async () => {
       // macOS/Linux: Kill by the bridge seed in the command line
       // The wrapper script uses 'exec' so the process name becomes 'pear run <seed>'
       try {
-        await execAsync(`pkill -f "${PEAR_BRIDGE_APP_SEED}"`)
+        await execAsync(`pkill -f "${NATIVE_MESSAGING_BRIDGE_PEAR_LINK}"`)
         logger.info(
           'NATIVE-MESSAGING-KILL',
           'Killed native messaging host process by bridge seed'

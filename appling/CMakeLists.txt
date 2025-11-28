@@ -6,8 +6,8 @@ project(pear_appling C CXX ASM)
 
 add_pear_appling(
   pear_appling
-  ID "8mzabhx3kbpq88eqy7wiuu1csjqqkry19c3di8nixu5rgt6cmupy"
-  LINK "pear://8mzabhx3kbpq88eqy7wiuu1csjqqkry19c3di8nixu5rgt6cmupy"
+  ID "niekhhqxqb3shrjy5dgefih5oo614n9cb1qwsb97xkn3cbs589do"
+  LINK "pear://niekhhqxqb3shrjy5dgefih5oo614n9cb1qwsb97xkn3cbs589do"
   NAME "PearPass"
   VERSION 1.0.0
   AUTHOR "Tether Data S.A. de C.V."
@@ -15,7 +15,7 @@ add_pear_appling(
 
   MACOS_IDENTIFIER com.pears.pass
   MACOS_CATEGORY public.app-category.productivity
-  MACOS_SIGNING_IDENTITY "0FBAF04EEFAB7158EA793100FF2731E91E330A88"
+  MACOS_SIGNING_IDENTITY "959D2C8BB8323AEF9C2367ACA2F854AE4D7DE458"
 
   WINDOWS_SIGNING_SUBJECT "<string>"
   WINDOWS_SIGNING_THUMBPRINT <sha1>
