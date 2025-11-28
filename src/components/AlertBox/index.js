@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
+
 import { html } from 'htm/react'
 
 import { IconWrapper, Container, Message } from './styles'
@@ -10,7 +11,9 @@ export const AlertBox = ({ message, type = 'warning' }) => {
 
   useEffect(() => {
     if (messageRef.current) {
-      const lineHeight = parseFloat(getComputedStyle(messageRef.current).lineHeight)
+      const lineHeight = parseFloat(
+        getComputedStyle(messageRef.current).lineHeight
+      )
       const height = messageRef.current.offsetHeight
       setIsMultiLine(height > lineHeight * 1.2)
     }

@@ -4,7 +4,8 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   padding: 10px;
-  align-items: ${({ $isMultiLine }) => $isMultiLine ? 'flex-start' : 'center'};
+  align-items: ${({ $isMultiLine }) =>
+    $isMultiLine ? 'flex-start' : 'center'};
   gap: 8px;
   border-radius: 10px;
   border: 1px solid
