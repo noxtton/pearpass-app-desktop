@@ -22,8 +22,8 @@ describe('useCopyToClipboard', () => {
     expect(result.current.isCopied).toBe(false)
   })
 
-  test('does not copy when feature flag is disabled', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'false')
+  test('does not copy when copy to clipboard is disabled', async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_DISABLED, 'true')
 
     const { result } = renderHook(() => useCopyToClipboard())
 
@@ -36,9 +36,7 @@ describe('useCopyToClipboard', () => {
     expect(navigator.clipboard.writeText).not.toHaveBeenCalled()
   })
 
-  test('copies when feature flag is enabled', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
-
+  test('copies when copy to clipboard is not disabled', async () => {
     const { result } = renderHook(() => useCopyToClipboard())
 
     await act(async () => {
@@ -49,7 +47,6 @@ describe('useCopyToClipboard', () => {
   })
 
   test('isCopied becomes true after successful copy', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     navigator.clipboard.writeText.mockResolvedValueOnce()
 
     const { result } = renderHook(() => useCopyToClipboard())
@@ -64,7 +61,6 @@ describe('useCopyToClipboard', () => {
   })
 
   test('isCopied becomes false after timeout', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     navigator.clipboard.writeText.mockResolvedValueOnce()
 
     const { result } = renderHook(() => useCopyToClipboard())
@@ -85,7 +81,6 @@ describe('useCopyToClipboard', () => {
   })
 
   test('onCopy callback is called when copying is successful', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     const onCopy = jest.fn()
     navigator.clipboard.writeText.mockResolvedValueOnce()
 
@@ -101,7 +96,6 @@ describe('useCopyToClipboard', () => {
   })
 
   test('returns false when clipboard API is not available', async () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.COPY_TO_CLIPBOARD_ENABLED, 'true')
     const originalClipboard = navigator.clipboard
     delete navigator.clipboard
 
