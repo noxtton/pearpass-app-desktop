@@ -5,7 +5,7 @@ import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import { TERMS_OF_USE } from 'pearpass-lib-constants'
 import { useUserData } from 'pearpass-lib-vault'
-import { isPasswordSafe, PASSWORD_STRENGTH } from 'pearpass-utils-password-check'
+import { checkPasswordStrength } from 'pearpass-utils-password-check'
 
 import {
   ButtonWrapper,
@@ -27,13 +27,13 @@ import { AlertBox } from '../../../components/AlertBox'
 import { LOCAL_STORAGE_KEYS } from '../../../constants/localStorage'
 import { useGlobalLoading } from '../../../context/LoadingContext'
 import { useRouter } from '../../../context/RouterContext'
+import { useTranslation } from '../../../hooks/useTranslation'
 import {
   ButtonPrimary,
   ButtonRadio,
   PearPassPasswordField
 } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
-import { useTranslation } from '../../../hooks/useTranslation'
 
 export const CardCreateMasterPassword = () => {
   const { t } = useTranslation()
@@ -83,12 +83,9 @@ export const CardCreateMasterPassword = () => {
   }
 
   const validateMasterPassword = (password) => {
-    const result = isPasswordSafe(password, { errors: errors })
+    const result = checkPasswordStrength(password, { errors })
 
-    if (
-      result.strength !== PASSWORD_STRENGTH.SAFE &&
-      result.errors.length > 0
-    ) {
+    if (!result.success) {
       setErrors({
         password: result.errors[0]
       })
@@ -167,8 +164,8 @@ export const CardCreateMasterPassword = () => {
 
         <${Description}>
           ${t(
-    'The first thing to do is create a Master password to secure your account. You’ll use this password to access PearPass. '
-  )}
+            'The first thing to do is create a Master password to secure your account. You’ll use this password to access PearPass. '
+          )}
         <//>
       <//>
 
@@ -177,7 +174,7 @@ export const CardCreateMasterPassword = () => {
         <${PearPassPasswordField}
           ...${passwordRegisterProps}
           onChange=${handlePasswordChange}
-          />
+        />
       <//>
 
       <${InputGroup}>
@@ -188,16 +185,14 @@ export const CardCreateMasterPassword = () => {
       <${RequirementsContainer}>
         <span>
           ${t(
-    'Your password must be at least 8 characters long and include at least one of each:'
-  )}
+            'Your password must be at least 8 characters long and include at least one of each:'
+          )}
         </span>
         <${BulletList}>
           <${BulletItem}>${t('Uppercase Letter (A-Z)')}<//>
           <${BulletItem}>${t('Lowercase Letter (a-z)')}<//>
           <${BulletItem}>${t('Number (0-9)')}<//>
-          <${BulletItem}>
-            ${t('Special Character (! @ # $...)')}
-          <//>
+          <${BulletItem}> ${t('Special Character (! @ # $...)')} <//>
         <//>
         <${NoteText}>
           ${t('Note: Avoid common words and personal information.')}
@@ -206,8 +201,8 @@ export const CardCreateMasterPassword = () => {
 
       <${AlertBox}
         message=${t(
-    'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
-  )}
+          'Don’t forget your master password. It’s the only way to access your vault. We can’t help recover it. Back it up securely.'
+        )}
       />
 
       <${InputGroup}>
