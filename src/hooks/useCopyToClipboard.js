@@ -4,6 +4,7 @@ import { CLIPBOARD_CLEAR_TIMEOUT } from 'pearpass-lib-constants'
 
 import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
 import { logger } from '../utils/logger'
+import { clearLastCopiedValue, setLastCopiedValue } from '../services/clipboard'
 
 /**
  * @param {{
@@ -49,6 +50,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
       navigator.clipboard.writeText(text).then(
         () => {
           copiedValueRef.current = text
+          setLastCopiedValue(text)
           setIsCopied(true)
 
           onCopy?.()
@@ -69,6 +71,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
 
               if (currentClipboard === copiedValueRef.current) {
                 await navigator.clipboard.writeText('')
+                clearLastCopiedValue()
               }
             } catch (err) {
               logger.error(

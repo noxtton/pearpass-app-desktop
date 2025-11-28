@@ -20,11 +20,15 @@ import { createOrGetPipe } from './src/services/createOrGetPipe'
 import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
 import { logger } from './src/utils/logger'
 import { setFontsAndResetCSS } from './styles'
+import { initClipboardTeardown } from './src/services/clipboard'
 
 const storage = Pear.config.storage
 
 // Set fonts and reset CSS
 setFontsAndResetCSS()
+
+// Initialize clipboard cleanup on app teardown
+initClipboardTeardown()
 
 // Initialize i18n
 i18n.load('en', messages)
