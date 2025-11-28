@@ -56,6 +56,13 @@ export const SettingsBlindPeersSection = () => {
     getBlindMirrors()
   }, [])
 
+  /**
+   * @param {{
+   *   callback: () => Promise<void>,
+   *   errorMessage: string,
+   *   successMessage?: string
+   * }} params
+   */
   const handleBlindMirrorsRequest = async ({
     callback,
     errorMessage,
@@ -120,7 +127,7 @@ export const SettingsBlindPeersSection = () => {
     if (newRules.blindPeers === false) {
       await handleBlindMirrorsRequest({
         callback: removeAllBlindMirrors,
-        errorMessage: t('Error removing blind mirrors')
+        errorMessage: t('Error removing Blind Peers')
       })
     }
   }
