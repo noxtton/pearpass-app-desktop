@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 
 import { html } from 'htm/react'
-import { getStrengthConfig, isPassphraseSafe, isPasswordSafe } from 'pearpass-utils-password-check'
-import { useTranslation } from '../../../hooks/useTranslation'
+import {
+  checkPassphraseStrength,
+  checkPasswordStrength
+} from 'pearpass-utils-password-check'
 
 import { PasswordStrongnessWrapper } from './styles'
+import { useTranslation } from '../../../hooks/useTranslation'
 import {
   KeyIcon,
   EyeIcon,
@@ -67,22 +70,21 @@ export const PasswordField = ({
       return null
     }
 
-    const res =
-      passType === 'password' ? isPasswordSafe(value) : isPassphraseSafe(value)
+    const { success, type, strengthType, strengthText } =
+      passType === 'password'
+        ? checkPasswordStrength(value)
+        : checkPassphraseStrength(value)
 
-    const config = getStrengthConfig(res.strength)
-
-    if (!config) {
+    if (!success) {
       return null
     }
 
-    const { text, type } = config
-    const icon = PASSWORD_STRENGTH_ICONS[type]
+    const icon = PASSWORD_STRENGTH_ICONS[strengthType]
 
     return html`
-      <${PasswordStrongnessWrapper} strength=${res.strength}>
+      <${PasswordStrongnessWrapper} strength=${type}>
         <${icon} />
-        ${t(text)}
+        ${t(strengthText)}
       <//>
     `
   }
