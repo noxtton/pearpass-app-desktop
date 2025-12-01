@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { MS_PER_MINUTE } from 'pearpass-lib-constants'
 import { closeAllInstances, useUserData, useVaults } from 'pearpass-lib-vault'
 
+import { NAVIGATION_ROUTES } from '../../../constants/navigation'
 import { useLoadingContext } from '../../../context/LoadingContext'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
@@ -41,7 +42,7 @@ export function useInactivity({ timeoutMs = 5 * MS_PER_MINUTE } = {}) {
       setIsLoading(true)
       await closeAllInstances()
       closeModal()
-      navigate('welcome', { state: 'masterPassword' })
+      navigate('welcome', { state: NAVIGATION_ROUTES.MASTER_PASSWORD })
       resetState()
       setIsLoading(false)
 

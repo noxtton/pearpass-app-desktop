@@ -27,10 +27,11 @@ import { VaultPasswordFormModalContent } from '../../../containers/Modal/VaultPa
 import { useModal } from '../../../context/ModalContext'
 import { ButtonSecondary } from '../../../lib-react-components'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated'
+import { useTranslation } from '../../../hooks/useTranslation.js'
 
 export const ExportTab = () => {
   const { closeModal, setModal } = useModal()
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const { data } = useVaults()
   const {
     isVaultProtected,
@@ -44,8 +45,8 @@ export const ExportTab = () => {
   const [shouldExportEncrypted, setShouldExportEncrypted] = useState(false)
 
   const radioOptions = [
-    { label: i18n._('csv'), value: 'csv' },
-    { label: i18n._('json'), value: 'json' }
+    { label: t('csv'), value: 'csv' },
+    { label: t('json'), value: 'json' }
   ]
 
   const handleSubmitExport = (vaultsToExport) => {
@@ -145,10 +146,10 @@ export const ExportTab = () => {
           headerChildren=${html` <${FormModalHeaderWrapper}> <//> `}
         >
           <${AuthenticationCard}
-            title=${i18n._('Enter Your Master Password')}
-            buttonLabel=${i18n._('Confirm')}
+            title=${t('Enter Your Master Password')}
+            buttonLabel=${t('Confirm')}
             descriptionComponent=${html`<${AlertBox}
-              message=${i18n._(
+              message=${t(
                 'Confirm your master password to export your vault data.'
               )}
             />`}
@@ -174,10 +175,10 @@ export const ExportTab = () => {
     refetchVault()
   }, [])
 
-  return html` <${CardSingleSetting} title=${i18n._('Export')}>
+  return html` <${CardSingleSetting} title=${t('Export')}>
     <${ContentContainer}>
       <${Description}>
-        ${i18n._(
+        ${t(
           'Choose which Vaults do you want to backup and select if you want the file encrypted'
         )}
       <//>
@@ -204,7 +205,7 @@ export const ExportTab = () => {
       /> -->
 
       <${RadioSelect}
-        title=${i18n._('Type')}
+        title=${t('Type')}
         options=${radioOptions}
         selectedOption=${exportType}
         onChange=${(type) => {
@@ -217,7 +218,7 @@ export const ExportTab = () => {
           onClick=${handleExport}
           disabled=${!selectedVaults.length && !selectedProtectedVault}
         >
-          ${i18n._('Export')}
+          ${t('Export')}
         <//>
       <//>
     <//>

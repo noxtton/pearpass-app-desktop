@@ -14,6 +14,7 @@ import {
   LoadVaultNotice,
   LoadVaultTitle
 } from './styles'
+import { NAVIGATION_ROUTES } from '../../../constants/navigation'
 import { useRouter } from '../../../context/RouterContext'
 import { useToast } from '../../../context/ToastContext'
 import { ArrowLeftIcon, ButtonRoundIcon } from '../../../lib-react-components'
@@ -66,7 +67,7 @@ export const CardLoadVault = () => {
   }
 
   const handleGoBack = () => {
-    navigate('welcome', { state: 'vaults' })
+    navigate('welcome', { state: NAVIGATION_ROUTES.VAULTS })
   }
 
   useEffect(() => {

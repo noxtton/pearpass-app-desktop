@@ -23,6 +23,7 @@ import { logger } from '../../utils/logger.js'
  * @param {string} props.buttonLabel - The label text for the submit button
  * @param {React.ReactNode} [props.descriptionComponent] - Optional component to display additional description or content below the password field
  * @param {Function} [props.onSuccess] - Optional callback function invoked after successful authentication, receives the password as an argument
+ * @param {Function} [props.onError] - Optional callback function invoked after failed authentication, receives the error and setErrors function
  * @param {Object} [props.style] - Optional CSS styles to apply to the card container
  * @returns {React.ReactElement} The authentication card component
  */
@@ -31,6 +32,7 @@ export const AuthenticationCard = ({
   buttonLabel,
   descriptionComponent,
   onSuccess,
+  onError,
   style
 }) => {
   const { t } = useTranslation()
@@ -74,9 +76,13 @@ export const AuthenticationCard = ({
     } catch (error) {
       setIsLoading(false)
 
-      setErrors({
-        password: t('Invalid password')
-      })
+      if (onError) {
+        await onError(error, setErrors)
+      } else {
+        setErrors({
+          password: t('Invalid password')
+        })
+      }
 
       logger.error(
         'AuthenticationCard',

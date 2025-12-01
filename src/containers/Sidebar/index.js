@@ -25,6 +25,7 @@ import {
 } from './styles'
 import { DropdownSwapVault } from '../../components/DropdownSwapVault'
 import { SidebarSearch } from '../../components/SidebarSearch'
+import { NAVIGATION_ROUTES } from '../../constants/navigation'
 import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
@@ -82,7 +83,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
   const handleExitVault = async () => {
     setIsLoading(true)
     await closeAllInstances()
-    navigate('welcome', { state: 'masterPassword' })
+    navigate('welcome', { state: NAVIGATION_ROUTES.MASTER_PASSWORD })
     resetState()
     setIsLoading(false)
   }
