@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
+import { DATE_FORMAT } from 'pearpass-lib-constants'
 
 import { FormGroup } from '../../../components/FormGroup'
 import { FormWrapper } from '../../../components/FormWrapper'
@@ -21,7 +22,6 @@ import {
 import { AttachmentField } from '../../AttachmentField'
 import { CustomFields } from '../../CustomFields'
 import { ImagesField } from '../../ImagesField'
-import { DATE_FORMAT } from 'pearpass-lib-constants'
 
 /**
  * @param {{

@@ -1,8 +1,8 @@
 import React from 'react'
 
 jest.mock('pearpass-utils-password-check', () => ({
-  isPasswordSafe: jest.fn(),
-  isPassphraseSafe: jest.fn()
+  checkPasswordStrength: jest.fn(),
+  checkPasswordStrength: jest.fn()
 }))
 
 import { render, fireEvent } from '@testing-library/react'

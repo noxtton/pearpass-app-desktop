@@ -7,14 +7,17 @@ import { useUserData } from 'pearpass-lib-vault'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles.js'
 import { useGlobalLoading } from '../../context/LoadingContext.js'
-import { ButtonPrimary, PearPassPasswordField } from '../../lib-react-components/index.js'
+import { useTranslation } from '../../hooks/useTranslation.js'
+import {
+  ButtonPrimary,
+  PearPassPasswordField
+} from '../../lib-react-components/index.js'
 import { logger } from '../../utils/logger.js'
-import { useTranslation } from "../../hooks/useTranslation.js";
 
 /**
  * Authentication card component that provides master password input form for authentication.
  * Validates the master password and calls the onSuccess callback upon successful authentication.
- * 
+ *
  * @param {Object} props - Component props
  * @param {string} props.title - The title displayed at the top of the card
  * @param {string} props.buttonLabel - The label text for the submit button
@@ -75,14 +78,18 @@ export const AuthenticationCard = ({
         password: t('Invalid password')
       })
 
-      logger.error('AuthenticationCard', 'Error unlocking with master password:', error)
+      logger.error(
+        'AuthenticationCard',
+        'Error unlocking with master password:',
+        error
+      )
     }
   }
 
   return html`
     <${CardContainer} onSubmit=${handleSubmit(onSubmit)} style=${style}>
       <${CardTitle}>
-        <${Title}> ${title}<//> 
+        <${Title}> ${title}<//>
       <//>
 
       <${PearPassPasswordField}
@@ -93,9 +100,7 @@ export const AuthenticationCard = ({
       ${descriptionComponent}
 
       <${ButtonWrapper}>
-        <${ButtonPrimary} type="submit">
-          ${buttonLabel}
-        <//>
+        <${ButtonPrimary} type="submit"> ${buttonLabel} <//>
       <//>
     <//>
   `
