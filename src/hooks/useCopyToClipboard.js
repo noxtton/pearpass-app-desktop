@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
 
+import { CLIPBOARD_CLEAR_TIMEOUT } from 'pearpass-lib-constants'
+
 import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
 import { logger } from '../utils/logger'
+import { clearLastCopiedValue, setLastCopiedValue } from '../services/clipboard'
 
 /**
  * @param {{
@@ -16,6 +19,9 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
   const [isCopyToClipboardDisabled, setIsCopyToClipboardDisabled] =
     useState(false)
   const [isCopied, setIsCopied] = useState(false)
+
+  const copiedValueRef = useRef('')
+  const clearTimerRef = useRef(null)
   const timeoutRef = useRef()
 
   useEffect(() => {
@@ -43,6 +49,8 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
 
       navigator.clipboard.writeText(text).then(
         () => {
+          copiedValueRef.current = text
+          setLastCopiedValue(text)
           setIsCopied(true)
 
           onCopy?.()
@@ -52,6 +60,27 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
           }
 
           timeoutRef.current = setTimeout(() => setIsCopied(false), 2000)
+
+          if (clearTimerRef.current) {
+            clearTimeout(clearTimerRef.current)
+          }
+
+          clearTimerRef.current = setTimeout(async () => {
+            try {
+              const currentClipboard = await navigator.clipboard.readText()
+
+              if (currentClipboard === copiedValueRef.current) {
+                await navigator.clipboard.writeText('')
+                clearLastCopiedValue()
+              }
+            } catch (err) {
+              logger.error(
+                'useCopyToClipboard',
+                'Failed to auto-clear clipboard',
+                err
+              )
+            }
+          }, CLIPBOARD_CLEAR_TIMEOUT)
         },
         (err) => {
           logger.error(
