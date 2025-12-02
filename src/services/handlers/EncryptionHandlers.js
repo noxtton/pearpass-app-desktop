@@ -1,3 +1,4 @@
+import { HANDLER_EVENTS } from '../../constants/services'
 import { logger } from '../../utils/logger'
 
 /**
@@ -62,5 +63,19 @@ export class EncryptionHandlers {
       nonce: params.nonce,
       hashedPassword: params.hashedPassword
     })
+  }
+
+  async recordFailedMasterPassword() {
+    return await this.client.recordFailedMasterPassword()
+  }
+
+  async getMasterPasswordStatus() {
+    const status = await this.client.getMasterPasswordStatus()
+
+    if (status?.isLocked && global.window) {
+      global.window.dispatchEvent(new CustomEvent(HANDLER_EVENTS.extensionLock))
+    }
+
+    return status
   }
 }

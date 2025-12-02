@@ -1,5 +1,6 @@
+import { useEffect, useState, useCallback } from 'react'
+
 import { html } from 'htm/react'
-import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
 import { useUserData } from 'pearpass-lib-vault'
 import { useTheme } from 'styled-components'
 
@@ -12,6 +13,7 @@ import {
   TimerLabel,
   TimerValue
 } from './styles'
+import { Timer } from './Timer'
 import { NAVIGATION_ROUTES } from '../../../constants/navigation'
 import { useRouter } from '../../../context/RouterContext'
 import { useTranslation } from '../../../hooks/useTranslation'
@@ -21,20 +23,25 @@ export const LockedScreen = () => {
   const { t } = useTranslation()
   const theme = useTheme()
   const { navigate } = useRouter()
-  const { masterPasswordStatus, refreshMasterPasswordStatus } = useUserData()
+  const { refreshMasterPasswordStatus } = useUserData()
+  const [masterPasswordStatus, setMasterPasswordStatus] = useState()
+  const [isLoading, setIsLoading] = useState(true)
 
-  const onFinish = async () => {
+  useEffect(() => {
+    ; (async () => {
+      const status = await refreshMasterPasswordStatus()
+      setMasterPasswordStatus(status)
+      setIsLoading(false)
+    })()
+  }, [])
+
+  const onFinish = useCallback(async () => {
     const status = await refreshMasterPasswordStatus()
 
     if (!status?.isLocked) {
       navigate('welcome', { state: NAVIGATION_ROUTES.MASTER_PASSWORD })
     }
-  }
-
-  const timeRemaining = useCountDown({
-    initialSeconds: Math.ceil(masterPasswordStatus.lockoutRemainingMs / 1000),
-    onFinish: () => onFinish()
-  })
+  }, [navigate, refreshMasterPasswordStatus])
 
   return html`
     <${CardContainer}>
@@ -61,7 +68,16 @@ export const LockedScreen = () => {
           />
           ${t('Try again in')}
         </>
-        <${TimerValue}>${timeRemaining}</>
+        <${TimerValue}>
+          ${!isLoading &&
+    html`<${Timer}
+              initialSeconds=${Math.ceil(
+      (masterPasswordStatus?.lockoutRemainingMs ?? 0) / 1000
+    )}
+              onFinish=${onFinish}
+            />`
+    }
+        </>
       </>
     </>
   `

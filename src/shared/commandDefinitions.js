@@ -54,7 +54,10 @@ const COMMAND_DEFINITIONS = [
   { id: 1025, name: 'pairActiveVault' },
   { id: 1026, name: 'initListener' },
   { id: 1027, name: 'closeAllInstances' },
-  { id: 1028, name: 'cancelPairActiveVault' }
+  { id: 1028, name: 'cancelPairActiveVault' },
+
+  { id: 1029, name: 'recordFailedMasterPassword' },
+  { id: 1030, name: 'getMasterPasswordStatus' }
 ]
 
 /** @type {string[]} */

@@ -5,6 +5,7 @@ import { useSimulatedLoading } from '../../hooks/useSimulatedLoading'
 import { Routes } from '../Routes'
 import { useInactivity } from './hooks/useInactivity'
 import { useOnExtensionExit } from './hooks/useOnExtensionExit'
+import { useOnExtensionLockOut } from './hooks/useOnExtensionLockOut'
 import { useRedirect } from './hooks/useRedirect'
 
 export const App = () => {
@@ -15,6 +16,7 @@ export const App = () => {
   const { isLoading } = useRedirect()
 
   useOnExtensionExit()
+  useOnExtensionLockOut()
 
   return html` <${Routes} isLoading=${isLoading || isSimulatedLoading} /> `
 }

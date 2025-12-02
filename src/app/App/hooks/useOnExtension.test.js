@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { render } from '@testing-library/react'
+import { HANDLER_EVENTS } from '../../../constants/services'
 
 const { useOnExtensionExit } = require('./useOnExtensionExit')
 
@@ -41,14 +42,14 @@ describe('UseOnExtensionExit', () => {
     const { unmount } = render(<TestComponent />)
 
     expect(addEventListenerSpy).toHaveBeenCalledWith(
-      'extension-exit',
+      HANDLER_EVENTS.extensionExit,
       expect.any(Function)
     )
 
     unmount()
 
     expect(removeEventListenerSpy).toHaveBeenCalledWith(
-      'extension-exit',
+      HANDLER_EVENTS.extensionExit,
       expect.any(Function)
     )
   })
@@ -56,7 +57,7 @@ describe('UseOnExtensionExit', () => {
   it('should call navigate and resetState on extension-exit event', () => {
     let handler
     addEventListenerSpy.mockImplementation((event, cb) => {
-      if (event === 'extension-exit') {
+      if (event === HANDLER_EVENTS.extensionExit) {
         handler = cb
       }
     })

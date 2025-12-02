@@ -59,7 +59,9 @@ export class MethodRegistry {
       'encryptionGet',
       'getDecryptionKey',
       'decryptVaultKey',
-      'vaultsInit'
+      'vaultsInit',
+      'recordFailedMasterPassword',
+      'getMasterPasswordStatus'
     ]
     const statusMethods = [
       'encryptionGetStatus',

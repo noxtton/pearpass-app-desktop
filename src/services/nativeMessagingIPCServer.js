@@ -59,6 +59,7 @@ export class NativeMessagingIPCServer {
     const encryptionHandlers = new EncryptionHandlers(this.client)
     const vaultHandlers = new VaultHandlers(this.client)
 
+
     // Register security methods (always available)
     this.methodRegistry.register(
       'nmGetAppIdentity',
@@ -164,6 +165,14 @@ export class NativeMessagingIPCServer {
       'decryptVaultKey',
       encryptionHandlers.decryptVaultKey.bind(encryptionHandlers),
       { logLevel: 'DEBUG' }
+    )
+    this.secureMethodRegistry.register(
+      'getMasterPasswordStatus',
+      encryptionHandlers.getMasterPasswordStatus.bind(encryptionHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'recordFailedMasterPassword',
+      encryptionHandlers.recordFailedMasterPassword.bind(encryptionHandlers)
     )
 
     // Vault methods

@@ -1,3 +1,4 @@
+import { HANDLER_EVENTS } from '../../constants/services'
 import { logger } from '../../utils/logger'
 
 /**
@@ -192,7 +193,7 @@ export class VaultHandlers {
       )
 
       if (global.window) {
-        global.window.dispatchEvent(new CustomEvent('extension-exit'))
+        global.window.dispatchEvent(new CustomEvent(HANDLER_EVENTS.extensionExit))
       }
     }
 
