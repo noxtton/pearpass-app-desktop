@@ -4,10 +4,7 @@ import os from 'os'
 import path from 'path'
 
 import { logger } from './logger'
-import {
-  MANIFEST_NAME,
-  NATIVE_MESSAGING_BRIDGE_PEAR_LINK
-} from '../../packages/pearpass-lib-constants/src/index.js'
+import { MANIFEST_NAME, NATIVE_MESSAGING_BRIDGE_PEAR_LINK, EXTENSION_ID } from "pearpass-lib-constants";
 
 const promisify =
   (fn) =>
@@ -353,10 +350,9 @@ export const killNativeMessagingHostProcesses = async () => {
 
 /**
  * Sets up native messaging for a given extension ID
- * @param {string} extensionId - The Chrome extension ID
- * @returns {Promise<{success: boolean, message: string, extensionId?: string, manifestPath?: string}>}
+ * @returns {Promise<{success: boolean, message: string, manifestPath?: string}>}
  */
-export const setupNativeMessaging = async (extensionId) => {
+export const setupNativeMessaging = async () => {
   try {
     // Determine platform-specific executable path and names
     const { platform, executablePath } = getNativeHostExecutableInfo()
@@ -369,6 +365,8 @@ export const setupNativeMessaging = async (extensionId) => {
     if (!execResult.success) {
       throw new Error(execResult.message)
     }
+
+    const extensionId = localStorage.getItem('EXTENSION_ID') || EXTENSION_ID
 
     // Create native messaging manifest
     const manifest = {
@@ -418,7 +416,6 @@ export const setupNativeMessaging = async (extensionId) => {
     return {
       success: true,
       message: 'Native messaging host installed successfully',
-      extensionId,
       manifestPath: manifestPaths.join(', ')
     }
   } catch (error) {

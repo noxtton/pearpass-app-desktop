@@ -6,7 +6,6 @@ import { html } from 'htm/react'
 import { CopyIcon } from '../lib-react-components'
 import { useCopyToClipboard } from './useCopyToClipboard'
 import { COPY_FEEDBACK_DISPLAY_TIME } from '../constants/timeConstants'
-import { ConnectionStatusModalContent } from '../containers/Modal/ConnectionStatusModalContent'
 import { ExtensionPairingModalContent } from '../containers/Modal/ExtensionPairingModalContent'
 import { useModal } from '../context/ModalContext'
 import { useToast } from '../context/ToastContext'
@@ -32,48 +31,40 @@ import {
   killNativeMessagingHostProcesses,
   cleanupNativeMessaging
 } from '../utils/nativeMessagingSetup'
+import { useGlobalLoading } from "../context/LoadingContext.js";
+import { useTranslation } from "./useTranslation.js";
 
 export const useConnectExtension = () => {
   const { setModal } = useModal()
   const { setToast } = useToast()
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
 
   const { copyToClipboard } = useCopyToClipboard({
-    onCopy: () => setToast({ message: i18n._('Copied!'), icon: CopyIcon })
+    onCopy: () => setToast({ message: t('Copied!'), icon: CopyIcon })
   })
 
   const [isBrowserExtensionEnabled, setIsBrowserExtensionEnabled] = useState(
     getNativeMessagingEnabled() && isNativeMessagingIPCRunning()
   )
 
-  const [enteredExtensionId, setEnteredExtensionId] = useState('')
+  const handleSetupExtension = async () => {
+    // Setup native messaging for the extension
+    const result = await setupNativeMessaging()
 
-  const handleSetupExtension = async (extensionId) => {
-    if (!extensionId.trim()) {
-      setToast({ message: i18n._('Please enter the extension ID') })
-      return
-    }
-
-    try {
-      // Setup native messaging for the extension
-      const result = await setupNativeMessaging(extensionId.trim())
-
-      if (result.success) {
-        // Kill any existing native host so Chrome respawns it and re-reads the manifest
-        await killNativeMessagingHostProcesses()
-        // Start native messaging IPC server
-        const client = createOrGetPearpassClient()
-        await startNativeMessagingIPC(client)
-        setNativeMessagingEnabled(true)
-        setIsBrowserExtensionEnabled(true)
-        setToast({
-          message: i18n._('PearPass ready for extension connection.')
-        })
-      } else {
-        setToast({ message: result.message || i18n._('Setup failed') })
-      }
-    } catch (error) {
-      setToast({ message: i18n._('Error: ') + error.message })
+    if (result.success) {
+      // Kill any existing native host so Chrome respawns it and re-reads the manifest
+      await killNativeMessagingHostProcesses()
+      // Start native messaging IPC server
+      const client = createOrGetPearpassClient()
+      await startNativeMessagingIPC(client)
+      setNativeMessagingEnabled(true)
+      setIsBrowserExtensionEnabled(true)
+      setToast({
+        message: t('PearPass ready for extension connection.')
+      })
+    } else {
+      const errorMessage = result.message || t('Setup failed')
+      throw new Error(errorMessage)
     }
   }
 
@@ -98,109 +89,73 @@ export const useConnectExtension = () => {
   }
 
   // Pairing info state
-  const [pairingToken, setPairingToken] = useState('')
-  const [fingerprint, setFingerprint] = useState('')
-  const [tokenCreationDate, setTokenCreationDate] = useState('')
-  const [loadingPairing, setLoadingPairing] = useState(false)
+  const [isExtensionConnectionLoading, setIsExtensionConnectionLoading] = useState(false)
+  useGlobalLoading({ isLoading: isExtensionConnectionLoading })
   const [copyFeedback, setCopyFeedback] = useState('')
 
   const resetState = () => {
     setIsBrowserExtensionEnabled(false)
-    setEnteredExtensionId('')
-    setPairingToken('')
-    setFingerprint('')
-    setTokenCreationDate('')
-    setLoadingPairing(false)
+    setIsExtensionConnectionLoading(false)
     setCopyFeedback('')
   }
 
   const loadPairingInfo = async (reset = false) => {
-    try {
-      setLoadingPairing(true)
-      const client = createOrGetPearpassClient()
+    const client = createOrGetPearpassClient()
 
-      let id
-      if (reset) {
-        // Reset pairing - generate new identity and clear sessions
-        id = await resetIdentity(client)
-      } else {
-        // Just load existing identity
-        id = await getOrCreateIdentity(client)
-      }
-
-      const code = getPairingCode(id.ed25519PublicKey)
-      const fingerprint = getFingerprint(id.ed25519PublicKey)
-      // Create a combined token for secure pairing
-      const token = `${code}-${fingerprint.slice(0, 4).toUpperCase()}`
-      setPairingToken(token)
-      setFingerprint(fingerprint)
-      setTokenCreationDate(id.creationDate)
-
-      if (reset) {
-        // Show feedback when new token is generated
-        setCopyFeedback(i18n._('New pairing token generated!'))
-        setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
-      }
-    } catch {
-      setPairingToken('')
-      setFingerprint('')
-      setTokenCreationDate('')
-      if (reset) {
-        setCopyFeedback(i18n._('Failed to generate new token'))
-        setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
-      }
-    } finally {
-      setLoadingPairing(false)
+    let id
+    if (reset) {
+      // Reset pairing - generate new identity and clear sessions
+      id = await resetIdentity(client)
+    } else {
+      // Just load existing identity
+      id = await getOrCreateIdentity(client)
     }
+
+    const code = getPairingCode(id.ed25519PublicKey)
+    const fingerprint = getFingerprint(id.ed25519PublicKey)
+    // Create a combined token for secure pairing
+    const token = `${code}-${fingerprint.slice(0, 4).toUpperCase()}`
+    const result = {
+      pairingToken: token,
+      fingerprint,
+      tokenCreationDate: id.creationDate
+    }
+
+    if (reset) {
+      // Show feedback when new token is generated
+      setCopyFeedback(t('New pairing token generated!'))
+      setTimeout(() => setCopyFeedback(''), COPY_FEEDBACK_DISPLAY_TIME)
+    }
+
+    return result
   }
-
-  useEffect(() => {
-    if (enteredExtensionId && pairingToken && !loadingPairing) {
-      setModal(
-        html`<${ExtensionPairingModalContent}
-          onCopy=${() => copyToClipboard(pairingToken)}
-          pairingToken=${pairingToken}
-          loadingPairing=${loadingPairing}
-          copyFeedback=${copyFeedback}
-          tokenCreationDate=${tokenCreationDate}
-          fingerprint=${fingerprint}
-        />`,
-        { replace: true }
-      )
-    }
-  }, [
-    enteredExtensionId,
-    pairingToken,
-    loadingPairing,
-    copyFeedback,
-    tokenCreationDate,
-    fingerprint,
-    copyToClipboard,
-    setModal
-  ])
 
   const toggleBrowserExtension = async (isOn) => {
     if (isOn) {
-      setModal(
-        html`<${ConnectionStatusModalContent}
-          onSubmit=${async (extensionId) => {
-            setEnteredExtensionId(extensionId)
-            await handleSetupExtension(extensionId)
-          }}
-        />`,
-        { closable: true }
-      )
-      return
+      setIsExtensionConnectionLoading(true)
+      return handleSetupExtension()
+        .then(loadPairingInfo)
+        .then(({ pairingToken, fingerprint, tokenCreationDate }) => {
+          setModal(
+            html`<${ExtensionPairingModalContent}
+            onCopy=${() => copyToClipboard(pairingToken)}
+            pairingToken=${pairingToken}
+            loadingPairing=${isExtensionConnectionLoading}
+            copyFeedback=${copyFeedback}
+            tokenCreationDate=${tokenCreationDate}
+            fingerprint=${fingerprint}
+          />`,
+            { replace: true }
+          )
+        }).catch((error) => {
+          setToast({ message: t('Error: ') + error.message })
+        }).finally(() => {
+          setIsExtensionConnectionLoading(false)
+        })
     }
 
-    await handleStopNativeMessaging()
+    return handleStopNativeMessaging()
   }
-
-  useEffect(() => {
-    if (isBrowserExtensionEnabled) {
-      void loadPairingInfo()
-    }
-  }, [isBrowserExtensionEnabled])
 
   return {
     toggleBrowserExtension,
