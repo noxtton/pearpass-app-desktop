@@ -59,7 +59,6 @@ export class NativeMessagingIPCServer {
     const encryptionHandlers = new EncryptionHandlers(this.client)
     const vaultHandlers = new VaultHandlers(this.client)
 
-
     // Register security methods (always available)
     this.methodRegistry.register(
       'nmGetAppIdentity',
@@ -257,6 +256,10 @@ export class NativeMessagingIPCServer {
     this.secureMethodRegistry.register(
       'cancelPairActiveVault',
       vaultHandlers.cancelPairActiveVault.bind(vaultHandlers)
+    )
+    this.secureMethodRegistry.register(
+      'activeVaultRemoveFile',
+      vaultHandlers.activeVaultRemoveFile.bind(vaultHandlers)
     )
   }
 

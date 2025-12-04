@@ -193,7 +193,9 @@ export class VaultHandlers {
       )
 
       if (global.window) {
-        global.window.dispatchEvent(new CustomEvent(HANDLER_EVENTS.extensionExit))
+        global.window.dispatchEvent(
+          new CustomEvent(HANDLER_EVENTS.extensionExit)
+        )
       }
     }
 
@@ -202,5 +204,10 @@ export class VaultHandlers {
 
   async cancelPairActiveVault(params) {
     return await this.client.cancelPairActiveVault(params.inviteCode)
+  }
+
+  async activeVaultRemoveFile(params) {
+    await this.client.activeVaultRemoveFile(params.key)
+    return { success: true }
   }
 }

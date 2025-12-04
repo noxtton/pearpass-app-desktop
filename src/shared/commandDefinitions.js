@@ -57,7 +57,9 @@ const COMMAND_DEFINITIONS = [
   { id: 1028, name: 'cancelPairActiveVault' },
 
   { id: 1029, name: 'recordFailedMasterPassword' },
-  { id: 1030, name: 'getMasterPasswordStatus' }
+  { id: 1030, name: 'getMasterPasswordStatus' },
+
+  { id: 1031, name: 'activeVaultRemoveFile' }
 ]
 
 /** @type {string[]} */
