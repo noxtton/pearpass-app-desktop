@@ -15,12 +15,12 @@ import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
 import { ToastProvider } from './src/context/ToastContext'
 import { messages } from './src/locales/en/messages.mjs'
+import { initClipboardTeardown } from './src/services/clipboard'
 import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
 import { createOrGetPipe } from './src/services/createOrGetPipe'
 import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
 import { logger } from './src/utils/logger'
 import { setFontsAndResetCSS } from './styles'
-import { initClipboardTeardown } from './src/services/clipboard'
 
 const storage = Pear.config.storage
 

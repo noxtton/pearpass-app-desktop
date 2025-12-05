@@ -260,7 +260,9 @@ describe('killNativeMessagingHostProcesses', () => {
     expect(execMock).toHaveBeenCalledTimes(1)
     const cmd = execMock.mock.calls[0][0]
     expect(cmd).toContain('pkill -f')
-    expect(cmd).toContain('pear://dk6mimfj5n1a7cp8szwiq41kjpqhj5gwkdnrzyx7jbgiuny4azpo')
+    expect(cmd).toContain(
+      'pear://dk6mimfj5n1a7cp8szwiq41kjpqhj5gwkdnrzyx7jbgiuny4azpo'
+    )
   })
 
   it('should kill processes on macOS', async () => {
@@ -309,9 +311,7 @@ describe('killNativeMessagingHostProcesses', () => {
       throw new Error('unexpected error')
     })
 
-    await expect(
-      killNativeMessagingHostProcesses()
-    ).resolves.not.toThrow()
+    await expect(killNativeMessagingHostProcesses()).resolves.not.toThrow()
   })
 })
 

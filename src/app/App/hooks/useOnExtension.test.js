@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { render } from '@testing-library/react'
+
 import { HANDLER_EVENTS } from '../../../constants/services'
 
 const { useOnExtensionExit } = require('./useOnExtensionExit')

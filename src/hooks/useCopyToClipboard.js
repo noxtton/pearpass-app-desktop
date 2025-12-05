@@ -3,8 +3,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { CLIPBOARD_CLEAR_TIMEOUT } from 'pearpass-lib-constants'
 
 import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
-import { logger } from '../utils/logger'
 import { clearLastCopiedValue, setLastCopiedValue } from '../services/clipboard'
+import { logger } from '../utils/logger'
 
 /**
  * @param {{

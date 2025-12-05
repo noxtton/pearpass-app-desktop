@@ -3,8 +3,8 @@ import { useEffect } from 'react'
 import { useVaults } from 'pearpass-lib-vault'
 
 import { NAVIGATION_ROUTES } from '../../../constants/navigation'
-import { useRouter } from '../../../context/RouterContext'
 import { HANDLER_EVENTS } from '../../../constants/services'
+import { useRouter } from '../../../context/RouterContext'
 
 export const useOnExtensionExit = () => {
   const { navigate } = useRouter()
@@ -18,7 +18,10 @@ export const useOnExtensionExit = () => {
 
     window.addEventListener(HANDLER_EVENTS.extensionExit, handleExtensionExit)
     return () => {
-      window.removeEventListener(HANDLER_EVENTS.extensionExit, handleExtensionExit)
+      window.removeEventListener(
+        HANDLER_EVENTS.extensionExit,
+        handleExtensionExit
+      )
     }
   }, [navigate])
 }

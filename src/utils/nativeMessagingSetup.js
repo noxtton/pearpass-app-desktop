@@ -3,8 +3,13 @@ import fs from 'fs/promises'
 import os from 'os'
 import path from 'path'
 
+import {
+  MANIFEST_NAME,
+  NATIVE_MESSAGING_BRIDGE_PEAR_LINK,
+  EXTENSION_ID
+} from 'pearpass-lib-constants'
+
 import { logger } from './logger'
-import { MANIFEST_NAME, NATIVE_MESSAGING_BRIDGE_PEAR_LINK, EXTENSION_ID } from "pearpass-lib-constants";
 
 const promisify =
   (fn) =>

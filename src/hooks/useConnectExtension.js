@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
 import { CopyIcon } from '../lib-react-components'
 import { useCopyToClipboard } from './useCopyToClipboard'
+import { useTranslation } from './useTranslation.js'
 import { COPY_FEEDBACK_DISPLAY_TIME } from '../constants/timeConstants'
 import { ExtensionPairingModalContent } from '../containers/Modal/ExtensionPairingModalContent'
+import { useGlobalLoading } from '../context/LoadingContext.js'
 import { useModal } from '../context/ModalContext'
 import { useToast } from '../context/ToastContext'
 import { createOrGetPearpassClient } from '../services/createOrGetPearpassClient'
@@ -31,8 +32,6 @@ import {
   killNativeMessagingHostProcesses,
   cleanupNativeMessaging
 } from '../utils/nativeMessagingSetup'
-import { useGlobalLoading } from "../context/LoadingContext.js";
-import { useTranslation } from "./useTranslation.js";
 
 export const useConnectExtension = () => {
   const { setModal } = useModal()
@@ -89,7 +88,8 @@ export const useConnectExtension = () => {
   }
 
   // Pairing info state
-  const [isExtensionConnectionLoading, setIsExtensionConnectionLoading] = useState(false)
+  const [isExtensionConnectionLoading, setIsExtensionConnectionLoading] =
+    useState(false)
   useGlobalLoading({ isLoading: isExtensionConnectionLoading })
   const [copyFeedback, setCopyFeedback] = useState('')
 
@@ -138,18 +138,20 @@ export const useConnectExtension = () => {
         .then(({ pairingToken, fingerprint, tokenCreationDate }) => {
           setModal(
             html`<${ExtensionPairingModalContent}
-            onCopy=${() => copyToClipboard(pairingToken)}
-            pairingToken=${pairingToken}
-            loadingPairing=${isExtensionConnectionLoading}
-            copyFeedback=${copyFeedback}
-            tokenCreationDate=${tokenCreationDate}
-            fingerprint=${fingerprint}
-          />`,
+              onCopy=${() => copyToClipboard(pairingToken)}
+              pairingToken=${pairingToken}
+              loadingPairing=${isExtensionConnectionLoading}
+              copyFeedback=${copyFeedback}
+              tokenCreationDate=${tokenCreationDate}
+              fingerprint=${fingerprint}
+            />`,
             { replace: true }
           )
-        }).catch((error) => {
+        })
+        .catch((error) => {
           setToast({ message: t('Error: ') + error.message })
-        }).finally(() => {
+        })
+        .finally(() => {
           setIsExtensionConnectionLoading(false)
         })
     }

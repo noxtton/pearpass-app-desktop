@@ -3,7 +3,7 @@ import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
 
 /**
  * Timer component that displays a countdown from an initial number of seconds.
- * 
+ *
  * @component
  * @param {Object} props - Component props
  * @param {number} props.initialSeconds - The initial number of seconds to count down from
@@ -11,9 +11,9 @@ import { useCountDown } from 'pear-apps-lib-ui-react-hooks'
  * @returns {string}
  */
 export const Timer = ({ initialSeconds, onFinish }) => {
-    const timeRemaining = useCountDown({
-        initialSeconds,
-        onFinish
-    })
-    return html`${timeRemaining}`
+  const timeRemaining = useCountDown({
+    initialSeconds,
+    onFinish
+  })
+  return html`${timeRemaining}`
 }

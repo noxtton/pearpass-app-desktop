@@ -1,4 +1,4 @@
 export const HANDLER_EVENTS = {
-    extensionLock: 'extension-lock',
-    extensionExit: 'extension-exit'
+  extensionLock: 'extension-lock',
+  extensionExit: 'extension-exit'
 }

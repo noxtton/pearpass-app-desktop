@@ -28,7 +28,7 @@ export const LockedScreen = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const status = await refreshMasterPasswordStatus()
       setMasterPasswordStatus(status)
       setIsLoading(false)
@@ -69,14 +69,15 @@ export const LockedScreen = () => {
           ${t('Try again in')}
         </>
         <${TimerValue}>
-          ${!isLoading &&
-    html`<${Timer}
+          ${
+            !isLoading &&
+            html`<${Timer}
               initialSeconds=${Math.ceil(
-      (masterPasswordStatus?.lockoutRemainingMs ?? 0) / 1000
-    )}
+                (masterPasswordStatus?.lockoutRemainingMs ?? 0) / 1000
+              )}
               onFinish=${onFinish}
             />`
-    }
+          }
         </>
       </>
     </>

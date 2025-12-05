@@ -25,9 +25,9 @@ import { AuthenticationCard } from '../../../containers/AuthenticationCard'
 import { ModalContent } from '../../../containers/Modal/ModalContent'
 import { VaultPasswordFormModalContent } from '../../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../../context/ModalContext'
+import { useTranslation } from '../../../hooks/useTranslation.js'
 import { ButtonSecondary } from '../../../lib-react-components'
 import { vaultCreatedFormat } from '../../../utils/vaultCreated'
-import { useTranslation } from '../../../hooks/useTranslation.js'
 
 export const ExportTab = () => {
   const { closeModal, setModal } = useModal()
