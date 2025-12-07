@@ -117,10 +117,7 @@ export class MethodRegistry {
 
     // Log method call
     if (config.logLevel === 'DEBUG') {
-      logger.debug(
-        'METHOD-REGISTRY',
-        `Executing ${methodName} with params: ${JSON.stringify(params)}`
-      )
+      logger.debug('METHOD-REGISTRY', `Executing ${methodName}`)
     }
 
     try {
@@ -129,10 +126,7 @@ export class MethodRegistry {
 
       // Log result if debug
       if (config.logLevel === 'DEBUG' && result) {
-        logger.debug(
-          'METHOD-REGISTRY',
-          `${methodName} result: ${JSON.stringify(result)}`
-        )
+        logger.debug('METHOD-REGISTRY', `${methodName} completed`)
       }
 
       return result
