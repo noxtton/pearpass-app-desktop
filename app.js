@@ -15,7 +15,6 @@ import { ModalProvider } from './src/context/ModalContext'
 import { RouterProvider } from './src/context/RouterContext'
 import { ToastProvider } from './src/context/ToastContext'
 import { messages } from './src/locales/en/messages.mjs'
-import { initClipboardTeardown } from './src/services/clipboard'
 import { createOrGetPearpassClient } from './src/services/createOrGetPearpassClient'
 import { createOrGetPipe } from './src/services/createOrGetPipe'
 import { startNativeMessagingIPC } from './src/services/nativeMessagingIPCServer'
@@ -26,9 +25,6 @@ const storage = Pear.config.storage
 
 // Set fonts and reset CSS
 setFontsAndResetCSS()
-
-// Initialize clipboard cleanup on app teardown
-initClipboardTeardown()
 
 // Initialize i18n
 i18n.load('en', messages)

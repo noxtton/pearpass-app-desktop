@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
 
-import { CLIPBOARD_CLEAR_TIMEOUT } from 'pearpass-lib-constants'
+import pearRun from 'pear-run'
 
 import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
-import { clearLastCopiedValue, setLastCopiedValue } from '../services/clipboard'
 import { logger } from '../utils/logger'
 
 /**
@@ -20,9 +19,7 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
     useState(false)
   const [isCopied, setIsCopied] = useState(false)
 
-  const copiedValueRef = useRef('')
-  const clearTimerRef = useRef(null)
-  const timeoutRef = useRef()
+  const pipeRef = useRef(null)
 
   useEffect(() => {
     const checkCopyToClipboardDisabled = () => {
@@ -36,65 +33,40 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
     checkCopyToClipboardDisabled()
   }, [])
 
-  const copyToClipboard = React.useCallback(
-    (text) => {
-      if (isCopyToClipboardDisabled) {
-        return false
-      }
+  const copyToClipboard = (text) => {
+    if (isCopyToClipboardDisabled) {
+      return false
+    }
 
-      if (!navigator.clipboard) {
-        logger.error('useCopyToClipboard', 'Clipboard API is not available')
-        return false
-      }
+    if (!navigator.clipboard) {
+      logger.error('useCopyToClipboard', 'Clipboard API is not available')
+      return false
+    }
 
-      navigator.clipboard.writeText(text).then(
-        () => {
-          copiedValueRef.current = text
-          setLastCopiedValue(text)
-          setIsCopied(true)
+    navigator.clipboard.writeText(text).then(
+      () => {
+        setIsCopied(true)
 
-          onCopy?.()
+        onCopy?.()
 
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current)
-          }
-
-          timeoutRef.current = setTimeout(() => setIsCopied(false), 2000)
-
-          if (clearTimerRef.current) {
-            clearTimeout(clearTimerRef.current)
-          }
-
-          clearTimerRef.current = setTimeout(async () => {
-            try {
-              const currentClipboard = await navigator.clipboard.readText()
-
-              if (currentClipboard === copiedValueRef.current) {
-                await navigator.clipboard.writeText('')
-                clearLastCopiedValue()
-              }
-            } catch (err) {
-              logger.error(
-                'useCopyToClipboard',
-                'Failed to auto-clear clipboard',
-                err
-              )
-            }
-          }, CLIPBOARD_CLEAR_TIMEOUT)
-        },
-        (err) => {
-          logger.error(
-            'useCopyToClipboard',
-            'Failed to copy text to clipboard',
-            err
-          )
+        if (pipeRef.current) {
+          pipeRef.current.end()
         }
-      )
 
-      return true
-    },
-    [isCopyToClipboardDisabled]
-  )
+        pipeRef.current = pearRun('./src/services/clipboardCleanup.js')
+        pipeRef.current.write(text)
+      },
+      (err) => {
+        logger.error(
+          'useCopyToClipboard',
+          'Failed to copy text to clipboard',
+          err
+        )
+      }
+    )
+
+    return true
+  }
 
   return { isCopied, copyToClipboard }
 }

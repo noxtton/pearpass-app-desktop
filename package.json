@@ -63,6 +63,8 @@
     "@lingui/macro": "5.1.2",
     "@lingui/react": "5.1.2",
     "@rive-app/react-canvas": "4.22.1",
+    "bare-os": "3.6.2",
+    "bare-subprocess": "5.2.1",
     "buffer": "6.0.3",
     "compact-encoding": "2.18.0",
     "dotenv": "17.2.1",
@@ -88,9 +90,9 @@
     "pearpass-lib-vault-mobile": "file:packages/pearpass-lib-vault-mobile",
     "pearpass-utils-password-check": "file:packages/pearpass-utils-password-check",
     "pearpass-utils-password-generator": "file:packages/pearpass-utils-password-generator",
-    "tether-dev-docs": "file:packages/tether-dev-docs",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "styled-components": "6.1.19"
+    "styled-components": "6.1.19",
+    "tether-dev-docs": "file:packages/tether-dev-docs"
   }
 }
