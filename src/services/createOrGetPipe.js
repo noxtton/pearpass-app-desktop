@@ -1,5 +1,5 @@
 /** @typedef {import('pear-interface')} */ /* global Pear */
-import run from 'pear-run'
+import pearRun from 'pear-run'
 
 let pipe
 
@@ -17,7 +17,7 @@ export const createOrGetPipe = () => {
     return pipe
   }
 
-  pipe = run(Pear.config.key ? WORKLET_PATH_PROD : WORKLET_PATH_DEV)
+  pipe = pearRun(Pear.config.key ? WORKLET_PATH_PROD : WORKLET_PATH_DEV)
 
   Pear.teardown(() => {
     if (pipe) {

@@ -5,6 +5,10 @@ import pearRun from 'pear-run'
 import { LOCAL_STORAGE_KEYS } from '../constants/localStorage'
 import { logger } from '../utils/logger'
 
+const CLEAR_CLIPBOARD_PATH_DEV = './src/services/clipboardCleanup.js'
+const CLEAR_CLIPBOARD_PATH_PROD =
+  Pear.config.applink + '/src/services/clipboardCleanup.js'
+
 /**
  * @param {{
  *  onCopy?: () => void
@@ -53,7 +57,9 @@ export const useCopyToClipboard = ({ onCopy } = {}) => {
           pipeRef.current.end()
         }
 
-        pipeRef.current = pearRun('./src/services/clipboardCleanup.js')
+        pipeRef.current = pearRun(
+          Pear.config.key ? CLEAR_CLIPBOARD_PATH_PROD : CLEAR_CLIPBOARD_PATH_DEV
+        )
         pipeRef.current.write(text)
       },
       (err) => {
