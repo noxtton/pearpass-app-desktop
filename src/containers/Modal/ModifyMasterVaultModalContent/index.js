@@ -21,9 +21,10 @@ import {
   PearPassPasswordField
 } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
+import { useTranslation } from "../../../hooks/useTranslation.js";
 
 export const ModifyMasterVaultModalContent = () => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const { closeModal } = useModal()
 
   const { updateMasterPassword } = useUserData()
@@ -31,17 +32,17 @@ export const ModifyMasterVaultModalContent = () => {
   const { setIsLoading } = useLoadingContext()
 
   const errors = {
-    minLength: i18n._(`Password must be at least 8 characters long`),
-    hasLowerCase: i18n._('Password must contain at least one lowercase letter'),
-    hasUpperCase: i18n._('Password must contain at least one uppercase letter'),
-    hasNumbers: i18n._('Password must contain at least one number'),
-    hasSymbols: i18n._('Password must contain at least one special character')
+    minLength: t(`Password must be at least 8 characters long`),
+    hasLowerCase: t('Password must contain at least one lowercase letter'),
+    hasUpperCase: t('Password must contain at least one uppercase letter'),
+    hasNumbers: t('Password must contain at least one number'),
+    hasSymbols: t('Password must contain at least one special character')
   }
 
   const schema = Validator.object({
-    currentPassword: Validator.string().required(i18n._('Invalid password')),
-    newPassword: Validator.string().required(i18n._('Password is required')),
-    repeatPassword: Validator.string().required(i18n._('Password is required'))
+    currentPassword: Validator.string().required(t('Invalid password')),
+    newPassword: Validator.string().required(t('Password is required')),
+    repeatPassword: Validator.string().required(t('Password is required'))
   })
 
   const { register, handleSubmit, setErrors, setValue } = useForm({
@@ -50,11 +51,12 @@ export const ModifyMasterVaultModalContent = () => {
   })
 
   const onSubmit = async (values) => {
+    const { currentPassword, newPassword, repeatPassword } = values
     const result = validatePasswordChange({
-      currentPassword: values.currentPassword,
-      newPassword: values.newPassword,
-      repeatPassword: values.repeatPassword,
-      translate: (str) => i18n._(str),
+      currentPassword,
+      newPassword,
+      repeatPassword,
+      translate: t,
       config: { errors }
     })
 
@@ -87,7 +89,7 @@ export const ModifyMasterVaultModalContent = () => {
         error
       )
       setErrors({
-        currentPassword: i18n._('Invalid password')
+        currentPassword: t('Invalid password')
       })
     }
   }
@@ -96,27 +98,27 @@ export const ModifyMasterVaultModalContent = () => {
     <${ModalContent}
       onClose=${closeModal}
       headerChildren=${html` <${ModalTitle}>
-        ${i18n._('Modify master password')}
+        ${t('Modify master password')}
       <//>`}
     >
       <${Content}>
         <${InputWrapper}>
-          <${InputLabel}> ${i18n._('Insert old password')} <//>
+          <${InputLabel}> ${t('Insert old password')} <//>
           <${PearPassPasswordField} ...${register('currentPassword')} />
         <//>
         <${InputWrapper}>
-          <${InputLabel}> ${i18n._('Create new password')} <//>
+          <${InputLabel}> ${t('Create new password')} <//>
           <${PearPassPasswordField} ...${register('newPassword')} />
         <//>
         <${InputWrapper}>
-          <${InputLabel}> ${i18n._('Repeat new password')} <//>
+          <${InputLabel}> ${t('Repeat new password')} <//>
           <${PearPassPasswordField} ...${register('repeatPassword')} />
         <//>
         <${ModalActions}>
           <${ButtonPrimary} onClick=${handleSubmit(onSubmit)}>
-            ${i18n._('Continue')}
+            ${t('Continue')}
           <//>
-          <${ButtonSecondary} onClick=${closeModal}> ${i18n._('Cancel')} <//>
+          <${ButtonSecondary} onClick=${closeModal}> ${t('Cancel')} <//>
         <//>
       <//>
     <//>
