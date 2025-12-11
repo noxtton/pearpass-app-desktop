@@ -56,7 +56,10 @@ export const ModifyMasterVaultModalContent = () => {
       currentPassword,
       newPassword,
       repeatPassword,
-      translate: t,
+      messages: {
+        newPasswordMustDiffer: t('New password must be different from the current password'),
+        passwordsDontMatch: t('Passwords do not match')
+      },
       config: { errors }
     })
 
