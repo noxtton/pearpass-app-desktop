@@ -181,7 +181,11 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
         ${!isLoading &&
         html`
           <${SidebarNestedFoldersContainer}>
-            <${SidebarSearch} value=${searchValue} onChange=${setSearchValue} />
+            <${SidebarSearch}
+              testId="sidebar-folder-search"
+              value=${searchValue}
+              onChange=${setSearchValue}
+            />
 
             <${FoldersWrapper}>
               ${folders.map(
@@ -198,18 +202,29 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <//>
 
       <${SidebarSettings}>
-        <${SettingsContainer} onClick=${handleSettingsClick}>
+        <${SettingsContainer}
+          data-testid="sidebar-settings-button"
+          onClick=${handleSettingsClick}
+        >
           <${SettingsIcon} size="24" />
           ${i18n._('Settings')}
         <//>
 
         <${SettingsSeparator} />
 
-        <${ButtonThin} startIcon=${UserSecurityIcon} onClick=${handleAddDevice}>
+        <${ButtonThin}
+          testId="sidebar-adddevice-button"
+          startIcon=${UserSecurityIcon}
+          onClick=${handleAddDevice}
+        >
           ${i18n._('Add a Device')}
         <//>
 
-        <${ButtonThin} startIcon=${ExitIcon} onClick=${handleExitVault}>
+        <${ButtonThin}
+          testId="sidebar-exit-button"
+          startIcon=${ExitIcon}
+          onClick=${handleExitVault}
+        >
           ${i18n._('Exit Vault')}
         <//>
       <//>

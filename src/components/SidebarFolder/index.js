@@ -85,7 +85,10 @@ export const SidebarFolder = ({
 
         ${isRoot &&
         html`
-          <${AddIconWrapper} onClick=${() => onAddClick()}>
+          <${AddIconWrapper}
+            data-testid="sidebarfolder-button-add"
+            onClick=${() => onAddClick()}
+          >
             <${PlusIcon} color=${colors.primary400.mode1} size="24" />
           <//>
         `}

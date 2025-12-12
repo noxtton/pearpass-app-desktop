@@ -1,4 +1,3 @@
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { useUserData, useVaults } from 'pearpass-lib-vault'
 
@@ -46,6 +45,7 @@ export const CardUnlockPearPass = () => {
       title=${t('Enter your Master password')}
       buttonLabel=${t('Continue')}
       descriptionComponent=${html`<${AlertBox}
+        testId="masterpassword-alert-box"
         message=${t(
           "Don't forget your master password. It's the only way to access your vault. We can't help recover it. Back it up securely."
         )}
