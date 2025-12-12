@@ -11,7 +11,6 @@ import {
 } from 'pearpass-lib-vault'
 
 import { SideBarCategories } from './SidebarCategories'
-import { SidebarNestedFolders } from './SidebarNestedFolders'
 import {
   FoldersWrapper,
   LogoWrapper,
@@ -24,9 +23,9 @@ import {
   SidebarWrapper
 } from './styles'
 import { DropdownSwapVault } from '../../components/DropdownSwapVault'
+import { SidebarFolder } from '../../components/SidebarFolder'
 import { SidebarSearch } from '../../components/SidebarSearch'
 import { NAVIGATION_ROUTES } from '../../constants/navigation'
-import { RECORD_ICON_BY_TYPE } from '../../constants/recordIconByType'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
@@ -38,6 +37,7 @@ import {
   UserSecurityIcon
 } from '../../lib-react-components'
 import { LogoLock } from '../../svgs/LogoLock'
+import { FAVORITES_FOLDER_ID } from '../../utils/isFavorite'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
 
 /**
@@ -51,13 +51,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
 
   const [searchValue, setSearchValue] = useState('')
 
-  const [expandedFolders, setExpandednFolders] = useState(['allFolders'])
-
   const { setIsLoading } = useLoadingContext()
 
-  const { data, isLoading } = useFolders({
-    variables: { searchPattern: searchValue }
-  })
+  const { data, isLoading } = useFolders()
 
   const {
     data: vaultsData,
@@ -88,61 +84,39 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     setIsLoading(false)
   }
 
-  const matchesSearch = (records, searchValue) => {
-    if (!searchValue) {
-      return false
-    }
-
-    return records.some((record) =>
-      matchPatternToValue(searchValue, record?.data?.title ?? '')
-    )
-  }
-
   const folders = React.useMemo(() => {
-    const { favorites, noFolder, customFolders } = data || {}
+    const { customFolders } = data || {}
 
     const otherFolders = Object.values(customFolders ?? {})
+      .map((folder) => ({
+        name: folder.name,
+        id: folder.name,
+        isActive: routerData?.folder === folder.name
+      }))
+      .sort((a, b) => a.name.localeCompare(b.name))
 
-    return [
-      {
-        name: i18n._('Favorite'),
-        id: 'favorites',
-        icon: StarIcon,
-        isOpenInitially: expandedFolders.includes('favorites'),
-        children:
-          favorites?.records?.map((record) => ({
-            name: record?.data?.title,
-            id: record?.id,
-            icon: RECORD_ICON_BY_TYPE[record?.type]
-          })) ?? []
-      },
-      {
-        name: i18n._('All Folders'),
-        id: 'allFolders',
-        isOpenInitially: expandedFolders.includes('allFolders'),
-        children: [
-          ...otherFolders.map((folder) => ({
-            name: folder.name,
-            id: folder.name,
-            isActive: routerData?.folder === folder.name,
-            isOpenInitially:
-              matchesSearch(folder.records ?? [], searchValue) ||
-              expandedFolders.includes(folder.name),
-            children: folder.records?.map((record) => ({
-              name: record?.data?.title,
-              id: record?.id,
-              icon: RECORD_ICON_BY_TYPE[record?.type]
-            }))
-          })),
-          ...(noFolder?.records?.map((record) => ({
-            name: record?.data?.title,
-            id: record?.id,
-            icon: RECORD_ICON_BY_TYPE[record?.type]
-          })) ?? [])
-        ]
-      }
-    ]
-  }, [data, i18n, routerData, expandedFolders])
+    const filteredFolders = searchValue
+      ? otherFolders.filter((folder) =>
+          matchPatternToValue(searchValue, folder.name)
+        )
+      : otherFolders
+
+    const allItemsFolder = {
+      name: i18n._('All Items'),
+      id: 'allItems',
+      isRoot: true,
+      isActive: !routerData?.folder && routerData?.recordType === 'all'
+    }
+
+    const favoritesFolder = {
+      name: i18n._('Favorites'),
+      id: FAVORITES_FOLDER_ID,
+      icon: StarIcon,
+      isActive: routerData?.folder === FAVORITES_FOLDER_ID
+    }
+
+    return [allItemsFolder, favoritesFolder, ...filteredFolders]
+  }, [data, i18n, routerData, searchValue])
 
   const { setModal } = useModal()
 
@@ -150,16 +124,13 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     setModal(html`<${AddDeviceModalContent} />`)
   }
 
-  const handleFolderExpandToggle = (id) => {
-    setExpandednFolders((prev) => {
-      const isFolderExpandend = prev.includes(id)
+  const handleFolderClick = (id) => {
+    if (id === 'allItems') {
+      navigate('vault', { recordType: 'all' })
+      return
+    }
 
-      if (isFolderExpandend) {
-        return prev.filter((folderId) => folderId !== id)
-      }
-
-      return [...prev, id]
-    })
+    navigate('vault', { recordType: 'all', folder: id })
   }
 
   useEffect(() => {
@@ -187,21 +158,27 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
               onChange=${setSearchValue}
             />
 
-            <${FoldersWrapper} data-testid="sidebar-folders-container">
-              ${folders.map(
-                (folder) =>
-                  html`<${SidebarNestedFolders}
-                    item=${folder}
-                    testId=${`sidebar-folder-${folder.id}`}
-                    onFolderExpandToggle=${handleFolderExpandToggle}
-                    key="rootFolder"
-                  />`
-              )}
+            <${FoldersWrapper}>
+              ${folders.map((folder) => {
+                const hasMenu =
+                  folder.id !== FAVORITES_FOLDER_ID && !folder.isRoot
+
+                return html`<${SidebarFolder}
+                  key=${folder.id}
+                  isOpen=${false}
+                  onClick=${() => handleFolderClick(folder.id)}
+                  onAddClick=${() => {}}
+                  isRoot=${folder.isRoot}
+                  name=${folder.name}
+                  icon=${folder.icon}
+                  isActive=${folder.isActive}
+                  hasMenu=${hasMenu}
+                />`
+              })}
             <//>
           <//>
         `}
       <//>
-
       <${SidebarSettings}>
         <${SettingsContainer}
           data-testid="sidebar-settings-button"
