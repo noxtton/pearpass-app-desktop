@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 
-import { AddDevice } from './AddDevice'
 import { CategoryAnimation } from './CategoryAnimation'
 import { CreditCardAnimation } from './CreditCardAnimation'
 import { PasswordFillAnimation } from './PasswordFillAnimation'
@@ -75,7 +74,7 @@ export const Intro = () => {
               html`<${StrongText}
                 >${i18n._('stays entirely in your control.')}<//
               >`
-            ]}
+          ]}
             content=${html`<${LogoImage}
               src="assets/images/intro_lock_3D.webp"
             />`}
@@ -139,7 +138,7 @@ export const Intro = () => {
               html`<${StrongText}>${i18n._('peer-to-peer technology,')}<//>`,
               i18n._('powered by Pear Runtime.')
             ]}
-            content=${html`<${AddDevice} />`}
+            content=${html`<img src="assets/images/LinkedDevices.svg" />`}
           />
         `
 
@@ -165,7 +164,7 @@ export const Intro = () => {
           ${isFirstPage ? i18n._('Get started') : i18n._('Continue')}
         <//>
         ${!isLastPage &&
-        html`
+    html`
           <${ButtonSecondary} onClick=${handleSkipToLast}>
             ${i18n._('Skip')}
           <//>
