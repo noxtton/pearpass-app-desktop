@@ -39,6 +39,7 @@
     "build-bridge-package": "node scripts/build-bridge-package.js",
     "lint:fix": "eslint --fix ./src",
     "lint": "eslint ./src",
+    "build": "tsc",
     "lingui:extract": "lingui extract",
     "lingui:compile": "lingui compile",
     "update-submodules": "bash scripts/update-submodules.sh",
