@@ -74,7 +74,7 @@ export const Intro = () => {
               html`<${StrongText}
                 >${i18n._('stays entirely in your control.')}<//
               >`
-          ]}
+            ]}
             content=${html`<${LogoImage}
               src="assets/images/intro_lock_3D.webp"
             />`}
@@ -164,7 +164,7 @@ export const Intro = () => {
           ${isFirstPage ? i18n._('Get started') : i18n._('Continue')}
         <//>
         ${!isLastPage &&
-    html`
+        html`
           <${ButtonSecondary} onClick=${handleSkipToLast}>
             ${i18n._('Skip')}
           <//>

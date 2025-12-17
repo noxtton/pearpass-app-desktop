@@ -1,4 +1,5 @@
 // TODO: update types
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 declare module 'pearpass-lib-ui-theme-provider' {
   export const ThemeProvider: any

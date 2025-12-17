@@ -18,6 +18,7 @@ export const CardUnlockPearPass = () => {
     navigate(currentPage, { state: 'vaults' })
   }
 
+  // eslint-disable-next-line no-unused-vars
   const handleError = async (error: string | Error, setErrors: (errors: { password: string }) => void) => {
     const status = await refreshMasterPasswordStatus()
 
@@ -34,8 +35,8 @@ export const CardUnlockPearPass = () => {
           ? error
           : remainingAttempts !== undefined
             ? t(
-                `Incorrect password. You have ${remainingAttempts} attempts before the app locks for 5 minutes.`
-              )
+              `Incorrect password. You have ${remainingAttempts} attempts before the app locks for 5 minutes.`
+            )
             : t('Invalid password')
     })
   }

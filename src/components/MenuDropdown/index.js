@@ -49,7 +49,7 @@ export const MenuDropdown = ({ selectedItem, onItemSelect, items, testId }) => {
           selectedItem=${selectedItem}
           isOpen=${isOpen}
           setIsOpen=${setIsOpen}
-          testId=${`menudropdown-defaultlabel-${selectedItem.name || 'No folder'}`}
+          testId=${`menudropdown-defaultlabel-${selectedItem?.name || 'No folder'}`}
         />
 
         ${isOpen &&

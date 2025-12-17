@@ -2,9 +2,10 @@ import { useRef, useEffect, useState } from 'react'
 import { IconWrapper, Container, Message } from './styles'
 import { ErrorIcon, YellowErrorIcon } from '../../lib-react-components'
 
+
 export enum AlertBoxType {
-  WARNING = 'warning',
-  ERROR = 'error',
+  WARNING = 'warning', // eslint-disable-line no-unused-vars
+  ERROR = 'error', // eslint-disable-line no-unused-vars
 }
 
 interface Props {
