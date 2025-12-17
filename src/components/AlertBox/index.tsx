@@ -1,19 +1,27 @@
 import { useRef, useEffect, useState } from 'react'
-
-import { html } from 'htm/react'
-
 import { IconWrapper, Container, Message } from './styles'
 import { ErrorIcon, YellowErrorIcon } from '../../lib-react-components'
+
+export enum AlertBoxType {
+  WARNING = 'warning',
+  ERROR = 'error',
+}
+
+interface Props {
+  message: string
+  type?: AlertBoxType
+  testId?: string
+}
 
 /**
  * @param {Object} props
  * @param {string} props.message
  * @param {('warning'|'error')} [props.type='warning']
  * @param {string} [props.testId]
- * @returns {Object}
+ * @returns {JSX.Element}
  */
-export const AlertBox = ({ message, type = 'warning', testId }) => {
-  const messageRef = useRef(null)
+export const AlertBox = ({ message, type = AlertBoxType.WARNING, testId }: Props): React.ReactElement => {
+  const messageRef = useRef<HTMLDivElement>(null)
   const [isMultiLine, setIsMultiLine] = useState(false)
 
   useEffect(() => {
@@ -26,17 +34,17 @@ export const AlertBox = ({ message, type = 'warning', testId }) => {
     }
   }, [message])
 
-  return html`
-    <${Container}
-      type=${type}
-      $isMultiLine=${isMultiLine}
-      data-testid=${testId}
+  return (
+    <Container
+      type={type}
+      $isMultiLine={isMultiLine}
+      data-testid={testId}
     >
-      <${IconWrapper}>
-        <${type === 'warning' ? YellowErrorIcon : ErrorIcon} size="18" />
-      <//>
+      <IconWrapper>
+        {type === AlertBoxType.WARNING ? <YellowErrorIcon size="18" /> : <ErrorIcon size="18" />}
+      </IconWrapper>
 
-      <${Message} ref=${messageRef}> ${message} <//>
-    <//>
-  `
+      <Message ref={messageRef}>{message}</Message>
+    </Container>
+  )
 }
