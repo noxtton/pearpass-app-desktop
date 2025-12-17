@@ -187,11 +187,12 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
               onChange=${setSearchValue}
             />
 
-            <${FoldersWrapper}>
+            <${FoldersWrapper} data-testid="sidebar-folders-container">
               ${folders.map(
                 (folder) =>
                   html`<${SidebarNestedFolders}
                     item=${folder}
+                    testId=${`sidebar-folder-${folder.id}`}
                     onFolderExpandToggle=${handleFolderExpandToggle}
                     key="rootFolder"
                   />`
