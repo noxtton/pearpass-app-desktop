@@ -1,0 +1,1 @@
+{"version":3,"file":"applyGlobalStyles.js","sourceRoot":"","sources":["../../../src/utils/applyGlobalStyles.js"],"names":[],"mappings":"AAAA,MAAM,UAAU,iBAAiB,CAAC,MAAM;IACtC,MAAM,UAAU,GAAG,QAAQ,CAAC,aAAa,CAAC,OAAO,CAAC,CAAA;IAClD,UAAU,CAAC,SAAS,GAAG,MAAM,CAAA;IAC7B,QAAQ,CAAC,IAAI,CAAC,WAAW,CAAC,UAAU,CAAC,CAAA;AACvC,CAAC"}

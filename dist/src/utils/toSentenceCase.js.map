@@ -1,0 +1,1 @@
+{"version":3,"file":"toSentenceCase.js","sourceRoot":"","sources":["../../../src/utils/toSentenceCase.js"],"names":[],"mappings":"AAAA;;;GAGG;AACH,MAAM,CAAC,MAAM,cAAc,GAAG,CAAC,MAAM,EAAE,EAAE;IACvC,IAAI,CAAC,MAAM,EAAE,CAAC;QACZ,OAAO,MAAM,CAAA;IACf,CAAC;IAED,OAAO,MAAM,CAAC,MAAM,CAAC,CAAC,CAAC,CAAC,WAAW,EAAE,GAAG,MAAM,CAAC,KAAK,CAAC,CAAC,CAAC,CAAA;AACzD,CAAC,CAAA"}

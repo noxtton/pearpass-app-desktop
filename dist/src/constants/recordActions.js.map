@@ -1,0 +1,1 @@
+{"version":3,"file":"recordActions.js","sourceRoot":"","sources":["../../../src/constants/recordActions.js"],"names":[],"mappings":"AAAA,OAAO,EACL,SAAS,EACT,UAAU,EACV,UAAU,EACV,QAAQ,EACT,MAAM,yBAAyB,CAAA;AAEhC;;GAEG;AACH,MAAM,CAAC,MAAM,0BAA0B,GAAG;IACxC,MAAM,EAAE,SAAS;IACjB,QAAQ,EAAE,QAAQ;IAClB,IAAI,EAAE,UAAU;IAChB,MAAM,EAAE,UAAU;CACnB,CAAA"}

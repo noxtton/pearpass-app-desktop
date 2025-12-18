@@ -1,0 +1,1 @@
+{"version":3,"file":"navigation.js","sourceRoot":"","sources":["../../../src/constants/navigation.js"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,iBAAiB,GAAG;IAC/B,sBAAsB,EAAE,sBAAsB;IAC9C,eAAe,EAAE,gBAAgB;IACjC,MAAM,EAAE,QAAQ;IAChB,UAAU,EAAE,WAAW;IACvB,kBAAkB,EAAE,kBAAkB;IACtC,cAAc,EAAE,eAAe;IAC/B,qBAAqB,EAAE,qBAAqB;IAC5C,aAAa,EAAE,cAAc;CAC9B,CAAA"}

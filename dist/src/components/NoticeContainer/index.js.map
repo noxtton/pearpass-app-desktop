@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/components/NoticeContainer/index.js"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,WAAW,CAAA;AAEhC,OAAO,EAAE,SAAS,EAAE,MAAM,UAAU,CAAA;AACpC,OAAO,EAAE,eAAe,EAAE,MAAM,4BAA4B,CAAA;AAE5D,MAAM,CAAC,MAAM,eAAe,GAAG,CAAC,EAAE,IAAI,EAAE,EAAE,EAAE,CAAC,IAAI,CAAA;KAC5C,SAAS;OACP,eAAe;MAChB,IAAI;;CAET,CAAA"}
