@@ -52,7 +52,8 @@ export const InputField = ({
   variant = 'default',
   overlay,
   autoFocus,
-  testId = 'input-field'
+  testId = 'input-field',
+  onPaste
 }) => {
   const inputRef = useRef(null)
 
@@ -110,6 +111,7 @@ export const InputField = ({
               hasOverlay=${!!overlay && !isFocused}
               autoFocus=${autoFocus}
               isDisabled=${isDisabled}
+              onPaste=${onPaste}
             />
 
             ${!isFocused && html`<${InputOverlay}> ${overlay} <//>`}

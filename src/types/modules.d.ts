@@ -3,7 +3,8 @@
 
 declare module 'pearpass-lib-ui-theme-provider' {
   export const ThemeProvider: any
-  export * from 'pearpass-lib-ui-theme-provider'
+  export const colors: any
+  export const themes: any
 }
 
 declare module 'pearpass-lib-vault' {
@@ -11,5 +12,11 @@ declare module 'pearpass-lib-vault' {
   export const VaultProvider: any
   export const useUserData: any
   export const useVaults: any
-  export * from 'pearpass-lib-vault'
+  export const useVault: any
+  export const useInvite: any
+  export const usePair: any
+  export const authoriseCurrentProtectedVault: any
+  export const RECORD_TYPES: any
+  const otherExports: any
+  export default otherExports
 }
