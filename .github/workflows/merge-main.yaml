@@ -16,6 +16,7 @@ permissions:
 jobs:
   publish-worker:
     runs-on: ["self-hosted", "Linux", "large"]
+    if: github.repository_owner == 'noxtton'
     steps:
       - name: Clean workspace
         run: |
