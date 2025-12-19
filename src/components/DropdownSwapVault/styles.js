@@ -58,9 +58,10 @@ export const Dropdown = styled.div`
 
   padding: ${({ $isOpen }) => ($isOpen ? '10px' : '0')};
 
-  max-height: ${({ $isOpen }) => ($isOpen ? '400px' : '0')};
+  max-height: ${({ $isOpen }) => ($isOpen ? '260px' : '0')};
   opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: ${({ $isOpen }) => ($isOpen ? 'auto' : 'hidden')};
   pointer-events: ${({ $isOpen }) => ($isOpen ? 'auto' : 'none')};
 
   transition:
@@ -74,6 +75,7 @@ export const DropdownItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
   padding: 10px;
   border-radius: 10px;
   background: ${({ theme }) => theme.colors.grey500.mode1};
@@ -102,6 +104,14 @@ export const DropdownItem = styled.div`
   & svg {
     flex-shrink: 0;
   }
+`
+
+export const DropdownItemLabel = styled.span`
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 export const CreateVaultButton = styled(DropdownItem)`
