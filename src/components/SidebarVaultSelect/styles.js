@@ -1,14 +1,16 @@
 import styled from 'styled-components'
 
-import { BASE_TRANSITION_DURATION } from '../../constants/transitions'
+import { BASE_TRANSITION_DURATION } from '../../constants/transitions.js'
 
 export const Wrapper = styled.div`
+  position: relative;
   width: 100%;
+
   background: ${({ theme }) => theme.colors.black.mode1};
   border-radius: 10px;
 `
 
-export const Container = styled.div`
+export const HeaderButton = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -52,23 +54,15 @@ export const HeaderRight = styled.div`
 
 export const Dropdown = styled.div`
   width: 100%;
-  display: flex;
+  display: ${({ $isOpen }) => ($isOpen ? 'flex' : 'none')};
   flex-direction: column;
   gap: 10px;
 
-  padding: ${({ $isOpen }) => ($isOpen ? '10px' : '0')};
-
-  max-height: ${({ $isOpen }) => ($isOpen ? '400px' : '0')};
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  overflow: hidden;
-  pointer-events: ${({ $isOpen }) => ($isOpen ? 'auto' : 'none')};
-
-  transition:
-    max-height ${BASE_TRANSITION_DURATION}ms ease,
-    opacity ${BASE_TRANSITION_DURATION}ms ease,
-    padding ${BASE_TRANSITION_DURATION}ms ease;
+  /* black background is owned by Wrapper */
+  margin-top: 10px;
+  box-sizing: border-box;
+  padding: 0 10px 10px 10px;
 `
-
 export const DropdownItem = styled.div`
   width: 100%;
   display: flex;
@@ -83,17 +77,6 @@ export const DropdownItem = styled.div`
   font-weight: 500;
   cursor: pointer;
   border: 1px solid transparent;
-
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  transform: ${({ $isOpen }) =>
-    $isOpen ? 'translateY(0)' : 'translateY(-6px)'};
-  will-change: transform, opacity;
-
-  transition:
-    opacity ${BASE_TRANSITION_DURATION}ms ease,
-    transform ${BASE_TRANSITION_DURATION}ms ease;
-  transition-delay: ${({ $isOpen, $delayMs = 0 }) =>
-    $isOpen ? `${$delayMs}ms` : '0ms'};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary400.mode1};

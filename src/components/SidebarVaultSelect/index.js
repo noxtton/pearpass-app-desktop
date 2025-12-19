@@ -1,65 +1,101 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault } from 'pearpass-lib-vault'
 
 import {
-  Container,
   CreateVaultButton,
   Dropdown,
   DropdownItem,
-  HeaderLabel,
+  HeaderButton,
   HeaderLeft,
+  HeaderLabel,
   HeaderRight,
   Wrapper
 } from './styles'
 import { CreateVaultModalContent } from '../../containers/Modal/CreateVaultModalContent'
 import { VaultPasswordFormModalContent } from '../../containers/Modal/VaultPasswordFormModalContent'
 import { useModal } from '../../context/ModalContext'
-import { useTranslation } from '../../hooks/useTranslation'
-import { LockCircleIcon, SmallArrowIcon } from '../../lib-react-components'
+import { useRouter } from '../../context/RouterContext'
+import {
+  LockCircleIcon,
+  LockIcon,
+  SmallArrowIcon
+} from '../../lib-react-components'
 import { logger } from '../../utils/logger'
 
 /**
- *
  * @param {{
- *  *    vaults: Array<{
- *  *      id: string
- *  *      name: string
- *  *      }>
- *  *    selectedVault: {
- *  *      id: string
- *  *      name: string
- *  *    }
+ *  vaults: Array<{ id: string, name: string }>
+ *  selectedVault: { id: string, name: string }
  * }} props
  */
-export const DropdownSwapVault = ({ vaults, selectedVault }) => {
-  const { t } = useTranslation()
+export const SidebarVaultSelect = ({ vaults, selectedVault }) => {
+  const { i18n } = useLingui()
+
+  const { navigate } = useRouter()
+  const { closeModal, setModal } = useModal()
 
   const [isOpen, setIsOpen] = useState(false)
-
-  const { closeModal, setModal } = useModal()
+  const [protectedVaultIds, setProtectedVaultIds] = useState(() => new Set())
 
   const { isVaultProtected, refetch: refetchVault } = useVault()
 
+  useEffect(() => {
+    let isCancelled = false
+
+    ;(async () => {
+      if (!vaults?.length) {
+        setProtectedVaultIds(new Set())
+        return
+      }
+
+      try {
+        const results = await Promise.all(
+          vaults.map(async (vault) => {
+            const isProtected = await isVaultProtected(vault?.id)
+            return [vault?.id, Boolean(isProtected)]
+          })
+        )
+
+        if (isCancelled) {
+          return
+        }
+
+        const next = new Set(
+          results.filter(([, isProtected]) => isProtected).map(([id]) => id)
+        )
+        setProtectedVaultIds(next)
+      } catch (error) {
+        logger.error('SidebarVaultSelect', error)
+      }
+    })()
+
+    return () => {
+      isCancelled = true
+    }
+  }, [vaults, isVaultProtected])
+
   const handleVaultUnlock = async ({ vault, password }) => {
-    if (!vault.id) {
+    if (!vault?.id) {
       return
     }
 
     try {
       await refetchVault(vault.id, { password })
       closeModal()
+      navigate('vault', { recordType: 'all' })
     } catch (error) {
-      logger.error('DropdownSwapVault', error)
-
+      logger.error('SidebarVaultSelect', error)
       throw error
     }
   }
 
-  const onVaultSelect = async (vault) => {
+  const handleSelectVault = async (vault) => {
     const isProtected = await isVaultProtected(vault?.id)
+
     if (isProtected) {
       setModal(
         html`<${VaultPasswordFormModalContent}
@@ -68,10 +104,13 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
           vault=${vault}
         />`
       )
-    } else {
-      await refetchVault(vault?.id)
+
+      setIsOpen(false)
+      return
     }
 
+    await refetchVault(vault?.id)
+    navigate('vault', { recordType: 'all' })
     setIsOpen(false)
   }
 
@@ -92,8 +131,8 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
 
   return html`
     <${Wrapper}>
-      <${Container}
-        data-testid="dropdownswapvault-container"
+      <${HeaderButton}
+        data-testid="sidebar-vault-select"
         $isOpen=${isOpen}
         onClick=${() => setIsOpen(!isOpen)}
       >
@@ -109,26 +148,24 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
 
       <${Dropdown} $isOpen=${isOpen}>
         ${vaults?.map(
-          (vault, index) => html`
+          (vault) => html`
             <${DropdownItem}
-              data-testid=${`dropdownswapvault-option-${vault.id}`}
+              data-testid=${`sidebar-vault-option-${vault.id}`}
               key=${vault.id}
-              $isOpen=${isOpen}
-              $delayMs=${index * 30}
-              onClick=${() => onVaultSelect(vault)}
+              onClick=${() => handleSelectVault(vault)}
             >
-              ${vault.name}
+              ${vault?.name}
+              ${protectedVaultIds.has(vault?.id) &&
+              html`<${LockIcon} size="18" color=${colors.grey200.mode1} />`}
             <//>
           `
         )}
 
         <${CreateVaultButton}
-          data-testid="dropdownswapvault-create"
-          $isOpen=${isOpen}
-          $delayMs=${(vaults?.length || 0) * 30}
+          data-testid="sidebar-vault-create"
           onClick=${handleCreateNewVault}
         >
-          ${t('Create New Vault')}
+          ${i18n._('Create New Vault')}
         <//>
       <//>
     <//>
