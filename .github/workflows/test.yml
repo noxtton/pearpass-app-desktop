@@ -12,22 +12,21 @@ permissions:
 
 jobs:
   test:
+    if: github.repository_owner == 'tetherto'
     runs-on: ubuntu-latest
-    env:
-      GH_PAT: ${{ secrets.NOXTTON_BOT_PAT || secrets.PAT_TOKEN }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          token: ${{ env.GH_PAT }}
+          token: ${{ secrets.PAT_TOKEN }}
           submodules: recursive
 
       - name: Configure Git credentials
         run: |
-          git config --global --add url."https://${{ env.GH_PAT }}:x-oauth-basic@github.com/".insteadOf "git+ssh://git@github.com/"
-          git config --global --add url."https://${{ env.GH_PAT }}:x-oauth-basic@github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://${{ env.GH_PAT }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+          git config --global --add url."https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/".insteadOf "git+ssh://git@github.com/"
+          git config --global --add url."https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://${{ secrets.PAT_TOKEN }}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -41,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
         env:
-          NODE_AUTH_TOKEN: ${{ env.GH_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.PAT_TOKEN }}
 
       - name: Run tests
         run: npm test
