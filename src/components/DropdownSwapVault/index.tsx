@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { html } from 'htm/react'
 import { colors } from 'pearpass-lib-ui-theme-provider'
-import { useVault } from 'pearpass-lib-vault'
+import { useVault, type Vault } from 'pearpass-lib-vault'
 
 import {
   Container,
@@ -26,20 +26,12 @@ import {
 } from '../../lib-react-components'
 import { logger } from '../../utils/logger'
 
-/**
- *
- * @param {{
- *  *    vaults: Array<{
- *  *      id: string
- *  *      name: string
- *  *      }>
- *  *    selectedVault: {
- *  *      id: string
- *  *      name: string
- *  *    }
- * }} props
- */
-export const DropdownSwapVault = ({ vaults, selectedVault }) => {
+interface DropdownSwapVaultProps {
+  vaults?: Vault[]
+  selectedVault?: Vault
+}
+
+export const DropdownSwapVault = ({ vaults, selectedVault }: DropdownSwapVaultProps) => {
   const { t } = useTranslation()
 
   const [isOpen, setIsOpen] = useState(false)
@@ -48,7 +40,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
 
   const { isVaultProtected, refetch: refetchVault } = useVault()
 
-  const [protectedVaultById, setProtectedVaultById] = useState({})
+  const [protectedVaultById, setProtectedVaultById] = useState<Record<string, boolean>>({})
 
   useEffect(() => {
     if (!isOpen || !vaults?.length) {
@@ -83,7 +75,13 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
     }
   }, [isOpen, isVaultProtected, vaults])
 
-  const handleVaultUnlock = async ({ vault, password }) => {
+  const handleVaultUnlock = async ({
+    vault,
+    password
+  }: {
+    vault: Vault
+    password: string
+  }) => {
     if (!vault.id) {
       return
     }
@@ -98,25 +96,24 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
     }
   }
 
-  const onVaultSelect = async (vault) => {
-    const cached = vault?.id ? protectedVaultById[vault.id] : undefined
-    const isProtected =
-      typeof cached === 'boolean' ? cached : await isVaultProtected(vault?.id)
+  const onVaultSelect = async (vault: Vault) => {
+    const cached = protectedVaultById[vault.id]
+    const isProtected = cached ?? (await isVaultProtected(vault.id))
 
-    if (vault?.id && typeof cached !== 'boolean') {
-      setProtectedVaultById((prev) => ({ ...prev, [vault.id]: !!isProtected }))
+    if (cached === undefined) {
+      setProtectedVaultById((prev) => ({ ...prev, [vault.id]: isProtected }))
     }
 
     if (isProtected) {
       setModal(
         html`<${VaultPasswordFormModalContent}
-          onSubmit=${async (password) =>
-            await handleVaultUnlock({ vault, password })}
+          onSubmit=${async (password: string) =>
+            handleVaultUnlock({ vault, password })}
           vault=${vault}
         />`
       )
     } else {
-      await refetchVault(vault?.id)
+      await refetchVault(vault.id)
     }
 
     setIsOpen(false)
@@ -134,7 +131,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }) => {
   }
 
   if (!selectedVault?.id) {
-    return
+    return null
   }
 
   return html`
