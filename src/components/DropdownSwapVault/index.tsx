@@ -5,7 +5,7 @@ import { colors } from 'pearpass-lib-ui-theme-provider'
 import { useVault, type Vault } from 'pearpass-lib-vault'
 
 import {
-  Container,
+  HeaderContainer,
   CreateVaultButton,
   Dropdown,
   DropdownItem,
@@ -136,7 +136,7 @@ export const DropdownSwapVault = ({ vaults, selectedVault }: DropdownSwapVaultPr
 
   return html`
     <${Wrapper}>
-      <${Container}
+      <${HeaderContainer}
         data-testid="dropdownswapvault-container"
         $isOpen=${isOpen}
         onClick=${() => setIsOpen(!isOpen)}

@@ -2,19 +2,30 @@ import styled from 'styled-components'
 
 import { BASE_TRANSITION_DURATION } from '../../constants/transitions'
 
+const ROW_VERTICAL_PADDING = 9
+const ROW_HORIZONTAL_PADDING = 10
+const ROW_MIN_HEIGHT = 42
+
 export const Wrapper = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.colors.black.mode1};
   border-radius: 10px;
 `
 
-export const Container = styled.div`
+const BaseRow = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 9px 10px;
+  justify-content: space-between;
+
+  padding: ${ROW_VERTICAL_PADDING}px ${ROW_HORIZONTAL_PADDING}px;
+  min-height: ${ROW_MIN_HEIGHT}px;
+
   border-radius: 10px;
+  box-sizing: border-box;
+`
+
+export const HeaderContainer = styled(BaseRow)`
   border: 1px solid
     ${({ theme, $isOpen }) =>
       $isOpen ? theme.colors.primary400.mode1 : 'transparent'};
@@ -32,8 +43,8 @@ export const HeaderLeft = styled.div`
 export const HeaderLabel = styled.span`
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 700;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -70,21 +81,14 @@ export const Dropdown = styled.div`
     padding ${BASE_TRANSITION_DURATION}ms ease;
 `
 
-export const DropdownItem = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px;
-  border-radius: 10px;
+export const DropdownItem = styled(BaseRow)`
+  border: 1px solid transparent;
   background: ${({ theme }) => theme.colors.grey500.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
-  border: 1px solid transparent;
 
   opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
   transform: ${({ $isOpen }) =>
