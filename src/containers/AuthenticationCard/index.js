@@ -4,7 +4,10 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import { useUserData } from 'pearpass-lib-vault'
-import { stringToBuffer, clearBuffer } from 'pearpass-lib-vault/src/utils/buffer'
+import {
+  stringToBuffer,
+  clearBuffer
+} from 'pearpass-lib-vault/src/utils/buffer'
 
 import { ButtonWrapper, CardContainer, CardTitle, Title } from './styles.js'
 import { useGlobalLoading } from '../../context/LoadingContext.js'
