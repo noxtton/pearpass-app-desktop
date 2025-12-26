@@ -8,3 +8,10 @@ export const VersionWrapper = styled.div`
   line-height: 16px;
   margin-top: 10px;
 `
+export const SubTitle = styled.p`
+  font-size: 14px;
+  color: ${({ theme }) => theme.colors.white.mode1};
+  font-family: 'Inter';
+  font-size: 12px;
+  margin-bottom: 15px;
+`

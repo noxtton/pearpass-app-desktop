@@ -6,12 +6,13 @@ import {
   sendGoogleFormFeedback,
   sendSlackFeedback
 } from 'pear-apps-lib-feedback'
+import { Validator } from 'pear-apps-utils-validator'
 
 import { SettingsDevicesSection } from './SettingsDevicesSection'
 import { SettingsLanguageSection } from './SettingsLanguageSection'
 import { SettingsPasswordsSection } from './SettingsPasswordsSection'
 import { SettingsReportSection } from './SettingsReportSection'
-import { VersionWrapper } from './styles'
+import { SubTitle, VersionWrapper } from './styles'
 import { CardSingleSetting } from '../../../components/CardSingleSetting'
 import {
   GOOGLE_FORM_KEY,
@@ -28,11 +29,27 @@ export const SettingsTab = () => {
   const { setToast } = useToast()
 
   const [message, setMessage] = useState('')
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [language, setLanguage] = useState(i18n.locale)
   const [currentVersion, setCurrentVersion] = useState('')
 
   const { languageOptions } = useLanguageOptions()
+
+  const emailValidator = Validator.string().email(
+    i18n._('Invalid email format')
+  )
+
+  const handleEmailChange = (value) => {
+    setEmail(value)
+    if (value) {
+      const error = emailValidator.validate(value)
+      setEmailError(error || '')
+    } else {
+      setEmailError('')
+    }
+  }
 
   useGlobalLoading({ isLoading })
 
@@ -44,6 +61,15 @@ export const SettingsTab = () => {
   const handleReportProblem = async () => {
     if (!message?.length || isLoading) {
       return
+    }
+
+    // Validate email if provided
+    if (email) {
+      const error = emailValidator.validate(email)
+      if (error) {
+        setEmailError(error)
+        return
+      }
     }
 
     try {
@@ -70,6 +96,8 @@ export const SettingsTab = () => {
       })
 
       setMessage('')
+      setEmail('')
+      setEmailError('')
 
       setIsLoading(false)
 
@@ -112,12 +140,19 @@ export const SettingsTab = () => {
     />
 
     <${SettingsReportSection}
+      subTitle=${html`<${SubTitle}>${i18n._(
+        'Tell us what’s going wrong and leave your email so we can follow up with you.'
+      )}</${SubTitle}>`}
       onSubmitReport=${handleReportProblem}
       message=${message}
       title=${i18n._('Report a problem')}
       buttonText=${i18n._('send')}
       textAreaPlaceholder=${i18n._('Write your issue...')}
       textAreaOnChange=${setMessage}
+      email=${email}
+      emailPlaceholder=${i18n._('Write your email...')}
+      onEmailChange=${handleEmailChange}
+      emailError=${emailError}
     />
 
     <${SettingsDevicesSection} />
