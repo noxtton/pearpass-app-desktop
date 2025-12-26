@@ -43,10 +43,10 @@ export const MainView = () => {
 
   const sort = React.useMemo(() => SORT_BY_TYPE[sortType], [sortType])
 
+  const isFavoritesView = isFavorite(routerData?.folder)
+
   const selectedFolder =
-    routerData?.folder && !isFavorite(routerData.folder)
-      ? routerData.folder
-      : undefined
+    routerData?.folder && !isFavoritesView ? routerData.folder : undefined
 
   const { data: records, isLoading } = useRecords({
     shouldSkip: true,
@@ -56,9 +56,7 @@ export const MainView = () => {
         type:
           routerData?.recordType === 'all' ? undefined : routerData?.recordType,
         folder: selectedFolder,
-        isFavorite: routerData?.folder
-          ? isFavorite(routerData.folder)
-          : undefined
+        isFavorite: isFavoritesView ? true : undefined
       },
       sort: sort
     }

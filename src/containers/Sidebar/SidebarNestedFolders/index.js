@@ -7,6 +7,7 @@ import { SidebarFolder } from '../../../components/SidebarFolder'
 import { useModal } from '../../../context/ModalContext'
 import { useRouter } from '../../../context/RouterContext'
 import { PlusIcon } from '../../../lib-react-components'
+import { FAVORITES_FOLDER_ID } from '../../../utils/isFavorite'
 import { CreateFolderModalContent } from '../../Modal/CreateFolderModalContent'
 import { SidebarNestedFile } from '../SidebarNestedFile'
 
@@ -40,7 +41,7 @@ export const SidebarNestedFolders = ({
   const { navigate } = useRouter()
 
   const isRoot = item.id === 'allFolders'
-  const IsFavorites = item.id === 'favorites'
+  const IsFavorites = item.id === FAVORITES_FOLDER_ID
 
   const isOpen = item.isOpenInitially
 
