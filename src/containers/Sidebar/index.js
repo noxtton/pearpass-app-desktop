@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
 
-import { useLingui } from '@lingui/react'
 import { html } from 'htm/react'
 import { matchPatternToValue } from 'pear-apps-utils-pattern-search'
 import {
@@ -29,6 +28,7 @@ import { NAVIGATION_ROUTES } from '../../constants/navigation'
 import { useLoadingContext } from '../../context/LoadingContext'
 import { useModal } from '../../context/ModalContext'
 import { useRouter } from '../../context/RouterContext'
+import { useTranslation } from '../../hooks/useTranslation.js'
 import {
   ButtonThin,
   ExitIcon,
@@ -46,7 +46,7 @@ import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
  * }} props
  */
 export const Sidebar = ({ sidebarSize = 'tight' }) => {
-  const { i18n } = useLingui()
+  const { t } = useTranslation()
   const { navigate, data: routerData } = useRouter()
 
   const [searchValue, setSearchValue] = useState('')
@@ -88,10 +88,10 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     const { customFolders } = data || {}
 
     const otherFolders = Object.values(customFolders ?? {})
-      .map((folder) => ({
-        name: folder.name,
-        id: folder.name,
-        isActive: routerData?.folder === folder.name
+      .map(({ name }) => ({
+        name,
+        id: name,
+        isActive: routerData?.folder === name
       }))
       .sort((a, b) => a.name.localeCompare(b.name))
 
@@ -102,21 +102,21 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       : otherFolders
 
     const allItemsFolder = {
-      name: i18n._('All Items'),
+      name: t('All Items'),
       id: 'allItems',
       isRoot: true,
       isActive: !routerData?.folder && routerData?.recordType === 'all'
     }
 
     const favoritesFolder = {
-      name: i18n._('Favorites'),
+      name: t('Favorites'),
       id: FAVORITES_FOLDER_ID,
       icon: StarIcon,
       isActive: routerData?.folder === FAVORITES_FOLDER_ID
     }
 
     return [allItemsFolder, favoritesFolder, ...filteredFolders]
-  }, [data, i18n, routerData, searchValue])
+  }, [data, t, routerData, searchValue])
 
   const { setModal } = useModal()
 
@@ -159,19 +159,18 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
             />
 
             <${FoldersWrapper}>
-              ${folders.map((folder) => {
-                const hasMenu =
-                  folder.id !== FAVORITES_FOLDER_ID && !folder.isRoot
+              ${folders.map(({ id, isRoot, name, icon, isActive }) => {
+                const hasMenu = id !== FAVORITES_FOLDER_ID && !isRoot
 
                 return html`<${SidebarFolder}
-                  key=${folder.id}
+                  key=${id}
                   isOpen=${false}
-                  onClick=${() => handleFolderClick(folder.id)}
+                  onClick=${() => handleFolderClick(id)}
                   onAddClick=${() => {}}
-                  isRoot=${folder.isRoot}
-                  name=${folder.name}
-                  icon=${folder.icon}
-                  isActive=${folder.isActive}
+                  isRoot=${isRoot}
+                  name=${name}
+                  icon=${icon}
+                  isActive=${isActive}
                   hasMenu=${hasMenu}
                 />`
               })}
@@ -185,7 +184,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           onClick=${handleSettingsClick}
         >
           <${SettingsIcon} size="24" />
-          ${i18n._('Settings')}
+          ${t('Settings')}
         <//>
 
         <${SettingsSeparator} />
@@ -195,7 +194,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           startIcon=${UserSecurityIcon}
           onClick=${handleAddDevice}
         >
-          ${i18n._('Add a Device')}
+          ${t('Add a Device')}
         <//>
 
         <${ButtonThin}
@@ -203,7 +202,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           startIcon=${ExitIcon}
           onClick=${handleExitVault}
         >
-          ${i18n._('Exit Vault')}
+          ${t('Exit Vault')}
         <//>
       <//>
     <//>
