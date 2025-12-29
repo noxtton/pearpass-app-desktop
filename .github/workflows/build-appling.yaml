@@ -272,6 +272,8 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [version, linux, macos]
     if: github.ref == 'refs/heads/main'
     steps:
