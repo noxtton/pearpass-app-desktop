@@ -2,10 +2,12 @@ import { html } from 'htm/react'
 import { useForm } from 'pear-apps-lib-ui-react-hooks'
 import { Validator } from 'pear-apps-utils-validator'
 import { useUserData } from 'pearpass-lib-vault'
+import {
+  stringToBuffer,
+  clearBuffer
+} from 'pearpass-lib-vault/src/utils/buffer'
 import { validatePasswordChange } from 'pearpass-utils-password-check'
 
-import { useModal } from '../../../context/ModalContext'
-import { ModalContent } from '../ModalContent'
 import {
   Content,
   InputLabel,
@@ -14,6 +16,7 @@ import {
   ModalTitle
 } from './styles'
 import { useLoadingContext } from '../../../context/LoadingContext'
+import { useModal } from '../../../context/ModalContext'
 import { useTranslation } from '../../../hooks/useTranslation.js'
 import {
   ButtonPrimary,
@@ -21,6 +24,7 @@ import {
   PearPassPasswordField
 } from '../../../lib-react-components'
 import { logger } from '../../../utils/logger'
+import { ModalContent } from '../ModalContent'
 
 export const ModifyMasterVaultModalContent = () => {
   const { t } = useTranslation()
@@ -75,12 +79,14 @@ export const ModifyMasterVaultModalContent = () => {
       return
     }
 
+    const newPasswordBuffer = stringToBuffer(values.newPassword)
+    const currentPasswordBuffer = stringToBuffer(values.currentPassword)
     try {
       setIsLoading(true)
 
       await updateMasterPassword({
-        newPassword: values.newPassword,
-        currentPassword: values.currentPassword
+        newPassword: newPasswordBuffer,
+        currentPassword: currentPasswordBuffer
       })
 
       setIsLoading(false)
@@ -95,6 +101,9 @@ export const ModifyMasterVaultModalContent = () => {
       setErrors({
         currentPassword: t('Invalid password')
       })
+    } finally {
+      clearBuffer(newPasswordBuffer)
+      clearBuffer(currentPasswordBuffer)
     }
   }
 
