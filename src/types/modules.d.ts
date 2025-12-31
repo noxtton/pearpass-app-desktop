@@ -58,7 +58,6 @@ declare module 'pearpass-lib-vault' {
 
   export const setPearpassVaultClient: any
   export const VaultProvider: any
-  export const useUserData: any
   export function useVaults(options?: {
     onCompleted?: (payload: Vault[]) => void
     onInitialize?: (payload: Vault[]) => void
