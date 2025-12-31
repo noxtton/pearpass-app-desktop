@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { html } from 'htm/react'
 import { colors } from 'pearpass-lib-ui-theme-provider'
@@ -134,50 +134,46 @@ export const DropdownSwapVault = ({ vaults, selectedVault }: DropdownSwapVaultPr
     return null
   }
 
-  return html`
-    <${Wrapper}>
-      <${HeaderContainer}
+  return (
+    <Wrapper>
+      <HeaderContainer
         data-testid="dropdownswapvault-container"
-        $isOpen=${isOpen}
-        onClick=${() => setIsOpen(!isOpen)}
+        isOpen={isOpen}
+        onClick={() => setIsOpen(!isOpen)}
       >
-        <${HeaderLeft}>
-          <${LockCircleIcon} size="24" color=${colors.primary400.mode1} />
-          <${HeaderLabel}>${selectedVault?.name}<//>
-        <//>
+        <HeaderLeft>
+          <LockCircleIcon size="24" color={colors.primary400.mode1} />
+          <HeaderLabel>{selectedVault?.name}</HeaderLabel>
+        </HeaderLeft>
 
-        <${HeaderRight} $isOpen=${isOpen}>
-          <${SmallArrowIcon} size="20" color=${colors.primary400.mode1} />
-        <//>
-      <//>
+        <HeaderRight isOpen={isOpen}>
+          <SmallArrowIcon size="20" color={colors.primary400.mode1} />
+        </HeaderRight>
+      </HeaderContainer>
 
-      <${Dropdown} $isOpen=${isOpen}>
-        ${vaults?.map(
-          (vault, index) => html`
-            <${DropdownItem}
-              data-testid=${`dropdownswapvault-option-${vault.id}`}
-              key=${vault.id}
-              $isOpen=${isOpen}
-              $delayMs=${index * 30}
-              onClick=${() => onVaultSelect(vault)}
-            >
-              <${DropdownItemLabel}>${vault.name}<//>
-              ${protectedVaultById[vault.id]
-                ? html`<${LockIcon} size="25" color=${colors.white.mode1} />`
-                : null}
-            <//>
-          `
-        )}
+      <Dropdown isOpen={isOpen}>
+        {vaults?.map((vault, index) => (
+          <DropdownItem
+            data-testid={`dropdownswapvault-option-${vault.id}`}
+            key={vault.id}
+            isOpen={isOpen}
+            delayMs={index * 30}
+            onClick={() => onVaultSelect(vault)}
+          >
+            <DropdownItemLabel>{vault.name}</DropdownItemLabel>
+            {protectedVaultById[vault.id] ? (
+              <LockIcon size="25" color={colors.white.mode1} />
+            ) : null}
+          </DropdownItem>
+        ))}
 
-        <${CreateVaultButton}
+        <CreateVaultButton
           data-testid="dropdownswapvault-create"
-          $isOpen=${isOpen}
-          $delayMs=${(vaults?.length || 0) * 30}
-          onClick=${handleCreateNewVault}
+          onClick={handleCreateNewVault}
         >
-          ${t('Create New Vault')}
-        <//>
-      <//>
-    <//>
-  `
+          {t('Create New Vault')}
+        </CreateVaultButton>
+      </Dropdown>
+    </Wrapper>
+  )
 }

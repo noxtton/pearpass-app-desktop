@@ -25,10 +25,10 @@ const BaseRow = styled.div`
   box-sizing: border-box;
 `
 
-export const HeaderContainer = styled(BaseRow)`
+export const HeaderContainer = styled(BaseRow)<{ isOpen: boolean }>`
   border: 1px solid
-    ${({ theme, $isOpen }) =>
-      $isOpen ? theme.colors.primary400.mode1 : 'transparent'};
+    ${({ theme, isOpen }) =>
+      isOpen ? theme.colors.primary400.mode1 : 'transparent'};
   cursor: pointer;
   user-select: none;
 `
@@ -50,30 +50,29 @@ export const HeaderLabel = styled.span`
   text-overflow: ellipsis;
 `
 
-export const HeaderRight = styled.div`
+export const HeaderRight = styled.div<{ isOpen: boolean }>`
   display: flex;
   align-items: center;
 
   & svg {
-    transform: ${({ $isOpen }) =>
-      $isOpen ? 'rotate(0deg)' : 'rotate(-90deg)'};
+    transform: ${({ isOpen }) => (isOpen ? 'rotate(0deg)' : 'rotate(-90deg)')};
     transition: transform ${BASE_TRANSITION_DURATION}ms ease;
   }
 `
 
-export const Dropdown = styled.div`
+export const Dropdown = styled.div<{ isOpen: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  padding: ${({ $isOpen }) => ($isOpen ? '10px' : '0')};
+  padding: ${({ isOpen }) => (isOpen ? '10px' : '0')};
 
-  max-height: ${({ $isOpen }) => ($isOpen ? '260px' : '0')};
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  max-height: ${({ isOpen }) => (isOpen ? '260px' : '0')};
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   overflow-x: hidden;
-  overflow-y: ${({ $isOpen }) => ($isOpen ? 'auto' : 'hidden')};
-  pointer-events: ${({ $isOpen }) => ($isOpen ? 'auto' : 'none')};
+  overflow-y: ${({ isOpen }) => (isOpen ? 'auto' : 'hidden')};
+  pointer-events: ${({ isOpen }) => (isOpen ? 'auto' : 'none')};
 
   transition:
     max-height ${BASE_TRANSITION_DURATION}ms ease,
@@ -81,25 +80,27 @@ export const Dropdown = styled.div`
     padding ${BASE_TRANSITION_DURATION}ms ease;
 `
 
-export const DropdownItem = styled(BaseRow)`
+export const DropdownItem = styled(BaseRow)<{
+  isOpen?: boolean
+  delayMs?: number
+}>`
   border: 1px solid transparent;
-  background: ${({ theme }) => theme.colors.grey500.mode1};
+  background: ${({ theme }: {theme: any}) => theme.colors.grey500.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
-  transform: ${({ $isOpen }) =>
-    $isOpen ? 'translateY(0)' : 'translateY(-6px)'};
+  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  transform: ${({ isOpen }) => (isOpen ? 'translateY(0)' : 'translateY(-6px)')};
   will-change: transform, opacity;
 
   transition:
     opacity ${BASE_TRANSITION_DURATION}ms ease,
     transform ${BASE_TRANSITION_DURATION}ms ease;
-  transition-delay: ${({ $isOpen, $delayMs = 0 }) =>
-    $isOpen ? `${$delayMs}ms` : '0ms'};
+  transition-delay: ${({ isOpen, delayMs = 0 }) =>
+    isOpen ? `${delayMs}ms` : '0ms'};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary400.mode1};

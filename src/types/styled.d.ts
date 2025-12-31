@@ -26,6 +26,7 @@ declare module 'styled-components' {
       }
       black: {
         dark: string
+        mode1: string
       }
     }
   }
