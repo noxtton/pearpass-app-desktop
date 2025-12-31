@@ -172,9 +172,9 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
       <//>
 
       <${sideBarContent}>
-        <${DropdownSwapVault} vaults=${vaults} selectedVault=${vaultData} />
-
         <${SideBarCategories} sidebarSize=${sidebarSize} />
+
+        <${DropdownSwapVault} vaults=${vaults} selectedVault=${vaultData} />
 
         ${!isLoading &&
         html`
