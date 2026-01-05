@@ -85,7 +85,7 @@ export const DropdownItem = styled(BaseRow)<{
   delayMs?: number
 }>`
   border: 1px solid transparent;
-  background: ${({ theme }: {theme: any}) => theme.colors.grey500.mode1};
+  background: ${({ theme }) => theme.colors.grey500.mode1};
   color: ${({ theme }) => theme.colors.white.mode1};
   font-family: 'Inter';
   font-size: 14px;
