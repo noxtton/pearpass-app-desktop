@@ -38,7 +38,6 @@ export const usePearUpdate = () => {
     }
 
     if (!Pear.config.key) {
-      Pear.reload()
       return
     }
 
