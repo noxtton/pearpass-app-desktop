@@ -39,6 +39,7 @@ import {
 import { LogoLock } from '../../svgs/LogoLock'
 import { FAVORITES_FOLDER_ID } from '../../utils/isFavorite'
 import { AddDeviceModalContent } from '../Modal/AddDeviceModalContent'
+import { CreateFolderModalContent } from '../Modal/CreateFolderModalContent'
 
 /**
  * @param {{
@@ -124,6 +125,10 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
     setModal(html`<${AddDeviceModalContent} />`)
   }
 
+  const handleAddFolderClick = () => {
+    setModal(html`<${CreateFolderModalContent} />`)
+  }
+
   const handleFolderClick = (id) => {
     if (id === 'allItems') {
       navigate('vault', { recordType: 'all' })
@@ -166,7 +171,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
                   key=${id}
                   isOpen=${false}
                   onClick=${() => handleFolderClick(id)}
-                  onAddClick=${() => {}}
+                  onAddClick=${handleAddFolderClick}
                   isRoot=${isRoot}
                   name=${name}
                   icon=${icon}
