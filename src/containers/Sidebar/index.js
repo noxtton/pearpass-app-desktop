@@ -183,6 +183,7 @@ export const Sidebar = ({ sidebarSize = 'tight' }) => {
           <//>
         `}
       <//>
+
       <${SidebarSettings}>
         <${SettingsContainer}
           data-testid="sidebar-settings-button"

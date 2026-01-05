@@ -41,12 +41,16 @@ jobs:
           echo "TAG=$TAG" >> "$GITHUB_OUTPUT"
 
   linux:
-    runs-on: ubuntu-22.04
     needs: [version]
     strategy:
       matrix:
-        arch:
-          - x64
+        include:
+        - arch: x64
+          runs_on: ubuntu-22.04
+        - arch: arm64
+          runs_on: ubuntu-22.04-arm
+          
+    runs-on: ${{ matrix.runs_on }}      
     defaults:
       run:
         working-directory: ./appling
@@ -268,6 +272,8 @@ jobs:
 
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     needs: [version, linux, macos]
     if: github.ref == 'refs/heads/main'
     steps:
