@@ -107,7 +107,7 @@ export const MainView = () => {
 
         ${!isLoading &&
         (!records?.length
-          ? html` <${EmptyCollectionView} />`
+          ? html` <${EmptyCollectionView} selectedFolder=${selectedFolder} />`
           : html` <${ContentWrapper}>
               <${RecordListView}
                 records=${records}
