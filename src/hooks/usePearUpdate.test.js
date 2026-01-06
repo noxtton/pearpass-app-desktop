@@ -39,7 +39,7 @@ describe('usePearUpdate', () => {
 
     const callback = Pear.updates.mock.calls[0][0]
     await act(async () => {
-      await callback({ diff: [{ key: '/src/file.js' }] })
+      await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
     expect(setModalMock).toHaveBeenCalledTimes(1)
@@ -64,7 +64,7 @@ describe('usePearUpdate', () => {
 
     const callback = Pear.updates.mock.calls[0][0]
     await act(async () => {
-      await callback({ diff: [{ key: '/src/file.js' }] })
+      await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
     expect(Pear.reload).toHaveBeenCalledTimes(1)
@@ -75,7 +75,7 @@ describe('usePearUpdate', () => {
 
     const callback = Pear.updates.mock.calls[0][0]
     await act(async () => {
-      await callback({ diff: [{ key: '/src/file.js' }] })
+      await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
     const modalVNode = setModalMock.mock.calls[0][0]
