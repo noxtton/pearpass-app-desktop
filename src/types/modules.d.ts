@@ -137,3 +137,7 @@ declare module 'pear-apps-utils-qr' {
   export const generateQRCodeSVG: any
 }
 
+declare module 'pearpass-lib-constants' {
+  export const DEFAULT_AUTO_LOCK_TIMEOUT: number
+}
+
