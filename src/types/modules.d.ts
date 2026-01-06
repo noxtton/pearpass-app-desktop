@@ -139,6 +139,6 @@ declare module 'pear-apps-utils-qr' {
 
 declare module 'pearpass-lib-constants' {
   export const DEFAULT_AUTO_LOCK_TIMEOUT: number
-  export const AUTO_LOCK_TIMEOUT_OPTIONS: any
+  export const AUTO_LOCK_TIMEOUT_OPTIONS: Record<string, { label: string, value: number }>
 }
 
