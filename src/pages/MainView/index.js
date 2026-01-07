@@ -69,7 +69,8 @@ export const MainView = () => {
   const handleMenuItemClick = (item) => {
     handleCreateOrEditRecord({
       recordType: item.type,
-      selectedFolder: selectedFolder
+      selectedFolder: selectedFolder,
+      isFavorite: isFavoritesView ? true : undefined
     })
 
     setIsOpen(false)
@@ -107,7 +108,10 @@ export const MainView = () => {
 
         ${!isLoading &&
         (!records?.length
-          ? html` <${EmptyCollectionView} selectedFolder=${selectedFolder} />`
+          ? html` <${EmptyCollectionView}
+              selectedFolder=${selectedFolder}
+              isFavoritesView=${isFavoritesView}
+            />`
           : html` <${ContentWrapper}>
               <${RecordListView}
                 records=${records}

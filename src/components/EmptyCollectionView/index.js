@@ -15,9 +15,10 @@ import { ButtonCreate } from '../../lib-react-components'
 /**
  * @param {{
  *  selectedFolder?: string
+ *  isFavoritesView?: boolean
  * }} props
  */
-export const EmptyCollectionView = ({ selectedFolder }) => {
+export const EmptyCollectionView = ({ selectedFolder, isFavoritesView }) => {
   const { data } = useRouter()
   const { t } = useTranslation()
   const { handleCreateOrEditRecord } = useCreateOrEditRecord()
@@ -57,7 +58,8 @@ export const EmptyCollectionView = ({ selectedFolder }) => {
                 onClick=${() =>
                   handleCreateOrEditRecord({
                     recordType: option.type,
-                    selectedFolder
+                    selectedFolder,
+                    isFavorite: isFavoritesView ? true : undefined
                   })}
               >
                 ${option.text}
