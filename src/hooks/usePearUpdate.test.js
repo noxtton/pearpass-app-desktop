@@ -58,7 +58,7 @@ describe('usePearUpdate', () => {
     expect(setModalMock).not.toHaveBeenCalled()
   })
 
-  it('reloads app immediately in dev mode (no key)', async () => {
+  it('ignores updates in dev mode (no key)', async () => {
     Pear.config.key = null
     renderHook(() => usePearUpdate())
 
@@ -67,7 +67,9 @@ describe('usePearUpdate', () => {
       await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
-    expect(Pear.reload).toHaveBeenCalledTimes(1)
+    expect(setModalMock).not.toHaveBeenCalled()
+    expect(Pear.restart).not.toHaveBeenCalled()
+    expect(Pear.reload).not.toHaveBeenCalled()
   })
 
   it('triggers restart when update handler is called', async () => {
