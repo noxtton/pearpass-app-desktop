@@ -169,6 +169,8 @@ export const DropdownSwapVault = ({ vaults, selectedVault }: DropdownSwapVaultPr
 
         <CreateVaultButton
           data-testid="dropdownswapvault-create"
+          isOpen={isOpen}
+          delayMs={(vaults?.length ?? 0) * 30}
           onClick={handleCreateNewVault}
         >
           {t('Create New Vault')}

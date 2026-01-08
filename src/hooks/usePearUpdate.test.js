@@ -39,8 +39,7 @@ describe('usePearUpdate', () => {
 
     const callback = Pear.updates.mock.calls[0][0]
     await act(async () => {
-      // Use a path that is not ignored by hasNonIgnoredChanges
-      await callback({ diff: [{ key: '/other/file.js' }] })
+      await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
     expect(setModalMock).toHaveBeenCalledTimes(1)
@@ -65,7 +64,7 @@ describe('usePearUpdate', () => {
 
     const callback = Pear.updates.mock.calls[0][0]
     await act(async () => {
-      await callback({ diff: [{ key: '/other/file.js' }] })
+      await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
     expect(setModalMock).not.toHaveBeenCalled()
@@ -78,8 +77,7 @@ describe('usePearUpdate', () => {
 
     const callback = Pear.updates.mock.calls[0][0]
     await act(async () => {
-      // Use a path that is not ignored so the modal is shown
-      await callback({ diff: [{ key: '/other/file.js' }] })
+      await callback({ diff: [{ key: '/app/file.js' }] })
     })
 
     const modalVNode = setModalMock.mock.calls[0][0]
