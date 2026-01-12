@@ -26,8 +26,12 @@
         "appling",
         ".git",
         ".gitignore",
+        ".husky",
+        "e2e",
         "packages",
-        "src"
+        "scripts",
+        "src",
+        "tsconfig.json"
       ]
     }
   },
