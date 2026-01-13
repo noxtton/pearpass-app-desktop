@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  CHANNEL_LINK: "pear://8mzabhx3kbpq88eqy7wiuu1csjqqkry19c3di8nixu5rgt6cmupy"
+  CHANNEL_LINK: "pear://dkoa4973b11g5xze3xc9j1d8fkp1penukephkuqxeuuze4i7skpo"
 
 permissions:
   contents: read
